@@ -5,6 +5,7 @@
 # [**Table Of Content**](#table-of-content)
 - [**Table Of Content**](#table-of-content)
 - [**Introduction**](#introduction)
+- [**Folder organization**](#folder-organization)
 - [**Create branch and code**](#create-branch-and-code)
   - [**Abbreviated Dev name**](#abbreviated-dev-name)
   - [**Branch**](#branch-)
@@ -29,6 +30,15 @@ một **`ước mơ của đời người`**, không cần gì quá cao xa.
 Như tiêu đề bên trên, reponsitory này sẽ nói về dự án của nhóm mình làm trong năm học 2024 này.
 
 Let's go! 🔥🔥🔥
+
+# [**Folder organization**](#folder-organization)
+
+Chúng mình sẽ sử dụng mô hình và tổ chức files, folders dựa trên mô hình MVC, trong đó bao gồm:
+
+1. **`Command`**: Gửi thông tin cần thiết đến **`Handler`** để thực hiện một hành động cụ thể.
+2. **`Data`**: Là thông tin mà **`Command`** cần để thực hiện hành động.
+3. **`Handler`**: Sử dụng **`Data`** để xử lý lệnh và quyết định cách thức thực hiện nó. Cũng có thể cập nhật hoặc tương tác với **`View`** để phản ánh sự thay đổi trạng thái sau khi lệnh được thực hiện.
+4. **`View`**: Sẽ cung cấp cho người dùng giao diện để tương tác, có thể gửi lệnh đến **`Handler`** khi người dùng thực hiện một hành động.
 
 # [**Create branch and code**](#create-branch-and-code)
 
