@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "a2db6b96-3c46-4657-bda2-f3be0529a964",
+		"name": "Wistoria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37221144"
+	},
+	"item": [
+		{
+			"name": "Example",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Master-Key",
+								"value": "$2a$10$HdnWtTEvSA/bWyjnkWfdl.CTupGUUB/Ej0y46S0V43KNlE0VS.xTu",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"users\": [\r\n    {\r\n      \"firstName\": \"Khoa\",\r\n      \"lastName\": \"Duong Nhat\",\r\n      \"age\": 20\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.jsonbin.io/v3/b",
+							"protocol": "https",
+							"host": [
+								"api",
+								"jsonbin",
+								"io"
+							],
+							"path": [
+								"v3",
+								"b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Master-Key",
+								"value": "$2a$10$HdnWtTEvSA/bWyjnkWfdl.CTupGUUB/Ej0y46S0V43KNlE0VS.xTu",
+								"type": "text"
+							},
+							{
+								"key": "X-Access-Key",
+								"value": "$2a$10$5ef2NiZ0IT4EjIt.YxJyUOHnIutK3x0nICX1sVBr4bsN6mc2.ic6O",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.jsonbin.io/v3/b/66fbfa4cacd3cb34a88f6d82",
+							"protocol": "https",
+							"host": [
+								"api",
+								"jsonbin",
+								"io"
+							],
+							"path": [
+								"v3",
+								"b",
+								"66fbfa4cacd3cb34a88f6d82"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "X-Master-Key",
+								"value": "$2a$10$HdnWtTEvSA/bWyjnkWfdl.CTupGUUB/Ej0y46S0V43KNlE0VS.xTu",
+								"type": "text"
+							},
+							{
+								"key": "X-Access-Key",
+								"value": "$2a$10$m.SRk7G95iNWRW2zpH0F/uYFR16s.5shmtuHNmz3zk5NtqCM7bqIe",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"users\": [\r\n    {\r\n      \"firstName\": \"Khoa\",\r\n      \"lastName\": \"Duong\",\r\n      \"age\": 20\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.jsonbin.io/v3/b/66fbfa4cacd3cb34a88f6d82",
+							"protocol": "https",
+							"host": [
+								"api",
+								"jsonbin",
+								"io"
+							],
+							"path": [
+								"v3",
+								"b",
+								"66fbfa4cacd3cb34a88f6d82"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Master-Key",
+								"value": "$2a$10$HdnWtTEvSA/bWyjnkWfdl.CTupGUUB/Ej0y46S0V43KNlE0VS.xTu",
+								"type": "text"
+							},
+							{
+								"key": "X-Access-Key",
+								"value": "$2a$10$myzIPWOjQoW41diuYwZdzeY03WcXTKKSVUyOH5x2xJMxvkxzOQSF.",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.jsonbin.io/v3/b/66fbfa4cacd3cb34a88f6d82",
+							"protocol": "https",
+							"host": [
+								"api",
+								"jsonbin",
+								"io"
+							],
+							"path": [
+								"v3",
+								"b",
+								"66fbfa4cacd3cb34a88f6d82"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
