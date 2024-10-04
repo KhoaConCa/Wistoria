@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/DangNhap.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ManHinhChinh.unity
     guid: 8181ddfd8f636f44aba590d26fa4ceba
+  - enabled: 1
+    path: Assets/Scenes/DemoGUIScene.unity
+    guid: da3d05d07b1431e439b9f78f2e917e89
   m_configObjects: {}
