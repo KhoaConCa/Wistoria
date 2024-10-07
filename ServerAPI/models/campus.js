@@ -6,4 +6,6 @@ const campusSchema = new mongoose.Schema({
     floor: Number
 });
 
-module.exports = campusSchema
+const Campus = mongoose.model('Campus', campusSchema);
+
+module.exports = Campus

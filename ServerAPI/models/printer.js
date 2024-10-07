@@ -6,8 +6,10 @@ const printerSchema = new mongoose.Schema({
     name: { type: String, required: true },
     type: { type: String, required: true },
     description: String,
-    locate_at: campusSchema,
+    locate_at: { type: mongoose.Schema.Types.ObjectId, ref: "Campus" },
     status: { type: String, default: "Online", required: true }
 });
 
-module.exports = printerSchema
+const Printer = mongoose.model("Printer", printerSchema);
+
+module.exports = Printer

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Printer = require('../models/printer');
 
-router.post('/', async (req, res) => {
+router.post('/printer', async (req, res) => {
     const printer = new Printer(req.body);
     try{
         const newPrinter = await printer.save();
@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
     try{
         const printers = await Printer.find();
         res.json(printers);
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get('/printer/:id', async (req, res) => {
     try{
         const printers = await Printer.findById(req.params.id);
 
@@ -35,7 +35,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch('/printer/:id', async (req, res) => {
     try{
         const printer = await Printer.findById(req.params.id);
 
@@ -49,7 +49,7 @@ router.patch("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete('/printer/:id', async (req, res) => {
     try{
         const printer = await Printer.findById(req.params.id);
 

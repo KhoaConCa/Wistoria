@@ -32,9 +32,11 @@ mongoose.connect(MONGODBURL)
 //#endregion
 
 const printerRouter = require('./routes/printer')
+const campusRouter = require('./routes/campus')
 
-app.use('/printers', printerRouter)
+app.use('/printer', printerRouter)
+app.use('/campus', campusRouter)
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
 })
