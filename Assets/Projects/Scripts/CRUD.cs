@@ -7,11 +7,10 @@ using UnityEngine.UI;
 
 public class CRUD : MonoBehaviour
 {
-    public TMP_InputField addressInput;
-    public TMP_InputField floorInput;
+    public TMP_InputField nameInput;
     public TMP_InputField roomInput;
     public Button postButton;
-    private string BaseURL = "http://localhost:3000/campus"; 
+    private string BaseURL = "https://server-wistoria.vercel.app/campus"; 
     void Start()
     {
         Debug.Log("Hi");
@@ -37,23 +36,21 @@ public class CRUD : MonoBehaviour
 
     public void OnPostSubmitButtonClick()
     {
-        string address = addressInput.text;
+        string name = nameInput.text;
         string room = roomInput.text;
-        string floor = floorInput.text;
 
-        CreateItem(address, room, floor);
+        CreateItem(name, room);
     }
 
     public class Item
     {
-        public string address;
+        public string name;
         public string room;
-        public string floor;
     }
 
-    public void CreateItem(string address, string room, string floor)
+    public void CreateItem(string name, string room)
     {
-        StartCoroutine(PostItem(new Item { address = address, room = room, floor = floor }));
+        StartCoroutine(PostItem(new Item { name = name, room = room }));
     }
     
     IEnumerator PostItem(Item item)
