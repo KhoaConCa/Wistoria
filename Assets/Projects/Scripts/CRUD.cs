@@ -10,7 +10,8 @@ public class CRUD : MonoBehaviour
     public TMP_InputField nameInput;
     public TMP_InputField roomInput;
     public Button postButton;
-    private string BaseURL = "https://server-wistoria.vercel.app/campus"; 
+    private string BaseURL = "https://server-wistoria.vercel.app/campus";
+    private string UpdateURL = "https://server-wistoria.vercel.app/campus/update";
     void Start()
     {
         Debug.Log("Hi");
@@ -57,7 +58,7 @@ public class CRUD : MonoBehaviour
     {
         string json = JsonUtility.ToJson(item);
 
-        using (UnityWebRequest request = new UnityWebRequest(BaseURL, "POST"))
+        using (UnityWebRequest request = new UnityWebRequest(UpdateURL, "POST"))
         {
             byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
