@@ -3589,6 +3589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   campusNameInput: {fileID: 545768473}
   campusRoomInput: {fileID: 741230798}
+  findNameInput: {fileID: 2116726936}
   getButton: {fileID: 40386174}
   createButton: {fileID: 1254085166}
   managerCampusHandler: {fileID: 0}
