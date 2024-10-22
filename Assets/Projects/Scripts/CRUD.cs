@@ -18,7 +18,7 @@ public class CRUD : MonoBehaviour
         StartCoroutine(GetPrinter());
     }
 
-    IEnumerator GetPrinter()
+    public IEnumerator GetPrinter()
     {
         using (UnityWebRequest request = UnityWebRequest.Get(BaseURL))
         {
