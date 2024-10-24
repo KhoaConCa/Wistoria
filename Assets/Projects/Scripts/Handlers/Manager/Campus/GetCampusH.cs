@@ -1,8 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System;
 using UnityEngine.Networking;
+using UnityEngine;
+using System.Collections;
 
 public class GetCampusH : MonoBehaviour, IFindable
 {
@@ -34,6 +34,7 @@ public class GetCampusH : MonoBehaviour, IFindable
 
                 case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
+                    Debug.Log(jsonResponse);
                     TransferData(jsonResponse);
                     break;
             }
@@ -46,14 +47,15 @@ public class GetCampusH : MonoBehaviour, IFindable
 
     public void TransferData(string response)
     {
-        CampusD[] campusArray = BaseHandler.FromJson<CampusD>(response);
+        List<CampusD> campusList = BaseHandler.FromJson<CampusD>(response);
 
-        if (campusArray.Length > 0 && campusArray != null)
+        if (campusList != null && campusList.Count > 0)
         {
-            CampusD foundCampus = campusArray[0];
-            campusDictionary[foundCampus._id] = foundCampus;
-
-            _onCampusFound?.Invoke(foundCampus);
+            foreach (var campus in campusList)
+            {
+                Debug.Log($"Campus Name: {campus.CampusName}, Room: {campus.Room}");
+                _onCampusFound?.Invoke(campus);
+            }
         }
         else
         {
@@ -68,9 +70,9 @@ public class GetCampusH : MonoBehaviour, IFindable
 
     private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search";
 
-    public Dictionary<string, CampusD> campusDictionary = new Dictionary<string, CampusD>();
-
     private Action<CampusD> _onCampusFound;
+
+    private CampusD _campus;
 
     #endregion
 }

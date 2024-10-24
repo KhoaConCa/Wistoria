@@ -5,14 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class CampusD
 {
-    #region -- Fields --
+    #region -- Properties --
 
-    public string _id;
-    public string CampusName;
-    public string Room;
-    public string createdAt;
-    public string updatedAt;
-    public string __v;
+    public string _id { get; set; }
+    public string CampusName { get; set; }
+    public string Room { get; set; }
+    public string createdAt { get; set; }
+    public string updatedAt { get; set; }
+    public string __v { get; set; }
 
     #endregion
 }
