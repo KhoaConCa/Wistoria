@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
 
-public class GetCampusH : MonoBehaviour, IFindable
+public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
     #region -- Implements --
 
@@ -22,6 +22,7 @@ public class GetCampusH : MonoBehaviour, IFindable
             switch (request.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
+
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
                     _onCampusFound?.Invoke(null);
@@ -71,8 +72,6 @@ public class GetCampusH : MonoBehaviour, IFindable
     private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search";
 
     private Action<CampusD> _onCampusFound;
-
-    private CampusD _campus;
 
     #endregion
 }

@@ -1,26 +1,17 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class GetCampusC : MonoBehaviour
+public class GetCampusC : MonoBehaviour, IGetCampusCommand
 {
-    #region -- Methods --
-
-    void Start()
-    {
-        if (_campusHandler == null)
-        {
-            _campusHandler = gameObject.AddComponent<GetCampusH>();
-        }
-
-        getButton.onClick.AddListener(ClickGetButton);
-    }
+    #region -- Implements --
 
     /// <summary>
     /// Sends a GET request to the server when the button is clicked.
     /// Retrieves the campus information based on the selected campus name
     /// </summary>
-    void ClickGetButton()
+    public void ClickFindButton()
     {
         string campusName = GetSelectedCampusName();
 
@@ -35,11 +26,24 @@ public class GetCampusC : MonoBehaviour
     }
 
     /// <summary>
+    /// Retrieves the name of the selected campus from the dropdown list
+    /// </summary>
+    /// <returns>
+    /// The name of the selected campus.
+    /// Returns an empty string if no campus is selected
+    /// </returns>
+    public string GetSelectedCampusName()
+    {
+        int selectedIndex = findNameInput.value;
+        return findNameInput.options[selectedIndex].text;
+    }
+
+    /// <summary>
     /// Handles the response from the server when campus information is found.
     /// Logs the details of the campus if it exists
     /// </summary>
     /// <param name="campus">The campus object returned from the server</param>
-    void OnCampusFound(CampusD campus)
+    public void OnCampusFound(CampusD campus)
     {
         if (campus != null)
         {
@@ -54,16 +58,25 @@ public class GetCampusC : MonoBehaviour
     }
 
     /// <summary>
-    /// Retrieves the name of the selected campus from the dropdown list
+    /// Get component and add listener
     /// </summary>
-    /// <returns>
-    /// The name of the selected campus.
-    /// Returns an empty string if no campus is selected
-    /// </returns>
-    string GetSelectedCampusName()
+    public void Initialization()
     {
-        int selectedIndex = findNameInput.value;
-        return findNameInput.options[selectedIndex].text;
+        if (_campusHandler == null)
+        {
+            _campusHandler = gameObject.AddComponent<GetCampusH>();
+        }
+
+        getButton.onClick.AddListener(ClickFindButton);
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    void Start()
+    {
+        Initialization();
     }
 
     void SetCampusName(string input)
@@ -87,9 +100,7 @@ public class GetCampusC : MonoBehaviour
 
     public Button getButton;
 
-    private GetCampusH _campusHandler;
-
-    private CampusD _campus;
+    private IGetCampusHandler _campusHandler;
 
     #endregion
 }

@@ -5,7 +5,7 @@ using TMPro;
 
 public class GetCampusV : MonoBehaviour, ICampusView
 {
-    #region -- Methods --
+    #region -- Implements --
 
     /*    public void DisplayCampus(List<CampusD> campuses)
         {
