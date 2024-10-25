@@ -1,33 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class GetCampusC : MonoBehaviour
+public class GetCampusC : MonoBehaviour, IGetCampusCommand
 {
-    #region -- Methods --
-
-    void Start()
-    {
-        if (_campusHandler == null)
-        {
-            _campusHandler = gameObject.AddComponent<GetCampusH>();
-        }
-
-        getButton.onClick.AddListener(ClickGetButton);
-    }
+    #region -- Implements --
 
     /// <summary>
-    /// When clicking button, GET request will be sent to the server
+    /// Sends a GET request to the server when the button is clicked.
+    /// Retrieves the campus information based on the selected campus name
     /// </summary>
-    void ClickGetButton()
+    public void ClickFindButton()
     {
         string campusName = GetSelectedCampusName();
 
         if (!string.IsNullOrEmpty(campusName))
         {
-            StartCoroutine(_campusHandler.GetCampus(campusName, OnCampusFound)); // Gọi OnCampusFound khi có kết quả
+            StartCoroutine(_campusHandler.GetCampus(campusName, OnCampusFound));
         }
         else
         {
@@ -36,20 +26,30 @@ public class GetCampusC : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Retrieves the name of the selected campus from the dropdown list
     /// </summary>
-    /// <param name="campus"></param>
-    private void OnCampusFound(CampusD campus)
+    /// <returns>
+    /// The name of the selected campus.
+    /// Returns an empty string if no campus is selected
+    /// </returns>
+    public string GetSelectedCampusName()
+    {
+        int selectedIndex = findNameInput.value;
+        return findNameInput.options[selectedIndex].text;
+    }
+
+    /// <summary>
+    /// Handles the response from the server when campus information is found.
+    /// Logs the details of the campus if it exists
+    /// </summary>
+    /// <param name="campus">The campus object returned from the server</param>
+    public void OnCampusFound(CampusD campus)
     {
         if (campus != null)
         {
             Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            Debug.Log(campus._id);
-            Debug.Log(campus.CampusName);
-            Debug.Log(campus.Room);
-            Debug.Log(campus.createdAt);
-            Debug.Log(campus.updatedAt);
-            Debug.Log(campus.__v);
+            SetCampusName(campus.CampusName);
+            SetCampusRoom(campus.Room);
         }
         else
         {
@@ -58,26 +58,49 @@ public class GetCampusC : MonoBehaviour
     }
 
     /// <summary>
-    /// Lấy tên của mục được chọn từ dropdown.
+    /// Get component and add listener
     /// </summary>
-    /// <returns>Tên campus đã chọn.</returns>
-    string GetSelectedCampusName()
+    public void Initialization()
     {
-        int selectedIndex = findNameInput.value; // Lấy index của mục được chọn
-        return findNameInput.options[selectedIndex].text; // Lấy nội dung của mục đã chọn
+        if (_campusHandler == null)
+        {
+            _campusHandler = gameObject.AddComponent<GetCampusH>();
+        }
+
+        getButton.onClick.AddListener(ClickFindButton);
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    void Start()
+    {
+        Initialization();
+    }
+
+    void SetCampusName(string input)
+    {
+        campusName.text = input;
+    }
+
+    void SetCampusRoom(string input)
+    {
+        campusRoom.text = input;
     }
 
     #endregion
 
     #region -- Fields --
 
+    public TextMeshProUGUI campusName;
+    public TextMeshProUGUI campusRoom;
+
     public TMP_Dropdown findNameInput;
 
     public Button getButton;
 
-    private GetCampusH _campusHandler;
-
-    private CampusD _campusData;
+    private IGetCampusHandler _campusHandler;
 
     #endregion
 }
