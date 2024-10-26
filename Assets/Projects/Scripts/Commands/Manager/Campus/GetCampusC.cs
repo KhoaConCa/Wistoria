@@ -26,6 +26,20 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     }
 
     /// <summary>
+    /// Get component and add listener
+    /// </summary>
+    public void Initialization()
+    {
+        AddComponentCampusHandler();
+        AddComponetCampusView();
+        getButton.onClick.AddListener(ClickFindButton);
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    /// <summary>
     /// Retrieves the name of the selected campus from the dropdown list
     /// </summary>
     /// <returns>
@@ -48,8 +62,8 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         if (campus != null)
         {
             Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            SetCampusName(campus.CampusName);
-            SetCampusRoom(campus.Room);
+            _setDataCampusView.SetCampusName(campus.CampusName);
+            _setDataCampusView.SetCampusRoom(campus.Room);
         }
         else
         {
@@ -57,50 +71,57 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
     }
 
-    /// <summary>
-    /// Get component and add listener
-    /// </summary>
-    public void Initialization()
-    {
-        if (_campusHandler == null)
-        {
-            _campusHandler = gameObject.AddComponent<GetCampusH>();
-        }
-
-        getButton.onClick.AddListener(ClickFindButton);
-    }
-
-    #endregion
-
-    #region -- Methods --
-
     void Start()
     {
         Initialization();
     }
 
-    void SetCampusName(string input)
+    #region -- Add Components --
+    void AddComponetCampusView()
     {
-        campusName.text = input;
+        if (_spawnCampusView == null)
+        {
+            _spawnCampusView = gameObject.AddComponent<SpawnCampusV>();
+        }
+        else
+        {
+            Debug.Log("Đã tồn tại component SpawnCampusV");
+        }
+
+        if (_setDataCampusView == null)
+        {
+            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
+        }
+        else
+        {
+            Debug.Log("Đã tồn tại component SetDataCampusV");
+        }
     }
 
-    void SetCampusRoom(string input)
+    void AddComponentCampusHandler()
     {
-        campusRoom.text = input;
+        if (_campusHandler == null)
+        {
+            _campusHandler = gameObject.AddComponent<GetCampusH>();
+        }
+        else
+        {
+            Debug.Log("Đã tồn tại component GetCampusH");
+        }
     }
+    #endregion
 
     #endregion
 
     #region -- Fields --
-
-    public TextMeshProUGUI campusName;
-    public TextMeshProUGUI campusRoom;
 
     public TMP_Dropdown findNameInput;
 
     public Button getButton;
 
     private IGetCampusHandler _campusHandler;
+    private ISpawnCampusView _spawnCampusView;
+    private ISetDataCampusView _setDataCampusView;
 
     #endregion
 }

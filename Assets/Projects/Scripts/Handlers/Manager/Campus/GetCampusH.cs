@@ -48,10 +48,11 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
     public void TransferData(string response)
     {
-        List<CampusD> campusList = BaseHandler.FromJson<CampusD>(response);
+        List<CampusD> campusList = ParseJson.FromJson<CampusD>(response);
 
         if (campusList != null && campusList.Count > 0)
         {
+            Debug.Log(campusList.Count);
             foreach (var campus in campusList)
             {
                 Debug.Log($"Campus Name: {campus.CampusName}, Room: {campus.Room}");
@@ -69,7 +70,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
     #region -- Fields --
 
-    private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search";
+    private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search/name";
 
     private Action<CampusD> _onCampusFound;
 

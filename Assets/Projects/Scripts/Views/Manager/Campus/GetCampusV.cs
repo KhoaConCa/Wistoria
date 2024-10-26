@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GetCampusV : MonoBehaviour, ICampusView
+public class GetCampusV : MonoBehaviour
 {
     #region -- Implements --
 

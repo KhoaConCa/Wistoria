@@ -18892,17 +18892,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522529365}
   m_CullTransparentMesh: 1
---- !u!114 &1555952512 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6997341639818695461, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-  m_PrefabInstance: {fileID: 6223320997519739946}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1558241609
 GameObject:
   m_ObjectHideFlags: 0
@@ -21428,17 +21417,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748627877}
   m_CullTransparentMesh: 1
---- !u!114 &1761104278 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 107256885601264513, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-  m_PrefabInstance: {fileID: 6223320997519739946}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1763257412
 GameObject:
   m_ObjectHideFlags: 0
@@ -24885,7 +24863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1968080776}
   - component: {fileID: 1968080777}
-  - component: {fileID: 1968080778}
+  - component: {fileID: 1968080780}
   m_Layer: 5
   m_Name: SearchCampus
   m_TagString: Untagged
@@ -24940,7 +24918,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1968080778
+--- !u!114 &1968080780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24952,8 +24930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c771cdafe5ef84bbfe8f7339bc6cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  campusName: {fileID: 1761104278}
-  campusRoom: {fileID: 1555952512}
   findNameInput: {fileID: 247694881}
   getButton: {fileID: 1641725542}
 --- !u!1 &1969979633
