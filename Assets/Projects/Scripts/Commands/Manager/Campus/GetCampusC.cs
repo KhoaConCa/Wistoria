@@ -62,8 +62,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         if (campus != null)
         {
             Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            _setDataCampusView.SetCampusName(campus.CampusName);
-            _setDataCampusView.SetCampusRoom(campus.Room);
+            _spawnCampusView.CreateCard(campus);
         }
         else
         {
@@ -86,15 +85,6 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         else
         {
             Debug.Log("Đã tồn tại component SpawnCampusV");
-        }
-
-        if (_setDataCampusView == null)
-        {
-            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
-        }
-        else
-        {
-            Debug.Log("Đã tồn tại component SetDataCampusV");
         }
     }
 

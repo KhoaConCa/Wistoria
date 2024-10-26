@@ -12,12 +12,37 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     public void Initialization()
     {
         GetCardParent();
-        SpawnCardPrefab();
+        AddComponentSetData();
     }
 
-    public void CreateCards(List<CampusD> campuses)
+    public void CreateCard(CampusD campus)
     {
+        var handle = Addressables.LoadAssetAsync<GameObject>("Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab");
+        handle.Completed += (AsyncOperationHandle<GameObject> task) =>
+        {
+            if (task.Status == AsyncOperationStatus.Succeeded)
+            {
+                // Tạo ra một Card clone và gán vào SearchCard parent
+                GameObject spawnedCard = Instantiate(task.Result, searchCardParent.transform);
 
+                // Reset vị trí và scale của card để nó hiển thị đúng trong layout
+                spawnedCard.transform.localPosition = Vector3.zero;
+                spawnedCard.transform.localScale = Vector3.one;
+
+                // Find UI components inside spawned prefab
+                Transform positionName = spawnedCard.transform.Find("Campus/Value");
+                Transform positionRoom = spawnedCard.transform.Find("Room/Value");
+                _setDataCampus.AddComponentFromPrefab(positionName, positionRoom);
+
+                UpdateData(campus.CampusName, campus.Room);
+
+                Debug.Log("Card prefab đã được spawn thành công.");
+            }
+            else
+            {
+                Debug.LogError("Không thể load prefab!");
+            }
+        };
     }
 
     #endregion
@@ -43,30 +68,22 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
         }
     }
 
-    public void SpawnCardPrefab()
+    private void AddComponentSetData()
     {
-        var handle = Addressables.LoadAssetAsync<GameObject>("Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab");
-        handle.Completed += (AsyncOperationHandle<GameObject> task) =>
+        if (_setDataCampus == null)
         {
-            if (task.Status == AsyncOperationStatus.Succeeded)
-            {
-                // Tạo ra một Card clone và gán vào SearchCard parent
-                GameObject spawnedCard = Instantiate(task.Result, searchCardParent.transform);
+            _setDataCampus = gameObject.AddComponent<SetDataCampusV>();
+        }
+        else
+        {
+            Debug.Log("Đã tồn tại component GetCampusH");
+        }
+    }
 
-                // Reset vị trí và scale của card để nó hiển thị đúng trong layout
-                spawnedCard.transform.localPosition = Vector3.zero;
-                spawnedCard.transform.localScale = Vector3.one;
-
-                // Find UI components inside spawned prefab
-                campusName = spawnedCard.transform.Find("Campus/Value").GetComponent<TextMeshProUGUI>();
-                campusRoom = spawnedCard.transform.Find("Room/Value").GetComponent<TextMeshProUGUI>();
-                Debug.Log("Card prefab đã được spawn thành công.");
-            }
-            else
-            {
-                Debug.LogError("Không thể load prefab!");
-            }
-        };
+    private void UpdateData(string name, string room)
+    {
+        _setDataCampus.SetCampusName(name);
+        _setDataCampus.SetCampusRoom(room);
     }
 
     #endregion
@@ -75,8 +92,7 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     public GameObject searchCardParent;
 
-    public TextMeshProUGUI campusName;
-    public TextMeshProUGUI campusRoom;
+    private ISetDataCampusView _setDataCampus;
 
     #endregion
 }

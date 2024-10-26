@@ -34,6 +34,12 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
         Initialization();
     }
 
+    public void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation)
+    {
+        campusName = nameLocation.GetComponent<TextMeshProUGUI>();
+        campusRoom = roomLocation.GetComponent<TextMeshProUGUI>();
+    }
+
     #endregion
 
     #region -- Fields --

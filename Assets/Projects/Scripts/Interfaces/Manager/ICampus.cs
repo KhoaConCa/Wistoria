@@ -2,6 +2,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 #region -- Commands --
 
@@ -45,13 +46,14 @@ public interface ICampusView
 
 public interface ISpawnCampusView : ICampusView
 {
-    void CreateCards(List<CampusD> campuses);
+    void CreateCard(CampusD campus);
 }
 
 public interface ISetDataCampusView : ICampusView
 {
     void SetCampusName(string name);
     void SetCampusRoom(string room);
+    void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
 }
 
 #endregion
