@@ -9,6 +9,7 @@ using UnityEngine;
 #region -- Get Campus --
 public interface IGetCampusHandler
 {
+    IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
 }
 #endregion

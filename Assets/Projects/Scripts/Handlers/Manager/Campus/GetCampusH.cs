@@ -8,6 +8,37 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
     #region -- Implements --
 
+    public IEnumerator GetAllCampus(Action<CampusD> onCampusFound)
+    {
+        _onCampusFound = onCampusFound;
+
+        using (UnityWebRequest request = UnityWebRequest.Get(_getAllURL))
+        {
+            yield return request.SendWebRequest();
+
+            switch (request.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    _onCampusFound?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    _onCampusFound?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    Debug.Log(jsonResponse);
+                    TransferData(jsonResponse);
+                    break;
+            }
+        }
+    }
+
     /// <summary>
     /// GET method form server
     /// </summary>
@@ -80,6 +111,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     #region -- Fields --
 
     private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search/name";
+    private readonly string _getAllURL = "https://server-wistoria-api.vercel.app/campus";
 
     private Action<CampusD> _onCampusFound;
 
