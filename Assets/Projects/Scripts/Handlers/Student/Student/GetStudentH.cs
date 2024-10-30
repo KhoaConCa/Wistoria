@@ -29,7 +29,7 @@ public class GetStudentH : MonoBehaviour, IGetStudentHandler
                     Debug.LogError("HTTP Error: " + request.error);
                     break;
 
-/*                case UnityWebRequest.Result.Success:
+                /*case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
                     Debug.Log(jsonResponse);
                     TransferData(jsonResponse);
@@ -44,7 +44,7 @@ public class GetStudentH : MonoBehaviour, IGetStudentHandler
 
     public void TransferData(string response, string requested_id)
     {
-        List<StudentD> studentList = BaseHandler.FromJson<StudentD>(response);
+        List<StudentD> studentList = ParseJson.FromJson<StudentD>(response);
 
         if (studentList != null && studentList.Count > 0)
         {
@@ -68,7 +68,7 @@ public class GetStudentH : MonoBehaviour, IGetStudentHandler
 
     #region -- Fields --
 
-    private readonly string _getURL = "https://server-wistoria-api.vercel.app/student/search";
+    private readonly string _getURL = "https://server-wistoria-api.vercel.app/student/search/id";
 
     #endregion
 }

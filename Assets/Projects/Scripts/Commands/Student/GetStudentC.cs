@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
+string studentID = "671860901e0844975517030e";
+
 public class GetStudentC : MonoBehaviour
 {
     #region -- Implements --
@@ -27,7 +29,7 @@ public class GetStudentC : MonoBehaviour
 
     public string GetStudentID()
     {
-        return "671860901e0844975517030e";
+        return studentID;
     }
 
     /// <summary>
