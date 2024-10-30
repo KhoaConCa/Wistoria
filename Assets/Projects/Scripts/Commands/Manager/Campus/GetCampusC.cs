@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class GetCampusC : MonoBehaviour, IGetCampusCommand
+public class GetCampusC : MonoBehaviour
 {
     #region -- Implements --
 
@@ -23,16 +23,6 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         {
             Debug.Log("Campus name cannot be empty.");
         }
-    }
-
-    /// <summary>
-    /// Get component and add listener
-    /// </summary>
-    public void Initialization()
-    {
-        AddComponentCampusHandler();
-        AddComponetCampusView();
-        getButton.onClick.AddListener(ClickFindButton);
     }
 
     #endregion
@@ -72,7 +62,9 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     void Start()
     {
-        Initialization();
+        AddComponentCampusHandler();
+        AddComponetCampusView();
+        getButton.onClick.AddListener(ClickFindButton);
     }
 
     #region -- Add Components --
@@ -111,7 +103,6 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     private IGetCampusHandler _campusHandler;
     private ISpawnCampusView _spawnCampusView;
-    private ISetDataCampusView _setDataCampusView;
 
     #endregion
 }

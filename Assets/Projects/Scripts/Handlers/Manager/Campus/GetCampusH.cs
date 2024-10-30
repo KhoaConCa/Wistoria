@@ -8,6 +8,12 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
     #region -- Implements --
 
+    /// <summary>
+    /// GET method form server
+    /// </summary>
+    /// <param name="campusName">Name campus</param>
+    /// <param name="onCampusFound">Method will be call when campus information is found</param>
+    /// <returns></returns>
     public IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound)
     {
         _onCampusFound = onCampusFound;
@@ -46,6 +52,10 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
     #region -- Methods --
 
+    /// <summary>
+    /// Transfer Json data to List data
+    /// </summary>
+    /// <param name="response">Json string</param>
     public void TransferData(string response)
     {
         List<CampusD> campusList = ParseJson.FromJson<CampusD>(response);
@@ -55,7 +65,6 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
             Debug.Log(campusList.Count);
             foreach (var campus in campusList)
             {
-                Debug.Log($"Campus Name: {campus.CampusName}, Room: {campus.Room}");
                 _onCampusFound?.Invoke(campus);
             }
         }

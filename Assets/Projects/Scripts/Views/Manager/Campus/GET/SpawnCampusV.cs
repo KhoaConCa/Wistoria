@@ -9,12 +9,10 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 {
     #region -- Implements --
 
-    public void Initialization()
-    {
-        GetCardParent();
-        AddComponentSetData();
-    }
-
+    /// <summary>
+    /// Using addressable to create prefab
+    /// </summary>
+    /// <param name="campus">Data of campus</param>
     public void CreateCard(CampusD campus)
     {
         var handle = Addressables.LoadAssetAsync<GameObject>("Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab");
@@ -22,10 +20,10 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
         {
             if (task.Status == AsyncOperationStatus.Succeeded)
             {
-                // Tạo ra một Card clone và gán vào SearchCard parent
+                // Create Card clone (Prefab) and stick it in Search Card Parent
                 GameObject spawnedCard = Instantiate(task.Result, searchCardParent.transform);
 
-                // Reset vị trí và scale của card để nó hiển thị đúng trong layout
+                // Reset position and scale of card to display in correct layout
                 spawnedCard.transform.localPosition = Vector3.zero;
                 spawnedCard.transform.localScale = Vector3.one;
 
@@ -51,9 +49,13 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     void Start()
     {
-        Initialization();
+        GetCardParent();
+        AddComponentSetData();
     }
 
+    /// <summary>
+    /// Find Transform of SearchCampus
+    /// </summary>
     private void GetCardParent()
     {
         GameObject parent = GameObject.Find("/GUI/Monitor/Campus/SearchCampus/Body/SearchCard/Panel");

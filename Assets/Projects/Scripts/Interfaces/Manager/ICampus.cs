@@ -4,56 +4,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#region -- Commands --
-
-public interface ICampusCommand
-{
-    void Initialization();
-}
-
-public interface IGetCampusCommand : ICampusCommand
-{
-    void ClickFindButton();
-}
-
-#endregion
-
 #region -- Handlers --
 
-public interface ICampusHandler
-{
-
-}
-
-public interface IGetCampusHandler : ICampusHandler
+#region -- Get Campus --
+public interface IGetCampusHandler
 {
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
 }
+#endregion
 
-public interface ICreateCampusHandler : ICampusHandler
+#region -- Modify Campus --
+public interface IModifyCampusHandler
 {
-
+    IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound);
 }
+#endregion
 
 #endregion
 
 #region -- View --
 
-public interface ICampusView
-{
-    void Initialization();
-}
-
-public interface ISpawnCampusView : ICampusView
+#region -- Get Campus --
+public interface ISpawnCampusView
 {
     void CreateCard(CampusD campus);
 }
 
-public interface ISetDataCampusView : ICampusView
+public interface ISetDataCampusView
 {
     void SetCampusName(string name);
     void SetCampusRoom(string room);
     void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
 }
+#endregion
+
+#region -- Modify Campus --
+public interface IModifyCampusView
+{
+
+}
+#endregion
 
 #endregion

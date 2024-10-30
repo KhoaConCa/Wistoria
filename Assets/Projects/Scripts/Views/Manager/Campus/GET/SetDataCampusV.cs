@@ -10,11 +10,6 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
 {
     #region -- Implements --
 
-    public void Initialization()
-    {
-
-    }
-
     public void SetCampusName(string name)
     {
         campusName.text = name;
@@ -29,11 +24,11 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
 
     #region -- Methods --
 
-    void Start()
-    {
-        Initialization();
-    }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nameLocation"></param>
+    /// <param name="roomLocation"></param>
     public void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation)
     {
         campusName = nameLocation.GetComponent<TextMeshProUGUI>();
