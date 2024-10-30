@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class GetCampusC : MonoBehaviour, IGetCampusCommand
+public class GetCampusC : MonoBehaviour
 {
     #region -- Implements --
 
@@ -24,6 +24,10 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
             Debug.Log("Campus name cannot be empty.");
         }
     }
+
+    #endregion
+
+    #region -- Methods --
 
     /// <summary>
     /// Retrieves the name of the selected campus from the dropdown list
@@ -48,8 +52,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         if (campus != null)
         {
             Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            SetCampusName(campus.CampusName);
-            SetCampusRoom(campus.Room);
+            _spawnCampusView.CreateCard(campus);
         }
         else
         {
@@ -57,50 +60,49 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
     }
 
-    /// <summary>
-    /// Get component and add listener
-    /// </summary>
-    public void Initialization()
+    void Start()
+    {
+        AddComponentCampusHandler();
+        AddComponetCampusView();
+        getButton.onClick.AddListener(ClickFindButton);
+    }
+
+    #region -- Add Components --
+    void AddComponetCampusView()
+    {
+        if (_spawnCampusView == null)
+        {
+            _spawnCampusView = gameObject.AddComponent<SpawnCampusV>();
+        }
+        else
+        {
+            Debug.Log("Đã tồn tại component SpawnCampusV");
+        }
+    }
+
+    void AddComponentCampusHandler()
     {
         if (_campusHandler == null)
         {
             _campusHandler = gameObject.AddComponent<GetCampusH>();
         }
-
-        getButton.onClick.AddListener(ClickFindButton);
+        else
+        {
+            Debug.Log("Đã tồn tại component GetCampusH");
+        }
     }
-
     #endregion
-
-    #region -- Methods --
-
-    void Start()
-    {
-        Initialization();
-    }
-
-    void SetCampusName(string input)
-    {
-        campusName.text = input;
-    }
-
-    void SetCampusRoom(string input)
-    {
-        campusRoom.text = input;
-    }
 
     #endregion
 
     #region -- Fields --
-
-    public TextMeshProUGUI campusName;
-    public TextMeshProUGUI campusRoom;
 
     public TMP_Dropdown findNameInput;
 
     public Button getButton;
 
     private IGetCampusHandler _campusHandler;
+    private ISpawnCampusView _spawnCampusView;
 
     #endregion
 }

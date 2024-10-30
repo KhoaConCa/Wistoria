@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,8 @@ public class CampusD
     public string _id { get; set; }
     public string CampusName { get; set; }
     public string Room { get; set; }
-    public string createdAt { get; set; }
-    public string updatedAt { get; set; }
+    public DateTime createdAt { get; set; }
+    public DateTime updatedAt { get; set; }
     public string __v { get; set; }
 
     #endregion

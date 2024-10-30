@@ -1,9 +1,14 @@
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
 
-public class BaseHandler
+public class ParseJson
 {
     /// <summary>
     /// Parse JSON string to handle both single object and array JSON (Deserialize)
