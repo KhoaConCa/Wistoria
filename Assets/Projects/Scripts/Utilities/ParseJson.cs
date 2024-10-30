@@ -1,12 +1,7 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.AddressableAssets;
 
 public class ParseJson
 {
@@ -34,6 +29,26 @@ public class ParseJson
         {
             Debug.LogError($"Failed to parse JSON: {ex.Message}");
             return new List<T>();
+        }
+    }
+
+    /// <summary>
+    /// Convert object or list of objects to JSON string (Serialize)
+    /// </summary>
+    /// <typeparam name="T">type of object</typeparam>
+    /// <param name="data">Object or list need to be serialized</param>
+    /// <param name="indented">Need to see a beauty json (optional)</param>
+    /// <returns>Chuỗi JSON</returns>
+    public static string ToJson<T>(T data, bool indented = false)
+    {
+        try
+        {
+            return JsonConvert.SerializeObject(data, indented ? Formatting.Indented : Formatting.None);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to convert to JSON: {ex.Message}");
+            return string.Empty;
         }
     }
 }

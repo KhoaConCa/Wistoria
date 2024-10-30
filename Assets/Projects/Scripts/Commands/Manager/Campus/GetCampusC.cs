@@ -64,6 +64,7 @@ public class GetCampusC : MonoBehaviour
     {
         AddComponentCampusHandler();
         AddComponetCampusView();
+        StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
         getButton.onClick.AddListener(ClickFindButton);
     }
 

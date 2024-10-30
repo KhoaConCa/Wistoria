@@ -15,6 +15,8 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     /// <param name="campus">Data of campus</param>
     public void CreateCard(CampusD campus)
     {
+        ClearSpawnedPrefabs();
+
         var handle = Addressables.LoadAssetAsync<GameObject>("Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab");
         handle.Completed += (AsyncOperationHandle<GameObject> task) =>
         {
@@ -26,6 +28,9 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
                 // Reset position and scale of card to display in correct layout
                 spawnedCard.transform.localPosition = Vector3.zero;
                 spawnedCard.transform.localScale = Vector3.one;
+
+                // Add to list
+                _spawnedPrefabs.Add(spawnedCard);
 
                 // Find UI components inside spawned prefab
                 Transform positionName = spawnedCard.transform.Find("Campus/Value");
@@ -51,6 +56,22 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     {
         GetCardParent();
         AddComponentSetData();
+    }
+
+    /// <summary>
+    /// Delete all prefab has been spawned
+    /// </summary>
+    private void ClearSpawnedPrefabs()
+    {
+        foreach (var prefab in _spawnedPrefabs)
+        {
+            if (prefab != null)
+            {
+                Destroy(prefab);
+            }
+        }
+
+        _spawnedPrefabs.Clear();
     }
 
     /// <summary>
@@ -95,6 +116,8 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     public GameObject searchCardParent;
 
     private ISetDataCampusView _setDataCampus;
+
+    private List<GameObject> _spawnedPrefabs = new List<GameObject>();
 
     #endregion
 }
