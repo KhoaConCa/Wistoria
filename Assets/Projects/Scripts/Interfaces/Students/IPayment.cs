@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface ICreatePaymentHandler 
 {
-    IEnumerator Upload(PaymentD payment, Action<string> onSuccess, Action<string> onError);
+    IEnumerator Upload(PaymentD payment, Action<PaymentD> onSuccess, Action<PaymentD> onError);
 }
 
 public interface IPaymentView

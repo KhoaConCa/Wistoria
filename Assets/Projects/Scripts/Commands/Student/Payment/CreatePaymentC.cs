@@ -6,6 +6,8 @@ using System.Globalization;
 
 public class CreatePaymentC : MonoBehaviour
 {
+    #region -- Implements --
+    
     public void ClickPPurchasePaper()
     {
         
@@ -25,5 +27,11 @@ public class CreatePaymentC : MonoBehaviour
         StartCoroutine(_createPayment.Upload(payment, onSuccess: response => Debug.Log($"Success: {response}"), onError: error => Debug.LogError($"Failed: {error}")));
     }
 
+    #endregion
+
+    #region -- Fields --
+
     private ICreatePaymentHandler _createPayment;
+
+    #endregion 
 }
