@@ -20,15 +20,11 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
         campusRoom.text = room;
     }
 
-    #endregion
-
-    #region -- Methods --
-
     /// <summary>
-    /// 
+    /// Add componet to from prefab selected
     /// </summary>
-    /// <param name="nameLocation"></param>
-    /// <param name="roomLocation"></param>
+    /// <param name="nameLocation">Location of Text Name Field</param>
+    /// <param name="roomLocation">Location of Text Room Field</param>
     public void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation)
     {
         campusName = nameLocation.GetComponent<TextMeshProUGUI>();
@@ -37,10 +33,34 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
 
     #endregion
 
+    #region -- Methods --
+
+    void Start()
+    {
+        AddComponentModify();
+        //_modifyCampus.GetCampusData(campusName.text, campusRoom.text);
+    }
+
+    private void AddComponentModify()
+    {
+        if (_modifyCampus == null)
+        {
+            _modifyCampus = gameObject.AddComponent<ModifyCampusV>();
+        }
+        else
+        {
+            Debug.Log("Đã tồn tại component ModifyCampusV");
+        }
+    }
+
+    #endregion
+
     #region -- Fields --
 
     public TextMeshProUGUI campusName;
     public TextMeshProUGUI campusRoom;
+
+    private IModifyCampusView _modifyCampus;
 
     #endregion
 }

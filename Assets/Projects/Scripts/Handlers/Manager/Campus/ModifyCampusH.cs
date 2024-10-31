@@ -1,18 +1,52 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
+using System.Collections;
 
-public class ModifyCampusH : MonoBehaviour
+public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    #region -- Implements --
+
+    public IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound)
     {
-        
+        using (UnityWebRequest request = UnityWebRequest.Get(_modifyURL))
+        {
+            yield return request.SendWebRequest();
+
+            switch (request.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    //_onCampusFound?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    //_onCampusFound?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    Debug.Log(jsonResponse);
+                    //TransferData(jsonResponse);
+                    break;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
+
+    #region -- Methods --
+
+
+    #endregion
+
+    #region -- Fields --
+
+    private readonly string _modifyURL = "";
+
+    #endregion
 }
