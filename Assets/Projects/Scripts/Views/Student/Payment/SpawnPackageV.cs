@@ -4,44 +4,37 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Utilities;
 
-public class SpawnPackageV : MonoBehaviour , ISpawnPaymentView
+public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 {
     #region -- Implements --
 
+    /// <summary>
+    /// Using addressable to create prefab
+    /// </summary>
+    /// <param name="package">Data of package</param>
     public void CreateCard(PackageD package)
     {
-        ClearSpawnedPrefabs();
+        MainHandler.ClearSpawnedPrefabs();
 
-        var handle = Addressables.LoadAssetAsync<GameObject>("Assets/Addons/MyGUI/MyPrefab/Button/Package.prefab");
-        handle.Completed += (AsyncOperationHandle<GameObject> task) =>
+        MainHandler.LoadAndSpawnPrefab(_address, _path, (spawnedPrefab) =>
         {
-            if (task.Status == AsyncOperationStatus.Succeeded)
+            if (spawnedPrefab != null)
             {
-                // Create Card clone (Prefab) and stick it in Search Card Parent
-                GameObject spawnedCard = Instantiate(task.Result, searchCardParent.transform);
+                Debug.Log("Prefab spawned successfully.");
 
-                // Reset position and scale of card to display in correct layout
-                spawnedCard.transform.localPosition = Vector3.zero;
-                spawnedCard.transform.localScale = Vector3.one;
-
-                // Add to list
-                _spawnedPrefabs.Add(spawnedCard);
-
-                // Find UI components inside spawned prefab
-                Transform positionPrice = spawnedCard.transform.Find("PLabel/LName");
-                Transform positionPaper = spawnedCard.transform.Find("PValue/VPages");
-                _setDataPackage.AddComponentFromPrefab(positionPrice, positionPaper);
-
-                UpdateData(package.Price, package.Paper);
-
-                Debug.Log("Card prefab đã được spawn thành công.");
+                // Add button component for ModifyCampusC
+/*                _modifyCampusCommand.SetupButton(spawnedPrefab);
+*/
+                FindComponentUI(_packagePaper, _packagePrice);
+                UpdateData(package.Paper, package.Price);
             }
             else
             {
-                Debug.LogError("Không thể load prefab!");
+                Debug.LogError("Failed to spawn prefab!");
             }
-        };
+        });
     }
 
     #endregion
@@ -50,71 +43,65 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPaymentView
 
     void Start()
     {
-
+/*        AddComponentModifyCampus();
+*/        AddComponentSetData();
     }
 
-    /// <summary>
-    /// Delete all prefab has been spawned
-    /// </summary>
-    private void ClearSpawnedPrefabs()
+    private void FindComponentUI(string paper, string price)
     {
-        foreach (var prefab in _spawnedPrefabs)
+        Transform positionPaper = MainHandler.LastSpawnedPrefab?.transform.Find(paper);
+        Transform positionPrice = MainHandler.LastSpawnedPrefab?.transform.Find(price);
+
+        if (positionPaper != null && positionPrice != null)
         {
-            if (prefab != null)
-            {
-                Destroy(prefab);
-            }
-        }
-
-        _spawnedPrefabs.Clear();
-    }
-
-    /// <summary>
-    /// Find Transform of SearchCampus
-    /// </summary>
-    private void GetCardParent()
-    {
-        GameObject parent = GameObject.Find("/GUI/PMiddle/PPayment/PPurchasePaper/PItemList");
-
-        if (parent != null)
-        {
-            searchCardParent = parent;
+            _setDataPackageView.AddComponentFromPrefab(positionPrice, positionPaper);
         }
         else
         {
-            Debug.Log("Không tìm thấy Search Card!");
+            Debug.LogError("UI components not found in prefab!");
         }
     }
 
     private void AddComponentSetData()
     {
-        if (_setDataPackage == null)
+        if (_setDataPackageView == null)
         {
-            _setDataPackage = gameObject.AddComponent<SetDataPackageV>();
+            _setDataPackageView = gameObject.AddComponent<SetDataPackageV>();
         }
         else
         {
-            Debug.Log("Đã tồn tại component GetCampusH");
+            Debug.Log("The SetDataCampusV component already exists");
         }
     }
 
-
-    private void UpdateData(string price, string paper)
+/*    private void AddComponentModifyCampus()
     {
-        _setDataPackage.SetPackagePrice(price);
-        _setDataPackage.SetPackagePaper(paper);
+        if (_modifyCampusCommand == null)
+        {
+            _modifyCampusCommand = gameObject.AddComponent<ModifyCampusC>();
+        }
+        else
+        {
+            Debug.Log("The ModifyCampusC component already exists");
+        }
+    }*/
+
+    private void UpdateData(string paper, string price)
+    {
+        _setDataPackageView.SetPackagePaper(paper);
+        _setDataPackageView.SetPackagePrice(price);
     }
 
     #endregion
 
-
     #region -- Fields --
 
-    public GameObject searchCardParent;
+    private ISetDataPackageView _setDataPackageView;
 
-    private ISetDataPackageView _setDataPackage;
-
-    private List<GameObject> _spawnedPrefabs = new List<GameObject>();
+    private readonly string _address = "Assets/Addons/MyGUI/MyPrefab/Button/Package.prefab";
+    private readonly string _path = "/GUI/PGUI/PMiddle/PPayment/PPurchasePaper/PLayout/PItemList";
+    private readonly string _packagePaper = "PInfo/PAddress/PValue/VPages";
+    private readonly string _packagePrice = "PInfo/PLabel/LName"; 
 
     #endregion
 }

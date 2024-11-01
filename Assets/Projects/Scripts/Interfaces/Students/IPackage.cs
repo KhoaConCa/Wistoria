@@ -8,6 +8,22 @@ public interface IPackageView
     void SetPackageData(PackageD package);
 }
 
+public interface IGetPackageHandler
+{
+    IEnumerator GetAllPackage(Action<PackageD> onPackageFound);
+    IEnumerator GetPackage(string packagePaper, Action<PackageD> onPackageFound);
+}
+
+public interface IGetPackageCommand
+{
+
+}
+
+public interface ISpawnPackageView
+{
+    void CreateCard(PackageD package);
+}
+
 public interface ISetDataPackageView
 {
     void SetPackagePrice(string price);

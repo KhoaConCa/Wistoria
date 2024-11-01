@@ -3,6 +3,7 @@ using System;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
+using Utilities;
 
 public class GetStudentH : MonoBehaviour, IGetStudentHandler
 {
@@ -29,7 +30,7 @@ public class GetStudentH : MonoBehaviour, IGetStudentHandler
                     Debug.LogError("HTTP Error: " + request.error);
                     break;
 
-                /*case UnityWebRequest.Result.Success:
+/*                case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
                     Debug.Log(jsonResponse);
                     TransferData(jsonResponse);
@@ -44,7 +45,7 @@ public class GetStudentH : MonoBehaviour, IGetStudentHandler
 
     public void TransferData(string response, string requested_id)
     {
-        List<StudentD> studentList = ParseJson.FromJson<StudentD>(response);
+        List<StudentD> studentList = MainHandler.FromJson<StudentD>(response);
 
         if (studentList != null && studentList.Count > 0)
         {

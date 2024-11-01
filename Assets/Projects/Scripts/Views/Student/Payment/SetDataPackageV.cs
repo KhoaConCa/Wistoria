@@ -28,11 +28,11 @@ public class SetDataPackageV : MonoBehaviour, ISetDataPackageView
     /// 
     /// </summary>
     /// <param name="priceLocation"></param>
-    /// <param name="packageLocation"></param>
-    public void AddComponentFromPrefab(Transform priceLocation, Transform packageLocation)
+    /// <param name="paperLocation"></param>
+    public void AddComponentFromPrefab(Transform priceLocation, Transform paperLocation)
     {
         packagePrice = priceLocation.GetComponent<TextMeshProUGUI>();
-        packagePaper = packageLocation.GetComponent<TextMeshProUGUI>();
+        packagePaper = paperLocation.GetComponent<TextMeshProUGUI>();
     }
 
     #endregion
