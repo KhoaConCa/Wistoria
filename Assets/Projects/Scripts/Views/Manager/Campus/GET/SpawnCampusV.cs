@@ -19,7 +19,7 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     {
         MainHandler.ClearSpawnedPrefabs();
 
-        MainHandler.LoadAndSpawnPrefab(_address, _path, (spawnedPrefab) =>
+        MainHandler.LoadAndSpawnPrefab(_campusPrefab, _path, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
@@ -44,6 +44,8 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     void Start()
     {
+        _campusPrefab = new AssetLabelReference { labelString = "Campus" };
+
         AddComponentModifyCampus();
         AddComponentSetData();
     }
@@ -100,7 +102,8 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     private ISetDataCampusView _setDataCampusView;
     private IModifyCampusCommand _modifyCampusCommand;
 
-    private readonly string _address = "Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab";
+    [SerializeField] private AssetLabelReference _campusPrefab;
+
     private readonly string _path = "/GUI/Monitor/Campus/SearchCampus/Body/SearchCard/Panel";
     private readonly string _campusName = "Campus/Value";
     private readonly string _campusRoom = "Room/Value";

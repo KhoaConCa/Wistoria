@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,12 +10,29 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     public void ClickCard()
     {
-
+        _modifyCampusView.GetCampusData();
     }
 
     #endregion
 
     #region -- Methods --
+    void Start()
+    {
+        AddComponentModifyView();
+        clickCard.onClick.AddListener(ClickCard);
+    }
+
+    private void AddComponentModifyView()
+    {
+        if (_modifyCampusView == null)
+        {
+            _modifyCampusView = gameObject.GetComponent<ModifyCampusV>();
+        }
+        else
+        {
+            Debug.Log("The ModifyCampusV component already exists");
+        }
+    }
 
     public void SetupButton(GameObject prefab)
     {
@@ -22,19 +40,12 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
         if (clickCard != null)
         {
-            // Add the ClickCard listener to the button if not already added
             clickCard.onClick.AddListener(ClickCard);
-            Debug.Log("Button setup complete.");
         }
         else
         {
             Debug.LogError("Button component not found on the prefab!");
         }
-    }
-
-    void Start()
-    {
-        clickCard.onClick.AddListener(ClickCard);
     }
 
     #endregion

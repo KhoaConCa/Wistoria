@@ -61,7 +61,7 @@ public interface ISetDataCampusView
 #region -- Modify Campus --
 public interface IModifyCampusView
 {
-    void GetCampusData(string name, string room);
+    void GetCampusData();
 }
 #endregion
 

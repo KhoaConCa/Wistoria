@@ -20,18 +20,15 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
 
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
-                    //_onCampusFound?.Invoke(null);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError("HTTP Error: " + request.error);
-                    //_onCampusFound?.Invoke(null);
                     break;
 
                 case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
                     Debug.Log(jsonResponse);
-                    //TransferData(jsonResponse);
                     break;
             }
         }

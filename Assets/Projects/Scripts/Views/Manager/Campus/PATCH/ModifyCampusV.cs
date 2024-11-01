@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Utilities;
 
 public class ModifyCampusV : MonoBehaviour, IModifyCampusView
 {
     #region -- Implements --
 
-    public void GetCampusData(string name, string room)
+    public void GetCampusData()
     {
 
     }
@@ -21,6 +22,9 @@ public class ModifyCampusV : MonoBehaviour, IModifyCampusView
     #endregion
 
     #region -- Fields --
+
+    private TextMeshProUGUI campusName;
+    private TextMeshProUGUI campusRoom;
 
     #endregion
 }

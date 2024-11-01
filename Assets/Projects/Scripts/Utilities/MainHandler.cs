@@ -72,7 +72,7 @@ namespace Utilities
         /// Find the parent GameObject in the scene by path.
         /// </summary>
         /// <param name="path">Path of the GameObject in the hierarchy</param>
-        private static void GetParent(string path)
+        public static void GetParent(string path)
         {
             target = GameObject.Find(path);
             if (target == null)
@@ -84,14 +84,14 @@ namespace Utilities
         /// <summary>
         /// Loads and spawns a prefab using Addressables asynchronously.
         /// </summary>
-        /// <param name="address">Address of the prefab in Addressables</param>
+        /// <param name="prefab">Address of the prefab in Addressables</param>
         /// <param name="path">Path to parent the prefab</param>
         /// <param name="onSpawned">Callback after prefab has been spawned</param>
-        public static void LoadAndSpawnPrefab(string address, string path, Action<GameObject> onSpawned = null)
+        public static void LoadAndSpawnPrefab(AssetLabelReference prefab, string path, Action<GameObject> onSpawned = null)
         {
             GetParent(path);
 
-            var handle = Addressables.LoadAssetAsync<GameObject>(address);
+            var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
             handle.Completed += (AsyncOperationHandle<GameObject> task) =>
             {
                 if (task.Status == AsyncOperationStatus.Succeeded)
@@ -101,7 +101,7 @@ namespace Utilities
                 }
                 else
                 {
-                    Debug.LogError("Failed to load prefab from address: " + address);
+                    Debug.LogError("Failed to load prefab from addressable");
                 }
             };
         }
@@ -117,6 +117,8 @@ namespace Utilities
 
             spawnedPrefab.transform.localPosition = Vector3.zero;
             spawnedPrefab.transform.localScale = Vector3.one;
+
+            spawnedPrefab.SetActive(true);
 
             _prefabList.Add(spawnedPrefab);
             LastSpawnedPrefab = spawnedPrefab;
