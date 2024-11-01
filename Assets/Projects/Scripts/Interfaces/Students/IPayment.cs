@@ -12,3 +12,8 @@ public interface IPaymentView
 {
     void SetPaymentData(PaymentD payment);
 }
+
+public interface ISpawnPaymentView
+{
+
+}
