@@ -3,6 +3,7 @@ using System;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
+using Utilities;
 
 public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {

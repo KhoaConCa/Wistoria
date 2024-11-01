@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
+using Utilities;
 
 public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 {
@@ -22,6 +24,10 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
             if (spawnedPrefab != null)
             {
                 Debug.Log("Prefab spawned successfully.");
+
+                // Add button component for ModifyCampusC
+                _modifyCampusCommand.SetupButton(spawnedPrefab);
+
                 FindComponentUI(_campusName, _campusRoom);
                 UpdateData(campus.CampusName, campus.Room);
             }
@@ -38,8 +44,8 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     void Start()
     {
-        AddComponentSetData();
         AddComponentModifyCampus();
+        AddComponentSetData();
     }
 
     private void FindComponentUI(string name, string room)
@@ -49,7 +55,7 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
         if (positionName != null && positionRoom != null)
         {
-            _setDataCampus.AddComponentFromPrefab(positionName, positionRoom);
+            _setDataCampusView.AddComponentFromPrefab(positionName, positionRoom);
         }
         else
         {
@@ -59,47 +65,45 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     private void AddComponentSetData()
     {
-        if (_setDataCampus == null)
+        if (_setDataCampusView == null)
         {
-            _setDataCampus = gameObject.AddComponent<SetDataCampusV>();
+            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
         }
         else
         {
-            Debug.Log("Đã tồn tại component GetCampusH");
+            Debug.Log("The SetDataCampusV component already exists");
         }
     }
 
     private void AddComponentModifyCampus()
     {
-        if (_modifyCampus == null)
+        if (_modifyCampusCommand == null)
         {
-            _modifyCampus = gameObject.AddComponent<ModifyCampusC>();
+            _modifyCampusCommand = gameObject.AddComponent<ModifyCampusC>();
         }
         else
         {
-            Debug.Log("Đã tồn tại component GetCampusH");
+            Debug.Log("The ModifyCampusC component already exists");
         }
     }
 
     private void UpdateData(string name, string room)
     {
-        _setDataCampus.SetCampusName(name);
-        _setDataCampus.SetCampusRoom(room);
+        _setDataCampusView.SetCampusName(name);
+        _setDataCampusView.SetCampusRoom(room);
     }
 
     #endregion
 
     #region -- Fields --
 
-    private ISetDataCampusView _setDataCampus;
-    private IModifyCampusCommand _modifyCampus;
-
-/*    private List<GameObject> _spawnedPrefabs = new List<GameObject>();*/
+    private ISetDataCampusView _setDataCampusView;
+    private IModifyCampusCommand _modifyCampusCommand;
 
     private readonly string _address = "Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab";
     private readonly string _path = "/GUI/Monitor/Campus/SearchCampus/Body/SearchCard/Panel";
-    private string _campusName = "Campus/Value";
-    private string _campusRoom = "Room/Value";
+    private readonly string _campusName = "Campus/Value";
+    private readonly string _campusRoom = "Room/Value";
 
     #endregion
 }

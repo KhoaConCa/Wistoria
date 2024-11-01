@@ -17,6 +17,7 @@ public interface IGetCampusCommand
 public interface IModifyCampusCommand
 {
     void ClickCard();
+    void SetupButton(GameObject prefab);
 }
 #endregion
 

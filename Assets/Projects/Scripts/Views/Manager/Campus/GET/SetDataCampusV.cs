@@ -38,7 +38,6 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
     void Start()
     {
         AddComponentModify();
-        //_modifyCampus.GetCampusData(campusName.text, campusRoom.text);
     }
 
     private void AddComponentModify()
