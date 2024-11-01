@@ -3,6 +3,7 @@ using System;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
+using Utilities;
 
 public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
@@ -89,7 +90,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     /// <param name="response">Json string</param>
     public void TransferData(string response)
     {
-        List<CampusD> campusList = ParseJson.FromJson<CampusD>(response);
+        List<CampusD> campusList = MainHandler.FromJson<CampusD>(response);
 
         if (campusList != null && campusList.Count > 0)
         {

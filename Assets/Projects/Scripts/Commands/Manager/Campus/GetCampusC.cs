@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-public class GetCampusC : MonoBehaviour
+public class GetCampusC : MonoBehaviour, IGetCampusCommand
 {
     #region -- Implements --
 

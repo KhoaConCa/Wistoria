@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
+using Utilities;
 
 public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 {
@@ -15,37 +17,25 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     /// <param name="campus">Data of campus</param>
     public void CreateCard(CampusD campus)
     {
-        ClearSpawnedPrefabs();
+        MainHandler.ClearSpawnedPrefabs();
 
-        var handle = Addressables.LoadAssetAsync<GameObject>("Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab");
-        handle.Completed += (AsyncOperationHandle<GameObject> task) =>
+        MainHandler.LoadAndSpawnPrefab(_address, _path, (spawnedPrefab) =>
         {
-            if (task.Status == AsyncOperationStatus.Succeeded)
+            if (spawnedPrefab != null)
             {
-                // Create Card clone (Prefab) and stick it in Search Card Parent
-                GameObject spawnedCard = Instantiate(task.Result, searchCardParent.transform);
+                Debug.Log("Prefab spawned successfully.");
 
-                // Reset position and scale of card to display in correct layout
-                spawnedCard.transform.localPosition = Vector3.zero;
-                spawnedCard.transform.localScale = Vector3.one;
+                // Add button component for ModifyCampusC
+                _modifyCampusCommand.SetupButton(spawnedPrefab);
 
-                // Add to list
-                _spawnedPrefabs.Add(spawnedCard);
-
-                // Find UI components inside spawned prefab
-                Transform positionName = spawnedCard.transform.Find("Campus/Value");
-                Transform positionRoom = spawnedCard.transform.Find("Room/Value");
-                _setDataCampus.AddComponentFromPrefab(positionName, positionRoom);
-
+                FindComponentUI(_campusName, _campusRoom);
                 UpdateData(campus.CampusName, campus.Room);
-
-                Debug.Log("Card prefab đã được spawn thành công.");
             }
             else
             {
-                Debug.LogError("Không thể load prefab!");
+                Debug.LogError("Failed to spawn prefab!");
             }
-        };
+        });
     }
 
     #endregion
@@ -54,70 +44,66 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     void Start()
     {
-        GetCardParent();
+        AddComponentModifyCampus();
         AddComponentSetData();
     }
 
-    /// <summary>
-    /// Delete all prefab has been spawned
-    /// </summary>
-    private void ClearSpawnedPrefabs()
+    private void FindComponentUI(string name, string room)
     {
-        foreach (var prefab in _spawnedPrefabs)
+        Transform positionName = MainHandler.LastSpawnedPrefab?.transform.Find(name);
+        Transform positionRoom = MainHandler.LastSpawnedPrefab?.transform.Find(room);
+
+        if (positionName != null && positionRoom != null)
         {
-            if (prefab != null)
-            {
-                Destroy(prefab);
-            }
-        }
-
-        _spawnedPrefabs.Clear();
-    }
-
-    /// <summary>
-    /// Find Transform of SearchCampus
-    /// </summary>
-    private void GetCardParent()
-    {
-        GameObject parent = GameObject.Find("/GUI/Monitor/Campus/SearchCampus/Body/SearchCard/Panel");
-
-        if (parent != null)
-        {
-            searchCardParent = parent;
+            _setDataCampusView.AddComponentFromPrefab(positionName, positionRoom);
         }
         else
         {
-            Debug.Log("Không tìm thấy Search Card!");
+            Debug.LogError("UI components not found in prefab!");
         }
     }
 
     private void AddComponentSetData()
     {
-        if (_setDataCampus == null)
+        if (_setDataCampusView == null)
         {
-            _setDataCampus = gameObject.AddComponent<SetDataCampusV>();
+            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
         }
         else
         {
-            Debug.Log("Đã tồn tại component GetCampusH");
+            Debug.Log("The SetDataCampusV component already exists");
+        }
+    }
+
+    private void AddComponentModifyCampus()
+    {
+        if (_modifyCampusCommand == null)
+        {
+            _modifyCampusCommand = gameObject.AddComponent<ModifyCampusC>();
+        }
+        else
+        {
+            Debug.Log("The ModifyCampusC component already exists");
         }
     }
 
     private void UpdateData(string name, string room)
     {
-        _setDataCampus.SetCampusName(name);
-        _setDataCampus.SetCampusRoom(room);
+        _setDataCampusView.SetCampusName(name);
+        _setDataCampusView.SetCampusRoom(room);
     }
 
     #endregion
 
     #region -- Fields --
 
-    public GameObject searchCardParent;
+    private ISetDataCampusView _setDataCampusView;
+    private IModifyCampusCommand _modifyCampusCommand;
 
-    private ISetDataCampusView _setDataCampus;
-
-    private List<GameObject> _spawnedPrefabs = new List<GameObject>();
+    private readonly string _address = "Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab";
+    private readonly string _path = "/GUI/Monitor/Campus/SearchCampus/Body/SearchCard/Panel";
+    private readonly string _campusName = "Campus/Value";
+    private readonly string _campusRoom = "Room/Value";
 
     #endregion
 }

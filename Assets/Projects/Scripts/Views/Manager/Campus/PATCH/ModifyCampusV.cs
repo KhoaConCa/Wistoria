@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class ModifyCampusV : MonoBehaviour
+public class ModifyCampusV : MonoBehaviour, IModifyCampusView
 {
-    // Start is called before the first frame update
-    void Start()
+    #region -- Implements --
+
+    public void GetCampusData(string name, string room)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
+
+    #region -- Methods --
+
+
+
+    #endregion
+
+    #region -- Fields --
+
+    #endregion
 }

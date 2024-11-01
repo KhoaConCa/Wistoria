@@ -4,6 +4,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#region -- Commands --
+
+#region -- Get Campus --
+public interface IGetCampusCommand
+{
+    void ClickFindButton();
+}
+#endregion
+
+#region -- Modify Campus --
+public interface IModifyCampusCommand
+{
+    void ClickCard();
+    void SetupButton(GameObject prefab);
+}
+#endregion
+
+#endregion
+
 #region -- Handlers --
 
 #region -- Get Campus --
@@ -42,7 +61,7 @@ public interface ISetDataCampusView
 #region -- Modify Campus --
 public interface IModifyCampusView
 {
-
+    void GetCampusData(string name, string room);
 }
 #endregion
 
