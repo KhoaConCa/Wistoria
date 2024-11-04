@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Utilities;
 
-public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
+public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
 {
     #region -- Implements --
 
@@ -26,7 +26,7 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
                 Debug.Log("Prefab spawned successfully.");
 
                 // Add button component for ModifyCampusC
-                _modifyCampusCommand.SetupButton(spawnedPrefab);
+                //_modifyCampusCommand.SetupButton(spawnedPrefab);
 
                 FindComponentUI(_campusName, _campusRoom);
                 UpdateData(campus.CampusName, campus.Room);
@@ -46,8 +46,9 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     {
         _campusPrefab = new AssetLabelReference { labelString = "Campus" };
 
-        AddComponentModifyCampus();
+        //AddComponentModifyCampus();
         AddComponentSetData();
+        //AddComponentGetData();
     }
 
     private void FindComponentUI(string name, string room)
@@ -77,7 +78,7 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
         }
     }
 
-    private void AddComponentModifyCampus()
+    /*private void AddComponentModifyCampus()
     {
         if (_modifyCampusCommand == null)
         {
@@ -89,6 +90,18 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
         }
     }
 
+    private void AddComponentGetData()
+    {
+        if (_getDataCampusView == null)
+        {
+            _getDataCampusView = gameObject.AddComponent<GetDataCampusV>();
+        }
+        else
+        {
+            Debug.Log("The GetDataCampusV component already exists");
+        }
+    }*/
+
     private void UpdateData(string name, string room)
     {
         _setDataCampusView.SetCampusName(name);
@@ -99,8 +112,9 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     #region -- Fields --
 
-    private ISetDataCampusView _setDataCampusView;
-    private IModifyCampusCommand _modifyCampusCommand;
+    private ICampusDataSetter _setDataCampusView;
+    //private IModifyCampusCommand _modifyCampusCommand;
+    //private ICampusDataGetter _getDataCampusView;
 
     [SerializeField] private AssetLabelReference _campusPrefab;
 

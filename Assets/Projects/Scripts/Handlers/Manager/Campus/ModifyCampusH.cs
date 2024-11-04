@@ -10,6 +10,8 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
 
     public IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound)
     {
+        _onCampusFound = onCampusFound;
+
         using (UnityWebRequest request = UnityWebRequest.Get(_modifyURL))
         {
             yield return request.SendWebRequest();
@@ -20,10 +22,12 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
 
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
+                    _onCampusFound?.Invoke(null);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError("HTTP Error: " + request.error);
+                    onCampusFound?.Invoke(null);
                     break;
 
                 case UnityWebRequest.Result.Success:
@@ -44,6 +48,8 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
     #region -- Fields --
 
     private readonly string _modifyURL = "";
+
+    private Action<CampusD> _onCampusFound;
 
     #endregion
 }

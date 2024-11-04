@@ -103,7 +103,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     public Button getButton;
 
     private IGetCampusHandler _campusHandler;
-    private ISpawnCampusView _spawnCampusView;
+    private ICampusViewSpawner _spawnCampusView;
 
     #endregion
 }

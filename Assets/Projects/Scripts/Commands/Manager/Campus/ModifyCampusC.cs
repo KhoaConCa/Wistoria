@@ -10,12 +10,15 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     public void ClickCard()
     {
-        _modifyCampusView.GetCampusData();
+        _modifyCampusView.GetCampusData(campus);
+        Debug.Log(campus.CampusName);
+        Debug.Log(campus.Room);
     }
 
     #endregion
 
     #region -- Methods --
+
     void Start()
     {
         AddComponentModifyView();
@@ -26,7 +29,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         if (_modifyCampusView == null)
         {
-            _modifyCampusView = gameObject.GetComponent<ModifyCampusV>();
+            _modifyCampusView = gameObject.AddComponent<GetDataCampusV>();
         }
         else
         {
@@ -48,13 +51,31 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="campus"></param>
+    public void OnCampusFound(CampusD campus)
+    {
+        _modifyCampusView.GetCampusData(campus);
+
+        if (campus != null)
+        {
+            Debug.Log("Campus Data saved");
+        }
+        else
+        {
+            Debug.Log("Cannot save data");
+        }
+    }
+
     #endregion
 
     #region -- Fields --
 
     public Button clickCard;
-
-    private IModifyCampusView _modifyCampusView;
+    public CampusD campus;
+    private ICampusDataGetter _modifyCampusView;
 
     #endregion
 }

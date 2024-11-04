@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 641e9ad442f0df24b9f097836bf48556
     m_Address: Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Campus
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8c6d20b344406c848b7a234eb90d318e, type: 2}

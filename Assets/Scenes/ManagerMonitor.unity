@@ -27627,10 +27627,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card
       objectReference: {fileID: 0}
-    - target: {fileID: 1450809760639955396, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

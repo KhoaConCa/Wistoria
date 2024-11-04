@@ -44,24 +44,28 @@ public interface IModifyCampusHandler
 
 #region -- View --
 
+public interface ICampusComponentAdder
+{
+    void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
+}
+
 #region -- Get Campus --
-public interface ISpawnCampusView
+public interface ICampusViewSpawner
 {
     void CreateCard(CampusD campus);
 }
 
-public interface ISetDataCampusView
+public interface ICampusDataSetter : ICampusComponentAdder
 {
     void SetCampusName(string name);
     void SetCampusRoom(string room);
-    void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
 }
 #endregion
 
 #region -- Modify Campus --
-public interface IModifyCampusView
+public interface ICampusDataGetter
 {
-    void GetCampusData();
+    void GetCampusData(CampusD campus);
 }
 #endregion
 
