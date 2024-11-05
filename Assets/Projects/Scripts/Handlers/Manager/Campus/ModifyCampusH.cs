@@ -12,7 +12,10 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
     {
         _onCampusFound = onCampusFound;
 
-        using (UnityWebRequest request = UnityWebRequest.Get(_modifyURL))
+        string searchURL = $"{_getURL}?name={UnityWebRequest.EscapeURL(campus.CampusName)}" +
+            $"&room={UnityWebRequest.EscapeURL(campus.Room)}";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
             yield return request.SendWebRequest();
 
@@ -48,6 +51,7 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
     #region -- Fields --
 
     private readonly string _modifyURL = "";
+    private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search/name";
 
     private Action<CampusD> _onCampusFound;
 

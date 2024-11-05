@@ -8,6 +8,10 @@ public class GetDataCampusV : MonoBehaviour, ICampusDataGetter
 {
     #region -- Implements --
 
+    /// <summary>
+    /// Set data for CampusD from Textbox
+    /// </summary>
+    /// <param name="campus">Campus data</param>
     public void GetCampusData(CampusD campus)
     {
         campus.CampusName = campusName.text;
@@ -26,12 +30,14 @@ public class GetDataCampusV : MonoBehaviour, ICampusDataGetter
     private void AddTextComponent()
     {
         Transform nameTransform = transform.Find(_campusName);
+
         if (nameTransform != null)
         {
             campusName = nameTransform.GetComponent<TextMeshProUGUI>();
         }
 
         Transform roomTransform = transform.Find(_campusRoom);
+
         if (roomTransform != null)
         {
             campusRoom = roomTransform.GetComponent<TextMeshProUGUI>();

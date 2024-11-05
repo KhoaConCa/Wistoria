@@ -19,14 +19,11 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     {
         MainHandler.ClearSpawnedPrefabs();
 
-        MainHandler.LoadAndSpawnPrefab(_campusPrefab, _path, (spawnedPrefab) =>
+        MainHandler.SpawnPrefabByLabel(_campusPrefab, _path, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
                 Debug.Log("Prefab spawned successfully.");
-
-                // Add button component for ModifyCampusC
-                //_modifyCampusCommand.SetupButton(spawnedPrefab);
 
                 FindComponentUI(_campusName, _campusRoom);
                 UpdateData(campus.CampusName, campus.Room);
@@ -46,11 +43,14 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     {
         _campusPrefab = new AssetLabelReference { labelString = "Campus" };
 
-        //AddComponentModifyCampus();
         AddComponentSetData();
-        //AddComponentGetData();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="room"></param>
     private void FindComponentUI(string name, string room)
     {
         Transform positionName = MainHandler.LastSpawnedPrefab?.transform.Find(name);
@@ -78,30 +78,11 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         }
     }
 
-    /*private void AddComponentModifyCampus()
-    {
-        if (_modifyCampusCommand == null)
-        {
-            _modifyCampusCommand = gameObject.AddComponent<ModifyCampusC>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusC component already exists");
-        }
-    }
-
-    private void AddComponentGetData()
-    {
-        if (_getDataCampusView == null)
-        {
-            _getDataCampusView = gameObject.AddComponent<GetDataCampusV>();
-        }
-        else
-        {
-            Debug.Log("The GetDataCampusV component already exists");
-        }
-    }*/
-
+    /// <summary>
+    /// Set data for prefab
+    /// </summary>
+    /// <param name="name">Campus name</param>
+    /// <param name="room">Campus room</param>
     private void UpdateData(string name, string room)
     {
         _setDataCampusView.SetCampusName(name);
@@ -113,8 +94,6 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     #region -- Fields --
 
     private ICampusDataSetter _setDataCampusView;
-    //private IModifyCampusCommand _modifyCampusCommand;
-    //private ICampusDataGetter _getDataCampusView;
 
     [SerializeField] private AssetLabelReference _campusPrefab;
 

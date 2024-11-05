@@ -77,7 +77,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
         else
         {
-            Debug.Log("Đã tồn tại component SpawnCampusV");
+            Debug.Log("The SpawnCampusV component already exists");
         }
     }
 
@@ -89,7 +89,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
         else
         {
-            Debug.Log("Đã tồn tại component GetCampusH");
+            Debug.Log("The GetCampusH component already exists");
         }
     }
     #endregion

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -74,20 +75,46 @@ namespace Utilities
         /// <param name="path">Path of the GameObject in the hierarchy</param>
         public static void GetParent(string path)
         {
-            target = GameObject.Find(path);
-            if (target == null)
+            _target = GameObject.Find(path);
+            if (_target == null)
             {
                 Debug.LogError("Parent object not found at path: " + path);
             }
         }
 
         /// <summary>
-        /// Loads and spawns a prefab using Addressables asynchronously.
+        /// Loads and spawns a prefab using Addressables Label.
         /// </summary>
-        /// <param name="prefab">Address of the prefab in Addressables</param>
+        /// <param name="prefab">Label of the prefab in Addressables</param>
         /// <param name="path">Path to parent the prefab</param>
         /// <param name="onSpawned">Callback after prefab has been spawned</param>
-        public static void LoadAndSpawnPrefab(AssetLabelReference prefab, string path, Action<GameObject> onSpawned = null)
+        public static void SpawnPrefabByLabel(AssetLabelReference prefab, string path, Action<GameObject> onSpawned = null)
+        {
+            GetParent(path);
+
+            var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
+            handle.Completed += (AsyncOperationHandle<GameObject> task) =>
+            {
+                if (task.Status == AsyncOperationStatus.Succeeded)
+                {
+                    GameObject spawnedPrefab = InstantiatePrefab(task);
+                    onSpawned?.Invoke(spawnedPrefab);
+                }
+                else
+                {
+                    Debug.LogError("Failed to load prefab from addressable");
+                }
+            };
+        }
+
+        /// <summary>
+        /// Loads and spawns a prefab using Addressables Reference.
+        /// </summary>
+        /// <param name="prefab">Reference of the prefab in Addressables</param>
+        /// <param name="path">Path to parent the prefab</param>
+        /// <param name="onSpawned">Callback after prefab has been spawned</param>
+        public static void SpawnPrefabByReference(AssetReference prefab, string path,
+            Action<GameObject> onSpawned = null)
         {
             GetParent(path);
 
@@ -113,7 +140,8 @@ namespace Utilities
         /// <returns>The spawned prefab GameObject</returns>
         private static GameObject InstantiatePrefab(AsyncOperationHandle<GameObject> task)
         {
-            GameObject spawnedPrefab = Instantiate(task.Result, target?.transform);
+            GameObject spawnedPrefab = Instantiate(task.Result, _target?.transform);
+            LastSpawnedPrefab = spawnedPrefab;
 
             spawnedPrefab.transform.localPosition = Vector3.zero;
             spawnedPrefab.transform.localScale = Vector3.one;
@@ -121,7 +149,6 @@ namespace Utilities
             spawnedPrefab.SetActive(true);
 
             _prefabList.Add(spawnedPrefab);
-            LastSpawnedPrefab = spawnedPrefab;
 
             return spawnedPrefab;
         }
@@ -147,7 +174,7 @@ namespace Utilities
         #region -- Fields --
 
         #region -- Prefab --
-        private static GameObject target;
+        private static GameObject _target;
         private static List<GameObject> _prefabList = new List<GameObject>();
         #endregion
 
@@ -156,7 +183,7 @@ namespace Utilities
         #region -- Properties --
 
         #region -- Prefab --
-        public static GameObject LastSpawnedPrefab { get; private set; }
+        public static GameObject LastSpawnedPrefab { get; set; }
         #endregion
 
         #endregion

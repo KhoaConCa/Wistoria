@@ -11,8 +11,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     public void ClickCard()
     {
         _modifyCampusView.GetCampusData(campus);
-        Debug.Log(campus.CampusName);
-        Debug.Log(campus.Room);
     }
 
     #endregion
@@ -22,6 +20,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     void Start()
     {
         AddComponentModifyView();
+
         clickCard.onClick.AddListener(ClickCard);
     }
 
@@ -37,6 +36,10 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
+    /// <summary>
+    /// Set event for prefab
+    /// </summary>
+    /// <param name="prefab">Prefab need to set</param>
     public void SetupButton(GameObject prefab)
     {
         clickCard = prefab.GetComponent<Button>();
@@ -52,9 +55,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     }
 
     /// <summary>
-    /// 
+    /// Found campus by name and room
     /// </summary>
-    /// <param name="campus"></param>
+    /// <param name="campus">Campus data</param>
     public void OnCampusFound(CampusD campus)
     {
         _modifyCampusView.GetCampusData(campus);
@@ -75,6 +78,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     public Button clickCard;
     public CampusD campus;
+
     private ICampusDataGetter _modifyCampusView;
 
     #endregion

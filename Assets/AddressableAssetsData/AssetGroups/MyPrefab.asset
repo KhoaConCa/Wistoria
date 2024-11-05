@@ -23,6 +23,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Campus
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4684b22976a73842910dfa9d9dd7d6f
+    m_Address: oryPrinter.prefabUI/MyPrefab/PrefabTest/CardHistoryPrinter.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8c6d20b344406c848b7a234eb90d318e, type: 2}
   m_SchemaSet:

@@ -9,6 +9,11 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
     #region -- Implements --
 
+    /// <summary>
+    /// GET all campus data form server
+    /// </summary>
+    /// <param name="onCampusFound">Method will be call when campus information is found</param>
+    /// <returns></returns>
     public IEnumerator GetAllCampus(Action<CampusD> onCampusFound)
     {
         _onCampusFound = onCampusFound;
@@ -41,7 +46,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     }
 
     /// <summary>
-    /// GET method form server
+    /// GET campus by name form server
     /// </summary>
     /// <param name="campusName">Name campus</param>
     /// <param name="onCampusFound">Method will be call when campus information is found</param>

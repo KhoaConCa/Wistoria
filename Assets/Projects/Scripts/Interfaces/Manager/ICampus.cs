@@ -2,6 +2,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 #region -- Commands --
@@ -24,6 +25,11 @@ public interface IModifyCampusCommand
 #endregion
 
 #region -- Handlers --
+
+public interface IDataTransfer
+{
+    void TransferData(string response);
+}
 
 #region -- Get Campus --
 public interface IGetCampusHandler
