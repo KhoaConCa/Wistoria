@@ -83,7 +83,7 @@ public interface ICampusDataGetter
 
 public interface ITransformUI
 {
-    void UpdateCampusUI();
+    void SetActiveCampusUI(GameObject targetCampus);
 }
 #endregion
 
