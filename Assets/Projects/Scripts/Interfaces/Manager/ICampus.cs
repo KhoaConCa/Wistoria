@@ -22,6 +22,13 @@ public interface IModifyCampusCommand
 }
 #endregion
 
+#region -- Add Campus --
+public interface IAddCampusCommand
+{
+    void ClickAddButton();
+}
+#endregion
+
 #endregion
 
 #region -- Handlers --
@@ -32,7 +39,7 @@ public interface IDataTransfer
 }
 
 #region -- Get Campus --
-public interface IGetCampusHandler
+public interface IGetCampusHandler : IDataTransfer
 {
     IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
@@ -40,7 +47,7 @@ public interface IGetCampusHandler
 #endregion
 
 #region -- Modify Campus --
-public interface IModifyCampusHandler
+public interface IModifyCampusHandler : IDataTransfer
 {
     IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound);
 }
@@ -72,6 +79,11 @@ public interface ICampusDataSetter : ICampusComponentAdder
 public interface ICampusDataGetter
 {
     void GetCampusData(CampusD campus);
+}
+
+public interface ITransformUI
+{
+    void UpdateCampusUI();
 }
 #endregion
 

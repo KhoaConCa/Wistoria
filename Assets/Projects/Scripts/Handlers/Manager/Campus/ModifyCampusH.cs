@@ -3,10 +3,34 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
+using Utilities;
 
 public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
 {
     #region -- Implements --
+
+    /// <summary>
+    /// Transfer Json data to List data
+    /// </summary>
+    /// <param name="response">Json string</param>
+    public void TransferData(string response)
+    {
+        List<CampusD> campusList = MainHandler.FromJson<CampusD>(response);
+
+        if (campusList != null && campusList.Count > 0)
+        {
+            Debug.Log(campusList.Count);
+            foreach (var campus in campusList)
+            {
+                _onCampusFound?.Invoke(campus);
+            }
+        }
+        else
+        {
+            Debug.Log("No campus found.");
+            _onCampusFound?.Invoke(null);
+        }
+    }
 
     public IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound)
     {
@@ -36,6 +60,7 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
                 case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
                     Debug.Log(jsonResponse);
+                    TransferData(jsonResponse);
                     break;
             }
         }

@@ -47,10 +47,10 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     }
 
     /// <summary>
-    /// 
+    /// Find root to set component for prefab
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="room"></param>
+    /// <param name="name">Address campus name</param>
+    /// <param name="room">Address campus room</param>
     private void FindComponentUI(string name, string room)
     {
         Transform positionName = MainHandler.LastSpawnedPrefab?.transform.Find(name);

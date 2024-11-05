@@ -10,16 +10,6 @@ public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
 {
     #region -- Implements --
 
-    public void SetCampusName(string name)
-    {
-        campusName.text = name;
-    }
-
-    public void SetCampusRoom(string room)
-    {
-        campusRoom.text = room;
-    }
-
     /// <summary>
     /// Add componet to from prefab selected
     /// </summary>
@@ -29,6 +19,16 @@ public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
     {
         campusName = nameLocation.GetComponent<TextMeshProUGUI>();
         campusRoom = roomLocation.GetComponent<TextMeshProUGUI>();
+    }
+
+    public void SetCampusName(string name)
+    {
+        campusName.text = name;
+    }
+
+    public void SetCampusRoom(string room)
+    {
+        campusRoom.text = room;
     }
 
     #endregion
