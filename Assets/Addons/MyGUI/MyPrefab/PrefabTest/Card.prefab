@@ -32,10 +32,10 @@ RectTransform:
   - {fileID: 8662161437115571698}
   m_Father: {fileID: 6381722356900428815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -12}
-  m_SizeDelta: {x: 100, y: 24}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &578246089737901415
 GameObject:
@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 6078057457481801789}
   - component: {fileID: 169762450910550998}
   - component: {fileID: 3190832126169058545}
+  - component: {fileID: 4676562601576722545}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -484,6 +485,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickCard: {fileID: 169762450910550998}
+  modifyObject: {fileID: 0}
+--- !u!114 &4676562601576722545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450809760639955396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41b9eae97e06b24d9546e5274940526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  campusUIs: []
 --- !u!1 &4610252052076052963
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,10 +665,10 @@ RectTransform:
   - {fileID: 810882320653561015}
   m_Father: {fileID: 6381722356900428815}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -36}
-  m_SizeDelta: {x: 100, y: 24}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8264638582863934982
 GameObject:

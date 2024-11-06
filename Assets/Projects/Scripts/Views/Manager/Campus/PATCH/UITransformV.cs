@@ -35,7 +35,7 @@ public class UITransformV : MonoBehaviour, ITransformUI
 
     #region -- Methods --
 
-    void Awake()
+    void Start()
     {
         SetupDictionary();
     }
@@ -53,9 +53,40 @@ public class UITransformV : MonoBehaviour, ITransformUI
 
     private void SetupDictionary()
     {
-        foreach(var campusUI in campusUIs)
+        _campusState.Clear();
+
+        FindParentTransform();
+
+        if (campusTransform == null)
         {
-            _campusState[campusUI] = false;
+            Debug.LogWarning("Campus transform is not assigned. Please assign it in the Inspector.");
+            return;
+        }
+
+        foreach (Transform child in campusTransform)
+        {
+            _campusState[child.gameObject] = false;
+            campusUIs.Add(child.gameObject);
+            Debug.Log(campusUIs.Count);
+        }
+
+        Debug.Log("Dictionary setup completed with all child GameObjects in DetailCampus.");
+    }
+
+    private void FindParentTransform()
+    {
+        if (campusTransform == null)
+        {
+            GameObject foundCampus = GameObject.Find("Campus");
+
+            if (foundCampus != null)
+            {
+                campusTransform = foundCampus.transform;
+            }
+            else
+            {
+                Debug.LogWarning("DetailCampus GameObject not found in the scene. Please check the name.");
+            }
         }
     }
 
@@ -63,6 +94,7 @@ public class UITransformV : MonoBehaviour, ITransformUI
 
     #region -- Fields --
 
+    [SerializeField] private Transform campusTransform;
     [SerializeField] private List<GameObject> campusUIs = new List<GameObject>();
 
     private Dictionary<GameObject, bool> _campusState = new Dictionary<GameObject, bool>();

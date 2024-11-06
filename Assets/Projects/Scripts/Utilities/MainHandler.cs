@@ -50,7 +50,7 @@ namespace Utilities
         /// <summary>
         /// Convert object or list of objects to JSON string (Serialize)
         /// </summary>
-        /// <typeparam name="T">T   ype of object</typeparam>
+        /// <typeparam name="T">Type of object</typeparam>
         /// <param name="data">Object or list need to be serialized</param>
         /// <param name="indented">Need to see a beauty json (optional)</param>
         /// <returns>Chuỗi JSON</returns>

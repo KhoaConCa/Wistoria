@@ -11,6 +11,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     public void ClickCard()
     {
         _modifyCampusView.GetCampusData(campus);
+        _transformUI.SetActiveCampusUI(modifyObject);
+        Debug.Log(campus.CampusName);
+        Debug.Log(campus.Room);
     }
 
     #endregion
@@ -19,11 +22,14 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     void Start()
     {
+        GetParentGameObject();
         AddComponentModifyView();
+        GetTransformUI();
 
         clickCard.onClick.AddListener(ClickCard);
     }
 
+    #region -- Add Component --
     private void AddComponentModifyView()
     {
         if (_modifyCampusView == null)
@@ -35,6 +41,19 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
             Debug.Log("The ModifyCampusV component already exists");
         }
     }
+
+    private void GetTransformUI()
+    {
+        if (_transformUI == null)
+        {
+            _transformUI = gameObject.GetComponent<UITransformV>();
+        }
+        else
+        {
+            Debug.Log("The UITransformV component already exiests");
+        }
+    }
+    #endregion
 
     /// <summary>
     /// Set event for prefab
@@ -72,6 +91,41 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
+    /// <summary>
+    /// Get transform of DetailCampus GameObject even if it is inactive
+    /// </summary>
+    public void GetParentGameObject()
+    {
+        Transform campusTransform = transform.parent.parent.parent.parent.parent;
+
+        if (campusTransform != null)
+        {
+            Transform detailCampusTransform = campusTransform.Find("DetailCampus");
+
+            if (detailCampusTransform != null)
+            {
+                modifyObject = detailCampusTransform.gameObject;
+
+                if (modifyObject == null)
+                {
+                    Debug.LogWarning("DetailCampus GameObject not found.");
+                }
+                else
+                {
+                    Debug.Log("Found DetailCampus GameObject, even if it is inactive.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("DetailCampus transform not found in Campus hierarchy.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Campus transform not found.");
+        }
+    }
+
     #endregion
 
     #region -- Fields --
@@ -79,7 +133,10 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     public Button clickCard;
     public CampusD campus;
 
+    public GameObject modifyObject;
+
     private ICampusDataGetter _modifyCampusView;
+    private ITransformUI _transformUI;
 
     #endregion
 }
