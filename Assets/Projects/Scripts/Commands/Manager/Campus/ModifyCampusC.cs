@@ -12,6 +12,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         _modifyCampusView.GetCampusData(campus);
         _transformUI.SetActiveCampusUI(modifyObject);
+        _setDataCampus.SetCampusNameInput(campus.CampusName);
+        _setDataCampus.SetCampusRoomInput(campus.Room);
+        //StartCoroutine(_modifyCampusHandler.CampusInformation(campus, OnCampusFound));
         Debug.Log(campus.CampusName);
         Debug.Log(campus.Room);
     }
@@ -22,8 +25,11 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     void Start()
     {
-        GetParentGameObject();
         AddComponentModifyView();
+        AddComponentModifyHandler();
+        GetComponentSetinfo();
+
+        GetParentGameObject();
         GetTransformUI();
 
         clickCard.onClick.AddListener(ClickCard);
@@ -51,6 +57,30 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         else
         {
             Debug.Log("The UITransformV component already exiests");
+        }
+    }
+
+    private void AddComponentModifyHandler()
+    {
+        if (_modifyCampusHandler == null)
+        {
+            _modifyCampusHandler = gameObject.AddComponent<ModifyCampusH>();
+        }
+        else
+        {
+            Debug.Log("The ModifyCampusH component already exiests");
+        }
+    }
+
+    private void GetComponentSetinfo()
+    {
+        if (_setDataCampus == null)
+        {
+            _setDataCampus = gameObject.GetComponent<SetInfoCampusV>();
+        }
+        else
+        {
+            Debug.Log("The ModifyCampusH component already exiests");
         }
     }
     #endregion
@@ -137,6 +167,8 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     private ICampusDataGetter _modifyCampusView;
     private ITransformUI _transformUI;
+    private IModifyCampusHandler _modifyCampusHandler;
+    private ISetDataCampusInfo _setDataCampus;
 
     #endregion
 }

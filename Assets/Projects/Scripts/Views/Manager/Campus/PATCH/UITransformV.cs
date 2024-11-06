@@ -67,7 +67,6 @@ public class UITransformV : MonoBehaviour, ITransformUI
         {
             _campusState[child.gameObject] = false;
             campusUIs.Add(child.gameObject);
-            Debug.Log(campusUIs.Count);
         }
 
         Debug.Log("Dictionary setup completed with all child GameObjects in DetailCampus.");

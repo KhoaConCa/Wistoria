@@ -85,6 +85,12 @@ public interface ITransformUI
 {
     void SetActiveCampusUI(GameObject targetCampus);
 }
+
+public interface ISetDataCampusInfo
+{
+    void SetCampusNameInput(string name);
+    void SetCampusRoomInput(string room);
+}
 #endregion
 
 #endregion
