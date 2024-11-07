@@ -12,7 +12,8 @@ public interface IUploadDocumentCommand
 
 public interface IUploadDocumentHandler
 {
-    void UploadDocument(string filePath);
+    void UploadDocumentProperties(string filePath);
+    IEnumerator UploadDocumentPropertiesCoroutine(string filePath);
 }
 
 /*public interface IUploadDocumentView

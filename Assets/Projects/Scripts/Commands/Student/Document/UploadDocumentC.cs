@@ -17,7 +17,7 @@ public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
     {
         if (_handler != null && !string.IsNullOrEmpty(_documentPath))
         {
-            _handler.UploadDocument(_documentPath);
+            _handler.UploadDocumentProperties(_documentPath);
         }
         else
         {

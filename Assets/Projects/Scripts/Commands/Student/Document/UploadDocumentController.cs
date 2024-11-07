@@ -9,7 +9,7 @@ public class UploadDocumentController : MonoBehaviour
 
     private void Start()
     {
-        var handler = new UploadDocumentH();
+        var handler = gameObject.AddComponent<UploadDocumentH>(); // Sử dụng AddComponent thay vì new
         _selectedFilePath = Application.dataPath + "/Sample.txt"; // Đường dẫn ví dụ
 
         // Tạo command và khởi tạo với handler và đường dẫn tài liệu
@@ -32,6 +32,7 @@ public class UploadDocumentController : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(_selectedFilePath))
         {
+            gameObject.SetActive(true); // Đảm bảo GameObject đang hoạt động
             _uploadCommand.Execute();
         }
     }
