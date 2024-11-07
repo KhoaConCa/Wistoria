@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
-public class UploadDocumentC : MonoBehaviour
+public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
 {
-    // Start is called before the first frame update
-    void Start()
+    private IUploadDocumentHandler _handler;
+    private string _documentPath;
+
+    // Phương thức khởi tạo giá trị cho _handler và _documentPath
+    public void Initialize(IUploadDocumentHandler handler, string documentPath)
     {
-        
+        _handler = handler;
+        _documentPath = documentPath;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Execute()
     {
-        
+        if (_handler != null && !string.IsNullOrEmpty(_documentPath))
+        {
+            _handler.UploadDocument(_documentPath);
+        }
+        else
+        {
+            Debug.LogError("Handler or document path not initialized.");
+        }
     }
 }

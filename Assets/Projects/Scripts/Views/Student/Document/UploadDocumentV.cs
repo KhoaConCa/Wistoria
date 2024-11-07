@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿/*using UnityEngine;
+using UnityEngine.UI;
 
-public class UploadDocumentV : MonoBehaviour , IUploadDocumentView
+public class DocumentView : MonoBehaviour, IUploadDocumentView
 {
-    // Start is called before the first frame update
-    void Start()
+    public Text statusText;
+    public Button uploadButton;
+
+    public void ShowLoading(bool isLoading)
     {
-        
+        statusText.text = isLoading ? "Uploading..." : "Upload complete.";
+        uploadButton.interactable = !isLoading;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowSuccess(string message)
     {
-        
+        statusText.text = message;
     }
-}
+
+    public void ShowError(string message)
+    {
+        statusText.text = message;
+    }
+}*/

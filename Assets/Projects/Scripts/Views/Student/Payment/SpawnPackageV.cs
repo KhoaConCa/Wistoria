@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 using Utilities;
 
 public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
@@ -18,7 +19,7 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
     {
         MainHandler.ClearSpawnedPrefabs();
 
-        MainHandler.LoadAndSpawnPrefab(_address, _path, (spawnedPrefab) =>
+        MainHandler.LoadAndSpawnPrefab(_packagePrefab, _path, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
@@ -43,8 +44,9 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 
     void Start()
     {
-/*        AddComponentModifyCampus();
-*/        AddComponentSetData();
+        _packagePrefab = new AssetLabelReference { labelString = "Package" };
+
+        AddComponentSetData();
     }
 
     private void FindComponentUI(string paper, string price)
@@ -98,7 +100,8 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 
     private ISetDataPackageView _setDataPackageView;
 
-    private readonly string _address = "Assets/Addons/MyGUI/MyPrefab/Button/Package.prefab";
+    [SerializeField] private AssetLabelReference _packagePrefab;
+
     private readonly string _path = "/GUI/PGUI/PMiddle/PPayment/PPurchasePaper/PLayout/PItemList";
     private readonly string _packagePaper = "PInfo/PAddress/PValue/VPages";
     private readonly string _packagePrice = "PInfo/PLabel/LName"; 

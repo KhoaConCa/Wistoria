@@ -25,7 +25,8 @@ MonoBehaviour:
   - m_GUID: d8b0e040eb523e54fa441f6d29f09f04
     m_Address: Assets/Addons/MyGUI/MyPrefab/Button/Package.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Package
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8c6d20b344406c848b7a234eb90d318e, type: 2}
