@@ -52,7 +52,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         if (campus != null)
         {
             Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            _spawnCampusView.CreateCard(campus);
+            _SpawnCampusView.CreateCard(campus);
         }
         else
         {
@@ -64,16 +64,18 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     {
         AddComponentCampusHandler();
         AddComponetCampusView();
+
         StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
+
         getButton.onClick.AddListener(ClickFindButton);
     }
 
     #region -- Add Components --
     void AddComponetCampusView()
     {
-        if (_spawnCampusView == null)
+        if (_SpawnCampusView == null)
         {
-            _spawnCampusView = gameObject.AddComponent<SpawnCampusV>();
+            _SpawnCampusView = gameObject.AddComponent<SpawnCampusV>();
         }
         else
         {
@@ -92,6 +94,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
             Debug.Log("The GetCampusH component already exists");
         }
     }
+
     #endregion
 
     #endregion
@@ -103,7 +106,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     public Button getButton;
 
     private IGetCampusHandler _campusHandler;
-    private ICampusViewSpawner _spawnCampusView;
+    private ICampusViewSpawner _SpawnCampusView;
 
     #endregion
 }

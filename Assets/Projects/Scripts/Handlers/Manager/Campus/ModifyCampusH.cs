@@ -70,6 +70,41 @@ public class ModifyCampusH : MonoBehaviour, IModifyCampusHandler
 
     #region -- Methods --
 
+    public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onCampusUpdated)
+    {
+        string updateURL = $"{_modifyURL}{campus._id}";
+        string jsonData = JsonUtility.ToJson(campus);
+
+        using (UnityWebRequest request = new UnityWebRequest(updateURL, "PATCH"))
+        {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            switch (request.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    onCampusUpdated?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    onCampusUpdated?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    CampusD updatedCampus = JsonUtility.FromJson<CampusD>(jsonResponse);
+                    onCampusUpdated?.Invoke(updatedCampus);
+                    break;
+            }
+        }
+    }
 
     #endregion
 

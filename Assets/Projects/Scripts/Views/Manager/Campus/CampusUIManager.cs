@@ -1,13 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.UI;
 using Utilities;
 
-public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
+public class CampusUIManager : MonoBehaviour, ICampusViewSpawner
 {
     #region -- Implements --
 
@@ -17,15 +14,15 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     /// <param name="campus">Data of campus</param>
     public void CreateCard(CampusD campus)
     {
+        _campusID = campus._id;
+
         MainHandler.ClearSpawnedPrefabs();
 
         MainHandler.SpawnPrefabByLabel(_campusPrefab, _path, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
-
-                _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
-                _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
+                Debug.Log("Prefab spawned successfully.");
 
                 FindComponentUI(_campusName, _campusRoom);
                 UpdateData(campus.CampusName, campus.Room);
@@ -91,12 +88,29 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         _setDataCampusView.SetCampusRoom(room);
     }
 
+    public void ShowCampusDetails()
+    {
+        if (!string.IsNullOrEmpty(_campusID))
+        {
+            CampusD campusDetails = CampusDataManager.Instance.GetCampusData(_campusID);
+
+            if (campusDetails != null)
+            {
+                Debug.Log($"Campus Details: {campusDetails.CampusName}, Room: {campusDetails.Room}");
+            }
+            else
+            {
+                Debug.LogWarning("Campus details not found.");
+            }
+        }
+    }
+
+
     #endregion
 
     #region -- Fields --
 
     private ICampusDataSetter _setDataCampusView;
-    private ICampusCardData _campuscardData;
 
     [SerializeField] private AssetLabelReference _campusPrefab;
 

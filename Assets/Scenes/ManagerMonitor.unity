@@ -1697,10 +1697,10 @@ RectTransform:
   - {fileID: 1201004937}
   m_Father: {fileID: 2132760168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 95.605, y: -46.23255}
-  m_SizeDelta: {x: 191.21, y: 63.45}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 63.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &167787982
 MonoBehaviour:
@@ -4111,10 +4111,10 @@ RectTransform:
   - {fileID: 297578850}
   m_Father: {fileID: 1852727780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 112.5, y: -202.25809}
+  m_SizeDelta: {x: 225, y: 278.66534}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &306317598
 MonoBehaviour:
@@ -4388,10 +4388,10 @@ RectTransform:
   - {fileID: 1983342924}
   m_Father: {fileID: 1852727780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 112.5, y: -31.462704}
+  m_SizeDelta: {x: 225, y: 62.925407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &327988215
 MonoBehaviour:
@@ -6222,13 +6222,15 @@ GameObject:
   - component: {fileID: 528044930}
   - component: {fileID: 528044932}
   - component: {fileID: 528044931}
+  - component: {fileID: 528044933}
+  - component: {fileID: 528044934}
   m_Layer: 5
   m_Name: DetailCampus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &528044929
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6289,11 +6291,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   campusTransform: {fileID: 0}
-  campusUIs:
-  - {fileID: 1646757698}
-  - {fileID: 528044928}
-  - {fileID: 1968080775}
+  campusUIs: []
 --- !u!114 &528044932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528044928}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99efbe3906bbb454489418167f1decca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickCard: {fileID: 0}
+  modifyObject: {fileID: 0}
+--- !u!114 &528044933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6302,11 +6315,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 528044928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99efbe3906bbb454489418167f1decca, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ac7b6993beef07458f4cbe8b1632791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickCard: {fileID: 0}
-  modifyObject: {fileID: 0}
+  _dontDestroyOnLoad: 1
+  nameField: {fileID: 0}
+  roomField: {fileID: 0}
+--- !u!114 &528044934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528044928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49f6f0275b53814d98a0afe5d5d0fac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontDestroyOnLoad: 1
+  campusNameText: {fileID: 658912108}
+  roomText: {fileID: 1001909260}
 --- !u!1 &529069028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7882,7 +7911,7 @@ GameObject:
   - component: {fileID: 658912109}
   - component: {fileID: 658912108}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CampusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12321,7 +12350,7 @@ GameObject:
   - component: {fileID: 1001909261}
   - component: {fileID: 1001909260}
   m_Layer: 5
-  m_Name: Text
+  m_Name: RoomText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19130,10 +19159,10 @@ RectTransform:
   - {fileID: 1869389600}
   m_Father: {fileID: 1644463275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 16, y: -8}
-  m_SizeDelta: {x: 50, y: 25.991508}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 50, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1522529367
 MonoBehaviour:
@@ -19385,10 +19414,10 @@ RectTransform:
   - {fileID: 178697877}
   m_Father: {fileID: 2132760168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 95.605, y: -113.68255}
-  m_SizeDelta: {x: 191.21, y: 63.45}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 63.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1563980853
 MonoBehaviour:
@@ -20496,10 +20525,10 @@ RectTransform:
   - {fileID: 2132760168}
   m_Father: {fileID: 1781550320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -102.9533}
-  m_SizeDelta: {x: 225, y: 205.9066}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1644463277
 MonoBehaviour:
@@ -20652,10 +20681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   campusTransform: {fileID: 0}
-  campusUIs:
-  - {fileID: 1646757698}
-  - {fileID: 528044928}
-  - {fileID: 1968080775}
+  campusUIs: []
 --- !u!1 &1666350504
 GameObject:
   m_ObjectHideFlags: 0
@@ -21485,10 +21511,10 @@ RectTransform:
   - {fileID: 1195171057}
   m_Father: {fileID: 1781550320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -293.8599}
-  m_SizeDelta: {x: 225, y: 175.9066}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1718697888
 MonoBehaviour:
@@ -22360,10 +22386,10 @@ RectTransform:
   - {fileID: 1718697887}
   m_Father: {fileID: 528044929}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -261.26923}
-  m_SizeDelta: {x: 225, y: 381.8132}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1781550321
 MonoBehaviour:
@@ -23454,10 +23480,10 @@ RectTransform:
   - {fileID: 306317597}
   m_Father: {fileID: 1968080776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 112.5, y: -281.38046}
+  m_SizeDelta: {x: 225, y: 341.59076}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1852727781
 MonoBehaviour:
@@ -24020,10 +24046,10 @@ RectTransform:
   - {fileID: 381213788}
   m_Father: {fileID: 1968080776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 112.5, y: -55.29254}
+  m_SizeDelta: {x: 225, y: 110.58508}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1877669037
 CanvasRenderer:
@@ -24176,10 +24202,10 @@ RectTransform:
   - {fileID: 1846132628}
   m_Father: {fileID: 528044929}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -35.18132}
-  m_SizeDelta: {x: 225, y: 70.36264}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1880821716
 MonoBehaviour:
@@ -25230,7 +25256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1968080776
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27158,10 +27184,10 @@ RectTransform:
   - {fileID: 1563980852}
   m_Father: {fileID: 1644463275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 111.605, y: -197.90662}
-  m_SizeDelta: {x: 191.21, y: 159.9151}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 191.21, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2132760171
 MonoBehaviour:
@@ -27979,6 +28005,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card
       objectReference: {fileID: 0}
+    - target: {fileID: 1848830999411724665, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
+      propertyPath: campusNameInput
+      value: 
+      objectReference: {fileID: 658912108}
+    - target: {fileID: 1848830999411724665, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
+      propertyPath: campusRoomInput
+      value: 
+      objectReference: {fileID: 1001909260}
     - target: {fileID: 3190832126169058545, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
       propertyPath: modifyObject
       value: 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,13 +11,62 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     public void ClickCard()
     {
+        if (campus == null)
+        {
+            Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");
+            return;
+        }
+        _detail.DisplayCampusDetails(_cardData);
+
         _modifyCampusView.GetCampusData(campus);
+        Debug.Log(_currentCampusID);
         _transformUI.SetActiveCampusUI(modifyObject);
-        _setDataCampus.SetCampusNameInput(campus.CampusName);
-        _setDataCampus.SetCampusRoomInput(campus.Room);
+
         //StartCoroutine(_modifyCampusHandler.CampusInformation(campus, OnCampusFound));
         Debug.Log(campus.CampusName);
         Debug.Log(campus.Room);
+    }
+
+    /// <summary>
+    /// Set event for prefab
+    /// </summary>
+    public void SetupButton()
+    {
+        clickCard = gameObject.GetComponent<Button>();
+        _cardData = gameObject.GetComponent<CampusCardData>();
+
+        if (clickCard != null)
+        {
+            clickCard.onClick.AddListener(() =>
+            {
+                if (_cardData != null)
+                {
+                    _currentCampusID = _cardData.CampusID;
+/*                    campus = new CampusD
+                    {
+                        _id = _cardData.CampusID,
+                        CampusName = _cardData.CampusName,
+                        Room = _cardData.CampusRoom
+                    };*/
+
+                    ClickCard();
+                }
+                else
+                {
+                    Debug.LogWarning("CampusCardData is missing on the clicked prefab.");
+                }
+            });
+        }
+        else
+        {
+            Debug.LogError("Button component not found on the prefab!");
+        }
+    }
+
+
+    public void GetCampusID(string id)
+    {
+        _currentCampusID = id;
     }
 
     #endregion
@@ -28,11 +78,23 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         AddComponentModifyView();
         AddComponentModifyHandler();
         GetComponentSetinfo();
+        GetComponentData();
+        _detail = gameObject.AddComponent<DetailCampusC>();
 
         GetParentGameObject();
         GetTransformUI();
+        _modifyCampusView.SetCampusID(_currentCampusID);
+        SetupButton();
 
-        clickCard.onClick.AddListener(ClickCard);
+/*        if (clickCard != null)
+        {
+            clickCard.onClick.AddListener(ClickCard);
+            Debug.Log(_currentCampusID);
+        }
+        else
+        {
+            Debug.LogWarning("clickCard is null. Make sure SetupButton is called with a valid button.");
+        }*/
     }
 
     #region -- Add Component --
@@ -83,25 +145,19 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
             Debug.Log("The ModifyCampusH component already exiests");
         }
     }
-    #endregion
 
-    /// <summary>
-    /// Set event for prefab
-    /// </summary>
-    /// <param name="prefab">Prefab need to set</param>
-    public void SetupButton(GameObject prefab)
+    private void GetComponentData()
     {
-        clickCard = prefab.GetComponent<Button>();
-
-        if (clickCard != null)
+        if (_cardData == null)
         {
-            clickCard.onClick.AddListener(ClickCard);
+            _cardData = gameObject.GetComponent<CampusCardData>();
         }
         else
         {
-            Debug.LogError("Button component not found on the prefab!");
+            Debug.Log("The ModifyCampusH component already exiests");
         }
     }
+    #endregion
 
     /// <summary>
     /// Found campus by name and room
@@ -109,15 +165,14 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// <param name="campus">Campus data</param>
     public void OnCampusFound(CampusD campus)
     {
-        _modifyCampusView.GetCampusData(campus);
-
         if (campus != null)
         {
+            _modifyCampusView.GetCampusData(campus);
             Debug.Log("Campus Data saved");
         }
         else
         {
-            Debug.Log("Cannot save data");
+            Debug.LogWarning("Cannot save data. Campus is null.");
         }
     }
 
@@ -156,6 +211,65 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
+    /// <summary>
+    /// The function is called when the user clicks on a Campus item
+    /// </summary>
+    /// <param name="campusId">Campus ID is selected</param>
+    public void OnCampusSelected(string campusId)
+    {
+        _currentCampusID = campusId;
+
+        CampusD selectedCampus = CampusDataManager.Instance.GetCampusData(campusId);
+
+        if (selectedCampus != null)
+        {
+            SetInfoCampusV.Instance.SetCampusNameInput(selectedCampus.CampusName);
+            SetInfoCampusV.Instance.SetCampusRoomInput(selectedCampus.Room);
+        }
+        else
+        {
+            Debug.LogWarning("No data found for Campus with ID: " + campusId);
+        }
+    }
+
+    public void UpdateCampusData()
+    {
+        if (string.IsNullOrEmpty(_currentCampusID))
+        {
+            Debug.LogWarning("Không có Campus nào được chọn để cập nhật.");
+            return;
+        }
+
+        string updatedName = SetInfoCampusV.Instance.GetCampusNameInput();
+        string updatedRoom = SetInfoCampusV.Instance.GetCampusRoomInput();
+
+        CampusD updatedCampus = new CampusD
+        {
+            _id = _currentCampusID,
+            CampusName = updatedName,
+            Room = updatedRoom
+        };
+
+        StartCoroutine(_modifyCampusHandler.UpdateCampusData(updatedCampus, (result) =>
+        {
+            if (result != null)
+            {
+                Debug.Log("Cập nhật thành công Campus với ID: " + _currentCampusID);
+
+                CampusDataManager.Instance.SetCampusData(result);
+            }
+            else
+            {
+                Debug.LogError("Cập nhật Campus thất bại.");
+            }
+        }));
+    }
+
+    private void OnCardClicked(string id)
+    {
+        onClickCallback?.Invoke(id);
+    }
+
     #endregion
 
     #region -- Fields --
@@ -169,6 +283,11 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private ITransformUI _transformUI;
     private IModifyCampusHandler _modifyCampusHandler;
     private ISetDataCampusInfo _setDataCampus;
+    private ICampusCardData _cardData;
+    private ICampusDetail _detail;
+
+    private string _currentCampusID;
+    private Action<string> onClickCallback;
 
     #endregion
 }

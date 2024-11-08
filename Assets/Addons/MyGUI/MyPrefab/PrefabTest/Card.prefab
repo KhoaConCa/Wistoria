@@ -321,6 +321,8 @@ GameObject:
   - component: {fileID: 169762450910550998}
   - component: {fileID: 3190832126169058545}
   - component: {fileID: 4676562601576722545}
+  - component: {fileID: 4758194676604433193}
+  - component: {fileID: 1848830999411724665}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -498,7 +500,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41b9eae97e06b24d9546e5274940526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  campusTransform: {fileID: 0}
   campusUIs: []
+--- !u!114 &4758194676604433193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450809760639955396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26653ea1f73bbb5489874481f78df0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickButton: {fileID: 169762450910550998}
+--- !u!114 &1848830999411724665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450809760639955396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86964dd3073ef624b88b02371c5e5973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  campusNameInput: {fileID: 0}
+  campusRoomInput: {fileID: 0}
 --- !u!1 &4610252052076052963
 GameObject:
   m_ObjectHideFlags: 0

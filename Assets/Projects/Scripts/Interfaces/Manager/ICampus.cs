@@ -18,9 +18,15 @@ public interface IGetCampusCommand
 public interface IModifyCampusCommand
 {
     void ClickCard();
-    void SetupButton(GameObject prefab);
+    void SetupButton();
+    void GetCampusID(string id);
 }
 #endregion
+
+public interface ICampusDetail
+{
+    void DisplayCampusDetails(ICampusCardData cardData);
+}
 
 #region -- Add Campus --
 public interface IAddCampusCommand
@@ -38,6 +44,11 @@ public interface IDataTransfer
     void TransferData(string response);
 }
 
+public interface IDetailUpdate
+{
+
+}
+
 #region -- Get Campus --
 public interface IGetCampusHandler : IDataTransfer
 {
@@ -50,6 +61,7 @@ public interface IGetCampusHandler : IDataTransfer
 public interface IModifyCampusHandler : IDataTransfer
 {
     IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound);
+    IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onCampusUpdated);
 }
 #endregion
 
@@ -60,6 +72,12 @@ public interface IModifyCampusHandler : IDataTransfer
 public interface ICampusComponentAdder
 {
     void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
+}
+
+//
+public interface ICampusCardClicker
+{
+    void Initialize(string campusID, Action<string> onClickCallback);
 }
 
 #region -- Get Campus --
@@ -79,6 +97,8 @@ public interface ICampusDataSetter : ICampusComponentAdder
 public interface ICampusDataGetter
 {
     void GetCampusData(CampusD campus);
+    void GetCampusID(CampusD campus);
+    void SetCampusID(string id);
 }
 
 public interface ITransformUI
@@ -93,4 +113,11 @@ public interface ISetDataCampusInfo
 }
 #endregion
 
+public interface ICampusCardData
+{
+    string CampusID { get; set; }
+    string CampusName { get; set; }
+    string CampusRoom { get; set; }
+    void Initialize(string id, string name, string room);
+}
 #endregion

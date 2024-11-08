@@ -27,8 +27,8 @@ namespace Utilities
             {
                 // With string.StartsWith(char) and string.EndsWith(char), only the first character of the string
                 // is compared to the provided character, whereas the string versions of those methods have to do
-                // checks about the current StringComparison and CultureInfo. Thus, the char overloads are significantly
-                // faster for default comparison scenarios.
+                // checks about the current StringComparison and CultureInfo. Thus, the char overloads are
+                // significantly faster for default comparison scenarios.
                 // Instead of using "" -> ''
                 if (json.Trim().StartsWith('[') && json.Trim().EndsWith(']'))
                 {
