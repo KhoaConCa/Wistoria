@@ -25,9 +25,7 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
             {
                 Debug.Log("Prefab spawned successfully.");
 
-                // Add button component for ModifyCampusC
-/*                _modifyCampusCommand.SetupButton(spawnedPrefab);
-*/
+
                 FindComponentUI(_packagePaper, _packagePrice);
                 UpdateData(package.Paper, package.Price);
             }
@@ -76,17 +74,6 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
         }
     }
 
-/*    private void AddComponentModifyCampus()
-    {
-        if (_modifyCampusCommand == null)
-        {
-            _modifyCampusCommand = gameObject.AddComponent<ModifyCampusC>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusC component already exists");
-        }
-    }*/
 
     private void UpdateData(string paper, string price)
     {

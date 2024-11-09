@@ -1,23 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+#region -- Class Description --
+/// <summary>
+/// Controller class for managing document upload functionality.
+/// Initializes upload command and assigns the upload button's click event.
+/// </summary>
+#endregion
 public class UploadDocumentController : MonoBehaviour
 {
-    public Button uploadButton; // Tham chiếu đến btnUpLoad
-    private IUploadDocumentCommand _uploadCommand;
-    private string _selectedFilePath;
+    #region -- Unity Methods --
 
+    /// <summary>
+    /// Unity's Start method.
+    /// Initializes the upload command and sets up the upload button click event.
+    /// </summary>
     private void Start()
     {
-        var handler = gameObject.AddComponent<UploadDocumentH>(); // Sử dụng AddComponent thay vì new
-        _selectedFilePath = Application.dataPath + "/Sample.txt"; // Đường dẫn ví dụ
+        var handler = gameObject.AddComponent<UploadDocumentH>(); // Add handler as a component
+        _selectedFilePath = Application.dataPath + "/Sample.txt"; // Example file path
 
-        // Tạo command và khởi tạo với handler và đường dẫn tài liệu
+        // Create and initialize the upload command with handler and file path
         var uploadCommandComponent = gameObject.AddComponent<UploadDocumentC>();
         uploadCommandComponent.Initialize(handler, _selectedFilePath);
         _uploadCommand = uploadCommandComponent;
 
-        // Kiểm tra nếu uploadButton đã được gán qua Inspector
+        // Check if uploadButton is assigned in the Inspector
         if (uploadButton != null)
         {
             uploadButton.onClick.AddListener(OnUploadButtonClicked);
@@ -28,12 +36,35 @@ public class UploadDocumentController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region -- Private Methods --
+
+    /// <summary>
+    /// Called when the upload button is clicked.
+    /// Executes the upload command if a file path is selected.
+    /// </summary>
     private void OnUploadButtonClicked()
     {
         if (!string.IsNullOrEmpty(_selectedFilePath))
         {
-            gameObject.SetActive(true); // Đảm bảo GameObject đang hoạt động
+            gameObject.SetActive(true); // Ensure GameObject is active
             _uploadCommand.Execute();
         }
     }
+
+    #endregion
+
+    #region -- Fields --
+
+    [Header("Upload Button")]
+    /// <summary>
+    /// Reference to the upload button (should be assigned in the Inspector).
+    /// </summary>
+    public Button uploadButton;
+
+    private IUploadDocumentCommand _uploadCommand;
+    private string _selectedFilePath;
+
+    #endregion
 }
