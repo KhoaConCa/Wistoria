@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: StepPoint
+  m_EditorClassIdentifier: 
+  m_GroupName: StepPoint
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 93f87d81f1675be4f826086d498c1196
+  m_SerializeEntries:
+  - m_GUID: 6eccd2cce8d39a043bad384025338e57
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/StepPoint/StepPoint_Disable Variant.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 87bc0a5bb1b00ca48995ff536c911ffd
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/StepPoint/StepPoint_InProcess.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d01965df0e457a4f83d89b3474d8935
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/StepPoint/StepPoint_Success Variant.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 3a9d9c453397c0c4ba79eaa0d142e8df, type: 2}
+    - {fileID: 11400000, guid: c0457b03454b77a4a8eb5b3541f287dd, type: 2}

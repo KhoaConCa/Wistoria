@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Tags
+  m_EditorClassIdentifier: 
+  m_GroupName: Tags
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 78e4b5fc418ff5842b5371e17f7d745c
+  m_SerializeEntries:
+  - m_GUID: 03515e412911b114695491032a115461
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/PageTag.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1abe21964361cd447a105d0e152b9c05
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/DocumentTag.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 748d66853d761be4da7d57006abd9650
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/PrintTag.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fd01ff10c5c524489045db048c553ed
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/InfoTag.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7ba2c726c6d57cf469000a258ab28a90, type: 2}
+    - {fileID: 11400000, guid: a7ba6131ccb138041bfa6010bfebeb5f, type: 2}
