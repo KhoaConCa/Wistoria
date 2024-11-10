@@ -9,6 +9,34 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
     #region -- Implements --
 
+    /// <summary>
+    /// Transfer Json data to List data
+    /// </summary>
+    /// <param name="response">Json string</param>
+    public void TransferData(string response)
+    {
+        List<CampusD> campusList = MainHandler.FromJson<CampusD>(response);
+
+        if (campusList != null && campusList.Count > 0)
+        {
+            Debug.Log(campusList.Count);
+            foreach (var campus in campusList)
+            {
+                _onCampusFound?.Invoke(campus);
+            }
+        }
+        else
+        {
+            Debug.Log("No campus found.");
+            _onCampusFound?.Invoke(null);
+        }
+    }
+
+    /// <summary>
+    /// GET all campus data form server
+    /// </summary>
+    /// <param name="onCampusFound">Method will be call when campus information is found</param>
+    /// <returns></returns>
     public IEnumerator GetAllCampus(Action<CampusD> onCampusFound)
     {
         _onCampusFound = onCampusFound;
@@ -41,7 +69,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     }
 
     /// <summary>
-    /// GET method form server
+    /// GET campus by name form server
     /// </summary>
     /// <param name="campusName">Name campus</param>
     /// <param name="onCampusFound">Method will be call when campus information is found</param>
@@ -77,33 +105,6 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
                     TransferData(jsonResponse);
                     break;
             }
-        }
-    }
-
-    #endregion
-
-    #region -- Methods --
-
-    /// <summary>
-    /// Transfer Json data to List data
-    /// </summary>
-    /// <param name="response">Json string</param>
-    public void TransferData(string response)
-    {
-        List<CampusD> campusList = MainHandler.FromJson<CampusD>(response);
-
-        if (campusList != null && campusList.Count > 0)
-        {
-            Debug.Log(campusList.Count);
-            foreach (var campus in campusList)
-            {
-                _onCampusFound?.Invoke(campus);
-            }
-        }
-        else
-        {
-            Debug.Log("No campus found.");
-            _onCampusFound?.Invoke(null);
         }
     }
 

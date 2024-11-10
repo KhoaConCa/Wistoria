@@ -6,19 +6,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 
-public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
+public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
 {
     #region -- Implements --
-
-    public void SetCampusName(string name)
-    {
-        campusName.text = name;
-    }
-
-    public void SetCampusRoom(string room)
-    {
-        campusRoom.text = room;
-    }
 
     /// <summary>
     /// Add componet to from prefab selected
@@ -31,26 +21,19 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
         campusRoom = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
+    public void SetCampusName(string name)
+    {
+        campusName.text = name;
+    }
+
+    public void SetCampusRoom(string room)
+    {
+        campusRoom.text = room;
+    }
+
     #endregion
 
     #region -- Methods --
-
-    void Start()
-    {
-        AddComponentModify();
-    }
-
-    private void AddComponentModify()
-    {
-        if (_modifyCampus == null)
-        {
-            _modifyCampus = gameObject.AddComponent<ModifyCampusV>();
-        }
-        else
-        {
-            Debug.Log("Đã tồn tại component ModifyCampusV");
-        }
-    }
 
     #endregion
 
@@ -58,8 +41,6 @@ public class SetDataCampusV : MonoBehaviour, ISetDataCampusView
 
     public TextMeshProUGUI campusName;
     public TextMeshProUGUI campusRoom;
-
-    private IModifyCampusView _modifyCampus;
 
     #endregion
 }

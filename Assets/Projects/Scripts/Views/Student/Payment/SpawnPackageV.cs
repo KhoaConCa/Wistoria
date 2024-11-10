@@ -19,7 +19,7 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
     {
         MainHandler.ClearSpawnedPrefabs();
 
-        MainHandler.LoadAndSpawnPrefab(_packagePrefab, _path, (spawnedPrefab) =>
+        MainHandler.SpawnPrefabByLabel(_packagePrefab, _path, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {

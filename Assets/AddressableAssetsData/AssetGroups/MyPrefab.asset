@@ -20,6 +20,12 @@ MonoBehaviour:
   - m_GUID: 641e9ad442f0df24b9f097836bf48556
     m_Address: Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab
     m_ReadOnly: 0
+    m_SerializedLabels:
+    - Campus
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4684b22976a73842910dfa9d9dd7d6f
+    m_Address: oryPrinter.prefabUI/MyPrefab/PrefabTest/CardHistoryPrinter.prefab
+    m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d8b0e040eb523e54fa441f6d29f09f04

@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Utilities;
 
-public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
+public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
 {
     #region -- Implements --
 
@@ -19,14 +19,13 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     {
         MainHandler.ClearSpawnedPrefabs();
 
-        MainHandler.LoadAndSpawnPrefab(_campusPrefab, _path, (spawnedPrefab) =>
+        MainHandler.SpawnPrefabByLabel(_campusPrefab, _path, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
-                Debug.Log("Prefab spawned successfully.");
 
-                // Add button component for ModifyCampusC
-                _modifyCampusCommand.SetupButton(spawnedPrefab);
+                ICampusCardData _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
+                _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
 
                 FindComponentUI(_campusName, _campusRoom);
                 UpdateData(campus.CampusName, campus.Room);
@@ -46,10 +45,26 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
     {
         _campusPrefab = new AssetLabelReference { labelString = "Campus" };
 
-        AddComponentModifyCampus();
         AddComponentSetData();
     }
 
+    private void AddComponentSetData()
+    {
+        if (_setDataCampusView == null)
+        {
+            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
+        }
+        else
+        {
+            Debug.Log("The SetDataCampusV component already exists");
+        }
+    }
+
+    /// <summary>
+    /// Find root to set component for prefab
+    /// </summary>
+    /// <param name="name">Address campus name</param>
+    /// <param name="room">Address campus room</param>
     private void FindComponentUI(string name, string room)
     {
         Transform positionName = MainHandler.LastSpawnedPrefab?.transform.Find(name);
@@ -65,30 +80,11 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
         }
     }
 
-    private void AddComponentSetData()
-    {
-        if (_setDataCampusView == null)
-        {
-            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
-        }
-        else
-        {
-            Debug.Log("The SetDataCampusV component already exists");
-        }
-    }
-
-    private void AddComponentModifyCampus()
-    {
-        if (_modifyCampusCommand == null)
-        {
-            _modifyCampusCommand = gameObject.AddComponent<ModifyCampusC>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusC component already exists");
-        }
-    }
-
+    /// <summary>
+    /// Set data for prefab
+    /// </summary>
+    /// <param name="name">Campus name</param>
+    /// <param name="room">Campus room</param>
     private void UpdateData(string name, string room)
     {
         _setDataCampusView.SetCampusName(name);
@@ -99,14 +95,15 @@ public class SpawnCampusV : MonoBehaviour, ISpawnCampusView
 
     #region -- Fields --
 
-    private ISetDataCampusView _setDataCampusView;
-    private IModifyCampusCommand _modifyCampusCommand;
+    private ICampusDataSetter _setDataCampusView;
 
     [SerializeField] private AssetLabelReference _campusPrefab;
 
     private readonly string _path = "/GUI/Monitor/Campus/SearchCampus/Body/SearchCard/Panel";
     private readonly string _campusName = "Campus/Value";
     private readonly string _campusRoom = "Room/Value";
+
+    private string _campusID;
 
     #endregion
 }
