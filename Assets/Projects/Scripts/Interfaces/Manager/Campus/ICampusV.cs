@@ -19,17 +19,7 @@ public interface ICampusDataSetter : ICampusComponentAdder
     void SetCampusRoom(string room);
 }
 
-public interface ICampusDataGetter
-{
-    void GetCampusData(CampusD campus);
-}
-
 public interface ITransformUI
 {
     void SetActiveCampusUI(GameObject targetCampus);
-}
-
-public interface ICampusDetailView
-{
-    void DisplayCampusDetails(ICampusCardData campus);
 }
