@@ -8,18 +8,6 @@ public class DetailCampusV : MonoBehaviour
 {
     #region -- Implements --
 
-    public void DisplayCampusDetails(ICampusCardData campus)
-    {
-        if (campus == null)
-        {
-            Debug.LogWarning("Campus data is null. Cannot display details.");
-            return;
-        }
-
-        campusNameInput.text = campus.CampusName;
-        campusRoomInput.text = campus.CampusRoom;
-    }
-
     #endregion
 
     #region -- Methods --

@@ -78,7 +78,6 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     {
         _onCampusFound = onCampusFound;
 
-        // Using Query parameter ?name= to set campusName parameter
         string searchURL = $"{_getURL}?name={UnityWebRequest.EscapeURL(campusName)}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
