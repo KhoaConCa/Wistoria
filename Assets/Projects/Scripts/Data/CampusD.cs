@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,14 +6,14 @@ using UnityEngine;
 [System.Serializable]
 public class CampusD
 {
-    #region -- Fields --
+    #region -- Properties --
 
-    public string _id;
-    public string CampusName;
-    public string Room;
-    public string createdAt;
-    public string updatedAt;
-    public string __v;
+    public string _id { get; set; }
+    public string CampusName { get; set; }
+    public string Room { get; set; }
+    public DateTime createdAt { get; set; }
+    public DateTime updatedAt { get; set; }
+    public string __v { get; set; }
 
     #endregion
 }
