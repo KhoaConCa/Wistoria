@@ -40,7 +40,9 @@ public class CreatePaymentC : MonoBehaviour
             Status = "Finished"
         };
 
-        StartCoroutine(_createPayment.Upload(payment, onSuccess: response => Debug.Log($"Success: {response}"), onError: error => Debug.LogError($"Failed: {error}")));
+        StartCoroutine(_createPayment.Upload(payment, onSuccess: response => Debug.Log($"Success: {response}"), 
+            onError: error => Debug.LogError($"Failed: {error}")));
+
     }
 
     #endregion

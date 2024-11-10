@@ -7,13 +7,7 @@ using UnityEngine.Networking;
 
 public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
 {
-    #region -- Fields --
-
-    private readonly string _createURL = "https://server-wistoria-api.vercel.app/payment/create";
-
-    #endregion
-
-    #region -- Public Methods --
+    #region -- Methods --
 
     /// <summary>
     /// Uploads a payment request to the server
@@ -37,10 +31,6 @@ public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
             HandleError(request, onError);
         }
     }
-
-    #endregion
-
-    #region -- Private Methods --
 
     /// <summary>
     /// Creates a POST request with JSON payload
@@ -74,6 +64,12 @@ public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
         Debug.LogError($"Request Failed: {request.error}");
         onError?.Invoke(null);
     }
+
+    #endregion
+
+    #region -- Fields --
+
+    private readonly string _createURL = "https://server-wistoria-api.vercel.app/payment/create";
 
     #endregion
 }

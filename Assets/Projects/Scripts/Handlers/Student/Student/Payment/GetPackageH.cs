@@ -1,15 +1,26 @@
-using System.Collections.Generic;
 using System;
-using UnityEngine.Networking;
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
 using Utilities;
 
-
-public class GetPackageH : MonoBehaviour , IGetPackageHandler
+#region -- Class Description --
+/// <summary>
+/// Handler class responsible for retrieving package data from a server.
+/// Provides methods to fetch all packages or specific packages by paper type.
+/// </summary>
+#endregion
+public class GetPackageH : MonoBehaviour, IGetPackageHandler
 {
     #region -- Implements --
 
+    /// <summary>
+    /// Retrieves all packages from the server.
+    /// Executes the provided callback for each package found or with null if an error occurs.
+    /// </summary>
+    /// <param name="onPackageFound">Callback to execute for each package found.</param>
+    /// <returns>IEnumerator for coroutine functionality.</returns>
     public IEnumerator GetAllPackage(Action<PackageD> onPackageFound)
     {
         _onPackageFound = onPackageFound;
@@ -21,7 +32,6 @@ public class GetPackageH : MonoBehaviour , IGetPackageHandler
             switch (request.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
-
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
                     _onPackageFound?.Invoke(null);
@@ -41,7 +51,14 @@ public class GetPackageH : MonoBehaviour , IGetPackageHandler
         }
     }
 
-    public IEnumerator GetPackage (string packagePaper, Action<PackageD> onPackageFound)
+    /// <summary>
+    /// Retrieves a specific package by paper type from the server.
+    /// Executes the provided callback for the found package or with null if an error occurs.
+    /// </summary>
+    /// <param name="packagePaper">The paper type to search for.</param>
+    /// <param name="onPackageFound">Callback to execute for the found package.</param>
+    /// <returns>IEnumerator for coroutine functionality.</returns>
+    public IEnumerator GetPackage(string packagePaper, Action<PackageD> onPackageFound)
     {
         _onPackageFound = onPackageFound;
 
@@ -54,7 +71,6 @@ public class GetPackageH : MonoBehaviour , IGetPackageHandler
             switch (request.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
-
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
                     _onPackageFound?.Invoke(null);
@@ -78,6 +94,10 @@ public class GetPackageH : MonoBehaviour , IGetPackageHandler
 
     #region -- Methods --
 
+    /// <summary>
+    /// Processes the JSON response and invokes the callback for each package found.
+    /// </summary>
+    /// <param name="response">The JSON response from the server.</param>
     public void TransferData(string response)
     {
         List<PackageD> packageList = MainHandler.FromJson<PackageD>(response);
