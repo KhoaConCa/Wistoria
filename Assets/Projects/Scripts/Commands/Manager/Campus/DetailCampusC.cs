@@ -1,27 +1,65 @@
 ﻿using UnityEngine;
-using TMPro; // Thêm thư viện nếu dùng TextMeshPro InputField
+using TMPro;
 using UnityEngine.UI;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetail
 {
-    // Tham chiếu đến các InputField trong UI
-    public TextMeshProUGUI campusNameInput;
-    public TextMeshProUGUI campusRoomInput;
+    #region -- Implements -- 
+
+    public void DisplayCampusDetails(ICampusCardData campus)
+    {
+        if (campus == null)
+        {
+            Debug.LogWarning("Campus data is null. Cannot display details.");
+            return;
+        }
+
+        campusNameInput.text = campus.CampusName;
+        campusRoomInput.text = campus.CampusRoom;
+        campusID = campus.CampusID;
+    }
+
+    #endregion
+
+    #region -- Methods -- 
 
     void Start()
     {
-        // Tìm đối tượng DetailCampus theo đường dẫn cụ thể
-        Transform based = transform.root.Find("/GUI/Monitor/Campus/DetailCampus");
+        SetComponentBasedOn(_baseTransform, _campusNameText, _campusRoomText);
+
+
+    }
+
+    private void AddComponentData()
+    {
+        if (_cardData == null)
+        {
+            _cardData = gameObject.AddComponent<CampusCardData>();
+        }
+        else
+        {
+            Debug.Log("The CampusCardData component already exists");
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="root"></param>
+    /// <param name="name"></param>
+    /// <param name="room"></param>
+    private void SetComponentBasedOn(string root, string name, string room)
+    {
+        Transform based = transform.root.Find(root);
 
         if (based != null)
         {
-            // Tìm các thành phần con với đường dẫn đầy đủ
-            Transform name = based.Find("Body/SearchCard/ItemField/Campus/InputField (TMP)/Text Area/Placeholder");
-            Transform room = based.Find("Body/SearchCard/ItemField/Room/InputField (TMP)/Text Area/Placeholder");
+            Transform _name = based.Find(name);
+            Transform _room = based.Find(room);
 
-            if (name != null && room != null)
+            if (_name != null && _room != null)
             {
-                AddComponentGameObject(name, room);
+                AddComponentGameObject(_name, _room);
             }
             else
             {
@@ -34,23 +72,37 @@ public class DetailCampusC : MonoBehaviour, ICampusDetail
         }
     }
 
-
-    public void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nameLocation"></param>
+    /// <param name="roomLocation"></param>
+    private void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
     {
         campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
         campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
-    public void DisplayCampusDetails(ICampusCardData campus)
-    {
-        if (campus == null)
-        {
-            Debug.LogWarning("Campus data is null. Cannot display details.");
-            return;
-        }
-        Debug.LogWarning("Campus data is null. Cannot display details.");
-        // Gán dữ liệu vào các InputField
-        campusNameInput.text = campus.CampusName;
-        campusRoomInput.text = campus.CampusRoom;
-    }
+    #endregion
+
+    #region -- Fields -- 
+
+    private ICampusCardData _cardData;
+    private IDetailUpdate _detailHandler;
+
+    [SerializeField] private Button _saveButton;
+    [SerializeField] private Button _deleteButton;
+
+    public TextMeshProUGUI campusNameInput;
+    public TextMeshProUGUI campusRoomInput;
+
+    private readonly string _baseTransform = "/GUI/Monitor/Campus/DetailCampus";
+    private readonly string _campusNameText = "Body/SearchCard/ItemField/Campus" +
+        "/InputField (TMP)/Text Area/PlaceHolderCampus";
+    private readonly string _campusRoomText = "Body/SearchCard/ItemField/Room" +
+        "/InputField (TMP)/Text Area/PlaceHolderRoom";
+
+    private string campusID;
+
+    #endregion
 }

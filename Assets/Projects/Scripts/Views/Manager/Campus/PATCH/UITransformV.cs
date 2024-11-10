@@ -51,6 +51,9 @@ public class UITransformV : MonoBehaviour, ITransformUI
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void SetupDictionary()
     {
         _campusState.Clear();
@@ -72,6 +75,10 @@ public class UITransformV : MonoBehaviour, ITransformUI
         Debug.Log("Dictionary setup completed with all child GameObjects in DetailCampus.");
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void FindParentTransform()
     {
         if (campusTransform == null)

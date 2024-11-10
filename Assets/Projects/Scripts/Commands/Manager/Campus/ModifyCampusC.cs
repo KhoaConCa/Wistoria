@@ -16,15 +16,14 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
             Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");
             return;
         }
+
         _detail.DisplayCampusDetails(_cardData);
 
         _modifyCampusView.GetCampusData(campus);
-        Debug.Log(_currentCampusID);
+
         _transformUI.SetActiveCampusUI(modifyObject);
 
-        //StartCoroutine(_modifyCampusHandler.CampusInformation(campus, OnCampusFound));
-        Debug.Log(campus.CampusName);
-        Debug.Log(campus.Room);
+        Debug.Log(currentCampusID);
     }
 
     /// <summary>
@@ -41,13 +40,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
             {
                 if (_cardData != null)
                 {
-                    _currentCampusID = _cardData.CampusID;
-/*                    campus = new CampusD
-                    {
-                        _id = _cardData.CampusID,
-                        CampusName = _cardData.CampusName,
-                        Room = _cardData.CampusRoom
-                    };*/
+                    currentCampusID = _cardData.CampusID;
 
                     ClickCard();
                 }
@@ -66,7 +59,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     public void GetCampusID(string id)
     {
-        _currentCampusID = id;
+        currentCampusID = id;
     }
 
     #endregion
@@ -77,24 +70,12 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         AddComponentModifyView();
         AddComponentModifyHandler();
-        GetComponentSetinfo();
         GetComponentData();
         _detail = gameObject.AddComponent<DetailCampusC>();
 
         GetParentGameObject();
         GetTransformUI();
-        _modifyCampusView.SetCampusID(_currentCampusID);
         SetupButton();
-
-/*        if (clickCard != null)
-        {
-            clickCard.onClick.AddListener(ClickCard);
-            Debug.Log(_currentCampusID);
-        }
-        else
-        {
-            Debug.LogWarning("clickCard is null. Make sure SetupButton is called with a valid button.");
-        }*/
     }
 
     #region -- Add Component --
@@ -127,18 +108,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         if (_modifyCampusHandler == null)
         {
             _modifyCampusHandler = gameObject.AddComponent<ModifyCampusH>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusH component already exiests");
-        }
-    }
-
-    private void GetComponentSetinfo()
-    {
-        if (_setDataCampus == null)
-        {
-            _setDataCampus = gameObject.GetComponent<SetInfoCampusV>();
         }
         else
         {
@@ -211,65 +180,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
-    /// <summary>
-    /// The function is called when the user clicks on a Campus item
-    /// </summary>
-    /// <param name="campusId">Campus ID is selected</param>
-    public void OnCampusSelected(string campusId)
-    {
-        _currentCampusID = campusId;
-
-        CampusD selectedCampus = CampusDataManager.Instance.GetCampusData(campusId);
-
-        if (selectedCampus != null)
-        {
-            SetInfoCampusV.Instance.SetCampusNameInput(selectedCampus.CampusName);
-            SetInfoCampusV.Instance.SetCampusRoomInput(selectedCampus.Room);
-        }
-        else
-        {
-            Debug.LogWarning("No data found for Campus with ID: " + campusId);
-        }
-    }
-
-    public void UpdateCampusData()
-    {
-        if (string.IsNullOrEmpty(_currentCampusID))
-        {
-            Debug.LogWarning("Không có Campus nào được chọn để cập nhật.");
-            return;
-        }
-
-        string updatedName = SetInfoCampusV.Instance.GetCampusNameInput();
-        string updatedRoom = SetInfoCampusV.Instance.GetCampusRoomInput();
-
-        CampusD updatedCampus = new CampusD
-        {
-            _id = _currentCampusID,
-            CampusName = updatedName,
-            Room = updatedRoom
-        };
-
-        StartCoroutine(_modifyCampusHandler.UpdateCampusData(updatedCampus, (result) =>
-        {
-            if (result != null)
-            {
-                Debug.Log("Cập nhật thành công Campus với ID: " + _currentCampusID);
-
-                CampusDataManager.Instance.SetCampusData(result);
-            }
-            else
-            {
-                Debug.LogError("Cập nhật Campus thất bại.");
-            }
-        }));
-    }
-
-    private void OnCardClicked(string id)
-    {
-        onClickCallback?.Invoke(id);
-    }
-
     #endregion
 
     #region -- Fields --
@@ -282,11 +192,10 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private ICampusDataGetter _modifyCampusView;
     private ITransformUI _transformUI;
     private IModifyCampusHandler _modifyCampusHandler;
-    private ISetDataCampusInfo _setDataCampus;
     private ICampusCardData _cardData;
     private ICampusDetail _detail;
 
-    private string _currentCampusID;
+    public static string currentCampusID;
     private Action<string> onClickCallback;
 
     #endregion

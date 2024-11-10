@@ -18,17 +18,6 @@ public class GetDataCampusV : MonoBehaviour, ICampusDataGetter
         campus.Room = campusRoom.text;
     }
 
-    public void GetCampusID(CampusD campus)
-    {
-        _campusID = campus._id;
-        Debug.Log(_campusID);
-    }
-
-    public void SetCampusID(string id)
-    {
-        id = _campusID;
-    }
-
     #endregion
 
     #region -- Methods --
@@ -63,7 +52,6 @@ public class GetDataCampusV : MonoBehaviour, ICampusDataGetter
     public TextMeshProUGUI campusName;
     public TextMeshProUGUI campusRoom;
 
-    private string _campusID;
 
     private readonly string _campusName = "Campus/Value";
     private readonly string _campusRoom = "Room/Value";

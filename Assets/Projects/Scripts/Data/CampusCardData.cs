@@ -5,13 +5,24 @@ using UnityEngine.UI;
 
 public class CampusCardData : MonoBehaviour, ICampusCardData
 {
+    #region -- Implements --
+
+    public void Initialize(string id, string name, string room)
+    {
+        CampusID = id;
+        CampusName = name;
+        CampusRoom = room;
+    }
+
+    #region -- Properties --
     public string CampusID { get; set; }
     public string CampusName { get; set; }
     public string CampusRoom { get; set; }
+    #endregion
 
-    public Button clickButton;
+    #endregion
 
-    private ICampusDetail _campusDetail;
+    #region -- Methods --
 
     void Start()
     {
@@ -24,7 +35,6 @@ public class CampusCardData : MonoBehaviour, ICampusCardData
     {
         if (_campusDetail != null)
         {
-            // Truyền dữ liệu của campus vào DetailCampusC
             _campusDetail.DisplayCampusDetails(this);
         }
         else
@@ -33,10 +43,13 @@ public class CampusCardData : MonoBehaviour, ICampusCardData
         }
     }
 
-    public void Initialize(string id, string name, string room)
-    {
-        CampusID = id;
-        CampusName = name;
-        CampusRoom = room;
-    }
+    #endregion
+
+    #region -- Fields --
+
+    public Button clickButton;
+
+    private ICampusDetail _campusDetail;
+
+    #endregion
 }

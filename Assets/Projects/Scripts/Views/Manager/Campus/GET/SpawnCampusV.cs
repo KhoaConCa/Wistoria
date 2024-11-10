@@ -24,7 +24,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
             if (spawnedPrefab != null)
             {
 
-                _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
+                ICampusCardData _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
                 _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
 
                 FindComponentUI(_campusName, _campusRoom);
@@ -48,6 +48,18 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         AddComponentSetData();
     }
 
+    private void AddComponentSetData()
+    {
+        if (_setDataCampusView == null)
+        {
+            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
+        }
+        else
+        {
+            Debug.Log("The SetDataCampusV component already exists");
+        }
+    }
+
     /// <summary>
     /// Find root to set component for prefab
     /// </summary>
@@ -68,18 +80,6 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         }
     }
 
-    private void AddComponentSetData()
-    {
-        if (_setDataCampusView == null)
-        {
-            _setDataCampusView = gameObject.AddComponent<SetDataCampusV>();
-        }
-        else
-        {
-            Debug.Log("The SetDataCampusV component already exists");
-        }
-    }
-
     /// <summary>
     /// Set data for prefab
     /// </summary>
@@ -96,7 +96,6 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     #region -- Fields --
 
     private ICampusDataSetter _setDataCampusView;
-    private ICampusCardData _campuscardData;
 
     [SerializeField] private AssetLabelReference _campusPrefab;
 
