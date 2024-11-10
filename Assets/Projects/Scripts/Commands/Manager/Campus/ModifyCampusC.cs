@@ -9,6 +9,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 {
     #region -- Implements --
 
+    /// <summary>
+    /// Switch form, transfer data when the campus card was clicked
+    /// </summary>
     public void ClickCard()
     {
         if (campus == null)
@@ -19,11 +22,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
         _detail.DisplayCampusDetails(_cardData);
 
-        _modifyCampusView.GetCampusData(campus);
-
         _transformUI.SetActiveCampusUI(modifyObject);
-
-        Debug.Log(currentCampusID);
     }
 
     /// <summary>
@@ -56,41 +55,21 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
-
-    public void GetCampusID(string id)
-    {
-        currentCampusID = id;
-    }
-
     #endregion
 
     #region -- Methods --
 
     void Start()
     {
-        AddComponentModifyView();
-        AddComponentModifyHandler();
+        GetTransformUI();
         GetComponentData();
-        _detail = gameObject.AddComponent<DetailCampusC>();
+        AddComponentDetail();
 
         GetParentGameObject();
-        GetTransformUI();
         SetupButton();
     }
 
     #region -- Add Component --
-    private void AddComponentModifyView()
-    {
-        if (_modifyCampusView == null)
-        {
-            _modifyCampusView = gameObject.AddComponent<GetDataCampusV>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusV component already exists");
-        }
-    }
-
     private void GetTransformUI()
     {
         if (_transformUI == null)
@@ -100,18 +79,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         else
         {
             Debug.Log("The UITransformV component already exiests");
-        }
-    }
-
-    private void AddComponentModifyHandler()
-    {
-        if (_modifyCampusHandler == null)
-        {
-            _modifyCampusHandler = gameObject.AddComponent<ModifyCampusH>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusH component already exiests");
         }
     }
 
@@ -126,24 +93,19 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
             Debug.Log("The ModifyCampusH component already exiests");
         }
     }
-    #endregion
 
-    /// <summary>
-    /// Found campus by name and room
-    /// </summary>
-    /// <param name="campus">Campus data</param>
-    public void OnCampusFound(CampusD campus)
+    private void AddComponentDetail()
     {
-        if (campus != null)
+        if (_detail == null)
         {
-            _modifyCampusView.GetCampusData(campus);
-            Debug.Log("Campus Data saved");
+            _detail = gameObject.AddComponent<DetailCampusC>();
         }
         else
         {
-            Debug.LogWarning("Cannot save data. Campus is null.");
+            Debug.Log("The DetailCampusC component already exiests");
         }
     }
+    #endregion
 
     /// <summary>
     /// Get transform of DetailCampus GameObject even if it is inactive
@@ -189,13 +151,12 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     public GameObject modifyObject;
 
-    private ICampusDataGetter _modifyCampusView;
     private ITransformUI _transformUI;
-    private IModifyCampusHandler _modifyCampusHandler;
     private ICampusCardData _cardData;
-    private ICampusDetail _detail;
+    private ICampusDetailCommand _detail;
 
     public static string currentCampusID;
+
     private Action<string> onClickCallback;
 
     #endregion

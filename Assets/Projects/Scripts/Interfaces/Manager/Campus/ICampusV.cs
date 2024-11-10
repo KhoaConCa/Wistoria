@@ -8,11 +8,6 @@ public interface ICampusComponentAdder
     void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
 }
 
-public interface ICampusCardClicker
-{
-    void Initialize(string campusID, Action<string> onClickCallback);
-}
-
 public interface ICampusViewSpawner
 {
     void CreateCard(CampusD campus);
@@ -36,5 +31,5 @@ public interface ITransformUI
 
 public interface ICampusDetailView
 {
-
+    void DisplayCampusDetails(ICampusCardData campus);
 }

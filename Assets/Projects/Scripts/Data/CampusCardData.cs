@@ -49,7 +49,7 @@ public class CampusCardData : MonoBehaviour, ICampusCardData
 
     public Button clickButton;
 
-    private ICampusDetail _campusDetail;
+    private ICampusDetailCommand _campusDetail;
 
     #endregion
 }

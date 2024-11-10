@@ -6,9 +6,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
 
-public class DetailCampusH : MonoBehaviour, IDetailUpdate
+public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
 {
     #region -- Implements --
+
+    public string TransferData(CampusD campus)
+    {
+        return MainHandler.ToJson<CampusD>(campus); ;
+    }
 
     public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action onFailed)
     {
@@ -42,16 +47,9 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdate
         }
     }
 
-
-
     #endregion
 
     #region -- Methods --
-
-    private string TransferData(CampusD campus)
-    {
-        return MainHandler.ToJson<CampusD>(campus); ;
-    }
 
     #endregion
 

@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +7,12 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 {
     #region -- Implements --
 
+    /// <summary>
+    /// Switch UI
+    /// </summary>
     public void ClickAddButton()
     {
-        _transformUI.SetActiveCampusUI(addCampus);
+        _transformUI.SetActiveCampusUI(_addCampus);
     }
 
     #endregion
@@ -18,8 +21,20 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     void Start()
     {
+        GetTransformUI();
         addButton.onClick.AddListener(ClickAddButton);
-        _transformUI = gameObject.GetComponent<UITransformV>();
+    }
+
+    private void GetTransformUI()
+    {
+        if (_transformUI == null)
+        {
+            _transformUI = gameObject.GetComponent<UITransformV>();
+        }
+        else
+        {
+            Debug.Log("The UITransformV component already exiests");
+        }
     }
 
     #endregion
@@ -28,7 +43,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     public Button addButton;
 
-    [SerializeField] public GameObject addCampus;
+    [SerializeField] private GameObject _addCampus;
 
     private ITransformUI _transformUI;
 

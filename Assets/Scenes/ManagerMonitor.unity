@@ -20915,7 +20915,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 230038195}
-  addCampus: {fileID: 1646757698}
+  _addCampus: {fileID: 0}
 --- !u!114 &1646757701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25579,7 +25579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 1983342925}
-  addCampus: {fileID: 1646757698}
+  _addCampus: {fileID: 1646757698}
 --- !u!114 &1968080780
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,10 +2,14 @@
 using TMPro;
 using UnityEngine.UI;
 
-public class DetailCampusC : MonoBehaviour, ICampusDetail
+public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
     #region -- Implements -- 
 
+    /// <summary>
+    /// Display Detail Campus to the prefab
+    /// </summary>
+    /// <param name="campus">Data of campus was clicked</param>
     public void DisplayCampusDetails(ICampusCardData campus)
     {
         if (campus == null)
@@ -26,8 +30,17 @@ public class DetailCampusC : MonoBehaviour, ICampusDetail
     void Start()
     {
         SetComponentBasedOn(_baseTransform, _campusNameText, _campusRoomText);
+    }
 
-
+    /// <summary>
+    /// Add component for GameObject
+    /// </summary>
+    /// <param name="nameLocation">Transform name campus field</param>
+    /// <param name="roomLocation">Transform name room field</param>
+    private void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
+    {
+        campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
+        campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
     private void AddComponentData()
@@ -43,11 +56,11 @@ public class DetailCampusC : MonoBehaviour, ICampusDetail
     }
 
     /// <summary>
-    /// 
+    /// Get transform of father component
     /// </summary>
-    /// <param name="root"></param>
-    /// <param name="name"></param>
-    /// <param name="room"></param>
+    /// <param name="root">Father root</param>
+    /// <param name="name">Child field name</param>
+    /// <param name="room">Child field room</param>
     private void SetComponentBasedOn(string root, string name, string room)
     {
         Transform based = transform.root.Find(root);
@@ -72,23 +85,12 @@ public class DetailCampusC : MonoBehaviour, ICampusDetail
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="nameLocation"></param>
-    /// <param name="roomLocation"></param>
-    private void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
-    {
-        campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
-        campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
-    }
-
     #endregion
 
     #region -- Fields -- 
 
     private ICampusCardData _cardData;
-    private IDetailUpdate _detailHandler;
+    private IDataTransferHandler _detailHandler;
 
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _deleteButton;

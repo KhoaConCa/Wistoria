@@ -3,28 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDataTransfer
+public interface IDataTransferHandler
 {
     void TransferData(string response);
 }
 
-public interface IDetailUpdate
+public interface IDetailUpdateHandler
 {
-
+    IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action onFailed);
 }
 
-#region -- Get Campus --
-public interface IGetCampusHandler : IDataTransfer
+public interface IGetCampusHandler : IDataTransferHandler
 {
     IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
 }
-#endregion
-
-#region -- Modify Campus --
-public interface IModifyCampusHandler : IDataTransfer
-{
-    IEnumerator CampusInformation(CampusD campus, Action<CampusD> onCampusFound);
-    IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onCampusUpdated);
-}
-#endregion

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DetailCampusV : MonoBehaviour
+public class DetailCampusV : MonoBehaviour, ICampusDetailView
 {
     #region -- Implements --
 
