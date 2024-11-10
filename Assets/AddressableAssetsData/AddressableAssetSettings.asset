@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: a317877218dbefb4993ba6d9aac67e49
   m_currentHash:
     serializedVersion: 2
-    Hash: 3dc6645262fc934a135cb86972e636d1
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc2c42df06202924b8418ec2465968d4, type: 2}
   - {fileID: 11400000, guid: c0ee670ac9353a043b10ac5710020888, type: 2}
   - {fileID: 11400000, guid: 2dafe93fcae156348868c37625003cbe, type: 2}
+  - {fileID: 11400000, guid: f0e3c0497a436994497a67fd503c886a, type: 2}
   - {fileID: 11400000, guid: 0b904dd75eef8c64abffd53177bb9c3f, type: 2}
   - {fileID: 11400000, guid: 55cd01ae68d28e94b8c52dd6ae77050a, type: 2}
   - {fileID: 11400000, guid: 0514fdfcce967774f823efd5361d00d4, type: 2}
@@ -99,6 +100,7 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - Campus
+    - Package
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}
