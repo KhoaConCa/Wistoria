@@ -25,8 +25,7 @@ public class CreatePaymentC : MonoBehaviour
 
     void Start()
     {
-/*        getButton.onClick.AddListener(ClickPackage);
-        getButton.onClick.AddListener(ClickPPaymentMethod);*/
+
     }
 
     public void UploadPaymentInformation()
