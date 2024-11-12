@@ -16,6 +16,7 @@ public interface IModifyCampusCommand
 public interface ICampusDetailCommand
 {
     void DisplayCampusDetails(ICampusCardData cardData);
+    void SetDataCampus(ICampusCardData cardData);
 }
 
 public interface IAddCampusCommand

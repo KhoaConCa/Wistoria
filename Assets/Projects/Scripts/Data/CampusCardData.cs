@@ -24,32 +24,11 @@ public class CampusCardData : MonoBehaviour, ICampusCardData
 
     #region -- Methods --
 
-    void Start()
-    {
-        _campusDetail = gameObject.GetComponent<DetailCampusC>();
-
-        clickButton.onClick.AddListener(() => OnCardClicked());
-    }
-
-    private void OnCardClicked()
-    {
-        if (_campusDetail != null)
-        {
-            _campusDetail.DisplayCampusDetails(this);
-        }
-        else
-        {
-            Debug.LogWarning("DetailCampusC reference is missing.");
-        }
-    }
-
     #endregion
 
     #region -- Fields --
 
     public Button clickButton;
-
-    private ICampusDetailCommand _campusDetail;
 
     #endregion
 }

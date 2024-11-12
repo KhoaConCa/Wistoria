@@ -12,13 +12,14 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
 
     public string TransferData(CampusD campus)
     {
-        return MainHandler.ToJson<CampusD>(campus); ;
+        return MainHandler.ToJson<CampusD>(campus);
     }
 
-    public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action onFailed)
+    public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed)
     {
         _onSuccess = onSuccess;
         _onFailed = onFailed;
+
         string url = $"{_updateURL}/{campus._id}";
 
         string json = TransferData(campus);
@@ -30,19 +31,17 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            // Gửi yêu cầu và chờ phản hồi
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                // Phân tích JSON phản hồi và chuyển thành đối tượng CampusD
                 CampusD updatedCampus = JsonUtility.FromJson<CampusD>(request.downloadHandler.text);
-                _onSuccess?.Invoke(updatedCampus);
+                _onSuccess?.Invoke(campus);
             }
             else
             {
                 Debug.LogError("Error updating campus: " + request.error);
-                _onFailed?.Invoke();
+                _onFailed?.Invoke(campus);
             }
         }
     }
@@ -56,9 +55,9 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
     #region -- Fields --
 
     private Action<CampusD> _onSuccess;
-    private Action _onFailed;
+    private Action<CampusD> _onFailed;
 
-    private readonly string _updateURL = "";
+    private readonly string _updateURL = "https://server-wistoria-api.vercel.app/campus/update";
 
     #endregion
 }

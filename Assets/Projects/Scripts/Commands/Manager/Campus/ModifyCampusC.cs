@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void ClickCard()
     {
+        Debug.Log("Clicked");
         if (campus == null)
         {
             Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");
@@ -21,6 +23,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
 
         _detail.DisplayCampusDetails(_cardData);
+        SetCurrentData(_cardData);
 
         _transformUI.SetActiveCampusUI(modifyObject);
     }
@@ -33,7 +36,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         clickCard = gameObject.GetComponent<Button>();
         _cardData = gameObject.GetComponent<CampusCardData>();
 
-        if (clickCard != null)
+/*        if (clickCard != null)
         {
             clickCard.onClick.AddListener(() =>
             {
@@ -52,7 +55,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         else
         {
             Debug.LogError("Button component not found on the prefab!");
-        }
+        }*/
     }
 
     #endregion
@@ -61,11 +64,13 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     void Start()
     {
+        GetParentGameObject();
         GetTransformUI();
         GetComponentData();
         AddComponentDetail();
 
-        GetParentGameObject();
+        clickCard.onClick.AddListener(ClickCard);
+
         SetupButton();
     }
 
@@ -142,6 +147,13 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
+    private void SetCurrentData(ICampusCardData cardData)
+    {
+        currentCampusID = cardData.CampusID;
+        currentCampusName = cardData.CampusName;
+        currentCampusRoom = cardData.CampusRoom;
+    }
+
     #endregion
 
     #region -- Fields --
@@ -156,6 +168,8 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private ICampusDetailCommand _detail;
 
     public static string currentCampusID;
+    public static string currentCampusName;
+    public static string currentCampusRoom;
 
     private Action<string> onClickCallback;
 
