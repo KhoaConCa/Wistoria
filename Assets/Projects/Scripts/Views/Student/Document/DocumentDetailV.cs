@@ -9,7 +9,7 @@ using System.Collections.Generic;
 /// and allows retrieval of edited document data.
 /// </summary>
 #endregion
-public class DocumentDetailV : MonoBehaviour
+public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisplay, IDropdownInitializer
 {
     #region -- Unity Methods --
 
@@ -19,9 +19,11 @@ public class DocumentDetailV : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        InitializeDropdown(paperSizeDropdown, paperSizes);
-        InitializeDropdown(paperSideDropdown, paperTypes);
-        InitializeDropdown(pageOrientationDropdown, pageOrientations);
+        // Cast 'this' to IDropdownInitializer to access the explicit method
+        var initializer = (IDropdownInitializer)this;
+        initializer.InitializeDropdown(paperSizeDropdown, paperSizes);
+        initializer.InitializeDropdown(paperSideDropdown, paperTypes);
+        initializer.InitializeDropdown(pageOrientationDropdown, pageOrientations);
 
         _documentData = new DocumentDetailD();
         DisplayDocumentProperties(_documentData);
@@ -58,14 +60,14 @@ public class DocumentDetailV : MonoBehaviour
 
     #endregion
 
-    #region -- Private Methods --
+    #region -- Explicit Interface Implementation --
 
     /// <summary>
     /// Initializes a dropdown with the provided options.
     /// </summary>
     /// <param name="dropdown">The TMP_Dropdown to initialize.</param>
     /// <param name="options">List of options to add to the dropdown.</param>
-    private void InitializeDropdown(TMP_Dropdown dropdown, List<string> options)
+    void IDropdownInitializer.InitializeDropdown(TMP_Dropdown dropdown, List<string> options)
     {
         if (dropdown != null)
         {

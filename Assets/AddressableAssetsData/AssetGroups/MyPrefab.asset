@@ -17,16 +17,15 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 21cca9b38805b9d45a4c673a9c119569
   m_SerializeEntries:
+  - m_GUID: d8b0e040eb523e54fa441f6d29f09f04
+    m_Address: Assets/Addons/MyGUI/MyPrefab/Button/Package.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4684b22976a73842910dfa9d9dd7d6f
     m_Address: oryPrinter.prefabUI/MyPrefab/PrefabTest/CardHistoryPrinter.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d8b0e040eb523e54fa441f6d29f09f04
-    m_Address: Assets/Addons/MyGUI/MyPrefab/Button/Package.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Package
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}

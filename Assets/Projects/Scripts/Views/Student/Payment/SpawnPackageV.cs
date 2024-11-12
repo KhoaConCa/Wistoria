@@ -89,9 +89,9 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 
     [SerializeField] private AssetLabelReference _packagePrefab;
 
-    private readonly string _path = "/GUI/PGUI/PMiddle/PPayment/PPurchasePaper/PLayout/PItemList";
-    private readonly string _packagePaper = "PInfo/PAddress/PValue/VPages";
-    private readonly string _packagePrice = "PInfo/PLabel/LName"; 
+    private readonly string _path = "/GUI/Body/Store/Feature/Documents/Contain";
+    private readonly string _packagePaper = "Text/Value";
+    private readonly string _packagePrice = "Text/Name"; 
 
     #endregion
 }

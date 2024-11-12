@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: 03515e412911b114695491032a115461
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/PageTag.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Package
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1abe21964361cd447a105d0e152b9c05
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/DocumentTag.prefab
