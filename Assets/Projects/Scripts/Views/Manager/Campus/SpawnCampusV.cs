@@ -23,7 +23,6 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         {
             if (spawnedPrefab != null)
             {
-
                 ICampusCardData _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
                 _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
 

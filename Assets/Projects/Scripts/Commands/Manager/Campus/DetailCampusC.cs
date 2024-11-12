@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEditor.PackageManager.Requests;
+using CampusDataManager;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -20,7 +22,6 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
         campusNameInput.text = campus.CampusName;
         campusRoomInput.text = campus.CampusRoom;
-        campusID = campus.CampusID;
     }
 
     #endregion
@@ -30,6 +31,10 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     void Start()
     {
         SetComponentBasedOn(_baseTransform, _campusNameText, _campusRoomText);
+        AddComponentHandler();
+
+        _saveButton.onClick.AddListener(OnClickSaveButton);
+        GetDataModify();
     }
 
     /// <summary>
@@ -43,15 +48,15 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
-    private void AddComponentData()
+    private void AddComponentHandler()
     {
-        if (_cardData == null)
+        if (_updateHandler == null)
         {
-            _cardData = gameObject.AddComponent<CampusCardData>();
+            _updateHandler = gameObject.AddComponent<DetailCampusH>();
         }
         else
         {
-            Debug.Log("The CampusCardData component already exists");
+            Debug.Log("The DetailCampusH component already exists");
         }
     }
 
@@ -85,18 +90,66 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         }
     }
 
+    private void OnClickSaveButton()
+    {
+        SetDataModify();
+        GetDataModify();
+        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, OnSuccess, OnFailed));
+    }
+
+    /// <summary>
+    /// Handlers the response from the server when update successfully
+    /// </summary>
+    /// <param name="campus">Campus data updated</param>
+    public void OnSuccess(CampusD campus)
+    {
+        Debug.Log($"Updated Campus: {campus.CampusName}, Room: {campus.Room}");
+    }
+
+    /// <summary>
+    /// Handlers the response from the server when update failed
+    /// </summary>
+    public void OnFailed(CampusD campus)
+    {
+        Debug.Log($"Can not update Campus! Try again!");
+    }
+
+    /// <summary>
+    /// Set new campus data
+    /// </summary>
+    private void GetDataModify()
+    {
+        _campusData._id = CampusManager.currentCampusID;
+        _campusData.CampusName = CampusManager.currentCampusName;
+        _campusData.Room = CampusManager.currentCampusRoom;
+        _campusData.__v = CampusManager.__v;
+    }
+
+    private void SetDataModify()
+    {
+        CampusManager.currentCampusName = campusNameField.text;
+        CampusManager.currentCampusRoom = campusRoomField.text;
+    }
+
     #endregion
 
     #region -- Fields -- 
 
+    private CampusD _campusData = new CampusD();
+
     private ICampusCardData _cardData;
     private IDataTransferHandler _detailHandler;
+    private IDetailUpdateHandler _updateHandler;
 
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _deleteButton;
+    [SerializeField] private Button _backButton;
 
     public TextMeshProUGUI campusNameInput;
     public TextMeshProUGUI campusRoomInput;
+
+    public TMP_Text campusNameField;
+    public TMP_Text campusRoomField;
 
     private readonly string _baseTransform = "/GUI/Monitor/Campus/DetailCampus";
     private readonly string _campusNameText = "Body/SearchCard/ItemField/Campus" +
@@ -104,7 +157,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     private readonly string _campusRoomText = "Body/SearchCard/ItemField/Room" +
         "/InputField (TMP)/Text Area/PlaceHolderRoom";
 
-    private string campusID;
+
 
     #endregion
 }

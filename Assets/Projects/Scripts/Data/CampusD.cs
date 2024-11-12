@@ -6,6 +6,14 @@ using UnityEngine;
 [System.Serializable]
 public class CampusD
 {
+    #region -- Overrides --
+
+    public override string ToString()
+    {
+        return $"Campus ID: {_id}, Campus Name: {CampusName}, Room: {Room}";
+    }
+
+    #endregion
     #region -- Properties --
 
     public string _id { get; set; }

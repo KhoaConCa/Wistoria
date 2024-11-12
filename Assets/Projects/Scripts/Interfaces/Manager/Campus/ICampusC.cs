@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IGetCampusCommand
 {
     void ClickFindButton();
+    void OnCampusFound(CampusD campus);
 }
 
 public interface IModifyCampusCommand

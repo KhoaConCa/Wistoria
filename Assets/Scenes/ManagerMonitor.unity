@@ -6594,8 +6594,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _saveButton: {fileID: 1195171058}
   _deleteButton: {fileID: 220270439}
-  campusNameInput: {fileID: 0}
-  campusRoomInput: {fileID: 0}
+  _backButton: {fileID: 1522529367}
+  campusNameInput: {fileID: 658912108}
+  campusRoomInput: {fileID: 1001909260}
+  campusNameField: {fileID: 658912108}
+  campusRoomField: {fileID: 1001909260}
 --- !u!1 &529069028
 GameObject:
   m_ObjectHideFlags: 0
@@ -21196,7 +21199,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 230038195}
-  _addCampus: {fileID: 0}
+  backButton: {fileID: 902142445}
+  _searchCampus: {fileID: 1968080775}
+  campusNameField: {fileID: 2040229153}
+  campusRoomField: {fileID: 879468709}
 --- !u!114 &1646757701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26278,7 +26284,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   addButton: {fileID: 1983342925}
-  _addCampus: {fileID: 1646757698}
+  backButton: {fileID: 0}
+  _searchCampus: {fileID: 0}
+  campusNameField: {fileID: 0}
+  campusRoomField: {fileID: 0}
 --- !u!114 &1968080780
 MonoBehaviour:
   m_ObjectHideFlags: 0

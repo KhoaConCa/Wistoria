@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
+using CampusDataManager;
 
 public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 {
@@ -14,6 +16,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void ClickCard()
     {
+        Debug.Log("Clicked");
         if (campus == null)
         {
             Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");
@@ -21,6 +24,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
 
         _detail.DisplayCampusDetails(_cardData);
+        SetCurrentData(_cardData);
 
         _transformUI.SetActiveCampusUI(modifyObject);
     }
@@ -32,27 +36,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         clickCard = gameObject.GetComponent<Button>();
         _cardData = gameObject.GetComponent<CampusCardData>();
-
-        if (clickCard != null)
-        {
-            clickCard.onClick.AddListener(() =>
-            {
-                if (_cardData != null)
-                {
-                    currentCampusID = _cardData.CampusID;
-
-                    ClickCard();
-                }
-                else
-                {
-                    Debug.LogWarning("CampusCardData is missing on the clicked prefab.");
-                }
-            });
-        }
-        else
-        {
-            Debug.LogError("Button component not found on the prefab!");
-        }
     }
 
     #endregion
@@ -61,11 +44,13 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     void Start()
     {
+        GetParentGameObject();
         GetTransformUI();
         GetComponentData();
         AddComponentDetail();
 
-        GetParentGameObject();
+        clickCard.onClick.AddListener(ClickCard);
+
         SetupButton();
     }
 
@@ -142,6 +127,13 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
 
+    private void SetCurrentData(ICampusCardData cardData)
+    {
+        CampusManager.currentCampusID = cardData.CampusID;
+        CampusManager.currentCampusName = cardData.CampusName;
+        CampusManager.currentCampusRoom = cardData.CampusRoom;
+    }
+
     #endregion
 
     #region -- Fields --
@@ -154,8 +146,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private ITransformUI _transformUI;
     private ICampusCardData _cardData;
     private ICampusDetailCommand _detail;
-
-    public static string currentCampusID;
 
     private Action<string> onClickCallback;
 
