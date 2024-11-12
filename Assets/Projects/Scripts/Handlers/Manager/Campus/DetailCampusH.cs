@@ -21,6 +21,7 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
         _onFailed = onFailed;
 
         string url = $"{_updateURL}/{campus._id}";
+        Debug.Log(url);
 
         string json = TransferData(campus);
 

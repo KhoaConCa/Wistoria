@@ -25,6 +25,24 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
     }
 
+    /// <summary>
+    /// Handles the response from the server when campus information is found.
+    /// Logs the details of the campus if it exists
+    /// </summary>
+    /// <param name="campus">The campus object returned from the server</param>
+    public void OnCampusFound(CampusD campus)
+    {
+        if (campus != null)
+        {
+            Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
+            _SpawnCampusView.CreateCard(campus);
+        }
+        else
+        {
+            Debug.Log("Campus not found.");
+        }
+    }
+
     #endregion
 
     #region -- Methods --
@@ -76,24 +94,6 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     {
         int selectedIndex = findNameInput.value;
         return findNameInput.options[selectedIndex].text;
-    }
-
-    /// <summary>
-    /// Handles the response from the server when campus information is found.
-    /// Logs the details of the campus if it exists
-    /// </summary>
-    /// <param name="campus">The campus object returned from the server</param>
-    public void OnCampusFound(CampusD campus)
-    {
-        if (campus != null)
-        {
-            Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            _SpawnCampusView.CreateCard(campus);
-        }
-        else
-        {
-            Debug.Log("Campus not found.");
-        }
     }
 
     #endregion

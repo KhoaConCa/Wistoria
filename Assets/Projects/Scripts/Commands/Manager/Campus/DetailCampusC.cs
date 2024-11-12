@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine.UI;
 using UnityEditor.PackageManager.Requests;
+using CampusDataManager;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -23,29 +24,17 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         campusRoomInput.text = campus.CampusRoom;
     }
 
-    public void SetDataCampus(ICampusCardData campus)
-    {
-        /*campusData = new CampusD
-        {
-            _id = campus.CampusID,
-            CampusName = campus.CampusName,
-            Room = campus.CampusRoom,
-        };
-
-        campusID = campus.CampusID;*/
-    }
-
     #endregion
 
     #region -- Methods -- 
 
     void Start()
     {
-        GetDataModify();
         SetComponentBasedOn(_baseTransform, _campusNameText, _campusRoomText);
         AddComponentHandler();
 
         _saveButton.onClick.AddListener(OnClickSaveButton);
+        GetDataModify();
     }
 
     /// <summary>
@@ -103,6 +92,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     private void OnClickSaveButton()
     {
+        SetDataModify();
+        GetDataModify();
         StartCoroutine(_updateHandler.UpdateCampusData(campusData, OnSuccess, OnFailed));
     }
 
@@ -123,12 +114,21 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
     }
 
+    /// <summary>
+    /// Set new campus data
+    /// </summary>
     private void GetDataModify()
     {
-        campusData._id = ModifyCampusC.currentCampusID;
-        campusData.CampusName = ModifyCampusC.currentCampusName;
-        campusData.Room = ModifyCampusC.currentCampusRoom;
-        campusData.__v = "0";
+        campusData._id = CampusManager.currentCampusID;
+        campusData.CampusName = CampusManager.currentCampusName;
+        campusData.Room = CampusManager.currentCampusRoom;
+        campusData.__v = CampusManager.__v;
+    }
+
+    private void SetDataModify()
+    {
+        CampusManager.currentCampusName = campusNameField.text;
+        CampusManager.currentCampusRoom = campusRoomField.text;
     }
 
     #endregion
@@ -143,9 +143,13 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _deleteButton;
+    [SerializeField] private Button _backButton;
 
     public TextMeshProUGUI campusNameInput;
     public TextMeshProUGUI campusRoomInput;
+
+    public TMP_Text campusNameField;
+    public TMP_Text campusRoomField;
 
     private readonly string _baseTransform = "/GUI/Monitor/Campus/DetailCampus";
     private readonly string _campusNameText = "Body/SearchCard/ItemField/Campus" +

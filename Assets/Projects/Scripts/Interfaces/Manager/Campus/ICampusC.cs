@@ -5,6 +5,7 @@ using UnityEngine;
 public interface IGetCampusCommand
 {
     void ClickFindButton();
+    void OnCampusFound(CampusD campus);
 }
 
 public interface IModifyCampusCommand
@@ -16,7 +17,6 @@ public interface IModifyCampusCommand
 public interface ICampusDetailCommand
 {
     void DisplayCampusDetails(ICampusCardData cardData);
-    void SetDataCampus(ICampusCardData cardData);
 }
 
 public interface IAddCampusCommand

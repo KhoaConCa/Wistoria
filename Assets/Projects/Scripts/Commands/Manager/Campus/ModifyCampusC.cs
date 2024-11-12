@@ -5,6 +5,7 @@ using TMPro;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
+using CampusDataManager;
 
 public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 {
@@ -35,27 +36,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         clickCard = gameObject.GetComponent<Button>();
         _cardData = gameObject.GetComponent<CampusCardData>();
-
-/*        if (clickCard != null)
-        {
-            clickCard.onClick.AddListener(() =>
-            {
-                if (_cardData != null)
-                {
-                    currentCampusID = _cardData.CampusID;
-
-                    ClickCard();
-                }
-                else
-                {
-                    Debug.LogWarning("CampusCardData is missing on the clicked prefab.");
-                }
-            });
-        }
-        else
-        {
-            Debug.LogError("Button component not found on the prefab!");
-        }*/
     }
 
     #endregion
@@ -149,9 +129,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     private void SetCurrentData(ICampusCardData cardData)
     {
-        currentCampusID = cardData.CampusID;
-        currentCampusName = cardData.CampusName;
-        currentCampusRoom = cardData.CampusRoom;
+        CampusManager.currentCampusID = cardData.CampusID;
+        CampusManager.currentCampusName = cardData.CampusName;
+        CampusManager.currentCampusRoom = cardData.CampusRoom;
     }
 
     #endregion
@@ -166,10 +146,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private ITransformUI _transformUI;
     private ICampusCardData _cardData;
     private ICampusDetailCommand _detail;
-
-    public static string currentCampusID;
-    public static string currentCampusName;
-    public static string currentCampusRoom;
 
     private Action<string> onClickCallback;
 

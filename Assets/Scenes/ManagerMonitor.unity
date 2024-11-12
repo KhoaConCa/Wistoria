@@ -6594,8 +6594,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _saveButton: {fileID: 1195171058}
   _deleteButton: {fileID: 220270439}
-  campusNameInput: {fileID: 0}
-  campusRoomInput: {fileID: 0}
+  campusNameInput: {fileID: 658912108}
+  campusRoomInput: {fileID: 1001909260}
+  campusNameField: {fileID: 658912108}
+  campusRoomField: {fileID: 1001909260}
 --- !u!1 &529069028
 GameObject:
   m_ObjectHideFlags: 0
