@@ -94,7 +94,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     {
         SetDataModify();
         GetDataModify();
-        StartCoroutine(_updateHandler.UpdateCampusData(campusData, OnSuccess, OnFailed));
+        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, OnSuccess, OnFailed));
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     public void OnFailed(CampusD campus)
     {
-        Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
+        Debug.Log($"Can not update Campus! Try again!");
     }
 
     /// <summary>
@@ -119,10 +119,10 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     private void GetDataModify()
     {
-        campusData._id = CampusManager.currentCampusID;
-        campusData.CampusName = CampusManager.currentCampusName;
-        campusData.Room = CampusManager.currentCampusRoom;
-        campusData.__v = CampusManager.__v;
+        _campusData._id = CampusManager.currentCampusID;
+        _campusData.CampusName = CampusManager.currentCampusName;
+        _campusData.Room = CampusManager.currentCampusRoom;
+        _campusData.__v = CampusManager.__v;
     }
 
     private void SetDataModify()
@@ -135,7 +135,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     #region -- Fields -- 
 
-    private CampusD campusData = new CampusD();
+    private CampusD _campusData = new CampusD();
 
     private ICampusCardData _cardData;
     private IDataTransferHandler _detailHandler;

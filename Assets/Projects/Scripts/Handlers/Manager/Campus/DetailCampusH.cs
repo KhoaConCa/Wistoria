@@ -17,9 +17,6 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
 
     public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed)
     {
-        _onSuccess = onSuccess;
-        _onFailed = onFailed;
-
         string url = $"{_updateURL}/{campus._id}";
         Debug.Log(url);
 
@@ -37,12 +34,12 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
             if (request.result == UnityWebRequest.Result.Success)
             {
                 CampusD updatedCampus = JsonUtility.FromJson<CampusD>(request.downloadHandler.text);
-                _onSuccess?.Invoke(campus);
+                onSuccess?.Invoke(campus);
             }
             else
             {
                 Debug.LogError("Error updating campus: " + request.error);
-                _onFailed?.Invoke(campus);
+                onFailed?.Invoke(campus);
             }
         }
     }
@@ -54,9 +51,6 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
     #endregion
 
     #region -- Fields --
-
-    private Action<CampusD> _onSuccess;
-    private Action<CampusD> _onFailed;
 
     private readonly string _updateURL = "https://server-wistoria-api.vercel.app/campus/update";
 

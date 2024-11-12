@@ -18,3 +18,8 @@ public interface IGetCampusHandler : IDataTransferHandler
     IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
 }
+
+public interface IAddCampusHandler
+{
+    IEnumerator AddNewCampus(CampusD campus, Action<CampusD> onSuccess);
+}
