@@ -28,7 +28,5 @@ public class CampusCardData : MonoBehaviour, ICampusCardData
 
     #region -- Fields --
 
-    public Button clickButton;
-
     #endregion
 }

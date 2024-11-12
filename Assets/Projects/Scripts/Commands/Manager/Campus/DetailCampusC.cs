@@ -20,8 +20,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
             return;
         }
 
-        campusNameInput.text = campus.CampusName;
-        campusRoomInput.text = campus.CampusRoom;
+        _campusNameInput.text = campus.CampusName;
+        _campusRoomInput.text = campus.CampusRoom;
     }
 
     #endregion
@@ -44,8 +44,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// <param name="roomLocation">Transform name room field</param>
     private void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
     {
-        campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
-        campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
+        _campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
+        _campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
     private void AddComponentHandler()
@@ -145,11 +145,11 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     [SerializeField] private Button _deleteButton;
     [SerializeField] private Button _backButton;
 
-    public TextMeshProUGUI campusNameInput;
-    public TextMeshProUGUI campusRoomInput;
+    [SerializeField] private TextMeshProUGUI _campusNameInput;
+    [SerializeField] private TextMeshProUGUI _campusRoomInput;
 
-    public TMP_Text campusNameField;
-    public TMP_Text campusRoomField;
+    [SerializeField] private TMP_Text campusNameField;
+    [SerializeField] private TMP_Text campusRoomField;
 
     private readonly string _baseTransform = "/GUI/Monitor/Campus/DetailCampus";
     private readonly string _campusNameText = "Body/SearchCard/ItemField/Campus" +
