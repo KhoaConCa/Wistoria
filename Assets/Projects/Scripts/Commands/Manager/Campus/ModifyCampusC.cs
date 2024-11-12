@@ -16,7 +16,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void ClickCard()
     {
-        Debug.Log("Clicked");
         if (campus == null)
         {
             Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");

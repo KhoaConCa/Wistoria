@@ -58,7 +58,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     }
 
     #region -- Add Components --
-    void AddComponetCampusView()
+    private void AddComponetCampusView()
     {
         if (_SpawnCampusView == null)
         {
@@ -70,7 +70,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
     }
 
-    void AddComponentCampusHandler()
+    private void AddComponentCampusHandler()
     {
         if (_campusHandler == null)
         {
