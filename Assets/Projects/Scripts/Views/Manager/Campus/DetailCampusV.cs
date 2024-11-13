@@ -30,7 +30,7 @@ public class DetailCampusV : MonoBehaviour
     {
         if (_transformUI == null)
         {
-            _transformUI = gameObject.GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag(_parentTag).GetComponent<UITransformV>();
         }
         else
         {
@@ -52,7 +52,7 @@ public class DetailCampusV : MonoBehaviour
 
     private void SwitchUIBack()
     {
-        _transformUI.SetActiveCampusUI(_target);
+        _transformUI.SetActiveObjectUI(_targetTag);
     }
 
     private void EnableModifyButton()
@@ -79,7 +79,11 @@ public class DetailCampusV : MonoBehaviour
 
     #region -- Fields --
 
-    [SerializeField] private GameObject _target;
+    private ITransformUI _transformUI;
+
+    [TagSelector] [SerializeField] private string _targetTag;
+    [TagSelector] [SerializeField] private string _parentTag;
+
     [SerializeField] private GameObject _edit;
     [SerializeField] private GameObject _save;
 
@@ -91,7 +95,7 @@ public class DetailCampusV : MonoBehaviour
     public TMP_InputField campusNameInput;
     public TMP_InputField campusRoomInput;
 
-    private ITransformUI _transformUI;
+    
 
         #endregion
 }

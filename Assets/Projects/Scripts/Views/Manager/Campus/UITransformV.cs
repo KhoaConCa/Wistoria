@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
+using UnityEngine.SearchService;
 
 public class UITransformV : MonoBehaviour, ITransformUI
 {
@@ -9,26 +12,60 @@ public class UITransformV : MonoBehaviour, ITransformUI
     /// <summary>
     /// Set Active to selected UI
     /// </summary>
-    /// <param name="targetCampus">GameObject need to show</param>
-    public void SetActiveCampusUI(GameObject targetCampus)
+    /// <param name="targetobject">GameObject need to show</param>
+    public void SetActiveObjectUI(GameObject targetObject)
     {
-        var keys = new List<GameObject>(_campusState.Keys);
+        var keys = new List<GameObject>(_objectState.Keys);
 
         foreach (var key in keys)
         {
-            _campusState[key] = false;
+            _objectState[key] = false;
         }
 
-        if (_campusState.ContainsKey(targetCampus))
+        if (_objectState.ContainsKey(targetObject))
         {
-            _campusState[targetCampus] = true;
+            _objectState[targetObject] = true;
         }
         else
         {
             Debug.LogWarning("GameObject is not included in Dictionary");
         }
 
-        UpdateCampusUI();
+        UpdateObjectUI();
+    }
+
+    public void SetActiveObjectUI(string targetTag)
+    {
+        try
+        {
+            if (_objectUIs.Count <= 0) SetupDictionary();
+
+            GameObject targetObject = null;
+
+            foreach (var item in _objectUIs)
+            {
+                if (item.tag == targetTag)
+                {
+                    targetObject = item;
+                    break;
+                }
+            }
+
+            var keys = new List<GameObject>(_objectState.Keys);
+
+            foreach (var key in keys)
+                _objectState[key] = false;
+
+            if (_objectState.ContainsKey(targetObject))
+                _objectState[targetObject] = true;
+
+            UpdateObjectUI();
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"Error in: {e.Message}");
+        }
+
     }
 
     #endregion
@@ -43,9 +80,9 @@ public class UITransformV : MonoBehaviour, ITransformUI
     /// <summary>
     /// Show GameObject
     /// </summary>
-    private void UpdateCampusUI()
+    private void UpdateObjectUI()
     {
-        foreach (var entry in _campusState)
+        foreach (var entry in _objectState)
         {
             entry.Key.SetActive(entry.Value);
         }
@@ -56,23 +93,23 @@ public class UITransformV : MonoBehaviour, ITransformUI
     /// </summary>
     private void SetupDictionary()
     {
-        _campusState.Clear();
+        _objectState.Clear();
 
         FindParentTransform();
 
-        if (campusTransform == null)
+        if (_objectTransform.transform == null)
         {
-            Debug.LogWarning("Campus transform is not assigned. Please assign it in the Inspector.");
+            Debug.LogWarning("object transform is not assigned. Please assign it in the Inspector.");
             return;
         }
 
-        foreach (Transform child in campusTransform)
+        foreach (Transform child in _objectTransform.transform)
         {
-            _campusState[child.gameObject] = false;
-            campusUIs.Add(child.gameObject);
+            _objectState[child.gameObject] = false;
+            _objectUIs.Add(child.gameObject);
         }
 
-        Debug.Log("Dictionary setup completed with all child GameObjects in DetailCampus.");
+        Debug.Log("Dictionary setup completed with all child GameObjects in Detailobject.");
     }
 
 
@@ -81,29 +118,48 @@ public class UITransformV : MonoBehaviour, ITransformUI
     /// </summary>
     private void FindParentTransform()
     {
-        if (campusTransform == null)
+        if (_objectTransform == null)
         {
-            GameObject foundCampus = GameObject.Find("Campus");
+            GameObject foundobject = GameObject.FindGameObjectWithTag(_tagName);
 
-            if (foundCampus != null)
+            if (foundobject != null)
             {
-                campusTransform = foundCampus.transform;
+                _objectTransform = foundobject.transform;
             }
             else
             {
-                Debug.LogWarning("DetailCampus GameObject not found in the scene. Please check the name.");
+                Debug.LogWarning("Detail gameObject not found in the scene. Please check the name.");
             }
         }
     }
+
+    public GameObject FindTargetObjectByTag(string tagTarget)
+    {
+        foreach(var item in _objectUIs)
+        {
+            if (item.tag == tagTarget)
+                return item;
+        }
+
+        return null;
+    }
+
+    #endregion
+
+    #region -- Properties --
+
+
 
     #endregion
 
     #region -- Fields --
 
-    [SerializeField] private Transform campusTransform;
-    [SerializeField] private List<GameObject> campusUIs = new List<GameObject>();
+    [SerializeField] private Transform _objectTransform;
+    [TagSelector] [SerializeField] private string _tagName;
 
-    private Dictionary<GameObject, bool> _campusState = new Dictionary<GameObject, bool>();
+    [SerializeField] private List<GameObject> _objectUIs = new List<GameObject>();
+    
+    private Dictionary<GameObject, bool> _objectState = new Dictionary<GameObject, bool>();
 
     #endregion
 }

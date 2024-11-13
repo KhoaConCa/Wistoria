@@ -2563,7 +2563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &458570485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3780,27 +3780,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3566680382610940141, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3566680382610940141, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3566680382610940141, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 688
       objectReference: {fileID: 0}
     - target: {fileID: 3566680382610940141, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 65.38
       objectReference: {fileID: 0}
     - target: {fileID: 3566680382610940141, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 376
       objectReference: {fileID: 0}
     - target: {fileID: 3566680382610940141, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -144.97
       objectReference: {fileID: 0}
     - target: {fileID: 3626144332182366587, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_Padding.m_Top
@@ -3824,27 +3824,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5327540338658581633, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5327540338658581633, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5327540338658581633, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 688
       objectReference: {fileID: 0}
     - target: {fileID: 5327540338658581633, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 76.28
       objectReference: {fileID: 0}
     - target: {fileID: 5327540338658581633, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 376
       objectReference: {fileID: 0}
     - target: {fileID: 5327540338658581633, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -70.14
       objectReference: {fileID: 0}
     - target: {fileID: 6775605868515847670, guid: 03515e412911b114695491032a115461, type: 3}
       propertyPath: m_fontAsset
@@ -13975,7 +13975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1920547990
 RectTransform:
   m_ObjectHideFlags: 0

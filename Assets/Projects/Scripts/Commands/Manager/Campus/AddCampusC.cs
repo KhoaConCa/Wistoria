@@ -62,7 +62,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     private void ClickBackButton()
     {
-        _transformUI.SetActiveCampusUI(_searchCampus);
+        _transformUI.SetActiveObjectUI(_searchCampus);
     }
 
     private void SetNewCampusData()

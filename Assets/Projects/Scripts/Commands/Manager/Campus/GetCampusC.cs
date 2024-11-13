@@ -100,12 +100,12 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     #region -- Fields --
 
-    public TMP_Dropdown findNameInput;
+    private IGetCampusHandler _campusHandler;
+    private ICampusViewSpawner _SpawnCampusView;
 
     public Button getButton;
 
-    private IGetCampusHandler _campusHandler;
-    private ICampusViewSpawner _SpawnCampusView;
+    public TMP_Dropdown findNameInput;
 
     #endregion
 }
