@@ -723,9 +723,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 47328621}
-        m_TargetAssemblyTypeName: LayoutH, Assembly-CSharp
-        m_MethodName: ButtonController
+      - m_Target: {fileID: 256824528}
+        m_TargetAssemblyTypeName: NavigationV, Assembly-CSharp
+        m_MethodName: ClickUIOnEvent
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1418882702}
@@ -1818,7 +1818,7 @@ GameObject:
   - component: {fileID: 178697878}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: ValueRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3547,6 +3547,7 @@ GameObject:
   - component: {fileID: 256824527}
   - component: {fileID: 256824526}
   - component: {fileID: 256824525}
+  - component: {fileID: 256824528}
   m_Layer: 5
   m_Name: Monitor
   m_TagString: Untagged
@@ -3650,6 +3651,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256824522}
   m_CullTransparentMesh: 1
+--- !u!114 &256824528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256824522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4f09ef8ca9d0c4694cf3e09d292a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainSceneCurrent: {fileID: 1487187904}
 --- !u!1 &267469438
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,8 +3820,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -38.117584}
-  m_SizeDelta: {x: 225, y: 76.23517}
+  m_AnchoredPosition: {x: 117, y: -40.016483}
+  m_SizeDelta: {x: 234, y: 80.03297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &275101651
 MonoBehaviour:
@@ -5248,9 +5262,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 403046041}
-        m_TargetAssemblyTypeName: LayoutH, Assembly-CSharp
-        m_MethodName: ButtonController
+      - m_Target: {fileID: 256824528}
+        m_TargetAssemblyTypeName: NavigationV, Assembly-CSharp
+        m_MethodName: ClickUIOnEvent
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1487187904}
@@ -6488,12 +6502,11 @@ GameObject:
   m_Component:
   - component: {fileID: 528044929}
   - component: {fileID: 528044930}
-  - component: {fileID: 528044931}
   - component: {fileID: 528044932}
   - component: {fileID: 528044933}
   m_Layer: 5
   m_Name: DetailCampus
-  m_TagString: Untagged
+  m_TagString: DetailCampus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6545,20 +6558,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &528044931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528044928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41b9eae97e06b24d9546e5274940526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  campusTransform: {fileID: 0}
-  campusUIs: []
 --- !u!114 &528044932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6571,7 +6570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cc11bb4b90f4f4f86ab0c98d2ff51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 1968080775}
+  _targetTag: SearchCampus
+  _parentTag: MainUICampus
   _edit: {fileID: 1887130020}
   _save: {fileID: 1195171056}
   _backButton: {fileID: 1522529367}
@@ -6595,10 +6595,8 @@ MonoBehaviour:
   _saveButton: {fileID: 1195171058}
   _deleteButton: {fileID: 220270439}
   _backButton: {fileID: 1522529367}
-  _campusNameInput: {fileID: 0}
-  _campusRoomInput: {fileID: 0}
-  campusNameField: {fileID: 658912108}
-  campusRoomField: {fileID: 1001909260}
+  campusNameField: {fileID: 0}
+  campusRoomField: {fileID: 0}
 --- !u!1 &529069028
 GameObject:
   m_ObjectHideFlags: 0
@@ -9289,12 +9287,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 752572011}
-        m_TargetAssemblyTypeName: LayoutH, Assembly-CSharp
-        m_MethodName: ButtonController
+      - m_Target: {fileID: 256824528}
+        m_TargetAssemblyTypeName: NavigationV, Assembly-CSharp
+        m_MethodName: ClickUIOnEvent
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1418882702}
+          m_ObjectArgument: {fileID: 1211233924}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -10914,8 +10912,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -30.494068}
-  m_SizeDelta: {x: 225, y: 60.988136}
+  m_AnchoredPosition: {x: 117, y: -32.013187}
+  m_SizeDelta: {x: 234, y: 64.026375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &905993068
 MonoBehaviour:
@@ -15393,7 +15391,7 @@ GameObject:
   - component: {fileID: 1201004938}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: ValueCampus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18819,9 +18817,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1487187905}
+  - component: {fileID: 1487187906}
   m_Layer: 5
   m_Name: Campus
-  m_TagString: Untagged
+  m_TagString: MainUICampus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18848,6 +18847,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1487187906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487187904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41b9eae97e06b24d9546e5274940526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectTransform: {fileID: 0}
+  _tagName: MainUICampus
+  _objectUIs: []
 --- !u!1 &1496285279
 GameObject:
   m_ObjectHideFlags: 0
@@ -19125,8 +19139,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -264.2055}
-  m_SizeDelta: {x: 225, y: 375.94067}
+  m_AnchoredPosition: {x: 117, y: -275.5989}
+  m_SizeDelta: {x: 234, y: 391.13187}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1502816302
 MonoBehaviour:
@@ -21155,10 +21169,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1646757699}
   - component: {fileID: 1646757700}
-  - component: {fileID: 1646757701}
   m_Layer: 5
   m_Name: CreateCampus
-  m_TagString: Untagged
+  m_TagString: CreateCampus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21203,20 +21216,6 @@ MonoBehaviour:
   _searchCampus: {fileID: 1968080775}
   campusNameField: {fileID: 2040229153}
   campusRoomField: {fileID: 879468709}
---- !u!114 &1646757701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646757698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41b9eae97e06b24d9546e5274940526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  campusTransform: {fileID: 0}
-  campusUIs: []
 --- !u!1 &1666350504
 GameObject:
   m_ObjectHideFlags: 0
@@ -24033,8 +24032,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 112.5, y: -218.46442}
-  m_SizeDelta: {x: 225, y: 314.95255}
+  m_AnchoredPosition: {x: 117, y: -227.57913}
+  m_SizeDelta: {x: 234, y: 327.1055}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1851204183
 MonoBehaviour:
@@ -25986,12 +25985,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1955332141}
-        m_TargetAssemblyTypeName: LayoutH, Assembly-CSharp
-        m_MethodName: ButtonController
+      - m_Target: {fileID: 256824528}
+        m_TargetAssemblyTypeName: NavigationV, Assembly-CSharp
+        m_MethodName: ClickUIOnEvent
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1418882702}
+          m_ObjectArgument: {fileID: 1266329934}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -26201,10 +26200,9 @@ GameObject:
   - component: {fileID: 1968080776}
   - component: {fileID: 1968080777}
   - component: {fileID: 1968080778}
-  - component: {fileID: 1968080780}
   m_Layer: 5
   m_Name: SearchCampus
-  m_TagString: Untagged
+  m_TagString: SearchCampus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26268,24 +26266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c771cdafe5ef84bbfe8f7339bc6cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addCampus: {fileID: 1646757698}
-  findNameInput: {fileID: 247694881}
   getButton: {fileID: 1641725542}
-  _addButton: {fileID: 1983342925}
---- !u!114 &1968080780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968080775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c41b9eae97e06b24d9546e5274940526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  campusTransform: {fileID: 1487187905}
-  campusUIs: []
+  findNameInput: {fileID: 247694881}
 --- !u!1 &1969979633
 GameObject:
   m_ObjectHideFlags: 0
@@ -29088,46 +29070,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 297578850}
     m_Modifications:
+    - target: {fileID: 578246089737901415, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 969924528889977844, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 1450809760639955396, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
       propertyPath: m_Name
       value: Card
       objectReference: {fileID: 0}
-    - target: {fileID: 1450809760639955396, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1690684734481767370, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -36
-      objectReference: {fileID: 0}
-    - target: {fileID: 3190832126169058545, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: modifyObject
-      value: 
-      objectReference: {fileID: 528044928}
-    - target: {fileID: 4676562601576722545, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: campusTransform
-      value: 
-      objectReference: {fileID: 1487187905}
     - target: {fileID: 6381722356900428815, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -29207,30 +29161,6 @@ PrefabInstance:
     - target: {fileID: 6381722356900428815, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079799682926868033, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079799682926868033, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079799682926868033, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079799682926868033, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 24
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079799682926868033, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079799682926868033, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

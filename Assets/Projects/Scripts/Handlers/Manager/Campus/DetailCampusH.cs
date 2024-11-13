@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
 
-public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
+public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 {
     #region -- Implements --
 

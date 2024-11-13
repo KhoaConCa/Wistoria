@@ -6,6 +6,14 @@ TagManager:
   tags:
   - Campus
   - DefaultMainScene
+  - MainUICampus
+  - ValueCampus
+  - ValueRoom
+  - DetailCampus
+  - SearchCampus
+  - CreateCampus
+  - ValueCampus1
+  - ValueRoom1
   layers:
   - Default
   - TransparentFX

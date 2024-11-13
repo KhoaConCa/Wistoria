@@ -16,16 +16,15 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void ClickCard()
     {
-        if (campus == null)
-        {
-            Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");
-            return;
-        }
-
-        _detail.DisplayCampusDetails(_cardData);
         SetCurrentData(_cardData);
 
-        _transformUI.SetActiveCampusUI(modifyObject);
+        _transformUI.SetActiveObjectUI(_modifyTagName);
+
+        _detail.DisplayCampusDetails(_cardData);
+
+        
+
+        Debug.Log(CampusManager.currentCampusID + " - " + CampusManager.currentCampusName + " - " + CampusManager.currentCampusRoom);
     }
 
     /// <summary>
@@ -33,7 +32,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void SetupButton()
     {
-        clickCard = gameObject.GetComponent<Button>();
+        _clickCard = gameObject.GetComponent<Button>();
         _cardData = gameObject.GetComponent<CampusCardData>();
     }
 
@@ -43,27 +42,22 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     void Start()
     {
-        GetParentGameObject();
         GetTransformUI();
         GetComponentData();
         AddComponentDetail();
 
-        clickCard.onClick.AddListener(ClickCard);
-
         SetupButton();
+
+        _clickCard.onClick.AddListener(ClickCard);
     }
 
     #region -- Add Component --
     private void GetTransformUI()
     {
         if (_transformUI == null)
-        {
-            _transformUI = gameObject.GetComponent<UITransformV>();
-        }
+            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
         else
-        {
             Debug.Log("The UITransformV component already exiests");
-        }
     }
 
     private void GetComponentData()
@@ -82,7 +76,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         if (_detail == null)
         {
-            _detail = gameObject.AddComponent<DetailCampusC>();
+            GameObject parentObject = GameObject.FindWithTag("MainUICampus");
+            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("DetailCampus");
+            _detail = childParent.GetComponent<DetailCampusC>();
         }
         else
         {
@@ -90,41 +86,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         }
     }
     #endregion
-
-    /// <summary>
-    /// Get transform of DetailCampus GameObject even if it is inactive
-    /// </summary>
-    public void GetParentGameObject()
-    {
-        Transform campusTransform = transform.parent.parent.parent.parent.parent;
-
-        if (campusTransform != null)
-        {
-            Transform detailCampusTransform = campusTransform.Find("DetailCampus");
-
-            if (detailCampusTransform != null)
-            {
-                modifyObject = detailCampusTransform.gameObject;
-
-                if (modifyObject == null)
-                {
-                    Debug.LogWarning("DetailCampus GameObject not found.");
-                }
-                else
-                {
-                    Debug.Log("Found DetailCampus GameObject, even if it is inactive.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("DetailCampus transform not found in Campus hierarchy.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Campus transform not found.");
-        }
-    }
 
     private void SetCurrentData(ICampusCardData cardData)
     {
@@ -137,16 +98,15 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     #region -- Fields --
 
-    public Button clickCard;
-    public CampusD campus;
-
-    public GameObject modifyObject;
+    private Action<string> onClickCallback;
 
     private ITransformUI _transformUI;
     private ICampusCardData _cardData;
     private ICampusDetailCommand _detail;
 
-    private Action<string> onClickCallback;
+    private Button _clickCard;
+
+    [TagSelector] [SerializeField] private string _modifyTagName;
 
     #endregion
 }

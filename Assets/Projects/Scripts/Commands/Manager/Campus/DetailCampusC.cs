@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEditor.PackageManager.Requests;
 using CampusDataManager;
+using System;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -20,8 +21,10 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
             return;
         }
 
-        _campusNameInput.text = campus.CampusName;
-        _campusRoomInput.text = campus.CampusRoom;
+        SetComponentBasedOn();
+
+        campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusName;
+        campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusRoom;
     }
 
     #endregion
@@ -30,22 +33,11 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     void Start()
     {
-        SetComponentBasedOn(_baseTransform, _campusNameText, _campusRoomText);
         AddComponentHandler();
 
-        _saveButton.onClick.AddListener(OnClickSaveButton);
         GetDataModify();
-    }
 
-    /// <summary>
-    /// Add component for GameObject
-    /// </summary>
-    /// <param name="nameLocation">Transform name campus field</param>
-    /// <param name="roomLocation">Transform name room field</param>
-    private void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
-    {
-        _campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
-        _campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
+        _saveButton?.onClick.AddListener(OnClickSaveButton);
     }
 
     private void AddComponentHandler()
@@ -63,26 +55,17 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// <summary>
     /// Get transform of father component
     /// </summary>
-    /// <param name="root">Father root</param>
-    /// <param name="name">Child field name</param>
-    /// <param name="room">Child field room</param>
-    private void SetComponentBasedOn(string root, string name, string room)
+    private void SetComponentBasedOn()
     {
-        Transform based = transform.root.Find(root);
-
-        if (based != null)
+        if (this.gameObject != null && this.gameObject.activeSelf)
         {
-            Transform _name = based.Find(name);
-            Transform _room = based.Find(room);
+            campusNameField = GameObject.FindWithTag("ValueCampus").GetComponent<TMP_InputField>();
+            campusRoomField = GameObject.FindWithTag("ValueRoom").GetComponent<TMP_InputField>();
 
-            if (_name != null && _room != null)
-            {
-                AddComponentGameObject(_name, _room);
-            }
-            else
-            {
-                Debug.LogWarning("CampusText or RoomText not found with specified path in DetailCampus.");
-            }
+            if (campusNameField == null || campusRoomField == null)
+                Debug.Log("hello");
+
+            //SetDataBaseOn();
         }
         else
         {
@@ -90,10 +73,31 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         }
     }
 
+ /*   /// <summary>
+    /// Set data for detail GUI
+    /// </summary>
+    private void SetDataBaseOn()
+    {
+        try
+        {
+            if (campusNameField != null || campusRoomField != null)
+            {
+                campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = CampusManager.currentCampusName;
+                campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = CampusManager.currentCampusRoom;
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Error in: {e.Message}");
+        }
+    }*/
+
     private void OnClickSaveButton()
     {
         SetDataModify();
         GetDataModify();
+
         StartCoroutine(_updateHandler.UpdateCampusData(_campusData, OnSuccess, OnFailed));
     }
 
@@ -127,8 +131,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     private void SetDataModify()
     {
-        CampusManager.currentCampusName = campusNameField.text;
-        CampusManager.currentCampusRoom = campusRoomField.text;
+        CampusManager.currentCampusName = campusNameField.textComponent.text;
+        CampusManager.currentCampusRoom = campusRoomField.textComponent.text;
     }
 
     #endregion
@@ -138,26 +142,15 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     private CampusD _campusData = new CampusD();
 
     private ICampusCardData _cardData;
-    private IDataTransferHandler _detailHandler;
-    private IDetailUpdateHandler _updateHandler;
+    private IDataCampusTransferHandler _detailHandler;
+    private IDetailCampusUpdateHandler _updateHandler;
 
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _deleteButton;
     [SerializeField] private Button _backButton;
 
-    [SerializeField] private TextMeshProUGUI _campusNameInput;
-    [SerializeField] private TextMeshProUGUI _campusRoomInput;
-
-    [SerializeField] private TMP_Text campusNameField;
-    [SerializeField] private TMP_Text campusRoomField;
-
-    private readonly string _baseTransform = "/GUI/Monitor/Campus/DetailCampus";
-    private readonly string _campusNameText = "Body/SearchCard/ItemField/Campus" +
-        "/InputField (TMP)/Text Area/PlaceHolderCampus";
-    private readonly string _campusRoomText = "Body/SearchCard/ItemField/Room" +
-        "/InputField (TMP)/Text Area/PlaceHolderRoom";
-
-
+    [SerializeField] private TMP_InputField campusNameField;
+    [SerializeField] private TMP_InputField campusRoomField;
 
     #endregion
 }

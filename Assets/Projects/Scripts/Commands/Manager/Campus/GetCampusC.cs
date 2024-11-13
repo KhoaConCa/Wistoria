@@ -119,16 +119,14 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     #region -- Fields --
 
-    public GameObject addCampus;
+    private IGetCampusHandler _campusHandler;
+    private ICampusViewSpawner _SpawnCampusView;
 
-    public TMP_Dropdown findNameInput;
 
     public Button getButton;
     [SerializeField] private Button _addButton;
 
-    private IGetCampusHandler _campusHandler;
-    private ICampusViewSpawner _spawnCampusView;
-    private ITransformUI _transformUI;
+    public TMP_Dropdown findNameInput;
 
     #endregion
 }

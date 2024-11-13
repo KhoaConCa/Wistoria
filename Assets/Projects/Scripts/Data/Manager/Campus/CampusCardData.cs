@@ -21,12 +21,4 @@ public class CampusCardData : MonoBehaviour, ICampusCardData
     #endregion
 
     #endregion
-
-    #region -- Methods --
-
-    #endregion
-
-    #region -- Fields --
-
-    #endregion
 }
