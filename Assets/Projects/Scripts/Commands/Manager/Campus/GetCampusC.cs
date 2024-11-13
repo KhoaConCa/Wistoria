@@ -88,7 +88,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     {
         if (_transformUI == null)
         {
-            _transformUI = gameObject.GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
         }
         else
         {
@@ -112,7 +112,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     private void ClickAddButton()
     {
-        _transformUI.SetActiveCampusUI(addCampus);
+        _transformUI.SetActiveObjectUI(_tagName);
     }
 
     #endregion
@@ -120,10 +120,13 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     #region -- Fields --
 
     private IGetCampusHandler _campusHandler;
-    private ICampusViewSpawner _SpawnCampusView;
+    private ITransformUI _transformUI;
+    private ICampusViewSpawner _spawnCampusView;
 
 
     public Button getButton;
+    [TagSelector]
+    [SerializeField] private string _tagName;
     [SerializeField] private Button _addButton;
 
     public TMP_Dropdown findNameInput;

@@ -21213,7 +21213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   addButton: {fileID: 230038195}
   backButton: {fileID: 902142445}
-  _searchCampus: {fileID: 1968080775}
+  _tagName: SearchCampus
   campusNameField: {fileID: 2040229153}
   campusRoomField: {fileID: 879468709}
 --- !u!1 &1666350504
@@ -26267,6 +26267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getButton: {fileID: 1641725542}
+  _tagName: CreateCampus
+  _addButton: {fileID: 1983342925}
   findNameInput: {fileID: 247694881}
 --- !u!1 &1969979633
 GameObject:
