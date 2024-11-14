@@ -35,7 +35,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         if (campus != null)
         {
             Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            _SpawnCampusView.CreateCard(campus);
+            _spawnCampusView.CreateCard(campus);
         }
         else
         {
@@ -51,18 +51,20 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     {
         AddComponentCampusHandler();
         AddComponetCampusView();
+        GetComponentUITransfer();
 
         StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
 
         getButton.onClick.AddListener(ClickFindButton);
+        _addButton.onClick.AddListener(ClickAddButton);
     }
 
     #region -- Add Components --
     private void AddComponetCampusView()
     {
-        if (_SpawnCampusView == null)
+        if (_spawnCampusView == null)
         {
-            _SpawnCampusView = gameObject.AddComponent<SpawnCampusV>();
+            _spawnCampusView = gameObject.AddComponent<SpawnCampusV>();
         }
         else
         {
@@ -81,6 +83,18 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
             Debug.Log("The GetCampusH component already exists");
         }
     }
+
+    private void GetComponentUITransfer()
+    {
+        if (_transformUI == null)
+        {
+            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
+        }
+        else
+        {
+            Debug.Log("The UITransformV component already exists");
+        }
+    }
     #endregion
 
     /// <summary>
@@ -96,16 +110,26 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         return findNameInput.options[selectedIndex].text;
     }
 
+    private void ClickAddButton()
+    {
+        _transformUI.SetActiveObjectUI(_tagName);
+    }
+
     #endregion
 
     #region -- Fields --
 
-    public TMP_Dropdown findNameInput;
+    private IGetCampusHandler _campusHandler;
+    private ITransformUI _transformUI;
+    private ICampusViewSpawner _spawnCampusView;
+
 
     public Button getButton;
+    [TagSelector]
+    [SerializeField] private string _tagName;
+    [SerializeField] private Button _addButton;
 
-    private IGetCampusHandler _campusHandler;
-    private ICampusViewSpawner _SpawnCampusView;
+    public TMP_Dropdown findNameInput;
 
     #endregion
 }

@@ -47,7 +47,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     {
         if (_transformUI == null)
         {
-            _transformUI = gameObject.GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
         }
         else
         {
@@ -62,7 +62,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     private void ClickBackButton()
     {
-        _transformUI.SetActiveCampusUI(_searchCampus);
+        _transformUI.SetActiveObjectUI(_tagName);
     }
 
     private void SetNewCampusData()
@@ -80,7 +80,8 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     public Button addButton;
     public Button backButton;
 
-    [SerializeField] private GameObject _searchCampus;
+    [TagSelector]
+    [SerializeField] private string _tagName;
 
     public TMP_Text campusNameField;
     public TMP_Text campusRoomField;
