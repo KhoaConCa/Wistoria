@@ -6,38 +6,30 @@ using UnityEngine.UI;
 
 public class DetailCampusV : MonoBehaviour
 {
-    #region -- Implements --
-
-    #endregion
-
     #region -- Methods --
 
     void Start()
     {
-        GetComponentTransform();
+        GetComponentDefault();
 
-        _backButton.onClick.AddListener(SwitchUIBack);
-        _backButton.onClick.AddListener(DisableInputField);
-        _backButton.onClick.AddListener(EnableModifyButton);
-        _backButton.onClick.AddListener(DisableSaveButton);
-
-        _modifyButton.onClick.AddListener(EnableInputField);
-        _modifyButton.onClick.AddListener(DisableModifyButton);
-        _modifyButton.onClick.AddListener(EnableSaveButton);
+        AddEventEditButton();
+        AddEventBackButton();
     }
 
-    private void GetComponentTransform()
+    private void GetComponentDefault()
     {
         if (_transformUI == null)
-        {
             _transformUI = GameObject.FindWithTag(_parentTag).GetComponent<UITransformV>();
-        }
         else
-        {
             Debug.Log("The UITransformV component already exists");
-        }
     }
 
+    private Button GetComponentButton(GameObject button)
+    {
+        return button.GetComponentInChildren<Button>();
+    }
+
+    #region - Input fields -
     private void EnableInputField()
     {
         campusNameInput.interactable = true;
@@ -49,12 +41,16 @@ public class DetailCampusV : MonoBehaviour
         campusNameInput.interactable = false;
         campusRoomInput.interactable = false;
     }
+    #endregion
 
+    #region - Button back -
     private void SwitchUIBack()
     {
         _transformUI.SetActiveObjectUI(_targetTag);
     }
+    #endregion
 
+    #region - Button edit -
     private void EnableModifyButton()
     {
         _edit.SetActive(true);
@@ -64,7 +60,9 @@ public class DetailCampusV : MonoBehaviour
     {
         _edit.SetActive(false);
     }
+    #endregion
 
+    #region - Button save -
     private void EnableSaveButton()
     {
         _save.SetActive(true);
@@ -74,6 +72,28 @@ public class DetailCampusV : MonoBehaviour
     {
         _save.SetActive(false);
     }
+    #endregion
+
+    #region - Add event button -
+    private void AddEventEditButton()
+    {
+        Button buttonComponent = _edit.GetComponentInChildren<Button>();
+
+        buttonComponent.onClick.AddListener(EnableInputField);
+        buttonComponent.onClick.AddListener(DisableModifyButton);
+        buttonComponent.onClick.AddListener(EnableSaveButton);
+    }
+
+    private void AddEventBackButton()
+    {
+        Button buttonComponent = _back.GetComponentInChildren<Button>();
+
+        buttonComponent.onClick.AddListener(SwitchUIBack);
+        buttonComponent.onClick.AddListener(DisableInputField);
+        buttonComponent.onClick.AddListener(EnableModifyButton);
+        buttonComponent.onClick.AddListener(DisableSaveButton);
+    }
+    #endregion
 
     #endregion
 
@@ -86,16 +106,11 @@ public class DetailCampusV : MonoBehaviour
 
     [SerializeField] private GameObject _edit;
     [SerializeField] private GameObject _save;
-
-    [SerializeField] private Button _backButton;
-    [SerializeField] private Button _modifyButton;
-    [SerializeField] private Button _saveButton;
-    [SerializeField] private Button _deleteButton;
+    [SerializeField] private GameObject _delete;
+    [SerializeField] private GameObject _back;
 
     public TMP_InputField campusNameInput;
     public TMP_InputField campusRoomInput;
 
-    
-
-        #endregion
+    #endregion
 }

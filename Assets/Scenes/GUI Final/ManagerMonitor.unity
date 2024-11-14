@@ -4122,7 +4122,7 @@ GameObject:
   - component: {fileID: 297578854}
   m_Layer: 5
   m_Name: Panel
-  m_TagString: Untagged
+  m_TagString: ObjectContain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6574,10 +6574,8 @@ MonoBehaviour:
   _parentTag: MainUICampus
   _edit: {fileID: 1887130020}
   _save: {fileID: 1195171056}
-  _backButton: {fileID: 1522529367}
-  _modifyButton: {fileID: 1887130022}
-  _saveButton: {fileID: 1195171058}
-  _deleteButton: {fileID: 220270439}
+  _delete: {fileID: 220270437}
+  _back: {fileID: 1522529365}
   campusNameInput: {fileID: 1201004938}
   campusRoomInput: {fileID: 178697878}
 --- !u!114 &528044933
@@ -6595,8 +6593,8 @@ MonoBehaviour:
   _saveButton: {fileID: 1195171058}
   _deleteButton: {fileID: 220270439}
   _backButton: {fileID: 1522529367}
-  campusNameField: {fileID: 0}
-  campusRoomField: {fileID: 0}
+  campusNameField: {fileID: 1201004938}
+  campusRoomField: {fileID: 178697878}
 --- !u!1 &529069028
 GameObject:
   m_ObjectHideFlags: 0
@@ -18861,6 +18859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectTransform: {fileID: 0}
   _tagName: MainUICampus
+  _defaultUI: SearchCampus
   _objectUIs: []
 --- !u!1 &1496285279
 GameObject:
@@ -22787,8 +22786,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "L\u01B0u"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 36eda4e2fb435dc42a84bc44be1bfa6c, type: 2}
-  m_sharedMaterial: {fileID: 381079366776675468, guid: 36eda4e2fb435dc42a84bc44be1bfa6c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -29072,14 +29071,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 297578850}
     m_Modifications:
-    - target: {fileID: 578246089737901415, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 969924528889977844, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     - target: {fileID: 1450809760639955396, guid: 641e9ad442f0df24b9f097836bf48556, type: 3}
       propertyPath: m_Name
       value: Card
