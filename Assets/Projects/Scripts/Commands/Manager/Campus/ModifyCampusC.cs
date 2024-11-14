@@ -18,13 +18,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         SetCurrentData(_cardData);
 
-        _transformUI.SetActiveObjectUI(_modifyTagName);
-
         _detail.DisplayCampusDetails(_cardData);
 
-        
-
-        Debug.Log(CampusManager.currentCampusID + " - " + CampusManager.currentCampusName + " - " + CampusManager.currentCampusRoom);
+        _transformUI.SetActiveObjectUI(_modifyTagName);
     }
 
     /// <summary>

@@ -15,16 +15,23 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// <param name="campus">Data of campus was clicked</param>
     public void DisplayCampusDetails(ICampusCardData campus)
     {
-        if (campus == null)
+        try
         {
-            Debug.LogWarning("Campus data is null. Cannot display details.");
-            return;
+            if (campus == null)
+            {
+                Debug.LogWarning("Campus data is null. Cannot display details.");
+                return;
+            }
+
+            SetComponentBasedOn();
+
+            campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusName;
+            campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusRoom;
         }
-
-        SetComponentBasedOn();
-
-        campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusName;
-        campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusRoom;
+        catch (Exception e)
+        {
+            Debug.LogWarning(e.Message);
+        }
     }
 
     #endregion
@@ -43,13 +50,9 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     private void AddComponentHandler()
     {
         if (_updateHandler == null)
-        {
             _updateHandler = gameObject.AddComponent<DetailCampusH>();
-        }
         else
-        {
             Debug.Log("The DetailCampusH component already exists");
-        }
     }
 
     /// <summary>
@@ -57,41 +60,19 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     private void SetComponentBasedOn()
     {
-        if (this.gameObject != null && this.gameObject.activeSelf)
-        {
-            campusNameField = GameObject.FindWithTag("ValueCampus").GetComponent<TMP_InputField>();
-            campusRoomField = GameObject.FindWithTag("ValueRoom").GetComponent<TMP_InputField>();
-
-            if (campusNameField == null || campusRoomField == null)
-                Debug.Log("hello");
-
-            //SetDataBaseOn();
-        }
-        else
-        {
-            Debug.LogError("DetailCampus not found in hierarchy.");
-        }
-    }
-
- /*   /// <summary>
-    /// Set data for detail GUI
-    /// </summary>
-    private void SetDataBaseOn()
-    {
         try
         {
-            if (campusNameField != null || campusRoomField != null)
+            if (this.gameObject != null && this.gameObject.activeSelf)
             {
-                campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = CampusManager.currentCampusName;
-                campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = CampusManager.currentCampusRoom;
+                campusNameField = GameObject.FindWithTag("ValueCampus").GetComponent<TMP_InputField>();
+                campusRoomField = GameObject.FindWithTag("ValueRoom").GetComponent<TMP_InputField>();
             }
-
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error in: {e.Message}");
+            Debug.LogWarning(e.Message);
         }
-    }*/
+    }
 
     private void OnClickSaveButton()
     {

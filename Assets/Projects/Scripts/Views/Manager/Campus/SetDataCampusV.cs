@@ -33,14 +33,10 @@ public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
 
     #endregion
 
-    #region -- Methods --
-
-    #endregion
-
     #region -- Fields --
 
-    public TextMeshProUGUI campusName;
-    public TextMeshProUGUI campusRoom;
+    private TextMeshProUGUI campusName;
+    private TextMeshProUGUI campusRoom;
 
     #endregion
 }
