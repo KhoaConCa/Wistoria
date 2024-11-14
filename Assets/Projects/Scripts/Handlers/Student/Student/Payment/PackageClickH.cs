@@ -2,17 +2,19 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class PackageClickH: MonoBehaviour , IPackageClickH
+public class PackageClickH : MonoBehaviour, IPackageClickH
 {
     /// <summary>
-    /// Switch form, transfer data when the campus card was clicked
+    /// Handles the package click event.
     /// </summary>
     public void ClickPackage()
     {
-        if (package == null)
+        if (_packageData == null)
         {
-            Debug.LogWarning("Package data is null. Cannot proceed with ClickCard.");
+            Debug.LogWarning("Package data is null. Cannot proceed with ClickPackage.");
+            return;
         }
+
         Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {_packageData.Price}");
 
         PaymentD payment = new PaymentD
@@ -22,12 +24,17 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
             Status = "Finished"
         };
 
-        // Start the upload coroutine
-        StartCoroutine(_paymentProcessor.UploadPaymentToMongoDB(payment));
+        // Start the upload coroutine for payment
+        StartCoroutine(_paymentProcessor.UploadPaymentToMongoDB(payment, () =>
+        {
+            // If payment succeeds, update the student's paper count
+            int paperCount = int.Parse(_packageData.Paper);
+            StartCoroutine(_studentUpdater.FetchAndIncrementPaper(payment.Person, paperCount));
+        }));
     }
 
     /// <summary>
-    /// Set event for prefab
+    /// Sets up the button event listener.
     /// </summary>
     public void SetUpButton()
     {
@@ -35,7 +42,7 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
         _packageData = gameObject.GetComponent<PackageCardData>();
     }
 
-    void Start()
+    private void Start()
     {
         GetComponentData();
         InitializeDependencies();
@@ -53,25 +60,20 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
         }
         else
         {
-            Debug.Log("The PackageData component already exiests");
+            Debug.Log("The PackageData component already exists.");
         }
     }
 
     private void InitializeDependencies()
     {
-        // Add the PaymentProcessor component to handle uploads
         _paymentProcessor = gameObject.AddComponent<PaymentProcessor>();
+        _studentUpdater = gameObject.AddComponent<StudentUpdater>();
     }
-
-    /// <summary>
-    /// Assigns the package data and updates the UI elements.
-    /// </summary>
-    /// <param name="package">The package data to assign.</param>
 
     public PackageD package;
     public Button clickPackage;
 
     private IPackageData _packageData;
     private IPaymentProcessor _paymentProcessor;
-
+    private IStudentUpdater _studentUpdater;
 }

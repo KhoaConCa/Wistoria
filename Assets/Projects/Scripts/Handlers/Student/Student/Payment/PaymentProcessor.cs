@@ -4,9 +4,9 @@ using UnityEngine.Networking;
 using System.Text;
 using Utilities;
 
-public class PaymentProcessor : MonoBehaviour , IPaymentProcessor
+public class PaymentProcessor : MonoBehaviour, IPaymentProcessor
 {
-    public IEnumerator UploadPaymentToMongoDB(PaymentD payment)
+    public IEnumerator UploadPaymentToMongoDB(PaymentD payment, System.Action onSuccess = null)
     {
         if (payment == null)
         {
@@ -14,13 +14,11 @@ public class PaymentProcessor : MonoBehaviour , IPaymentProcessor
             yield break;
         }
 
-        // Convert payment data to JSON
         string json = MainHandler.ToJson(payment, true);
         Debug.Log("JSON being sent: " + json);
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-        // Set up the POST request
         using (UnityWebRequest request = new UnityWebRequest("https://server-wistoria-api.vercel.app/payment/create", "POST"))
         {
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -28,19 +26,18 @@ public class PaymentProcessor : MonoBehaviour , IPaymentProcessor
             request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = 30;
 
-            // Send the request
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Payment data uploaded successfully.");
-                Debug.Log("Response: " + request.downloadHandler.text);
+
+                // Invoke the success callback
+                onSuccess?.Invoke();
             }
             else
             {
-                Debug.LogError("Failed to upload payment data: " + request.error);
-                Debug.LogError("Response Code: " + request.responseCode);
-                Debug.LogError("Response: " + request.downloadHandler.text);
+                Debug.LogError($"Failed to upload payment data: {request.error}");
             }
         }
     }

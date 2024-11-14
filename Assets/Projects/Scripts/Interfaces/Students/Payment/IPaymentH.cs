@@ -18,6 +18,6 @@ public interface ICreatePaymentHandler
 
 public interface IPaymentProcessor
 {
-    IEnumerator UploadPaymentToMongoDB(PaymentD payment);
+    IEnumerator UploadPaymentToMongoDB(PaymentD payment, System.Action onSuccess);
 }
 
