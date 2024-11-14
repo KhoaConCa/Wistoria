@@ -28,7 +28,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
                 _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
 
                 FindComponentUI();
-                UpdateData(campus.CampusName, campus.Room);
+                UpdateData(campus);
             }
             else
             {
@@ -46,6 +46,8 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         AddComponentDefault();
         GetComponentDefault();
     }
+
+    
 
     private void AddComponentDefault()
     {
@@ -122,10 +124,10 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     /// </summary>
     /// <param name="name">Campus name</param>
     /// <param name="room">Campus room</param>
-    private void UpdateData(string name, string room)
+    private void UpdateData(CampusD campus)
     {
-        _setDataCampusView.SetCampusName(name);
-        _setDataCampusView.SetCampusRoom(room);
+        _setDataCampusView.SetCampusName(campus.CampusName);
+        _setDataCampusView.SetCampusRoom(campus.Room);
     }
 
     #endregion

@@ -225,6 +225,8 @@ namespace Utilities
 
         #region -- Prefab --
         public static GameObject LastSpawnedPrefab { get; set; }
+
+        public static List<GameObject> PrefabList { get { return _prefabList; } }
         #endregion
 
         #endregion
