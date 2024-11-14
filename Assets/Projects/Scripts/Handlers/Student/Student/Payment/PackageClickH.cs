@@ -14,6 +14,16 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
             Debug.LogWarning("Package data is null. Cannot proceed with ClickCard.");
         }
         Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {_packageData.Price}");
+
+        PaymentD payment = new PaymentD
+        {
+            Paper = _packageData.Paper,
+            Person = "671860901e0844975517030e", // Replace with the current student's ID
+            Status = "Finished"
+        };
+
+        // Start the upload coroutine
+        StartCoroutine(_paymentProcessor.UploadPaymentToMongoDB(payment));
     }
 
     /// <summary>
@@ -25,11 +35,10 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
         _packageData = gameObject.GetComponent<PackageCardData>();
     }
 
-
-
     void Start()
     {
         GetComponentData();
+        InitializeDependencies();
 
         clickPackage.onClick.AddListener(ClickPackage);
 
@@ -44,8 +53,14 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
         }
         else
         {
-            Debug.Log("The ModifyCampusH component already exiests");
+            Debug.Log("The PackageData component already exiests");
         }
+    }
+
+    private void InitializeDependencies()
+    {
+        // Add the PaymentProcessor component to handle uploads
+        _paymentProcessor = gameObject.AddComponent<PaymentProcessor>();
     }
 
     /// <summary>
@@ -57,5 +72,6 @@ public class PackageClickH: MonoBehaviour , IPackageClickH
     public Button clickPackage;
 
     private IPackageData _packageData;
+    private IPaymentProcessor _paymentProcessor;
 
 }

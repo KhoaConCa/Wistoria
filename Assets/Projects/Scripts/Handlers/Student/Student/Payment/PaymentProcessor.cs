@@ -1,34 +1,47 @@
-﻿/*using System.IO;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
+using System.Text;
+using Utilities;
 
-public class PaymentProcessor : IPaymentProcessor
+public class PaymentProcessor : MonoBehaviour , IPaymentProcessor
 {
-    private readonly IStudentUpdater _studentUpdater;
-
-    public PaymentProcessor(IStudentUpdater studentUpdater)
+    public IEnumerator UploadPaymentToMongoDB(PaymentD payment)
     {
-        _studentUpdater = studentUpdater;
-    }
-
-    public void ProcessPayment(PackageD package, string studentId)
-    {
-        // Tạo dữ liệu hóa đơn thanh toán
-        PaymentD payment = new PaymentD
+        if (payment == null)
         {
-            Paper = package.Paper,
-            Person = studentId,
-            Status = "Completed"
-        };
+            Debug.LogError("Payment data is null. Cannot proceed with upload.");
+            yield break;
+        }
 
-        // Lưu hóa đơn vào JSON
-        string json = JsonUtility.ToJson(payment, true);
-        string path = $"{Application.persistentDataPath}/Payment.json";
-        File.WriteAllText(path, json);
+        // Convert payment data to JSON
+        string json = MainHandler.ToJson(payment, true);
+        Debug.Log("JSON being sent: " + json);
 
-        Debug.Log($"Payment data saved: {json}");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-        // Cập nhật số giấy của sinh viên
-        _studentUpdater.UpdateStudentPaperCount(studentId, int.Parse(package.Paper));
+        // Set up the POST request
+        using (UnityWebRequest request = new UnityWebRequest("https://server-wistoria-api.vercel.app/payment/create", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.timeout = 30;
+
+            // Send the request
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Payment data uploaded successfully.");
+                Debug.Log("Response: " + request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError("Failed to upload payment data: " + request.error);
+                Debug.LogError("Response Code: " + request.responseCode);
+                Debug.LogError("Response: " + request.downloadHandler.text);
+            }
+        }
     }
 }
-*/

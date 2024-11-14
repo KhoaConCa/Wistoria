@@ -18,6 +18,6 @@ public interface ICreatePaymentHandler
 
 public interface IPaymentProcessor
 {
-    void ProcessPayment(PackageD package, string studentId);
+    IEnumerator UploadPaymentToMongoDB(PaymentD payment);
 }
 
