@@ -39,6 +39,8 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
         {
             Debug.Log($"Found paper: {package.Paper}, price: {package.Price}");
             _spawnPackageView.CreateCard(package);
+
+
         }
         else
         {
@@ -79,6 +81,7 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
             Debug.Log("GetPackageH component already exists.");
         }
     }
+
 
     #endregion
 

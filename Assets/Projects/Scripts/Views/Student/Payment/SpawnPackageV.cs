@@ -25,6 +25,17 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
             {
                 Debug.Log("Prefab spawned successfully.");
 
+                // Try to get the PackageCardData component
+                var packageCardData = spawnedPrefab.GetComponent<PackageCardData>();
+                if (packageCardData != null)
+                {
+                    Debug.Log("PackageCardData component found. Initializing...");
+                    packageCardData.Initialize(package.Paper, package.Price);
+                }
+                else
+                {
+                    Debug.LogError("PackageCardData component is missing on the prefab. Please ensure the component is attached.");
+                }
 
                 FindComponentUI(_packagePaper, _packagePrice);
                 UpdateData(package.Paper, package.Price);
@@ -35,6 +46,7 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
             }
         });
     }
+
 
     #endregion
 
