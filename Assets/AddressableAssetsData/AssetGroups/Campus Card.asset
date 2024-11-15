@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 95b3c090855a78744910c9b41adda55e
   m_SerializeEntries:
-  - m_GUID: 641e9ad442f0df24b9f097836bf48556
-    m_Address: Assets/Addons/MyGUI/MyPrefab/PrefabTest/Card.prefab
+  - m_GUID: 14cb5c3b9a491c043a8dbadf5c747682
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/CampusCardManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Campus
