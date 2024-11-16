@@ -34,6 +34,10 @@ public class UITransformV : MonoBehaviour, ITransformUI
         UpdateObjectUI();
     }
 
+    /// <summary>
+    /// Set Active to selected UI
+    /// </summary>
+    /// <param name="targetTag">Tag's GameObject need to show</param>
     public void SetActiveObjectUI(string targetTag)
     {
         try
@@ -75,6 +79,7 @@ public class UITransformV : MonoBehaviour, ITransformUI
     void Start()
     {
         SetupDictionary();
+        SetActiveObjectUI(_defaultUI);
     }
 
     /// <summary>
@@ -82,57 +87,52 @@ public class UITransformV : MonoBehaviour, ITransformUI
     /// </summary>
     private void UpdateObjectUI()
     {
-        foreach (var entry in _objectState)
+        try
         {
-            entry.Key.SetActive(entry.Value);
+            foreach (var entry in _objectState)
+            {
+                entry.Key.SetActive(entry.Value);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e.Message);
         }
     }
 
     /// <summary>
-    /// 
+    /// Find children object in this object
     /// </summary>
     private void SetupDictionary()
     {
-        _objectState.Clear();
-
-        FindParentTransform();
-
-        if (_objectTransform.transform == null)
+        try
         {
-            Debug.LogWarning("object transform is not assigned. Please assign it in the Inspector.");
-            return;
+            _objectState.Clear();
+
+            if (this.gameObject.transform == null)
+            {
+                Debug.LogWarning("object transform is not assigned. Please assign it in the Inspector.");
+                return;
+            }
+
+            foreach (Transform child in this.gameObject.transform)
+            {
+                _objectState[child.gameObject] = false;
+                _objectUIs.Add(child.gameObject);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e.Message);
         }
 
-        foreach (Transform child in _objectTransform.transform)
-        {
-            _objectState[child.gameObject] = false;
-            _objectUIs.Add(child.gameObject);
-        }
-
-        Debug.Log("Dictionary setup completed with all child GameObjects in Detailobject.");
     }
-
 
     /// <summary>
-    /// 
+    /// Find target object in list GameObject by tag.
     /// </summary>
-    private void FindParentTransform()
-    {
-        if (_objectTransform == null)
-        {
-            GameObject foundobject = GameObject.FindGameObjectWithTag(_tagName);
-
-            if (foundobject != null)
-            {
-                _objectTransform = foundobject.transform;
-            }
-            else
-            {
-                Debug.LogWarning("Detail gameObject not found in the scene. Please check the name.");
-            }
-        }
-    }
-
+    /// <param name="tagTarget">Fill in tag target</param>
+    /// <returns>GameObject needed</returns>
     public GameObject FindTargetObjectByTag(string tagTarget)
     {
         foreach(var item in _objectUIs)
@@ -155,7 +155,9 @@ public class UITransformV : MonoBehaviour, ITransformUI
     #region -- Fields --
 
     [SerializeField] private Transform _objectTransform;
+
     [TagSelector] [SerializeField] private string _tagName;
+    [TagSelector] [SerializeField] private string _defaultUI;
 
     [SerializeField] private List<GameObject> _objectUIs = new List<GameObject>();
     

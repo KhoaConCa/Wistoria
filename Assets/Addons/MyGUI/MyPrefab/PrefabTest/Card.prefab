@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 6997341639818695461}
   m_Layer: 5
   m_Name: Value
-  m_TagString: ValueRoom1
+  m_TagString: ValueRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 107256885601264513}
   m_Layer: 5
   m_Name: Value
-  m_TagString: ValueCampus1
+  m_TagString: ValueCampus
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -83,6 +83,28 @@ namespace Utilities
         }
 
         /// <summary>
+        /// Find object children with tag
+        /// </summary>
+        /// <param name="parentObject">Parent object transform</param>
+        /// <param name="tagName">Target tag name</param>
+        /// <returns>Target transform</returns>
+        public static Transform FindChildObjectsByTag(Transform parentObject, string tagName)
+        {
+            if (parentObject.tag == tagName)
+                return parentObject;
+
+            for (int i = 0; i < parentObject.transform.childCount; i++)
+            {
+                Transform result = FindChildObjectsByTag(parentObject.transform.GetChild(i), tagName);
+
+                if (result != null)
+                    return result;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Loads and spawns a prefab using Addressables Label.
         /// </summary>
         /// <param name="prefab">Label of the prefab in Addressables</param>
@@ -91,6 +113,25 @@ namespace Utilities
         public static void SpawnPrefabByLabel(AssetLabelReference prefab, string path, Action<GameObject> onSpawned = null)
         {
             GetParent(path);
+
+            var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
+            handle.Completed += (AsyncOperationHandle<GameObject> task) =>
+            {
+                if (task.Status == AsyncOperationStatus.Succeeded)
+                {
+                    GameObject spawnedPrefab = InstantiatePrefab(task);
+                    onSpawned?.Invoke(spawnedPrefab);
+                }
+                else
+                {
+                    Debug.LogError("Failed to load prefab from addressable");
+                }
+            };
+        }
+
+        public static void SpawnPrefabByLabel(AssetLabelReference prefab, GameObject path, Action<GameObject> onSpawned = null)
+        {
+            _target = path;
 
             var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
             handle.Completed += (AsyncOperationHandle<GameObject> task) =>
@@ -184,6 +225,8 @@ namespace Utilities
 
         #region -- Prefab --
         public static GameObject LastSpawnedPrefab { get; set; }
+
+        public static List<GameObject> PrefabList { get { return _prefabList; } }
         #endregion
 
         #endregion

@@ -19,7 +19,6 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
         if (campusList != null && campusList.Count > 0)
         {
-            Debug.Log(campusList.Count);
             foreach (var campus in campusList)
             {
                 _onCampusFound?.Invoke(campus);
