@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 using CampusDataManager;
@@ -102,7 +101,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     private Button _clickCard;
 
-    [TagSelector] [SerializeField] private string _modifyTagName;
+    [SerializeField] private string _modifyTagName;
 
     #endregion
 }

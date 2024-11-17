@@ -13,6 +13,7 @@ TagManager:
   - SearchCampus
   - CreateCampus
   - ObjectContain
+  - ValuePrinter
   layers:
   - Default
   - TransparentFX

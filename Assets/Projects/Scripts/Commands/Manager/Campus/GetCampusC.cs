@@ -134,12 +134,12 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     private ITransformUI _transformUI;
     private ICampusViewSpawner _spawnCampusView;
 
-    public Button getButton;
+    [SerializeField] private Button getButton;
     [SerializeField] private Button _addButton;
 
     public TMP_Dropdown findNameInput;
 
-    [TagSelector] [SerializeField] private string _tagName;
+    [SerializeField] private string _tagName;
 
     #endregion
 }

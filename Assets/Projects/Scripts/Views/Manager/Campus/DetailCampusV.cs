@@ -8,12 +8,17 @@ public class DetailCampusV : MonoBehaviour
 {
     #region -- Methods --
 
-    void Start()
+    void Awake()
     {
         GetComponentDefault();
 
         AddEventEditButton();
         AddEventBackButton();
+    }
+
+    private void OnEnable()
+    {
+        DisableInputField();
     }
 
     private void GetComponentDefault()
@@ -77,7 +82,7 @@ public class DetailCampusV : MonoBehaviour
     #region - Add event button -
     private void AddEventEditButton()
     {
-        Button buttonComponent = _edit.GetComponentInChildren<Button>();
+        Button buttonComponent = _edit.GetComponent<Button>();
 
         buttonComponent.onClick.AddListener(EnableInputField);
         buttonComponent.onClick.AddListener(DisableModifyButton);
@@ -86,7 +91,7 @@ public class DetailCampusV : MonoBehaviour
 
     private void AddEventBackButton()
     {
-        Button buttonComponent = _back.GetComponentInChildren<Button>();
+        Button buttonComponent = _back.GetComponent<Button>();
 
         buttonComponent.onClick.AddListener(SwitchUIBack);
         buttonComponent.onClick.AddListener(DisableInputField);
@@ -101,8 +106,8 @@ public class DetailCampusV : MonoBehaviour
 
     private ITransformUI _transformUI;
 
-    [TagSelector] [SerializeField] private string _targetTag;
-    [TagSelector] [SerializeField] private string _parentTag;
+    [SerializeField] private string _targetTag;
+    [SerializeField] private string _parentTag;
 
     [SerializeField] private GameObject _edit;
     [SerializeField] private GameObject _save;

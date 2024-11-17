@@ -15,10 +15,10 @@ MonoBehaviour:
   m_DefaultGroup: a317877218dbefb4993ba6d9aac67e49
   m_currentHash:
     serializedVersion: 2
-    Hash: 3401cee0257c63c6827516d514e95e41
+    Hash: e2101d92cd832f643b56898dce41555a
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
-  m_BundleLocalCatalog: 0
+  m_BundleLocalCatalog: 1
   m_CatalogRequestsTimeout: 0
   m_DisableCatalogUpdateOnStart: 0
   m_IgnoreUnsupportedFilesInBuild: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -52,7 +52,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 55cd01ae68d28e94b8c52dd6ae77050a, type: 2}
   - {fileID: 11400000, guid: 0514fdfcce967774f823efd5361d00d4, type: 2}
   - {fileID: 11400000, guid: f80f7392e7321444faeeae19bd1fcfd7, type: 2}
-  - {fileID: 11400000, guid: 41ab73d0016caac46b1dc07b26d92d65, type: 2}
   - {fileID: 11400000, guid: 9b467756c4adeaf44aa66cc6f3fcd624, type: 2}
   - {fileID: 11400000, guid: 7ab2beae2b327364a8ddcebc667b08c7, type: 2}
   - {fileID: 11400000, guid: 459f215f94321e24aad50a35388b1731, type: 2}
@@ -74,9 +73,9 @@ MonoBehaviour:
       - m_Id: 914907e5985602b4f98e15e7fc292ffd
         m_Value: ServerData/[BuildTarget]
       - m_Id: a259ce1de3e9354488661c2d702b44d4
-        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+        m_Value: '{UnityEngine.Application.streamingAssetsPath}/aa/Android'
       - m_Id: c9726d3e99e5ade42ba30071a32fbad9
-        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+        m_Value: Assets/StreamingAssets/aa/Android
       - m_Id: e10483625247ae844a24a9eb655711ae
         m_Value: http://[PrivateIpAddress]:[HostingServicePort]
     m_ProfileEntryNames:
