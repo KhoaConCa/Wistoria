@@ -332,8 +332,8 @@ MonoBehaviour:
   m_fontSize: 14
   m_fontSizeBase: 14
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -604,10 +604,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1331436595548648203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 30.265}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8243618097442017548
 CanvasRenderer:
@@ -637,7 +637,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "V\u1ECB tr\xED"
+  m_text: "Tr\u1EA1ng th\xE1i"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 36eda4e2fb435dc42a84bc44be1bfa6c, type: 2}
   m_sharedMaterial: {fileID: 381079366776675468, guid: 36eda4e2fb435dc42a84bc44be1bfa6c, type: 2}
@@ -991,8 +991,8 @@ MonoBehaviour:
   m_fontSize: 14
   m_fontSizeBase: 14
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -1141,10 +1141,10 @@ RectTransform:
   - {fileID: 15979316598278486}
   m_Father: {fileID: 1331436595548648203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -43.1325}
+  m_SizeDelta: {x: 100, y: 25.735}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2788579750054054081
 CanvasRenderer:
@@ -1233,13 +1233,7 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options:
-    - m_Text: Option A
-      m_Image: {fileID: 0}
-    - m_Text: Option B
-      m_Image: {fileID: 0}
-    - m_Text: Option C
-      m_Image: {fileID: 0}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

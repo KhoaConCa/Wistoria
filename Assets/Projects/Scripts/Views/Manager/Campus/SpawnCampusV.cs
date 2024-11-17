@@ -47,6 +47,8 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         GetComponentDefault();
     }
 
+    
+
     private void AddComponentDefault()
     {
         try

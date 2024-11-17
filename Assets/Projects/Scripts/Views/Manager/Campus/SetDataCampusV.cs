@@ -26,6 +26,7 @@ public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
         campusName.text = name;
     }
 
+
     public void SetCampusRoom(string room)
     {
         campusRoom.text = room;

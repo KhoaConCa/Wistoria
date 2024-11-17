@@ -30,34 +30,30 @@ public class NavigationV : MonoBehaviour, IGUI
 
     private void SetAsDefault()
     {
-        try
+        if (_mainSceneCurrent != null)
         {
-            SwitchUI(ref _defaultUI);
+            if (!_mainSceneCurrent.activeSelf) 
+                _mainSceneCurrent.SetActive(true);
+
+            return;
         }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
+
+        _mainSceneCurrent = GameObject.FindGameObjectWithTag("DefaultMainScene");
     }
 
     private void SwitchUI(ref GameObject mainScene)
     {
-        foreach (var item in _functionUIs)
-        {
-            if (item.name == mainScene.name)
-                item.SetActive(true);
-            else
-                item.SetActive(false);
-        }
+        _mainSceneCurrent.SetActive(false);
+        _mainSceneCurrent = mainScene;
+        _mainSceneCurrent.SetActive(true);
     }
 
     #endregion
 
     #region -- Fields --
 
-    [SerializeField] private GameObject _defaultUI;
-
-    [SerializeField] private List<GameObject> _functionUIs;
+    [SerializeField]
+    private GameObject _mainSceneCurrent;
 
     #endregion
 }
