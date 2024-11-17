@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IPrinterComponentAdder
 {
-    void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation);
+    void AddComponentFromPrefab(Transform nameLocation, Transform printerLocation, Transform roomLocation);
 }
 
 public interface IPrinterViewSpawner
@@ -15,8 +15,7 @@ public interface IPrinterViewSpawner
 
 public interface IPrinterDataSetter : IPrinterComponentAdder
 {
-    void SetPrinterName(string name);
-    void SetPrinterRoom(string room);
+    void SetDataPrinterCard(PrinterD Printer);
 }
 
 public interface ITransformUIPrinter
