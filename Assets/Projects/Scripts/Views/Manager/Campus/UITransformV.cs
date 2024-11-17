@@ -76,9 +76,8 @@ public class UITransformV : MonoBehaviour, ITransformUI
 
     #region -- Methods --
 
-    void Start()
+    void OnEnable()
     {
-        SetupDictionary();
         SetActiveObjectUI(_defaultUI);
     }
 

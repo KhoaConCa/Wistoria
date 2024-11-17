@@ -6,6 +6,11 @@ public interface IPrinterCardData
 {
     string PrinterID { get; set; }
     string PrinterName { get; set; }
-    string PrinterRoom { get; set; }
-    void Initialize(string id, string name, string room);
+    string PrinterType { get; set; }
+    string Description { get; set; }
+    CampusD LocateAt { get; set; }
+    int Paper { get; set; }
+    int Ink { get; set; }
+    string Status { get; set; }
+    void Initialize(PrinterD printer);
 }

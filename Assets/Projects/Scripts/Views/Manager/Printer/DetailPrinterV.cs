@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DetailCampusV : MonoBehaviour
+public class DetailPrinterV : MonoBehaviour
 {
     #region -- Methods --
 
@@ -14,6 +14,8 @@ public class DetailCampusV : MonoBehaviour
 
         AddEventEditButton();
         AddEventBackButton();
+
+        DisableInputField();
     }
 
     private void GetComponentDefault()
@@ -27,14 +29,26 @@ public class DetailCampusV : MonoBehaviour
     #region - Input fields -
     private void EnableInputField()
     {
-        printerNameInput.interactable = true;
-        printerRoomInput.interactable = true;
+        _printerNameField.interactable = true;
+        _printerTypeField.interactable = true;
+        _descriptionField.interactable = true;
+        _paperField.interactable = true;
+        _inkField.interactable = true;
+
+        _locateAt.interactable = true;
+        _status.interactable = true;
     }
 
     private void DisableInputField()
     {
-        printerNameInput.interactable = false;
-        printerRoomInput.interactable = false;
+        _printerNameField.interactable = false;
+        _printerTypeField.interactable = false;
+        _descriptionField.interactable = false;
+        _paperField.interactable = false;
+        _inkField.interactable = false;
+
+        _locateAt.interactable = false;
+        _status.interactable = false;
     }
     #endregion
 
@@ -72,7 +86,7 @@ public class DetailCampusV : MonoBehaviour
     #region - Add event button -
     private void AddEventEditButton()
     {
-        Button buttonComponent = _edit.GetComponentInChildren<Button>();
+        Button buttonComponent = GetComponentButton(ref _edit);
 
         buttonComponent.onClick.AddListener(EnableInputField);
         buttonComponent.onClick.AddListener(DisableModifyButton);
@@ -81,12 +95,17 @@ public class DetailCampusV : MonoBehaviour
 
     private void AddEventBackButton()
     {
-        Button buttonComponent = _back.GetComponentInChildren<Button>();
+        Button buttonComponent = GetComponentButton(ref _back);
 
         buttonComponent.onClick.AddListener(SwitchUIBack);
         buttonComponent.onClick.AddListener(DisableInputField);
         buttonComponent.onClick.AddListener(EnableModifyButton);
         buttonComponent.onClick.AddListener(DisableSaveButton);
+    }
+
+    private Button GetComponentButton(ref GameObject objectButton)
+    {
+        return objectButton.GetComponent<Button>();
     }
     #endregion
 
@@ -104,8 +123,14 @@ public class DetailCampusV : MonoBehaviour
     [SerializeField] private GameObject _delete;
     [SerializeField] private GameObject _back;
 
-    public TMP_InputField printerNameInput;
-    public TMP_InputField printerRoomInput;
+    [SerializeField] private TMP_InputField _printerNameField;
+    [SerializeField] private TMP_InputField _printerTypeField;
+    [SerializeField] private TMP_InputField _descriptionField;
+    [SerializeField] private TMP_InputField _paperField;
+    [SerializeField] private TMP_InputField _inkField;
+
+    [SerializeField] private TMP_Dropdown _locateAt;
+    [SerializeField] private TMP_Dropdown _status;
 
     #endregion
 }

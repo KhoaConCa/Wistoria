@@ -13,6 +13,11 @@ TagManager:
   - SearchCampus
   - CreateCampus
   - ObjectContain
+  - ValueNamePrinter
+  - DetailPrinter
+  - SearchPrinter
+  - CreatePrinter
+  - MainUIPrinter
   layers:
   - Default
   - TransparentFX
