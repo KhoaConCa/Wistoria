@@ -115,8 +115,8 @@ public class DetailPrinterV : MonoBehaviour
 
     private ITransformUI _transformUI;
 
-    [TagSelector][SerializeField] private string _targetTag;
-    [TagSelector][SerializeField] private string _parentTag;
+    [SerializeField] private string _targetTag;
+    [SerializeField] private string _parentTag;
 
     [SerializeField] private GameObject _edit;
     [SerializeField] private GameObject _save;

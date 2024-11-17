@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.SearchService;
 
@@ -155,8 +154,8 @@ public class UITransformV : MonoBehaviour, ITransformUI
 
     [SerializeField] private Transform _objectTransform;
 
-    [TagSelector] [SerializeField] private string _tagName;
-    [TagSelector] [SerializeField] private string _defaultUI;
+    [SerializeField] private string _tagName;
+    [SerializeField] private string _defaultUI;
 
     [SerializeField] private List<GameObject> _objectUIs = new List<GameObject>();
     

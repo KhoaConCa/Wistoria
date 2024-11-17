@@ -102,7 +102,7 @@ public class ModifyPrinterC : MonoBehaviour, IModifyPrinterCommand
 
     private Button _clickCard;
 
-    [TagSelector][SerializeField] private string _modifyTagName;
+    [SerializeField] private string _modifyTagName;
 
     #endregion
 }

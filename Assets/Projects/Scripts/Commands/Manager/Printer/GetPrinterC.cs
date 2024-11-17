@@ -139,7 +139,7 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
 
     public TMP_Dropdown findNameInput;
 
-    [TagSelector][SerializeField] private string _tagName;
+    [SerializeField] private string _tagName;
 
     #endregion
 }

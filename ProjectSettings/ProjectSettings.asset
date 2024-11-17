@@ -877,7 +877,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -897,11 +903,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 27d9bdef-b146-492d-86dc-fc78f5375c63
+  cloudProjectId: 6a503670-557b-4fd5-9491-4194cdcea606
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Wistoria
-  organizationId: dnk270204
+  organizationId: puppy2806
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

@@ -16,13 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 39d53a2f42f493c439e43cebe3da4195
-  m_SerializeEntries:
-  - m_GUID: a412c2add4fb72148b317f3df70ab87b
-    m_Address: Assets/Addons/MyGUI/MyPrefab/PrefabTest/CardPrinter.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Printer
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}
   m_SchemaSet:

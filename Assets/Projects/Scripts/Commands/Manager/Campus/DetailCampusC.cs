@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-using UnityEditor.PackageManager.Requests;
-using CampusDataManager;
+using UnityEngine.UI;   
 using System;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
@@ -23,8 +21,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
                 return;
             }
 
-            _campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusName;
-            _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusRoom;
+            _cardData = campus;
         }
         catch (Exception e)
         {
@@ -36,11 +33,29 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     #region -- Methods -- 
 
-    void Start()
+    void Awake()
     {
         AddComponentHandler();
 
         _saveButton?.onClick.AddListener(OnClickSaveButton);
+    }
+
+    void OnEnable()
+    {
+        if (_campusNameField != null && _campusRoomField != null)
+            SetData();
+    }
+
+    void OnDisable()
+    {
+        if (_campusNameField != null && _campusRoomField != null)
+            ClearDataModify();
+}
+
+    private void SetData()
+    {
+        _campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusName;
+        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusRoom;
     }
 
     private void AddComponentHandler()
@@ -55,7 +70,6 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     {
         SetDataModify();
         GetDataModify();
-        ClearDataModify();
 
         StartCoroutine(_updateHandler.UpdateCampusData(_campusData, OnSuccess, OnFailed));
     }
@@ -82,22 +96,25 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     private void GetDataModify()
     {
-        _campusData._id = CampusManager.currentCampusID;
-        _campusData.CampusName = CampusManager.currentCampusName;
-        _campusData.Room = CampusManager.currentCampusRoom;
-        _campusData.__v = CampusManager.__v;
+        _campusData._id = _cardData.CampusID;
+        _campusData.CampusName = _cardData.CampusName;
+        _campusData.Room = _cardData.CampusRoom;
+        _campusData.__v = "0";
     }
 
     private void SetDataModify()
     {
-        CampusManager.currentCampusName = _campusNameField.textComponent.text;
-        CampusManager.currentCampusRoom = _campusRoomField.textComponent.text;
+        _cardData.CampusName = _campusNameField.textComponent.text;
+        _cardData.CampusRoom = _campusRoomField.textComponent.text;
     }
 
     private void ClearDataModify()
     {
-        _campusNameField.textComponent.text = null;
-        _campusRoomField.textComponent.text = null;
+        _campusNameField.text = "";
+        _campusRoomField.text = "";
+
+        _campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
+        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
     }
 
     #endregion

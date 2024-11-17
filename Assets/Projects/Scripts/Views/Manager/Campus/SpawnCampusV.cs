@@ -41,7 +41,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
 
     #region -- Methods --
 
-    void Start()
+    void Awake()
     {
         AddComponentDefault();
         GetComponentDefault();
