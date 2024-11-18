@@ -15,10 +15,10 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: a317877218dbefb4993ba6d9aac67e49
+  m_GUID: c3f2328a264f9474ca9877fffc40ea8d
   m_SerializeEntries:
   - m_GUID: 14cb5c3b9a491c043a8dbadf5c747682
-    m_Address: CampusCardManager
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/CampusCardManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Campus
