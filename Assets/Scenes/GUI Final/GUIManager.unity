@@ -1134,8 +1134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectTransform: {fileID: 0}
-  _tagName: MainUICampus
-  _defaultUI: SearchCampus
+  _tagName: MainUI
+  _defaultUI: SearchUI
   _objectUIs: []
 --- !u!1 &163642379
 GameObject:
@@ -4634,8 +4634,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cc11bb4b90f4f4f86ab0c98d2ff51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTag: SearchCampus
-  _parentTag: MainUICampus
+  _targetTag: SearchUI
+  _parentTag: MainUI
   _edit: {fileID: 2073919217}
   _save: {fileID: 1624670254}
   _delete: {fileID: 399528856}
@@ -8643,7 +8643,7 @@ MonoBehaviour:
   getButton: {fileID: 1989037380}
   _addButton: {fileID: 2117861405}
   findNameInput: {fileID: 1363927187}
-  _tagName: CreateCampus
+  _tagName: CreateUI
 --- !u!114 &1275780493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9717,7 +9717,7 @@ MonoBehaviour:
   _campusNameField: {fileID: 1255395795}
   _campusRoomField: {fileID: 878699572}
   _campusNameDropDown: {fileID: 336004230}
-  _tagName: SearchCampus
+  _tagName: SearchUI
 --- !u!114 &1542194098
 MonoBehaviour:
   m_ObjectHideFlags: 0

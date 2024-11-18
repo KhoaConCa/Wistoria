@@ -50,7 +50,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private void GetTransformUI()
     {
         if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
         else
             Debug.Log("The UITransformV component already exiests");
     }
@@ -71,8 +71,8 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         if (_detail == null)
         {
-            GameObject parentObject = GameObject.FindWithTag("MainUICampus");
-            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("DetailCampus");
+            GameObject parentObject = GameObject.FindWithTag("MainUI");
+            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("EditUI");
             _detail = childParent.GetComponent<DetailCampusC>();
         }
         else
