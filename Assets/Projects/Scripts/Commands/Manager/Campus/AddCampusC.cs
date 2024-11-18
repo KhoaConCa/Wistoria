@@ -45,7 +45,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     {
         if (_transformUI == null)
         {
-            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
         }
         else
         {
