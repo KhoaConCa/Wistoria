@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class StudentPrinterD 
 {
+    public string _id { get; set; }
     public string PrinterName { get; set; }
     public string PrinterType { get; set; }
     public string Description { get; set; }

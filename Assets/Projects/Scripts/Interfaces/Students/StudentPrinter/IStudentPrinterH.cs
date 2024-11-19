@@ -12,8 +12,8 @@ public interface IGetStudentPrinterHandler
     /// <returns>IEnumerator for coroutine.</returns>
     IEnumerator GetAllStudentPrinter(Action<StudentPrinterD> onStudentPrinterFound);
 }
-/*public interface IPackageClickH
+public interface IStudentPrinterClickH
 {
-    void ClickPackage();
+    void ClickStudentPrinter();
     void SetUpButton();
-}*/
+}

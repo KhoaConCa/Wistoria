@@ -25,6 +25,17 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
             {
                 Debug.Log("Prefab spawned successfully.");
 
+                var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
+                if (printerDocCardData != null)
+                {
+                    Debug.Log("PackageCardData component found. Initializing...");
+                    printerDocCardData.Initialize(studentPrinter._id);
+                }
+                else
+                {
+                    Debug.LogError("PackageCardData component is missing on the prefab. Please ensure the component is attached.");
+                }
+
                 FindComponentUI(_studentPrinterPrinterName, _studentPrinterCampusName, _studentPrinterStatus);
                 UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.CampusName, studentPrinter.Status);
             }
