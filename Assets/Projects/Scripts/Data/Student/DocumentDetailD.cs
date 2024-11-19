@@ -6,8 +6,6 @@ using UnityEngine;
 public class DocumentDetailD : IDocumentDetailData
 {
     #region -- Fields --
-
-
     public string PaperSize { get; set; } = "A4";
     public string PaperType { get; set; } = "Một mặt";
     public string PageOrientation { get; set; } = "Portrait";

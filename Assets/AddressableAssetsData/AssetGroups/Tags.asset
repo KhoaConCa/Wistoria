@@ -31,7 +31,8 @@ MonoBehaviour:
   - m_GUID: 748d66853d761be4da7d57006abd9650
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/PrintTag.prefab
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - StudentPrinter
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9fd01ff10c5c524489045db048c553ed
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/InfoTag.prefab

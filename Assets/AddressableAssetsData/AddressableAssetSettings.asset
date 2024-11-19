@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: a317877218dbefb4993ba6d9aac67e49
   m_currentHash:
     serializedVersion: 2
-    Hash: 3401cee0257c63c6827516d514e95e41
+    Hash: a1ed104ecdd70d546573ca429785c394
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
     - Campus
     - Package
     - PageTag
+    - StudentPrinter
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}
