@@ -1,92 +1,116 @@
-﻿/*using System.IO;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Utilities;
 
-public class StudentUpdater : IStudentUpdater
+public class StudentUpdater : MonoBehaviour, IStudentUpdater
 {
-    private readonly string apiUrl = "https://your-api-endpoint.com/api/student";
-    private readonly string studentId = "your-fixed-student-id"; // Gắn sẵn studentId
+    private const string BaseUrl = "https://server-wistoria-api.vercel.app/student/";
 
-    public async void UpdateStudentPaperCount(int paperCount)
+    /// <summary>
+    /// Fetches the student data from the server by student ID.
+    /// </summary>
+    /// <param name="studentId">The ID of the student.</param>
+    /// <param name="onSuccess">Callback for success, passing the fetched student data.</param>
+    /// <param name="onError">Callback for failure, passing the error message.</param>
+    public IEnumerator FetchStudentData(string studentId, System.Action<StudentD> onSuccess, System.Action<string> onError)
     {
-        // Lấy thông tin sinh viên từ API
-        StudentD student = await FetchStudentData();
-
-        if (student == null)
+        if (string.IsNullOrEmpty(studentId))
         {
-            Debug.LogError($"Student with ID {studentId} not found!");
-            return;
+            onError?.Invoke("Student ID is null or empty. Cannot fetch student data.");
+            yield break;
         }
 
-        // Cập nhật số giấy
-        int currentPaper = int.Parse(student.Paper);
-        student.Paper = (currentPaper + paperCount).ToString();
+        string fetchUrl = $"{BaseUrl}search/id?id={studentId}";
+        UnityWebRequest fetchRequest = UnityWebRequest.Get(fetchUrl);
 
-        // Lưu lại vào JSON
-        string json = JsonUtility.ToJson(student, true);
-        string path = $"{Application.persistentDataPath}/Student.json";
-        File.WriteAllText(path, json);
+        yield return fetchRequest.SendWebRequest();
 
-        Debug.Log($"Student data updated: {json}");
-
-        // Đẩy dữ liệu đã cập nhật lên API (nếu cần)
-        await PushUpdatedStudentData(student);
-    }
-
-    private async Task<StudentD> FetchStudentData()
-    {
-        string url = $"{apiUrl}/{studentId}";
-
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        if (fetchRequest.result == UnityWebRequest.Result.Success)
         {
-            request.SetRequestHeader("Content-Type", "application/json");
+            string jsonResponse = fetchRequest.downloadHandler.text;
+            Debug.Log($"Fetched student data: {jsonResponse}");
 
-            var operation = request.SendWebRequest();
-            while (!operation.isDone)
-            {
-                await Task.Yield();
-            }
+            StudentD student = MainHandler.FromJson<StudentD>(jsonResponse)[0];
 
-            if (request.result == UnityWebRequest.Result.Success)
+            if (student != null)
             {
-                Debug.Log($"Student data fetched: {request.downloadHandler.text}");
-                return JsonUtility.FromJson<StudentD>(request.downloadHandler.text);
+                onSuccess?.Invoke(student);
             }
             else
             {
-                Debug.LogError($"Error fetching student data: {request.error}");
-                return null;
+                onError?.Invoke("Failed to parse student data.");
             }
+        }
+        else
+        {
+            onError?.Invoke($"Failed to fetch student data: {fetchRequest.error}");
+            Debug.LogError($"Response: {fetchRequest.downloadHandler.text}");
         }
     }
 
-    private async Task PushUpdatedStudentData(StudentD student)
+    /// <summary>
+    /// Updates the student's paper count on the server.
+    /// </summary>
+    /// <param name="studentId">The student ID to update.</param>
+    /// <param name="newPaperCount">The new paper count.</param>
+    /// <param name="onSuccess">Callback for success.</param>
+    /// <param name="onError">Callback for failure, passing the error message.</param>
+    public IEnumerator UpdateStudentPaper(string studentId, int newPaperCount, System.Action onSuccess, System.Action<string> onError)
     {
-        string url = $"{apiUrl}/{student.StudentId}";
-        string json = JsonUtility.ToJson(student);
-
-        using (UnityWebRequest request = UnityWebRequest.Put(url, json))
+        if (string.IsNullOrEmpty(studentId))
         {
-            request.SetRequestHeader("Content-Type", "application/json");
-
-            var operation = request.SendWebRequest();
-            while (!operation.isDone)
-            {
-                await Task.Yield();
-            }
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Student data updated successfully on the server.");
-            }
-            else
-            {
-                Debug.LogError($"Error updating student data: {request.error}");
-            }
+            onError?.Invoke("Student ID is null or empty. Cannot update paper count.");
+            yield break;
         }
+
+        // Construct the payload for the paper update
+        var payload = new { paper = newPaperCount };
+        string updatedJson = JsonConvert.SerializeObject(payload);
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(updatedJson);
+
+        string updateUrl = $"{BaseUrl}update/paper?id={studentId}";
+        UnityWebRequest patchRequest = new UnityWebRequest(updateUrl, "PATCH")
+        {
+            uploadHandler = new UploadHandlerRaw(bodyRaw),
+            downloadHandler = new DownloadHandlerBuffer()
+        };
+        patchRequest.SetRequestHeader("Content-Type", "application/json");
+
+        yield return patchRequest.SendWebRequest();
+
+        if (patchRequest.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Student paper count updated successfully.");
+            Debug.Log($"Response: {patchRequest.downloadHandler.text}");
+            onSuccess?.Invoke();
+        }
+        else
+        {
+            onError?.Invoke($"Failed to update student data: {patchRequest.error}");
+            Debug.LogError($"Response: {patchRequest.downloadHandler.text}");
+        }
+    }
+
+    /// <summary>
+    /// Fetches the current student data, increments the paper count, and updates the server.
+    /// </summary>
+    /// <param name="studentId">The student ID to fetch and update.</param>
+    /// <param name="additionalPaper">The additional paper count to add.</param>
+    /// <returns>An IEnumerator for coroutine usage.</returns>
+    public IEnumerator FetchAndIncrementPaper(string studentId, int additionalPaper)
+    {
+        yield return FetchStudentData(studentId,
+            student =>
+            {
+                int currentPaperCount = int.Parse(student.Paper);
+                int updatedPaperCount = currentPaperCount + additionalPaper;
+
+                StartCoroutine(UpdateStudentPaper(studentId, updatedPaperCount,
+                    () => Debug.Log("Student paper count successfully incremented."),
+                    error => Debug.LogError(error)));
+            },
+            error => Debug.LogError(error));
     }
 }
-
-
-*/
