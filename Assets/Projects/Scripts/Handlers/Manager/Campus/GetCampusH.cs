@@ -40,7 +40,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     {
         _onCampusFound = onCampusFound;
 
-        using (UnityWebRequest request = UnityWebRequest.Get(_getAllURL))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
         {
             yield return request.SendWebRequest();
 
@@ -77,7 +77,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     {
         _onCampusFound = onCampusFound;
 
-        string searchURL = $"{_getURL}?name={UnityWebRequest.EscapeURL(campusName)}";
+        string searchURL = $"{AllUrl.searchCampusByName}?name={UnityWebRequest.EscapeURL(campusName)}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
@@ -106,12 +106,44 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
         }
     }
 
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        {
+            yield return request.SendWebRequest();
+
+            switch (request.result)
+            {
+                case 
+                    UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Error: " + request.error);
+                    break;
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    _onCampusFound?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    _onCampusFound?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    Debug.Log(jsonResponse);
+
+                    List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
+
+                    onNameCampus.Invoke(campusNames);
+                    break;
+            }
+        }
+    }
+
     #endregion
 
     #region -- Fields --
-
-    private readonly string _getURL = "https://server-wistoria-api.vercel.app/campus/search/name";
-    private readonly string _getAllURL = "https://server-wistoria-api.vercel.app/campus";
 
     private Action<CampusD> _onCampusFound;
 

@@ -17,6 +17,7 @@ public interface IGetCampusHandler : IDataCampusTransferHandler
 {
     IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
+    IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
 }
 
 public interface IAddCampusHandler

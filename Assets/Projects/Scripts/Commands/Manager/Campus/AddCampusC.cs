@@ -30,7 +30,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     void OnDisable()
     {
-
+        
     }
 
     private void AddComponentAddHandler()
@@ -77,30 +77,6 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
         //_newCampus.Room = _campusRoomField.text;
     }
 
-    public void SwitchAddNewCampus()
-    {
-        Toggle toggleButton = _addNewCampus.GetComponent<Toggle>();
-        
-        if (toggleButton.isOn)
-        {
-            _campusNameField.SetActive(true);
-            _campusNameDropDown.SetActive(false);
-        }
-
-    }
-
-    public void SwitchAddNewRoom()
-    {
-        Toggle toggleButton = _addNewRoom.GetComponent<Toggle>();
-
-        if (toggleButton.isOn)
-        {
-            _campusNameField.SetActive(false);
-            _campusNameDropDown.SetActive(true);
-        }
-
-    }
-
     #endregion
 
     #region -- Fields --
@@ -110,16 +86,13 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     private CampusD _newCampus = new CampusD();
 
-    [SerializeField] private GameObject _addButton;
-    [SerializeField] private GameObject _backButton;
+    [SerializeField] private Button _addButton;
+    [SerializeField] private Button _backButton;
 
-    [SerializeField] private GameObject _addNewRoom;
-    [SerializeField] private GameObject _addNewCampus;
+    [SerializeField] private TMP_InputField _campusNameField;
+    [SerializeField] private TMP_InputField _campusRoomField;
 
-    [SerializeField] private GameObject _campusNameField;
-    [SerializeField] private GameObject _campusRoomField;
-
-    [SerializeField] private GameObject _campusNameDropDown;
+    [SerializeField] private TMP_Dropdown _campusNameDropDown;
 
     [SerializeField] private string _tagName;
 

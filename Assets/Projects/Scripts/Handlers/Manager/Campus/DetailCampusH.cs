@@ -16,7 +16,7 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
     public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed)
     {
-        string url = $"{_updateURL}/{campus._id}";
+        string url = $"{AllUrl.updateCampus}/{campus._id}";
         Debug.Log(url);
 
         string json = TransferData(campus);
@@ -24,6 +24,7 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
@@ -51,7 +52,7 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
     #region -- Fields --
 
-    private readonly string _updateURL = "https://server-wistoria-api.vercel.app/campus/update";
+    
 
     #endregion
 }
