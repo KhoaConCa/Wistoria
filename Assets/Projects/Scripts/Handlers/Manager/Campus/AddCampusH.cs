@@ -14,7 +14,7 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
     {
         string json = TransferData(campus);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(_createURL, json, "application/json"))
+        using (UnityWebRequest www = UnityWebRequest.Post(AllUrl.createCampus, json, "application/json"))
         {
             yield return www.SendWebRequest();
 
@@ -40,9 +40,4 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
 
     #endregion
 
-    #region -- Fields --
-
-    private readonly string _createURL = "https://server-wistoria-api.vercel.app/campus/create";
-
-    #endregion
 }
