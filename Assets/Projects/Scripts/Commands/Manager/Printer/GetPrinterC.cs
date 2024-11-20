@@ -49,9 +49,6 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
         AddComponentPrinterHandler();
         AddComponetPrinterView();
         GetComponentUITransfer();
-
-        getButton.onClick.AddListener(ClickFindButton);
-        _addButton.onClick.AddListener(ClickAddButton);
     }
 
     private void OnEnable()
@@ -121,11 +118,6 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
         return findNameInput.options[selectedIndex].text;
     }
 
-    private void ClickAddButton()
-    {
-        _transformUI.SetActiveObjectUI(_tagName);
-    }
-
     #endregion
 
     #region -- Fields --
@@ -139,7 +131,7 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
 
     public TMP_Dropdown findNameInput;
 
-    [SerializeField] private string _tagName;
+    [SerializeField] private GameObject _targetObject;
 
     #endregion
 }

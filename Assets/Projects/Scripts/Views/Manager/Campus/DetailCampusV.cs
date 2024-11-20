@@ -8,90 +8,50 @@ public class DetailCampusV : MonoBehaviour
 {
     #region -- Methods --
 
-    void Awake()
-    {
-        GetComponentDefault();
-
-        AddEventEditButton();
-        AddEventBackButton();
-    }
-
     private void OnEnable()
     {
-        DisableInputField();
+        DisableInteractableField();
     }
 
-    private void GetComponentDefault()
+    private void OnDisable()
     {
-        if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag(_parentTag).GetComponent<UITransformV>();
-        else
-            Debug.Log("The UITransformV component already exists");
+        ResetInteractableField();
     }
 
-    private Button GetComponentButton(GameObject button)
+    #region - Interactable fields -
+    public void EnableInteractableField()
     {
-        return button.GetComponentInChildren<Button>();
-    }
-    #region - Input fields -
-    private void EnableInputField()
-    {
+        _campusRoomInput.GetComponent<TMP_InputField>().interactable = true;
+
+        _campusNameDropDown.GetComponent<TMP_Dropdown>().interactable = true;
     }
 
-    private void DisableInputField()
+    public void DisableInteractableField()
     {
-    }
-    #endregion
+        _campusRoomInput.GetComponent<TMP_InputField>().interactable = false;
 
-    #region - Button back -
-    private void SwitchUIBack()
+        _campusNameDropDown.GetComponent<TMP_Dropdown>().interactable = false;
+    }
+
+    public void ResetInteractableField()
     {
-        _transformUI.SetActiveObjectUI(_targetTag);
+        _campusNameDropDown.GetComponent<TMP_Dropdown>().ClearOptions();
+
+        TMP_InputField inputFieldRoom = _campusRoomInput.GetComponent<TMP_InputField>();
+        inputFieldRoom.text = "";
+        inputFieldRoom.placeholder.GetComponent<TextMeshProUGUI>().text = "";
     }
     #endregion
 
     #region - Button edit -
-    private void EnableModifyButton()
+    public void EnableModifyButton(GameObject buttonObject)
     {
-        _edit.SetActive(true);
+        buttonObject.SetActive(true);
     }
 
-    private void DisableModifyButton()
+    public void DisableModifyButton(GameObject buttonObject)
     {
-        _edit.SetActive(false);
-    }
-    #endregion
-
-    #region - Button save -
-    private void EnableSaveButton()
-    {
-        _save.SetActive(true);
-    }
-
-    private void DisableSaveButton()
-    {
-        _save.SetActive(false);
-    }
-    #endregion
-
-    #region - Add event button -
-    private void AddEventEditButton()
-    {
-        Button buttonComponent = _edit.GetComponent<Button>();
-
-        buttonComponent.onClick.AddListener(EnableInputField);
-        buttonComponent.onClick.AddListener(DisableModifyButton);
-        buttonComponent.onClick.AddListener(EnableSaveButton);
-    }
-
-    private void AddEventBackButton()
-    {
-        Button buttonComponent = _back.GetComponent<Button>();
-
-        buttonComponent.onClick.AddListener(SwitchUIBack);
-        buttonComponent.onClick.AddListener(DisableInputField);
-        buttonComponent.onClick.AddListener(EnableModifyButton);
-        buttonComponent.onClick.AddListener(DisableSaveButton);
+        buttonObject.SetActive(false);
     }
     #endregion
 
@@ -99,17 +59,8 @@ public class DetailCampusV : MonoBehaviour
 
     #region -- Fields --
 
-    private ITransformUI _transformUI;
-
-    [SerializeField] private string _targetTag;
-    [SerializeField] private string _parentTag;
-
-    [SerializeField] private GameObject _edit;
-    [SerializeField] private GameObject _save;
-    [SerializeField] private GameObject _delete;
-    [SerializeField] private GameObject _back;
-
-    public TMP_InputField campusRoomInput;
+    [SerializeField] private GameObject _campusRoomInput;
+    [SerializeField] private GameObject _campusNameDropDown;
 
     #endregion
 }

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using CampusDataManager;
+using Utilities;
 
 public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 {
@@ -19,7 +20,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
         _detail.DisplayCampusDetails(_cardData);
 
-        _transformUI.SetActiveObjectUI(_modifyTagName);
+        _transformUI.SetActiveObjectUI(_targetObject);
     }
 
     /// <summary>
@@ -71,9 +72,11 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         if (_detail == null)
         {
-            GameObject parentObject = GameObject.FindWithTag("MainUI");
-            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("EditUI");
-            _detail = childParent.GetComponent<DetailCampusC>();
+            /*GameObject parentObject = GameObject.FindWithTag("MainUI");
+            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("EditUI");*/
+            Transform childObject = MainView.FindChildObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
+            _targetObject = childObject.gameObject;
+            _detail = _targetObject.GetComponent<DetailCampusC>();
         }
         else
         {
@@ -101,7 +104,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     private Button _clickCard;
 
-    [SerializeField] private string _modifyTagName;
+    [SerializeField] private GameObject _targetObject;
 
     #endregion
 }

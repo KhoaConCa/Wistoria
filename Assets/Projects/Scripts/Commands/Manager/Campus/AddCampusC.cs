@@ -58,11 +58,6 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
         Debug.Log($"Create a campus: {campus.CampusName}, room: {campus.Room}");
     }
 
-    private void ClickBackButton()
-    {
-        _transformUI.SetActiveObjectUI(_tagName);
-    }
-
     private void SetEventButton()
     {
 
