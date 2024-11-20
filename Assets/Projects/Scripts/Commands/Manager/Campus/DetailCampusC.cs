@@ -42,25 +42,35 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     void OnEnable()
     {
-        if (_campusNameDropDown != null && _campusRoomField != null)
-            StartCoroutine(_updateHandler.GetUniqueName(SetData));
+        if (_campusNameDropDown != null && _campusNameDropDown != null)
+        {
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName));
+            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom));
+        }
     }
 
     void OnDisable()
     {
-        if (_campusNameDropDown != null && _campusRoomField != null)
+        if (_campusNameDropDown != null && _campusRoomDropDown != null)
             ClearDataModify();
 }
 
-    private void SetData(List<string> campusName)
+    private void SetDataCampusName(List<string> campusName)
     {
         _campusNameDropDown.ClearOptions();
 
         _campusNameDropDown.AddOptions(campusName);
         int indexSelected = campusName.IndexOf(_cardData.CampusName);
         _campusNameDropDown.value = indexSelected;
+    }
 
-        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusRoom;
+    private void SetDataCampusRoom(List<string> campusRoom)
+    {
+        _campusRoomDropDown.ClearOptions();
+
+        _campusRoomDropDown.AddOptions(campusRoom);
+        int indexSelected = campusRoom.IndexOf(_cardData.CampusRoom);
+        _campusRoomDropDown.value = indexSelected;
     }
 
     private void AddComponentHandler()
@@ -110,17 +120,13 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     private void SetDataModify()
     {
         _cardData.CampusName = _campusNameDropDown.captionText.text;
-
-        if (_campusRoomField.text != null)
-            _cardData.CampusRoom =  _campusRoomField.text;
+        _cardData.CampusRoom = _campusRoomDropDown.captionText.text;
     }
 
     private void ClearDataModify()
     {
         _campusNameDropDown.ClearOptions();
-
-        _campusRoomField.text = "";
-        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
+        _campusRoomDropDown.ClearOptions();
     }
 
     #endregion
@@ -138,8 +144,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     [SerializeField] private Button _backButton;
 
     [SerializeField] private TMP_Dropdown _campusNameDropDown;
-
-    [SerializeField] private TMP_InputField _campusRoomField;
+    [SerializeField] private TMP_Dropdown _campusRoomDropDown;
 
     #endregion
 }

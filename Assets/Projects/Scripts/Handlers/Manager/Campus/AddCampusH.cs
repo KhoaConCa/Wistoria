@@ -29,6 +29,38 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
         }
     }
 
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        {
+            yield return request.SendWebRequest();
+
+            switch (request.result)
+            {
+                case
+                    UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Error: " + request.error);
+                    break;
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    onNameCampus?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    onNameCampus?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
+                    onNameCampus.Invoke(campusNames);
+                    break;
+            }
+        }
+    }
+
     #endregion
 
     #region -- Methods --

@@ -13,6 +13,7 @@ public interface IDetailCampusUpdateHandler
     IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed);
 
     IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
+    IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus);
 }
 
 public interface IGetCampusHandler : IDataCampusTransferHandler
@@ -25,4 +26,6 @@ public interface IGetCampusHandler : IDataCampusTransferHandler
 public interface IAddCampusHandler
 {
     IEnumerator AddNewCampus(CampusD campus, Action<CampusD> onSuccess);
+
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
 }

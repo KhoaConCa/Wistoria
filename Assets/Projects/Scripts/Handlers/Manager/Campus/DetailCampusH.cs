@@ -69,11 +69,40 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
                 case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
-
                     List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
-
                     onNameCampus.Invoke(campusNames);
+                    break;
+            }
+        }
+    }
+
+    public IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueRooms))
+        {
+            yield return request.SendWebRequest();
+
+            switch (request.result)
+            {
+                case
+                    UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Error: " + request.error);
+                    break;
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    onRoomCampus?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    onRoomCampus?.Invoke(null);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    List<string> campusRoom = MainHandler.FromJson<string>(jsonResponse);
+                    onRoomCampus.Invoke(campusRoom);
                     break;
             }
         }

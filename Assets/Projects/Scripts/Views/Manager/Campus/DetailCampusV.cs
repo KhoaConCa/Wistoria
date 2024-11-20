@@ -18,32 +18,28 @@ public class DetailCampusV : MonoBehaviour
         ResetInteractableField();
     }
 
-    #region - Interactable fields -
+    #region - Interactable Fields -
     public void EnableInteractableField()
     {
-        _campusRoomInput.GetComponent<TMP_InputField>().interactable = true;
-
+        _campusRoomDropDown.GetComponent<TMP_Dropdown>().interactable = true;
         _campusNameDropDown.GetComponent<TMP_Dropdown>().interactable = true;
     }
 
     public void DisableInteractableField()
     {
-        _campusRoomInput.GetComponent<TMP_InputField>().interactable = false;
-
+        _campusRoomDropDown.GetComponent<TMP_Dropdown>().interactable = false;
         _campusNameDropDown.GetComponent<TMP_Dropdown>().interactable = false;
     }
 
     public void ResetInteractableField()
     {
         _campusNameDropDown.GetComponent<TMP_Dropdown>().ClearOptions();
+        _campusRoomDropDown.GetComponent<TMP_Dropdown>().ClearOptions();
 
-        TMP_InputField inputFieldRoom = _campusRoomInput.GetComponent<TMP_InputField>();
-        inputFieldRoom.text = "";
-        inputFieldRoom.placeholder.GetComponent<TextMeshProUGUI>().text = "";
     }
     #endregion
 
-    #region - Button edit -
+    #region - Modify Button Event -
     public void EnableModifyButton(GameObject buttonObject)
     {
         buttonObject.SetActive(true);
@@ -59,7 +55,7 @@ public class DetailCampusV : MonoBehaviour
 
     #region -- Fields --
 
-    [SerializeField] private GameObject _campusRoomInput;
+    [SerializeField] private GameObject _campusRoomDropDown;
     [SerializeField] private GameObject _campusNameDropDown;
 
     #endregion

@@ -13,6 +13,7 @@ public static class AllUrl
 
     #region - GET -
     public static readonly string getCampusUniqueNames = "https://server-wistoria-api.vercel.app/campus/unique-names";
+    public static readonly string getCampusUniqueRooms = "https://server-wistoria-api.vercel.app/campus/unique-rooms";
     public static readonly string searchCampusByName = "https://server-wistoria-api.vercel.app/campus/search/name";
     public static readonly string getAllCampus = "https://server-wistoria-api.vercel.app/campus";
     #endregion
