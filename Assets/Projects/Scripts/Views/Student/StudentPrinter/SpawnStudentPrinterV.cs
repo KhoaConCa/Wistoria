@@ -15,7 +15,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     /// Using addressable to create prefab
     /// </summary>
     /// <param name="package">Data of package</param>
-    public void CreateCard(StudentPrinterD studentPrinter)
+    public void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDoc)
     {
         MainHandler.ClearSpawnedPrefabs();
 
@@ -29,7 +29,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                 if (printerDocCardData != null)
                 {
                     Debug.Log("PackageCardData component found. Initializing...");
-                    printerDocCardData.Initialize(studentPrinter._id);
+                    printerDocCardData.Initialize(studentPrinter._id, printerDoc);
                 }
                 else
                 {

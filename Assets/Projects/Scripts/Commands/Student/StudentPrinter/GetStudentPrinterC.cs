@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -37,17 +37,41 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
     {
         if (studentPrinter != null)
         {
-            Debug.Log($"Found printer: {studentPrinter.PrinterName}, campus: {studentPrinter.LocateAt.CampusName}, status: {studentPrinter.Status}");
-            _spawnStudentPrinterView.CreateCard(studentPrinter);
+            // Example of fetching PrinterDocD (adjust as per your data source)
+            PrinterDocD printerDoc = FetchPrinterDocData(studentPrinter._id);
 
-
+            if (printerDoc != null)
+            {
+                Debug.Log($"Found printer: {studentPrinter.PrinterName}, campus: {studentPrinter.LocateAt.CampusName}, status: {studentPrinter.Status}");
+                _spawnStudentPrinterView.CreateCard(studentPrinter, printerDoc);
+            }
+            else
+            {
+                Debug.LogError($"PrinterDoc data not found for Printer ID: {studentPrinter._id}");
+            }
         }
         else
         {
-            Debug.Log("Package not found.");
+            Debug.Log("Student printer not found.");
         }
     }
 
+    private PrinterDocD FetchPrinterDocData(string printerId)
+    {
+        // Replace this with the actual logic to fetch PrinterDocD data
+        return new PrinterDocD
+        {
+            Id = printerId,
+            PrinterId = printerId,
+            DocumentId = "673ca1094077d00f2d6453c1",
+            PaperSize = "A4",
+            Side = 1,
+            PageBegin = 1,
+            PageEnd = 10,
+            Copies = 2,
+            Color = true
+        };
+    }
     #endregion
 
     #region -- Add Components --

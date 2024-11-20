@@ -15,7 +15,14 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
             return;
         }
 
+        // Log the data retrieved from the PrinterDocCardData component
         Debug.Log($"Printer Clicked! Printer ID: {_printerDocData.PrinterId}");
+        Debug.Log($"Paper Size: {_printerDocData.PrinterDocDetails.PaperSize}");
+        Debug.Log($"Side: {_printerDocData.PrinterDocDetails.Side}");
+        Debug.Log($"Page Begin: {_printerDocData.PrinterDocDetails.PageBegin}");
+        Debug.Log($"Page End: {_printerDocData.PrinterDocDetails.PageEnd}");
+        Debug.Log($"Copies: {_printerDocData.PrinterDocDetails.Copies}");
+        Debug.Log($"Color: {_printerDocData.PrinterDocDetails.Color}");
 
         // Use the PrinterID for further operations
         string printerId = _printerDocData.PrinterId;
@@ -27,7 +34,6 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
     private void ProcessPrinterID(string printerId)
     {
         Debug.Log($"Processing Printer ID: {printerId}");
-        // Implement additional logic here
     }
 
 
