@@ -19,7 +19,7 @@ public class ModifyPrinterC : MonoBehaviour, IModifyPrinterCommand
 
         _detail.DisplayPrinterDetails(_cardData);
 
-        _transformUI.SetActiveObjectUI(_modifyTagName);
+        //_transformUI.SetActiveObjectUI(_modifyTagName);
     }
 
     /// <summary>

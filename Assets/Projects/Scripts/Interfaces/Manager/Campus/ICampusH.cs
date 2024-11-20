@@ -11,6 +11,8 @@ public interface IDataCampusTransferHandler
 public interface IDetailCampusUpdateHandler
 {
     IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed);
+
+    IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
 }
 
 public interface IGetCampusHandler : IDataCampusTransferHandler
