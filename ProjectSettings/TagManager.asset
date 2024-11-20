@@ -4,15 +4,17 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Campus
-  - DefaultMainScene
-  - MainUICampus
-  - ValueCampus
-  - ValueRoom
-  - DetailCampus
-  - SearchCampus
-  - CreateCampus
   - ObjectContain
+  - ValuePrinter
+  - ValueRoom
+  - ValueCampus
+  - SearchUI
+  - EditUI
+  - CreateUI
+  - MainUI
+  - DefaultMainScene
+  - PackageName
+  - PackageValue
   layers:
   - Default
   - TransparentFX
@@ -49,7 +51,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: New Layer 1
-    uniqueID: 2359490841
     locked: 0

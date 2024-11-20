@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -8,24 +10,6 @@ using Utilities;
 public class GetCampusC : MonoBehaviour, IGetCampusCommand
 {
     #region -- Implements --
-
-    /// <summary>
-    /// Sends a GET request to the server when the button is clicked.
-    /// Retrieves the campus information based on the selected campus name
-    /// </summary>
-    public void ClickFindButton()
-    {
-        string campusName = GetSelectedCampusName();
-
-        if (!string.IsNullOrEmpty(campusName))
-        {
-            StartCoroutine(_campusHandler.GetCampus(campusName, OnCampusFound));
-        }
-        else
-        {
-            Debug.Log("Campus name cannot be empty.");
-        }
-    }
 
     /// <summary>
     /// Handles the response from the server when campus information is found.
@@ -48,10 +32,10 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     {
         AddComponentCampusHandler();
         AddComponetCampusView();
-        GetComponentUITransfer();
 
-        getButton.onClick.AddListener(ClickFindButton);
-        _addButton.onClick.AddListener(ClickAddButton);
+        
+        StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
+
     }
 
     private void OnEnable()
@@ -62,6 +46,8 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
             {
                 StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
             }
+
+            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName));
         }
         catch (Exception e)
         {
@@ -92,21 +78,24 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         if (_campusHandler == null)
         {
             _campusHandler = gameObject.AddComponent<GetCampusH>();
+            
         }
         else
         {
             Debug.Log("The GetCampusH component already exists");
         }
     }
-
-    private void GetComponentUITransfer()
-    {
-        if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
-        else
-            Debug.Log("The UITransformV component already exists");
-    }
     #endregion
+
+    public void GetCampusUniqueName(List<string> campusName)
+    {
+        _uniqueName = campusName;
+        campusName.Insert(0, "Tất cả");
+
+        _nameCampusComboBox.ClearOptions();
+
+        _nameCampusComboBox.AddOptions(campusName);
+    }
 
     /// <summary>
     /// Retrieves the name of the selected campus from the dropdown list
@@ -117,13 +106,24 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     /// </returns>
     public string GetSelectedCampusName()
     {
-        int selectedIndex = findNameInput.value;
-        return findNameInput.options[selectedIndex].text;
+        int selectedIndex = _nameCampusComboBox.value;
+        return _nameCampusComboBox.options[selectedIndex].text;
     }
 
-    private void ClickAddButton()
+    public void SearchCampusByName()
     {
-        _transformUI.SetActiveObjectUI(_tagName);
+        try
+        {
+            string name = _nameCampusComboBox.captionText.text;
+            if (name == _uniqueName[0])
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
+            else
+                StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound));
+        }
+        catch (Exception e) 
+        {
+            Debug.LogError(e.Message); 
+        }
     }
 
     #endregion
@@ -131,15 +131,13 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     #region -- Fields --
 
     private IGetCampusHandler _campusHandler;
-    private ITransformUI _transformUI;
     private ICampusViewSpawner _spawnCampusView;
 
-    public Button getButton;
-    [SerializeField] private Button _addButton;
+    private List<string> _uniqueName;
 
-    public TMP_Dropdown findNameInput;
+    [SerializeField] private Button _getButton;
 
-    [TagSelector] [SerializeField] private string _tagName;
+    [SerializeField] private TMP_Dropdown _nameCampusComboBox;
 
     #endregion
 }

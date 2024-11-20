@@ -11,12 +11,15 @@ public interface IDataCampusTransferHandler
 public interface IDetailCampusUpdateHandler
 {
     IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed);
+
+    IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
 }
 
 public interface IGetCampusHandler : IDataCampusTransferHandler
 {
     IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
     IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
+    IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
 }
 
 public interface IAddCampusHandler

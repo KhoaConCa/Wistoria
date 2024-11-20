@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 using CampusDataManager;
+using Utilities;
 
 public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 {
@@ -20,7 +20,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
         _detail.DisplayCampusDetails(_cardData);
 
-        _transformUI.SetActiveObjectUI(_modifyTagName);
+        _transformUI.SetActiveObjectUI(_targetObject);
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     private void GetTransformUI()
     {
         if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag("MainUICampus").GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
         else
             Debug.Log("The UITransformV component already exiests");
     }
@@ -72,9 +72,11 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         if (_detail == null)
         {
-            GameObject parentObject = GameObject.FindWithTag("MainUICampus");
-            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("DetailCampus");
-            _detail = childParent.GetComponent<DetailCampusC>();
+            /*GameObject parentObject = GameObject.FindWithTag("MainUI");
+            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("EditUI");*/
+            Transform childObject = MainView.FindChildObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
+            _targetObject = childObject.gameObject;
+            _detail = _targetObject.GetComponent<DetailCampusC>();
         }
         else
         {
@@ -102,7 +104,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     private Button _clickCard;
 
-    [TagSelector] [SerializeField] private string _modifyTagName;
+    [SerializeField] private GameObject _targetObject;
 
     #endregion
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
@@ -17,7 +16,7 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
     public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed)
     {
-        string url = $"{_updateURL}/{campus._id}";
+        string url = $"{AllUrl.updateCampus}/{campus._id}";
         Debug.Log(url);
 
         string json = TransferData(campus);
@@ -25,6 +24,7 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
@@ -44,15 +44,40 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
         }
     }
 
-    #endregion
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        {
+            yield return request.SendWebRequest();
 
-    #region -- Methods --
+            switch (request.result)
+            {
+                case
+                    UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Error: " + request.error);
+                    break;
 
-    #endregion
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    onNameCampus?.Invoke(null);
+                    break;
 
-    #region -- Fields --
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    onNameCampus?.Invoke(null);
+                    break;
 
-    private readonly string _updateURL = "https://server-wistoria-api.vercel.app/campus/update";
+                case UnityWebRequest.Result.Success:
+                    string jsonResponse = request.downloadHandler.text;
+                    Debug.Log(jsonResponse);
+
+                    List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
+
+                    onNameCampus.Invoke(campusNames);
+                    break;
+            }
+        }
+    }
 
     #endregion
 }

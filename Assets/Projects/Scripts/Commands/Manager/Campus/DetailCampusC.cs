@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-using UnityEditor.PackageManager.Requests;
-using CampusDataManager;
+using UnityEngine.UI;   
 using System;
+using Utilities;
+using System.Collections.Generic;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -23,8 +23,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
                 return;
             }
 
-            _campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusName;
-            _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = campus.CampusRoom;
+            _cardData = campus;
         }
         catch (Exception e)
         {
@@ -36,11 +35,32 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     #region -- Methods -- 
 
-    void Start()
+    void Awake()
     {
         AddComponentHandler();
+    }
 
-        _saveButton?.onClick.AddListener(OnClickSaveButton);
+    void OnEnable()
+    {
+        if (_campusNameDropDown != null && _campusRoomField != null)
+            StartCoroutine(_updateHandler.GetUniqueName(SetData));
+    }
+
+    void OnDisable()
+    {
+        if (_campusNameDropDown != null && _campusRoomField != null)
+            ClearDataModify();
+}
+
+    private void SetData(List<string> campusName)
+    {
+        _campusNameDropDown.ClearOptions();
+
+        _campusNameDropDown.AddOptions(campusName);
+        int indexSelected = campusName.IndexOf(_cardData.CampusName);
+        _campusNameDropDown.value = indexSelected;
+
+        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusRoom;
     }
 
     private void AddComponentHandler()
@@ -51,11 +71,10 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
             Debug.Log("The DetailCampusH component already exists");
     }
 
-    private void OnClickSaveButton()
+    public void OnClickSaveButton()
     {
         SetDataModify();
         GetDataModify();
-        ClearDataModify();
 
         StartCoroutine(_updateHandler.UpdateCampusData(_campusData, OnSuccess, OnFailed));
     }
@@ -82,39 +101,44 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     private void GetDataModify()
     {
-        _campusData._id = CampusManager.currentCampusID;
-        _campusData.CampusName = CampusManager.currentCampusName;
-        _campusData.Room = CampusManager.currentCampusRoom;
-        _campusData.__v = CampusManager.__v;
+        _campusData._id = _cardData.CampusID;
+        _campusData.CampusName = _cardData.CampusName;
+        _campusData.Room = _cardData.CampusRoom;
+        _campusData.__v = "0";
     }
 
     private void SetDataModify()
     {
-        CampusManager.currentCampusName = _campusNameField.textComponent.text;
-        CampusManager.currentCampusRoom = _campusRoomField.textComponent.text;
+        _cardData.CampusName = _campusNameDropDown.captionText.text;
+
+        if (_campusRoomField.text != null)
+            _cardData.CampusRoom =  _campusRoomField.text;
     }
 
     private void ClearDataModify()
     {
-        _campusNameField.textComponent.text = null;
-        _campusRoomField.textComponent.text = null;
+        _campusNameDropDown.ClearOptions();
+
+        _campusRoomField.text = "";
+        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
     }
 
     #endregion
 
     #region -- Fields -- 
 
-    private CampusD _campusData = new CampusD();
-
     private ICampusCardData _cardData;
     private IDataCampusTransferHandler _detailHandler;
     private IDetailCampusUpdateHandler _updateHandler;
+
+    private CampusD _campusData = new CampusD();
 
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _deleteButton;
     [SerializeField] private Button _backButton;
 
-    [SerializeField] private TMP_InputField _campusNameField;
+    [SerializeField] private TMP_Dropdown _campusNameDropDown;
+
     [SerializeField] private TMP_InputField _campusRoomField;
 
     #endregion
