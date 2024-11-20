@@ -8,7 +8,7 @@ public interface IStudentPrinterView
 }
 public interface ISpawnStudentPrinterView
 {
-    void CreateCard(StudentPrinterD studentPrinter);
+    void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDocDetails);
 }
 
 #region -- Interface for Setting Package Data in View --

@@ -5,13 +5,8 @@ public class PrinterDocCardData : MonoBehaviour , IPrinterDocData
     #region -- Properties --
 
     public string PrinterId { get; set; } // Printer ID
-    public string DocumentId { get; set; } // Document ID
-    public string PaperSize { get; set; } // E.g., "A4", "A3"
-    public int Side { get; set; } // Single-sided (1) or double-sided (2)
-    public int PageBegin { get; set; } // Start page
-    public int PageEnd { get; set; } // End page
-    public int Copies { get; set; } // Number of copies
-    public bool Color { get; set; } // True for color printing, false otherwise
+    public PrinterDocD PrinterDocDetails { get; set; } // Holds the data in Property
+
 
     #endregion
 
@@ -28,17 +23,10 @@ public class PrinterDocCardData : MonoBehaviour , IPrinterDocData
     /// <param name="pageEnd">End page</param>
     /// <param name="copies">Number of copies</param>
     /// <param name="color">True if color printing</param>
-    public void Initialize(string printerId/*, string documentId, string paperSize, int side, int pageBegin, int pageEnd, int copies, bool color*/)
+    public void Initialize(string printerId, PrinterDocD printerDocDetails)
     {
         PrinterId = printerId;
-/*        DocumentId = documentId;
-        PaperSize = paperSize;
-        Side = side;
-        PageBegin = pageBegin;
-        PageEnd = pageEnd;
-        Copies = copies;
-        Color = color;*/
-
+        PrinterDocDetails = printerDocDetails;
     }
 
     #endregion
