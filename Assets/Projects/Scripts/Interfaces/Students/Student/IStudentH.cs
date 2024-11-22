@@ -1,9 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public interface IStudentUpdater
 {
-    void UpdateStudentPaperCount(int paperCount);
+    IEnumerator FetchStudentData(string studentId, System.Action<StudentD> onSuccess, System.Action<string> onError);
+
+    IEnumerator UpdateStudentPaper(string studentId, int newPaperCount, System.Action onSuccess, System.Action<string> onError);
+    IEnumerator FetchAndIncrementPaper(string studentId, int additionalPaper);
+
+
 }
+
 

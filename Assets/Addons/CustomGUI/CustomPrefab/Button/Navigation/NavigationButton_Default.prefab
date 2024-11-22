@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 88
+  m_MinHeight: 72
   m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "L\u1ECBch s\u1EED"
+  m_text: "C\u1EEDa h\xE0ng"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f8059fdfa6a72d4b86ac53487ab2d09, type: 2}
   m_sharedMaterial: {fileID: -8146239150044617680, guid: 1f8059fdfa6a72d4b86ac53487ab2d09, type: 2}
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 40
+    m_Top: 48
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -341,8 +341,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainView, Assembly-CSharp
-        m_MethodName: clickUIOnEvent
+        m_TargetAssemblyTypeName: NavigationV, Assembly-CSharp
+        m_MethodName: ClickUIOnEvent
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f2dee9665511af94d8ff80ed2deebb3e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7ef2f8bfca9c8d64a84e28c253df0ee6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

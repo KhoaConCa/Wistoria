@@ -2,6 +2,8 @@
 using TMPro;
 using UnityEngine.UI;   
 using System;
+using Utilities;
+using System.Collections.Generic;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -36,26 +38,39 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     void Awake()
     {
         AddComponentHandler();
-
-        _saveButton?.onClick.AddListener(OnClickSaveButton);
     }
 
     void OnEnable()
     {
-        if (_campusNameField != null && _campusRoomField != null)
-            SetData();
+        if (_campusNameDropDown != null && _campusNameDropDown != null)
+        {
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName));
+            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom));
+        }
     }
 
     void OnDisable()
     {
-        if (_campusNameField != null && _campusRoomField != null)
+        if (_campusNameDropDown != null && _campusRoomDropDown != null)
             ClearDataModify();
 }
 
-    private void SetData()
+    private void SetDataCampusName(List<string> campusName)
     {
-        _campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusName;
-        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusRoom;
+        _campusNameDropDown.ClearOptions();
+
+        _campusNameDropDown.AddOptions(campusName);
+        int indexSelected = campusName.IndexOf(_cardData.CampusName);
+        _campusNameDropDown.value = indexSelected;
+    }
+
+    private void SetDataCampusRoom(List<string> campusRoom)
+    {
+        _campusRoomDropDown.ClearOptions();
+
+        _campusRoomDropDown.AddOptions(campusRoom);
+        int indexSelected = campusRoom.IndexOf(_cardData.CampusRoom);
+        _campusRoomDropDown.value = indexSelected;
     }
 
     private void AddComponentHandler()
@@ -66,7 +81,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
             Debug.Log("The DetailCampusH component already exists");
     }
 
-    private void OnClickSaveButton()
+    public void OnClickSaveButton()
     {
         SetDataModify();
         GetDataModify();
@@ -104,35 +119,32 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     private void SetDataModify()
     {
-        _cardData.CampusName = _campusNameField.textComponent.text;
-        _cardData.CampusRoom = _campusRoomField.textComponent.text;
+        _cardData.CampusName = _campusNameDropDown.captionText.text;
+        _cardData.CampusRoom = _campusRoomDropDown.captionText.text;
     }
 
     private void ClearDataModify()
     {
-        _campusNameField.text = "";
-        _campusRoomField.text = "";
-
-        _campusNameField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
-        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
+        _campusNameDropDown.ClearOptions();
+        _campusRoomDropDown.ClearOptions();
     }
 
     #endregion
 
     #region -- Fields -- 
 
-    private CampusD _campusData = new CampusD();
-
     private ICampusCardData _cardData;
     private IDataCampusTransferHandler _detailHandler;
     private IDetailCampusUpdateHandler _updateHandler;
+
+    private CampusD _campusData = new CampusD();
 
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _deleteButton;
     [SerializeField] private Button _backButton;
 
-    [SerializeField] private TMP_InputField _campusNameField;
-    [SerializeField] private TMP_InputField _campusRoomField;
+    [SerializeField] private TMP_Dropdown _campusNameDropDown;
+    [SerializeField] private TMP_Dropdown _campusRoomDropDown;
 
     #endregion
 }

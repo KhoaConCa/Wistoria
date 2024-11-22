@@ -46,9 +46,6 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         AddComponentDefault();
         GetComponentDefault();
     }
-
-    
-
     private void AddComponentDefault()
     {
         try
@@ -78,29 +75,6 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         }
     }
 
-    /// <summary>
-    /// Find root to set component for prefab
-    /// </summary>
-    /// <param name="name">Address campus name</param>
-    /// <param name="room">Address campus room</param>
-    private void FindComponentUI(string name, string room)
-    {
-        try
-        {
-            Transform positionCampus = MainHandler.LastSpawnedPrefab?.transform.Find(name);
-            Transform positionRoom = MainHandler.LastSpawnedPrefab?.transform.Find(room);
-
-            if (positionCampus != null && positionRoom != null)
-                _setDataCampusView.AddComponentFromPrefab(positionCampus, positionRoom);
-            else
-                Debug.LogError("UI components not found in prefab!");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
-    }
-
     private void FindComponentUI()
     {
         try
@@ -126,8 +100,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     /// <param name="room">Campus room</param>
     private void UpdateData(CampusD campus)
     {
-        _setDataCampusView.SetCampusName(campus.CampusName);
-        _setDataCampusView.SetCampusRoom(campus.Room);
+        _setDataCampusView.SetCampusData(campus);
     }
 
     #endregion

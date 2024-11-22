@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Utilities;
 
 #region -- Class Description --
 /// <summary>
@@ -17,11 +18,20 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
     /// Unity's Start method.
     /// Adds required components and initiates the coroutine to get all packages.
     /// </summary>
-    void Start()
+    private void Awake()
     {
         AddComponentPackageHandler();
         AddComponentPackageView();
+    }
+
+    private void OnEnable()
+    {
         StartCoroutine(_packageHandler.GetAllPackage(OnPackageFound));
+    }
+
+    private void OnDisable()
+    {
+        MainHandler.ClearSpawnedPrefabs();
     }
 
     #endregion

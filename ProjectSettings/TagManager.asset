@@ -12,6 +12,9 @@ TagManager:
   - EditUI
   - CreateUI
   - MainUI
+  - DefaultMainScene
+  - PackageName
+  - PackageValue
   layers:
   - Default
   - TransparentFX

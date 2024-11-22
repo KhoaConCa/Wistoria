@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,6 +14,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     public void ClickAddButton()
     {
         SetNewCampusData();
+        ClearData();
 
         StartCoroutine(_addHandler.AddNewCampus(_newCampus, OnAddSuccess));
     }
@@ -22,17 +23,26 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     #region -- Methods --
 
-    void Start()
+    private void Awake()
     {
         AddComponentAddHandler();
-        GetTransformUI();
     }
 
-    void OnDisable()
+    private void OnEnable()
     {
-
+        if (_addHandler != null)
+        {
+            StartCoroutine(_addHandler.GetUniqueName(SetDataForDropDown));
+            SetDataAsDefault();
+        }
     }
 
+    private void OnDisable()
+    {
+        ResetAsDefault();
+    }
+
+    #region - Add Component -
     private void AddComponentAddHandler()
     {
         if (_addHandler == null)
@@ -40,88 +50,80 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
         else
             Debug.Log("The AddCampusH component already exists");
     }
+    #endregion
 
-    private void GetTransformUI()
+    #region - Set Data -
+    private void SetDataAsDefault()
     {
-        if (_transformUI == null)
-        {
-            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
-        }
-        else
-        {
-            Debug.Log("The UITransformV component already exiests");
-        }
+        _newCampus = new CampusD();
     }
 
-    private void OnAddSuccess(CampusD campus)
+    private void SetDataForDropDown(List<string> campusName)
     {
-        Debug.Log($"Create a campus: {campus.CampusName}, room: {campus.Room}");
-    }
+        campusName.Insert(0, "- Chọn cơ sở -");
 
-    private void ClickBackButton()
+        _campusNameDropDown.ClearOptions();
+        _campusNameDropDown.AddOptions(campusName);
+
+        _campusNameDropDown.value = 0;
+    }
+    #endregion
+
+    #region - Interactable Field -
+    public void ResetAsDefault()
     {
-        _transformUI.SetActiveObjectUI(_tagName);
+        _addNewCampus.isOn = false;
+        _addNewRoom.isOn = true;
+
+        _campusNameDropDown.ClearOptions();
+
+        _campusNameField.text = "";
+        _campusRoomField.text = "";
     }
+    #endregion
 
-    private void SetEventButton()
-    {
-
-
-        //_addButton.onClick.AddListener(ClickAddButton);
-        //_backButton.onClick.AddListener(ClickBackButton);
-    }
-
+    #region - Add New Campus -
     private void SetNewCampusData()
     {
-        //_newCampus.CampusName = _campusNameField.text;
-        //_newCampus.Room = _campusRoomField.text;
+        if (_campusNameDropDown.gameObject.activeSelf)
+            _newCampus.CampusName = _campusNameDropDown.captionText.text;
+        else
+            _newCampus.CampusName = _campusNameField.text;
+
+        _newCampus.Room = _campusRoomField.text;
     }
 
-    public void SwitchAddNewCampus()
+    private void ClearData()
     {
-        Toggle toggleButton = _addNewCampus.GetComponent<Toggle>();
-        
-        if (toggleButton.isOn)
-        {
-            _campusNameField.SetActive(true);
-            _campusNameDropDown.SetActive(false);
-        }
+        if (_campusNameDropDown.gameObject.activeSelf)
+            StartCoroutine(_addHandler.GetUniqueName(SetDataForDropDown));
+        else
+            _campusNameField.text = "";
 
+        _campusRoomField.text = "";
     }
 
-    public void SwitchAddNewRoom()
+    private void OnAddSuccess(CampusD campusD)
     {
-        Toggle toggleButton = _addNewRoom.GetComponent<Toggle>();
-
-        if (toggleButton.isOn)
-        {
-            _campusNameField.SetActive(false);
-            _campusNameDropDown.SetActive(true);
-        }
-
+        Debug.Log($"Add new campus {campusD.CampusName} - {campusD.Room} successfully!");
     }
+    #endregion
 
     #endregion
 
     #region -- Fields --
 
-    private ITransformUI _transformUI;
     private IAddCampusHandler _addHandler;
 
     private CampusD _newCampus = new CampusD();
 
-    [SerializeField] private GameObject _addButton;
-    [SerializeField] private GameObject _backButton;
+    [SerializeField] private Toggle _addNewRoom;
+    [SerializeField] private Toggle _addNewCampus;
 
-    [SerializeField] private GameObject _addNewRoom;
-    [SerializeField] private GameObject _addNewCampus;
+    [SerializeField] private TMP_InputField _campusNameField;
+    [SerializeField] private TMP_InputField _campusRoomField;
 
-    [SerializeField] private GameObject _campusNameField;
-    [SerializeField] private GameObject _campusRoomField;
-
-    [SerializeField] private GameObject _campusNameDropDown;
-
-    [SerializeField] private string _tagName;
+    [SerializeField] private TMP_Dropdown _campusNameDropDown;
 
     #endregion
 }
