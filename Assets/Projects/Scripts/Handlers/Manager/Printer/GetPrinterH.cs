@@ -1,66 +1,45 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
 using Utilities;
+using Newtonsoft.Json;
 
 public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
 {
     #region -- Implements --
 
     /// <summary>
-    /// Transfer Json data to List data
-    /// </summary>
-    /// <param name="response">Json string</param>
-    public void TransferData(string response)
-    {
-        List<PrinterD> printerList = MainHandler.FromJson<PrinterD>(response);
-
-        if (printerList != null && printerList.Count > 0)
-        {
-            foreach (var printer in printerList)
-            {
-                _onPrinterFound?.Invoke(printer);
-            }
-        }
-        else
-        {
-            Debug.Log("No printer found.");
-            _onPrinterFound?.Invoke(null);
-        }
-    }
-
-    /// <summary>
     /// GET all printer data form server
     /// </summary>
     /// <param name="onPrinterFound">Method will be call when printer information is found</param>
     /// <returns></returns>
-    public IEnumerator GetAllPrinter(Action<PrinterD> onPrinterFound)
+    public IEnumerator GetAllPrinter(Action<PrinterD> onPrinterFound, Action<string> onSuccess, Action<string> onFailed)
     {
         _onPrinterFound = onPrinterFound;
 
-        using (UnityWebRequest request = UnityWebRequest.Get(_getAllURL))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllPrinter))
         {
             yield return request.SendWebRequest();
 
             switch (request.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
+                    onFailed?.Invoke(request.error);
+                    break;
 
                 case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    _onPrinterFound?.Invoke(null);
+                    onFailed?.Invoke(request.error);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    _onPrinterFound?.Invoke(null);
+                    onFailed?.Invoke(request.error);
                     break;
 
                 case UnityWebRequest.Result.Success:
+                    onSuccess?.Invoke(request.result.ToString());
                     string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
                     TransferData(jsonResponse);
                     break;
             }
@@ -73,45 +52,86 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <param name="printerName">Name printer</param>
     /// <param name="onPrinterFound">Method will be call when printer information is found</param>
     /// <returns></returns>
-    public IEnumerator GetPrinter(string printerName, Action<PrinterD> onPrinterFound)
+    public IEnumerator SearchPrinterByName(string printerName, Action<PrinterD> onPrinterFound, Action<string> onSuccess, Action<string> onFailed)
     {
         _onPrinterFound = onPrinterFound;
-
-        string searchURL = $"{_getURL}?name={UnityWebRequest.EscapeURL(printerName)}";
+        string searchURL = $"{AllUrl.searchPrinterByName}?name={UnityWebRequest.EscapeURL(printerName.Replace(" ", "+"))}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
             yield return request.SendWebRequest();
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
-
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    _onPrinterFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    _onPrinterFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
-                    TransferData(jsonResponse);
-                    break;
+                onSuccess?.Invoke(request.result.ToString());
+                string jsonResponse = request.downloadHandler.text;
+                TransferData(jsonResponse);
             }
+            else
+                onFailed?.Invoke(request.error);
+        }
+    }
+
+    /// <summary>
+    /// GET printer by name form server
+    /// </summary>
+    /// <param name="printer">Printer data</param>
+    /// <param name="onPrinterFound">Method will be call when campus information is found</param>
+    /// <returns></returns>
+    public IEnumerator SearchCampusByID(string campusId, Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFailed)
+    {
+        string searchURL = $"{AllUrl.getAllCampus}/{campusId}";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.result.ToString());
+                string jsonResponse = request.downloadHandler.text;
+                CampusD campus = JsonConvert.DeserializeObject<CampusD>(jsonResponse);
+                onCampusFound?.Invoke(campus);
+            }
+            else
+                onFailed?.Invoke(request.error);
+        }
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    /// <summary>
+    /// Transfer Json data to List data
+    /// </summary>
+    /// <param name="response">Json string</param>
+    public void TransferData(string response)
+    {
+        List<PrinterD> printerList;
+        try
+        {
+            printerList = JsonConvert.DeserializeObject<List<PrinterD>>(response);
+
+            foreach (var printer in printerList)
+            {
+                printer.ProcessLocateAt();
+
+                _onPrinterFound.Invoke(printer);
+            }
+
+            Debug.Log("All printers processed.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to parse JSON: {e.Message}");
+            return;
         }
     }
 
     #endregion
 
     #region -- Fields --
-
-    private readonly string _getURL = "https://server-wistoria-api.vercel.app/printer/search/name";
-    private readonly string _getAllURL = "https://server-wistoria-api.vercel.app/printer/";
 
     private Action<PrinterD> _onPrinterFound;
 

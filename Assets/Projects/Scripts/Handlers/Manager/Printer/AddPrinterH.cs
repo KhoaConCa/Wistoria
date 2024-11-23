@@ -1,25 +1,24 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
 
-public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
+public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
 {
     #region -- Implements --
 
-    public IEnumerator UpdatePrinterData(PrinterD printer, Action<PrinterD> onSuccess, Action<PrinterD> onFailed)
+    public IEnumerator AddNewPrinter(PrinterD printer, Action<PrinterD> onSuccess)
     {
-        string url = $"{AllUrl.updatePrinter}/{printer._id}";
-
         string json = TransferDataToJson(printer);
         Debug.Log(json);
 
-        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
+        using (UnityWebRequest request = new UnityWebRequest(AllUrl.createPrinter, "POST"))
         {
-            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -29,15 +28,14 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                PrinterD updatedPrinter = JsonUtility.FromJson<PrinterD>(request.downloadHandler.text);
-                onSuccess?.Invoke(updatedPrinter);
+                onSuccess?.Invoke(printer);
             }
             else
             {
-                Debug.LogError("Error updating printer: " + request.error);
-                onFailed?.Invoke(printer);
+                Debug.LogError($"Error in call API: {request.error}");
             }
         }
+
     }
 
     public IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound)
@@ -75,11 +73,13 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 
     public string TransferDataToJson(PrinterD printerD)
     {
+
         var settings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             DefaultValueHandling = DefaultValueHandling.Ignore
         };
+
         return JsonConvert.SerializeObject(printerD, settings);
     }
 
@@ -89,4 +89,5 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
     }
 
     #endregion
+
 }
