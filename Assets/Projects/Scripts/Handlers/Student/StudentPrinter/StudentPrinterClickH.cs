@@ -18,35 +18,31 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         // Log the PrinterDocCardData details
         Debug.Log($"--- Printer Clicked ---");
         Debug.Log($"Printer ID: {_printerDocData.PrinterId}");
-
-        // Check and log Document ID
-        if (string.IsNullOrEmpty(_printerDocData.PrinterDocDetails.DocumentId))
-        {
-            Debug.LogWarning("Document ID is null or empty. Ensure it is correctly assigned.");
-        }
-        else
-        {
-            Debug.Log($"Document ID: {_printerDocData.PrinterDocDetails.DocumentId}");
-        }
-
-        // Log other PrinterDoc details
+        Debug.Log($"Document ID: {_printerDocData.PrinterDocDetails.DocumentId}");
         Debug.Log($"Paper Size: {_printerDocData.PrinterDocDetails.PaperSize}");
+        Debug.Log($"Orientation:{_printerDocData.PrinterDocDetails.Orientation}");
         Debug.Log($"Side: {_printerDocData.PrinterDocDetails.Side}");
         Debug.Log($"Page Begin: {_printerDocData.PrinterDocDetails.PageBegin}");
         Debug.Log($"Page End: {_printerDocData.PrinterDocDetails.PageEnd}");
         Debug.Log($"Copies: {_printerDocData.PrinterDocDetails.Copies}");
         Debug.Log($"Color: {_printerDocData.PrinterDocDetails.Color}");
 
-        // Use the PrinterID for further operations
-        string printerId = _printerDocData.PrinterId;
+        // Create PrinterDoc object for upload
+        PrinterDocD printerDoc = _printerDocData.PrinterDocDetails;
 
-        // Example: You can pass this PrinterID to another handler or process
-        ProcessPrinterID(printerId);
+        // Execute upload command
+        _uploadCommand.Execute(printerDoc, OnUploadComplete);
     }
-
-    private void ProcessPrinterID(string printerId)
+    private void OnUploadComplete(bool success, string response)
     {
-        Debug.Log($"Processing Printer ID: {printerId}");
+        if (success)
+        {
+            Debug.Log($"Upload successful: {response}");
+        }
+        else
+        {
+            Debug.LogError($"Upload failed: {response}");
+        }
     }
 
     /// <summary>
@@ -66,6 +62,10 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         clickStudentPrinter.onClick.AddListener(ClickStudentPrinter);
 
         SetUpButton();
+        var handler = gameObject.AddComponent<UploadPrinterDocH>();
+        var uploadCommand = gameObject.AddComponent<UploadPrinterDocC>();
+        uploadCommand.Initialize(handler);
+        _uploadCommand = uploadCommand;
     }
 
     private void GetComponentData()
@@ -80,7 +80,8 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         }
     }
 
-    public Button clickStudentPrinter;
-
     private IPrinterDocData _printerDocData;
+    private IUploadPrinterDocCommand _uploadCommand;
+
+    public Button clickStudentPrinter;
 }

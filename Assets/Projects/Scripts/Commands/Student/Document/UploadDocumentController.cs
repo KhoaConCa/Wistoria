@@ -40,7 +40,6 @@ public class UploadDocumentController : MonoBehaviour
         if (string.IsNullOrEmpty(DocumentService.DocumentId))
         {
             Debug.LogWarning("Document ID is not set. Ensure the document is uploaded before fetching printer data.");
-            return;
         }
     }
 

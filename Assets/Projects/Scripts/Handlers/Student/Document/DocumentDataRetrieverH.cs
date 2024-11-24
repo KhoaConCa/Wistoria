@@ -19,18 +19,28 @@ public class DocumentDataRetrieverH : MonoBehaviour, IDocumentRetriever
         {
             DocumentDetailD documentData = _documentDetailView.GetEditedDocumentData();
 
+            // Populate DocumentService with retrieved data
+            DocumentService.PaperSize = documentData.PaperSize;
+            DocumentService.Orientation = documentData.PageOrientation;
+            DocumentService.Side = documentData.PaperType;
+            DocumentService.PageBegin = int.TryParse(documentData.CustomPages.Split('-')[0], out int begin) ? begin : 1;
+            DocumentService.PageEnd = int.TryParse(documentData.CustomPages.Split('-')[1], out int end) ? end : 1;
+            DocumentService.Copies = documentData.CustomCopies;
+            DocumentService.Color = !documentData.NoCopies; // Assuming color is selected when NoCopies is false
+
             // Log the retrieved data
             Debug.Log($"Paper Size: {documentData.PaperSize}");
-            Debug.Log($"Paper Type: {documentData.PaperType}");
-            Debug.Log($"Page Orientation: {documentData.PageOrientation}");
-            Debug.Log($"Use Default Pages: {documentData.UseDefaultPages}");
-            Debug.Log($"Custom Pages: {documentData.CustomPages}");
-            Debug.Log($"No Copies: {documentData.NoCopies}");
-            Debug.Log($"Custom Copies: {documentData.CustomCopies}");
+            Debug.Log($"Orientation: {documentData.PageOrientation}");
+            Debug.Log($"Side: {DocumentService.Side}");
+            Debug.Log($"Page Begin: {DocumentService.PageBegin}");
+            Debug.Log($"Page End: {DocumentService.PageEnd}");
+            Debug.Log($"Copies: {documentData.CustomCopies}");
+            Debug.Log($"Color: {DocumentService.Color}");
         }
         else
         {
             Debug.LogError("IDocumentDataEditor instance is missing!");
         }
     }
+
 }

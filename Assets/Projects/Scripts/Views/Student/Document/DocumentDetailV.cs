@@ -22,7 +22,7 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisp
     private DocumentDetailD _documentData;
 
     private List<string> paperSizes = new List<string> { "A4", "A3"};
-    private List<string> paperTypes = new List<string> { "Một mặt", "Hai mặt" };
+    private List<string> paperTypes = new List<string> { "1", "2" };
     private List<string> pageOrientations = new List<string> { "Portrait", "Landscape" };
 
     private void Start()

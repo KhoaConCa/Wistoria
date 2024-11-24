@@ -22,6 +22,7 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
         AddComponentPackageHandler();
         AddComponentPackageView();
         StartCoroutine(_studentPrinterHandler.GetAllStudentPrinter(OnStudentPrinterFound));
+
     }
 
     #endregion
@@ -65,12 +66,13 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
         {
             PrinterId = printerId,
             DocumentId = documentId,
-            PaperSize = "A4",
-            Side = 1,
+            PaperSize = DocumentService.PaperSize,
+            Orientation = DocumentService.Orientation,
+            Side = int.TryParse(DocumentService.Side, out int sideValue) ? sideValue.ToString() : "1", // Default to "1" as a string
             PageBegin = 1,
-            PageEnd = 10,
-            Copies = 2,
-            Color = true
+            PageEnd = 20,
+            Copies = 1,
+            Color = "Black and white"
         };
     }
     #endregion

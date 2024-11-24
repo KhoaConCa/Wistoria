@@ -7,7 +7,7 @@ public class DocumentDetailD : IDocumentDetailData
 {
     #region -- Fields --
     public string PaperSize { get; set; } = "A4";
-    public string PaperType { get; set; } = "Một mặt";
+    public string PaperType { get; set; } = "1";
     public string PageOrientation { get; set; } = "Portrait";
     public bool UseDefaultPages { get; set; } = true;  // Default: "Mặc định"
     public string CustomPages { get; set; } = "";     // Custom pages if "Tùy chỉnh số trang" is selected

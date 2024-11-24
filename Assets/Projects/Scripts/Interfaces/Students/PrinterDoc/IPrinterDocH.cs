@@ -1,18 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-public class IPrinterDocH : MonoBehaviour
+public interface IUploadPrinterDocHandler
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void UploadPrinterDoc(PrinterDocD printerDoc, Action<bool, string> onComplete);
 }
