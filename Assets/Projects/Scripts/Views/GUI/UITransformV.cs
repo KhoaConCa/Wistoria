@@ -16,7 +16,7 @@ public class UITransformV : MonoBehaviour, ITransformUI
     {
         foreach (GameObject item in _objectUIs)
         {
-            if (item.tag == targetObject.tag)
+            if (item.name == targetObject.name)
                 item.SetActive(true);
             else
                 item.SetActive(false);
@@ -41,7 +41,7 @@ public class UITransformV : MonoBehaviour, ITransformUI
     {
         foreach(var item in _objectUIs)
         {
-            if (item.tag == tagTarget)
+            if (item.name == tagTarget)
                 return item;
         }
 

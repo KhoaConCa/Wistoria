@@ -1,18 +1,40 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, IDocumentUpdater
 {
-    private IDocumentDisplay _view;
+    private IDocumentDataEditor _view;
+    private IDocumentRetriever _retriever;
     private DocumentDetailD _documentData;
+
+    [Header("Retrieve Data Button")]
+    public Button retrieveDataButton;
 
     private void Start()
     {
         InitializeDocument();
+
+        // Dependency Injection: Get the retriever implementation
+        _retriever = GetComponent<DocumentDataRetrieverH>();
+        if (_retriever == null)
+        {
+            Debug.LogError("IDocumentRetriever is not attached to this GameObject!");
+        }
+
+        // Setup button click listener
+        if (retrieveDataButton != null)
+        {
+            retrieveDataButton.onClick.AddListener(OnRetrieveButtonClicked);
+        }
+        else
+        {
+            Debug.LogError("Retrieve Data Button is not assigned in the Inspector.");
+        }
     }
 
     public void InitializeDocument()
     {
-        _view = GetComponent<DocumentDetailV>();
+        _view = GetComponent<IDocumentDataEditor>();
         _documentData = new DocumentDetailD
         {
             UseDefaultPages = true,
@@ -28,5 +50,17 @@ public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, 
     {
         _documentData = newData;
         _view.DisplayDocumentProperties(_documentData);
+    }
+
+    private void OnRetrieveButtonClicked()
+    {
+        if (_retriever != null)
+        {
+            _retriever.RetrieveDocumentData();
+        }
+        else
+        {
+            Debug.LogError("IDocumentRetriever is not initialized.");
+        }
     }
 }

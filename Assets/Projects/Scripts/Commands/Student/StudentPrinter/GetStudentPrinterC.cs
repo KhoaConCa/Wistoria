@@ -61,7 +61,6 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
         // Replace this with the actual logic to fetch PrinterDocD data
         return new PrinterDocD
         {
-            Id = printerId,
             PrinterId = printerId,
             DocumentId = "673ca1094077d00f2d6453c1",
             PaperSize = "A4",

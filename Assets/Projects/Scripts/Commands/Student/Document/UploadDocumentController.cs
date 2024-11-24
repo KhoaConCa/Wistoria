@@ -17,15 +17,18 @@ public class UploadDocumentController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        var handler = gameObject.AddComponent<UploadDocumentH>(); // Add handler as a component
-        _selectedFilePath = Application.dataPath + "/Sample.txt"; // Example file path
+        // Create and attach the upload document handler
+        var handler = gameObject.AddComponent<UploadDocumentH>();
 
-        // Create and initialize the upload command with handler and file path
+        // Example file path for testing (replace with actual file path in production)
+        _selectedFilePath = Application.dataPath + "/Sample.txt";
+
+        // Create and initialize the upload command with the handler, file path, and callback for document ID
         var uploadCommandComponent = gameObject.AddComponent<UploadDocumentC>();
-        uploadCommandComponent.Initialize(handler, _selectedFilePath);
+        uploadCommandComponent.Initialize(handler, _selectedFilePath, OnDocumentUploaded);
         _uploadCommand = uploadCommandComponent;
 
-        // Check if uploadButton is assigned in the Inspector
+        // Set up the upload button's click event listener
         if (uploadButton != null)
         {
             uploadButton.onClick.AddListener(OnUploadButtonClicked);
@@ -48,8 +51,37 @@ public class UploadDocumentController : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(_selectedFilePath))
         {
-            gameObject.SetActive(true); // Ensure GameObject is active
+            // Ensure the GameObject hosting the handler is active
+            if (!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
+
+            // Execute the upload command
             _uploadCommand.Execute();
+        }
+        else
+        {
+            Debug.LogError("No file path selected for upload.");
+        }
+    }
+
+
+    /// <summary>
+    /// Callback invoked when the document upload is completed.
+    /// Logs the newly created document ID or an error message if the upload fails.
+    /// </summary>
+    /// <param name="documentId">The document ID returned from the server.</param>
+    private void OnDocumentUploaded(string documentId)
+    {
+        if (!string.IsNullOrEmpty(documentId))
+        {
+            Debug.Log($"Document uploaded successfully. Document ID: {documentId}");
+            // Handle further actions with the document ID, e.g., updating UI or database
+        }
+        else
+        {
+            Debug.LogError("Failed to upload document or retrieve document ID.");
         }
     }
 

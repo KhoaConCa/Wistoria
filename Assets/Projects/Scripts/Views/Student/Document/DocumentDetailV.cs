@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisplay, IDropdownInitializer
+public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisplay, IDropdownInitializer, IDocumentDetailRetriever
 {
     [Header("Dropdown UI Elements")]
     public TMP_Dropdown paperSizeDropdown;
@@ -116,5 +116,24 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisp
         {
             Debug.LogError("Dropdown is not assigned in the Inspector.");
         }
+    }
+    public DocumentDetailD GetDocumentData()
+    {
+        return new DocumentDetailD
+        {
+            PaperSize = paperSizes[paperSizeDropdown.value],
+            PaperType = paperTypes[paperSideDropdown.value],
+            PageOrientation = pageOrientations[pageOrientationDropdown.value],
+            UseDefaultPages = toggleDefaultPages.isOn,
+            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
+            NoCopies = toggleNoCopies.isOn,
+            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
+        };
+    }
+
+    public void UpdateDocumentData(DocumentDetailD data)
+    {
+        _documentData = data;
+        DisplayDocumentProperties(data);
     }
 }
