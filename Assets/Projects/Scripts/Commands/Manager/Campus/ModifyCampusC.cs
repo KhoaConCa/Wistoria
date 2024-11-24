@@ -16,8 +16,6 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void ClickCard()
     {
-        SetCurrentData(_cardData);
-
         _detail.DisplayCampusDetails(_cardData);
 
         _transformUI.SetActiveObjectUI(_targetObject);
@@ -28,8 +26,18 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// </summary>
     public void SetupButton()
     {
-        _clickCard = gameObject.GetComponent<Button>();
-        _cardData = gameObject.GetComponent<CampusCardData>();
+        try
+        {
+            if (_clickCard == null)
+                _clickCard = gameObject.GetComponent<Button>();
+
+            if (_cardData == null )
+                _cardData = gameObject.GetComponent<CampusCardData>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 
     #endregion
@@ -39,8 +47,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     void Start()
     {
         GetTransformUI();
-        GetComponentData();
-        AddComponentDetail();
+        GetComponentDetail();
 
         SetupButton();
 
@@ -56,24 +63,10 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
             Debug.Log("The UITransformV component already exiests");
     }
 
-    private void GetComponentData()
-    {
-        if (_cardData == null)
-        {
-            _cardData = gameObject.GetComponent<CampusCardData>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusH component already exiests");
-        }
-    }
-
-    private void AddComponentDetail()
+    private void GetComponentDetail()
     {
         if (_detail == null)
         {
-            /*GameObject parentObject = GameObject.FindWithTag("MainUI");
-            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("EditUI");*/
             Transform childObject = MainView.FindChildObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
             _targetObject = childObject.gameObject;
             _detail = _targetObject.GetComponent<DetailCampusC>();
@@ -85,18 +78,9 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     }
     #endregion
 
-    private void SetCurrentData(ICampusCardData cardData)
-    {
-        CampusManager.currentCampusID = cardData.CampusID;
-        CampusManager.currentCampusName = cardData.CampusName;
-        CampusManager.currentCampusRoom = cardData.CampusRoom;
-    }
-
     #endregion
 
     #region -- Fields --
-
-    private Action<string> onClickCallback;
 
     private ITransformUI _transformUI;
     private ICampusCardData _cardData;

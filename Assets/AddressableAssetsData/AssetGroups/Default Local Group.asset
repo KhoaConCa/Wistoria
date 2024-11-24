@@ -41,6 +41,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - HistoryManager
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7bff741ae07c1d428ce9bb505f28a54
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/PrinterCardManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PrinterManager
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}
   m_SchemaSet:

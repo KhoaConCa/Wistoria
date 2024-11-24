@@ -8,12 +8,6 @@ using Utilities;
 public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 {
     #region -- Implements --
-
-    public string TransferData(CampusD campus)
-    {
-        return MainHandler.ToJson<CampusD>(campus);
-    }
-
     public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed)
     {
         string url = $"{AllUrl.updateCampus}/{campus._id}";
@@ -106,6 +100,15 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
                     break;
             }
         }
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    public string TransferData(CampusD campus)
+    {
+        return MainHandler.ToJson<CampusD>(campus);
     }
 
     #endregion

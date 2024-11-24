@@ -32,17 +32,15 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     {
         AddComponentCampusHandler();
         AddComponetCampusView();
-
-        
-        StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
-
     }
 
     private void OnEnable()
     {
         try
         {
-            if (MainHandler.PrefabList.Count == 0)
+            MainHandler.ClearSpawnedPrefabs();
+
+            if (MainHandler.PrefabList.Count <= 0)
             {
                 StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
             }
@@ -53,11 +51,6 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         {
             Debug.LogWarning(e.Message);
         }
-    }
-
-    private void OnDisable()
-    {
-        MainHandler.ClearSpawnedPrefabs();
     }
 
     #region -- Add Components --

@@ -60,7 +60,6 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
                 case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
                     TransferData(jsonResponse);
                     break;
             }
@@ -131,8 +130,6 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
                 case UnityWebRequest.Result.Success:
                     string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
-
                     List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
 
                     onNameCampus.Invoke(campusNames);
