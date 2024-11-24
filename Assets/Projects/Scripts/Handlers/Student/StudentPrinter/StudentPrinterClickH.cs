@@ -15,8 +15,21 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
             return;
         }
 
-        // Log the data retrieved from the PrinterDocCardData component
-        Debug.Log($"Printer Clicked! Printer ID: {_printerDocData.PrinterId}");
+        // Log the PrinterDocCardData details
+        Debug.Log($"--- Printer Clicked ---");
+        Debug.Log($"Printer ID: {_printerDocData.PrinterId}");
+
+        // Check and log Document ID
+        if (string.IsNullOrEmpty(_printerDocData.PrinterDocDetails.DocumentId))
+        {
+            Debug.LogWarning("Document ID is null or empty. Ensure it is correctly assigned.");
+        }
+        else
+        {
+            Debug.Log($"Document ID: {_printerDocData.PrinterDocDetails.DocumentId}");
+        }
+
+        // Log other PrinterDoc details
         Debug.Log($"Paper Size: {_printerDocData.PrinterDocDetails.PaperSize}");
         Debug.Log($"Side: {_printerDocData.PrinterDocDetails.Side}");
         Debug.Log($"Page Begin: {_printerDocData.PrinterDocDetails.PageBegin}");
@@ -36,7 +49,6 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         Debug.Log($"Processing Printer ID: {printerId}");
     }
 
-
     /// <summary>
     /// Sets up the button event listener.
     /// </summary>
@@ -49,8 +61,8 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
     private void Start()
     {
         GetComponentData();
-        /*InitializeDependencies();
-*/
+
+        // Attach the click listener
         clickStudentPrinter.onClick.AddListener(ClickStudentPrinter);
 
         SetUpButton();
@@ -68,16 +80,7 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         }
     }
 
-/*    private void InitializeDependencies()
-    {
-        _paymentProcessor = gameObject.AddComponent<PaymentProcessor>();
-        _studentUpdater = gameObject.AddComponent<StudentUpdater>();
-    }*/
-
-/*    public PackageD package;
-*/    public Button clickStudentPrinter;
+    public Button clickStudentPrinter;
 
     private IPrinterDocData _printerDocData;
-/*    private IPaymentProcessor _paymentProcessor;
-    private IStudentUpdater _studentUpdater;*/
 }

@@ -58,11 +58,13 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
 
     private PrinterDocD FetchPrinterDocData(string printerId)
     {
+        string documentId = DocumentService.DocumentId; // Retrieve documentId from the shared data store
+
         // Replace this with the actual logic to fetch PrinterDocD data
         return new PrinterDocD
         {
             PrinterId = printerId,
-            DocumentId = "673ca1094077d00f2d6453c1",
+            DocumentId = documentId,
             PaperSize = "A4",
             Side = 1,
             PageBegin = 1,

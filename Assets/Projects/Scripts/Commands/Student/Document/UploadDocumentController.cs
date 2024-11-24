@@ -37,6 +37,11 @@ public class UploadDocumentController : MonoBehaviour
         {
             Debug.LogError("Upload button not assigned in the Inspector.");
         }
+        if (string.IsNullOrEmpty(DocumentService.DocumentId))
+        {
+            Debug.LogWarning("Document ID is not set. Ensure the document is uploaded before fetching printer data.");
+            return;
+        }
     }
 
     #endregion
@@ -77,7 +82,7 @@ public class UploadDocumentController : MonoBehaviour
         if (!string.IsNullOrEmpty(documentId))
         {
             Debug.Log($"Document uploaded successfully. Document ID: {documentId}");
-            // Handle further actions with the document ID, e.g., updating UI or database
+            DocumentService.DocumentId = documentId; // Store documentId in the shared data store
         }
         else
         {
