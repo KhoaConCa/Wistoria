@@ -3,6 +3,9 @@ using TMPro;
 using UnityEngine.UI;
 using PrinterDataManager;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Utilities;
 
 public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
 {
@@ -22,14 +25,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
                 return;
             }
 
-            _printerNameField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.PrinterName;
-            _printerTypeField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.PrinterType;
-            _descriptionField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.Description;
-            _paperField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.Paper.ToString();
-            _inkField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.Ink.ToString(); ;
-            
-            _locateAt.captionText.GetComponent<TextMeshProUGUI>().text = printer.LocateAt.CampusName + " - " + printer.LocateAt.Room;
-            _status.captionText.GetComponent<TextMeshProUGUI>().text = printer.Status.ToString();
+            _cardData = printer;
         }
         catch (Exception e)
         {
@@ -41,13 +37,18 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
 
     #region -- Methods -- 
 
-    void Start()
+    private void Awake()
     {
         AddComponentHandler();
-
-        _saveButton?.onClick.AddListener(OnClickSaveButton);
     }
 
+    private void OnEnable()
+    {
+        ResetInteractableField();
+        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField));
+    }
+
+    #region - Add Component -
     private void AddComponentHandler()
     {
         if (_updateHandler == null)
@@ -55,14 +56,59 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
         else
             Debug.Log("The DetailPrinterH component already exists");
     }
+    #endregion
 
-    private void OnClickSaveButton()
+    #region - Set Data As Default -
+    private void SetDataToEditField(List<CampusD> campusD)
+    {
+        _printerNameField.text = _cardData.PrinterName;
+        _printerTypeField.text = _cardData.PrinterType;
+        _descriptionField.text = _cardData.Description;
+
+        _campusD = campusD;
+        int locationSelected = campusD.FindIndex(campus => campus._id == _cardData.LocateAt._id);
+        _campusDs =  TransferData(campusD);
+        _locateAtDropDown.ClearOptions();
+        _locateAtDropDown.AddOptions(_campusDs.Values.ToList());
+        _locateAtDropDown.value = locationSelected;
+
+        int statusSelected = Status.StatusEquipment.IndexOf(_cardData.Status);
+        _statusDropDown.ClearOptions();
+        _statusDropDown.AddOptions(Status.StatusEquipment);
+        _statusDropDown.value = statusSelected;
+    }
+
+    private Dictionary<string, string> TransferData(List<CampusD> datas)
+    {
+        Dictionary<string, string> newData = new Dictionary<string, string>();
+
+        foreach(var data in datas)
+        {
+            newData[data._id] = data.CampusName + " - " + data.Room;
+        }
+
+        return newData;
+    }
+    #endregion
+
+    #region - Reset Data Fields As Default -
+    public void ResetInteractableField()
+    {
+        _printerNameField.text = "";
+        _printerTypeField.text = "";
+        _descriptionField.text = "";
+
+        _locateAtDropDown.ClearOptions();
+        _statusDropDown.ClearOptions();
+    }
+    #endregion
+
+    #region - Save Event Button -
+    public void OnClickSaveButton()
     {
         SetDataModify();
-        GetDataModify();
-        ClearDataModify();
 
-        StartCoroutine(_updateHandler.UpdatePrinterData(_printerData, OnSuccess, OnFailed));
+        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, OnSuccess, OnFailed));
     }
 
     /// <summary>
@@ -72,6 +118,8 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     public void OnSuccess(PrinterD printer)
     {
         Debug.Log($"Updated Printer: {printer.PrinterName}, Room: {printer.LocateAt}");
+        ResetInteractableField();
+        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField));
     }
 
     /// <summary>
@@ -85,47 +133,72 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     /// <summary>
     /// Set new printer data
     /// </summary>
-    private void GetDataModify()
-    {
-        _printerData._id = PrinterManager.currentPrinterID;
-        _printerData.PrinterName = PrinterManager.currentPrinterName;
-        _printerData.LocateAt = PrinterManager.currentLocateAt;
-        _printerData.__v = PrinterManager.__v;
-    }
-
     private void SetDataModify()
     {
-        PrinterManager.currentPrinterName = _printerNameField.textComponent.text;
-        //PrinterManager.currentLocateAt = _locateAt.itemText.text;
+        _printerD._id = _cardData.PrinterID;
+        _printerD.PrinterName = GetDataTextBox(_printerNameField.text, _cardData.PrinterName);
+        _printerD.PrinterType = GetDataTextBox(_printerTypeField.text, _cardData.PrinterType);
+        _printerD.Description = GetDataTextBox(_descriptionField.text, _cardData.Description);
+        _printerD.Ink = _cardData.Ink;
+        _printerD.Paper = _cardData.Paper;
+
+        CampusD campus = GetDataDropDown();
+        _printerD.LocateAtRaw = campus;
+        _printerD.UpdateLocateAt(campus);
+        _printerD.Status = _statusDropDown.captionText.text;
+
+        _printerD.__v = "0";
+
+        _cardData.Initialize(_printerD);
     }
 
-    private void ClearDataModify()
+    private string GetDataTextBox(string newValue, string oldValue)
     {
-        _printerNameField.textComponent.text = null;
-        _locateAt.itemText.text = null;
+        if (newValue != "")
+            return newValue;
+        else
+            return oldValue;
     }
+
+    private CampusD GetDataDropDown()
+    {
+        int valueSelected = _campusDs.Values.ToList().IndexOf(_locateAtDropDown.captionText.text);
+        string idSelected = _campusDs.Keys.ElementAt(valueSelected);
+
+        if (idSelected != _cardData.LocateAt._id)
+        {
+            foreach (CampusD campus in _campusD)
+            {
+                if (campus._id == idSelected) return campus;
+            }
+        }
+        else
+            return _cardData.LocateAt;
+
+        return null;
+    }
+    #endregion
 
     #endregion
 
     #region -- Fields -- 
 
-    private PrinterD _printerData = new PrinterD();
-
     private IPrinterCardData _cardData;
-    private IDataPrinterTransferHandler _detailHandler;
     private IDetailPrinterUpdateHandler _updateHandler;
 
+    private Dictionary<string, string> _campusDs = new Dictionary<string, string>();
+
+    private PrinterD _printerD = new PrinterD();
+    private List<CampusD> _campusD = new List<CampusD>();
+
     [SerializeField] private Button _saveButton;
-    [SerializeField] private Button _deleteButton;
 
     [SerializeField] private TMP_InputField _printerNameField;
     [SerializeField] private TMP_InputField _printerTypeField;
     [SerializeField] private TMP_InputField _descriptionField;
-    [SerializeField] private TMP_InputField _paperField;
-    [SerializeField] private TMP_InputField _inkField;
 
-    [SerializeField] private TMP_Dropdown _locateAt;
-    [SerializeField] private TMP_Dropdown _status;
+    [SerializeField] private TMP_Dropdown _locateAtDropDown;
+    [SerializeField] private TMP_Dropdown _statusDropDown;
 
     #endregion
 }
