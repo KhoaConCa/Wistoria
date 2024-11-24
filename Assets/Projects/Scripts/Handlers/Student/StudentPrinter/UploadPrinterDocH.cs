@@ -2,19 +2,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
 using System.Collections;
+using System;
+using Utilities;
 
 public class UploadPrinterDocH : MonoBehaviour
 {
-    private const string UploadUrl = "https://server-wistoria-api.vercel.app/printerDoc/create";
-
-    public IEnumerator UploadPrinterDoc(PrinterDocD printerDoc, System.Action<bool, string> onUploadComplete)
+    public IEnumerator UploadPrinterDoc(PrinterDocD printerDoc, Action<bool, string> onComplete)
     {
-        string jsonData = Utilities.MainHandler.ToJson(printerDoc);
+        string json = MainHandler.ToJson(printerDoc);
+        Debug.Log($"JSON prepared for upload: {json}");
 
-        using (UnityWebRequest request = new UnityWebRequest(UploadUrl, "POST"))
+        using (UnityWebRequest request = new UnityWebRequest("https://server-wistoria-api.vercel.app/printerDoc/create", "POST"))
         {
-            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
@@ -22,14 +22,15 @@ public class UploadPrinterDocH : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log($"Upload successful: {request.downloadHandler.text}");
-                onUploadComplete?.Invoke(true, request.downloadHandler.text);
+                Debug.Log("Upload successful");
+                onComplete?.Invoke(true, request.downloadHandler.text);
             }
             else
             {
                 Debug.LogError($"Upload failed: {request.error}");
-                onUploadComplete?.Invoke(false, request.error);
+                onComplete?.Invoke(false, request.downloadHandler.text);
             }
         }
     }
+
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Utilities;
 
 public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
 {
@@ -18,7 +19,7 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         // Log the PrinterDocCardData details
         Debug.Log($"--- Printer Clicked ---");
         Debug.Log($"Printer ID: {_printerDocData.PrinterId}");
-        Debug.Log($"Document ID: {_printerDocData.PrinterDocDetails.DocumentId}");
+        Debug.Log($"Document ID: {_printerDocData.PrinterDocDetails.FileDocument}");
         Debug.Log($"Paper Size: {_printerDocData.PrinterDocDetails.PaperSize}");
         Debug.Log($"Orientation:{_printerDocData.PrinterDocDetails.Orientation}");
         Debug.Log($"Side: {_printerDocData.PrinterDocDetails.Side}");
@@ -29,6 +30,9 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
 
         // Create PrinterDoc object for upload
         PrinterDocD printerDoc = _printerDocData.PrinterDocDetails;
+        // Serialize the PrinterDoc to JSON
+        string printerDocJson = MainHandler.ToJson(printerDoc, true); // Assuming MainHandler.ToJson exists
+        Debug.Log($"JSON prepared for upload: {printerDocJson}");
 
         // Execute upload command
         _uploadCommand.Execute(printerDoc, OnUploadComplete);

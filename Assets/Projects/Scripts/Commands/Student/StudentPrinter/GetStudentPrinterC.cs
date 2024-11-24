@@ -64,15 +64,15 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
         // Replace this with the actual logic to fetch PrinterDocD data
         return new PrinterDocD
         {
-            PrinterId = printerId,
-            DocumentId = documentId,
+            PrintIn = printerId,
+            FileDocument = documentId,
             PaperSize = DocumentService.PaperSize,
             Orientation = DocumentService.Orientation,
-            Side = int.TryParse(DocumentService.Side, out int sideValue) ? sideValue.ToString() : "1", // Default to "1" as a string
+            Side = int.TryParse(DocumentService.Side, out int sideValue) ? sideValue : 1, // Default to 1 if parsing fails
             PageBegin = 1,
             PageEnd = 20,
             Copies = 1,
-            Color = "Black and white"
+            Color = "Color"
         };
     }
     #endregion
