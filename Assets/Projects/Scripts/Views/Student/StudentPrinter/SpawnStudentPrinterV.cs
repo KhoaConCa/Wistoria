@@ -37,7 +37,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                 }
 
                 FindComponentUI(_studentPrinterPrinterName, _studentPrinterCampusName, _studentPrinterStatus);
-                UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.CampusName, studentPrinter.Status);
+                UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.Name, studentPrinter.Status);
             }
             else
             {

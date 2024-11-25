@@ -14,30 +14,11 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// <summary>
     /// Switch form, transfer data when the campus card was clicked
     /// </summary>
-    public void ClickCard()
+    public void ClickCardToModify()
     {
         _detail.DisplayCampusDetails(_cardData);
 
         _transformUI.SetActiveObjectUI(_targetObject);
-    }
-
-    /// <summary>
-    /// Set event for prefab
-    /// </summary>
-    public void SetupButton()
-    {
-        try
-        {
-            if (_clickCard == null)
-                _clickCard = gameObject.GetComponent<Button>();
-
-            if (_cardData == null )
-                _cardData = gameObject.GetComponent<CampusCardData>();
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
     }
 
     #endregion
@@ -49,10 +30,31 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         GetTransformUI();
         GetComponentDetail();
 
-        SetupButton();
-
-        _clickCard.onClick.AddListener(ClickCard);
+        GetCardComponent();
     }
+
+    #region -- Get Component --
+
+    /// <summary>
+    /// Set event for prefab
+    /// </summary>
+    public void GetCardComponent()
+    {
+        try
+        {
+            if (_clickCard == null)
+                _clickCard = gameObject.GetComponent<Button>();
+
+            if (_cardData == null)
+                _cardData = gameObject.GetComponent<CampusCardData>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
+    #endregion
 
     #region -- Add Component --
     private void GetTransformUI()

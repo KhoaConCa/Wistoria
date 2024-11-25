@@ -1,27 +1,48 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class CampusD
 {
-    #region -- Overrides --
+    #region  -- Methods --
 
-    public override string ToString()
+    public void Initialize(ICampusCardData cardCampus)
     {
-        return $"Campus ID: {_id}, Campus Name: {CampusName}, Room: {Room}";
+        Id = cardCampus.Id;
+
+        Name = cardCampus.Name;
+
+        Room = cardCampus.Room;
+
+        Status = cardCampus.Status;
     }
 
     #endregion
+
     #region -- Properties --
 
-    public string _id { get; set; }
-    public string CampusName { get; set; }
+    [JsonProperty("_id")]
+    public string Id { get; set; }
+
+    [JsonProperty("CampusName")]
+    public string Name { get; set; }
+
+    [JsonProperty("Room")]
     public string Room { get; set; }
-    public DateTime createdAt { get; set; }
-    public DateTime updatedAt { get; set; }
-    public string __v { get; set; }
+
+    [JsonProperty("Status")]
+    public string Status {  get; set; }
+
+    [JsonProperty("createdAt")]
+    public DateTime CreatedAt { get; set; }
+
+    [JsonProperty("updatedAt")]
+    public DateTime UpdatedAt { get; set; }
+
+    [JsonProperty("__v")]
+    public string V { get; private set; } = "0";
 
     #endregion
 }

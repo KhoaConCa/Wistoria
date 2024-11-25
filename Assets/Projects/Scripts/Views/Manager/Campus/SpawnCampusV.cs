@@ -24,11 +24,11 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         {
             if (spawnedPrefab != null)
             {
-                ICampusCardData _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
-                _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
+                ICampusCardData cardData = GetComponentCard(spawnedPrefab);
+                cardData.Initialize(campus);
 
-                FindComponentUI();
-                UpdateData(campus);
+                FindPositionComponentCard();
+                UpdateData(cardData);
             }
             else
             {
@@ -46,6 +46,8 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         AddComponentDefault();
         GetComponentDefault();
     }
+
+    #region -- Add Component --
     private void AddComponentDefault()
     {
         try
@@ -58,7 +60,9 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
             Debug.Log(e.Message);
         }
     }
+    #endregion
 
+    #region -- Get Component --
     private void GetComponentDefault()
     {
         try
@@ -74,8 +78,15 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
             Debug.Log(e.Message);
         }
     }
+    #endregion
 
-    private void FindComponentUI()
+    #region -- Set Up Card Prefab --
+    private ICampusCardData GetComponentCard(GameObject cardPrefab)
+    {
+        return cardPrefab.GetComponent<ICampusCardData>();
+    }
+
+    private void FindPositionComponentCard()
     {
         try
         {
@@ -98,10 +109,11 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     /// </summary>
     /// <param name="name">Campus name</param>
     /// <param name="room">Campus room</param>
-    private void UpdateData(CampusD campus)
+    private void UpdateData(ICampusCardData campus)
     {
         _setDataCampusView.SetCampusData(campus);
     }
+    #endregion
 
     #endregion
 

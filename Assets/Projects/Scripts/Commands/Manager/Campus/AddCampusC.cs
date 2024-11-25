@@ -16,7 +16,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
         SetNewCampusData();
         ClearData();
 
-        StartCoroutine(_addHandler.AddNewCampus(_newCampus, OnAddSuccess));
+        StartCoroutine(_addHandler.AddNewCampus(_newCampus, OnSuccess, OnFaild));
     }
 
     #endregion
@@ -32,7 +32,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     {
         if (_addHandler != null)
         {
-            StartCoroutine(_addHandler.GetUniqueName(SetDataForDropDown));
+            StartCoroutine(_addHandler.GetUniqueName(SetDataForDropDown, OnSuccess, OnFaild));
             SetDataAsDefault();
         }
     }
@@ -86,9 +86,9 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     private void SetNewCampusData()
     {
         if (_campusNameDropDown.gameObject.activeSelf)
-            _newCampus.CampusName = _campusNameDropDown.captionText.text;
+            _newCampus.Name = _campusNameDropDown.captionText.text;
         else
-            _newCampus.CampusName = _campusNameField.text;
+            _newCampus.Name = _campusNameField.text;
 
         _newCampus.Room = _campusRoomField.text;
     }
@@ -96,16 +96,21 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
     private void ClearData()
     {
         if (_campusNameDropDown.gameObject.activeSelf)
-            StartCoroutine(_addHandler.GetUniqueName(SetDataForDropDown));
+            StartCoroutine(_addHandler.GetUniqueName(SetDataForDropDown, OnSuccess, OnFaild));
         else
             _campusNameField.text = "";
 
         _campusRoomField.text = "";
     }
 
-    private void OnAddSuccess(CampusD campusD)
+    private void OnSuccess(string message)
     {
-        Debug.Log($"Add new campus {campusD.CampusName} - {campusD.Room} successfully!");
+        Debug.Log(message);
+    }
+
+    private void OnFaild(string message)
+    {
+        Debug.Log(message);
     }
     #endregion
 
@@ -115,7 +120,7 @@ public class AddCampusC : MonoBehaviour, IAddCampusCommand
 
     private IAddCampusHandler _addHandler;
 
-    private CampusD _newCampus = new CampusD();
+    private CampusD _newCampus;
 
     [SerializeField] private Toggle _addNewRoom;
     [SerializeField] private Toggle _addNewCampus;

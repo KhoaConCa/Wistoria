@@ -42,15 +42,25 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
             if (MainHandler.PrefabList.Count <= 0)
             {
-                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, OnSuccess, OnFaild));
             }
 
-            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName));
+            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName, OnSuccess, OnFaild));
         }
         catch (Exception e)
         {
             Debug.LogWarning(e.Message);
         }
+    }
+
+    public void OnSuccess(string message)
+    {
+        Debug.Log(message);
+    }
+
+    public void OnFaild(string message)
+    {
+        Debug.LogError(message);
     }
 
     #region -- Add Components --
@@ -109,9 +119,9 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         {
             string name = _nameCampusComboBox.captionText.text;
             if (name == _uniqueName[0])
-                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, OnSuccess, OnFaild));
             else
-                StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound));
+                StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound, OnSuccess, OnFaild));
         }
         catch (Exception e) 
         {

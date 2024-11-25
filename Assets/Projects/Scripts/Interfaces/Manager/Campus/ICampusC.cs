@@ -9,8 +9,7 @@ public interface IGetCampusCommand
 
 public interface IModifyCampusCommand
 {
-    void ClickCard();
-    void SetupButton();
+    void ClickCardToModify();
 }
 
 public interface ICampusDetailCommand

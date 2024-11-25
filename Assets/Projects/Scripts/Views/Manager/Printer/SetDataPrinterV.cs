@@ -25,7 +25,7 @@ public class SetDataPrinterV : MonoBehaviour, IPrinterDataSetter
     public void SetDataPrinterCard(PrinterD printer)
     {
         _printerName.text = printer.PrinterName;
-        _printerCampus.text = printer.LocateAt.CampusName;
+        _printerCampus.text = printer.LocateAt.Name;
         _printerLocateAt.text = printer.LocateAt.Room;
     }
 

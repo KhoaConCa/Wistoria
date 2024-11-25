@@ -28,7 +28,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
             _paperField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.Paper.ToString();
             _inkField.placeholder.GetComponent<TextMeshProUGUI>().text = printer.Ink.ToString(); ;
             
-            _locateAt.captionText.GetComponent<TextMeshProUGUI>().text = printer.LocateAt.CampusName + " - " + printer.LocateAt.Room;
+            //_locateAt.captionText.GetComponent<TextMeshProUGUI>().text = printer.LocateAt.CampusName + " - " + printer.LocateAt.Room;
             _status.captionText.GetComponent<TextMeshProUGUI>().text = printer.Status.ToString();
         }
         catch (Exception e)

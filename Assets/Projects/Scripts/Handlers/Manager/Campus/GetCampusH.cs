@@ -4,30 +4,45 @@ using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
 using Utilities;
+using Newtonsoft.Json;
 
 public class GetCampusH : MonoBehaviour, IGetCampusHandler
 {
     #region -- Implements --
 
-    /// <summary>
-    /// Transfer Json data to List data
-    /// </summary>
-    /// <param name="response">Json string</param>
-    public void TransferData(string response)
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFaild)
     {
-        List<CampusD> campusList = MainHandler.FromJson<CampusD>(response);
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        {
 
-        if (campusList != null && campusList.Count > 0)
-        {
-            foreach (var campus in campusList)
+            yield return request.SendWebRequest();
+
+            MainData<string> response = TransferStringToData(request.downloadHandler.text);
+
+            switch (request.result)
             {
-                _onCampusFound?.Invoke(campus);
+                case
+                    UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Error: " + request.error);
+                    onFaild?.Invoke(response.Message);
+                    break;
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    onFaild?.Invoke(response.Message);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    onFaild?.Invoke(response.Message);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    onSuccess?.Invoke(response.Message);
+
+                    onNameCampus.Invoke(response.Data);
+                    break;
             }
-        }
-        else
-        {
-            Debug.Log("No campus found.");
-            _onCampusFound?.Invoke(null);
         }
     }
 
@@ -36,13 +51,13 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     /// </summary>
     /// <param name="onCampusFound">Method will be call when campus information is found</param>
     /// <returns></returns>
-    public IEnumerator GetAllCampus(Action<CampusD> onCampusFound)
+    public IEnumerator GetAllCampus(Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFaild)
     {
-        _onCampusFound = onCampusFound;
-
         using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
         {
             yield return request.SendWebRequest();
+
+            MainData<CampusD> response = TransferObjectToData(request.downloadHandler.text);
 
             switch (request.result)
             {
@@ -50,17 +65,17 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
-                    _onCampusFound?.Invoke(null);
+                    onFaild?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    _onCampusFound?.Invoke(null);
+                    onFaild?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    TransferData(jsonResponse);
+                    onSuccess?.Invoke(response.Message);
+
+                    SendData(onCampusFound, response);
                     break;
             }
         }
@@ -72,15 +87,15 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     /// <param name="campusName">Name campus</param>
     /// <param name="onCampusFound">Method will be call when campus information is found</param>
     /// <returns></returns>
-    public IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound)
+    public IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFaild)
     {
-        _onCampusFound = onCampusFound;
-
         string searchURL = $"{AllUrl.searchCampusByName}?name={UnityWebRequest.EscapeURL(campusName)}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
             yield return request.SendWebRequest();
+
+            MainData<CampusD> response = TransferObjectToData(request.downloadHandler.text);
 
             switch (request.result)
             {
@@ -88,51 +103,18 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
-                    _onCampusFound?.Invoke(null);
+                    onFaild?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError("HTTP Error: " + request.error);
-                    _onCampusFound?.Invoke(null);
+                    onFaild?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
-                    TransferData(jsonResponse);
-                    break;
-            }
-        }
-    }
+                    onSuccess?.Invoke(response.Message);
 
-    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus)
-    {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
-        {
-            yield return request.SendWebRequest();
-
-            switch (request.result)
-            {
-                case 
-                    UnityWebRequest.Result.ConnectionError:
-                    Debug.LogError("Error: " + request.error);
-                    break;
-
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    _onCampusFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    _onCampusFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
-
-                    onNameCampus.Invoke(campusNames);
+                    SendData(onCampusFound, response);
                     break;
             }
         }
@@ -140,9 +122,33 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
     #endregion
 
-    #region -- Fields --
+    #region -- Methods --
 
-    private Action<CampusD> _onCampusFound;
+    /// <summary>
+    /// Transfer Json data to List data
+    /// </summary>
+    /// <param name="response">Json string</param>
+    public MainData<CampusD> TransferObjectToData(string response)
+    {
+        MainData<CampusD> mainData = JsonConvert.DeserializeObject<MainData<CampusD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    public MainData<string> TransferStringToData(string response)
+    {
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    public void SendData(Action<CampusD> onCampusFound, MainData<CampusD> campusDatas)
+    {
+        foreach (var itemData in campusDatas.Data)
+        {
+            onCampusFound?.Invoke(itemData);
+        }
+    }
 
     #endregion
 }

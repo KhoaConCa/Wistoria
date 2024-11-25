@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using Utilities;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -44,8 +45,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     {
         if (_campusNameDropDown != null && _campusNameDropDown != null)
         {
-            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName));
-            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom));
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, OnSuccess, OnFailed));
+            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, OnSuccess, OnFailed));
         }
     }
 
@@ -53,14 +54,25 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     {
         if (_campusNameDropDown != null && _campusRoomDropDown != null)
             ClearDataModify();
-}
+    }
 
+    #region -- Add Component --
+    private void AddComponentHandler()
+    {
+        if (_updateHandler == null)
+            _updateHandler = gameObject.AddComponent<DetailCampusH>();
+        else
+            Debug.Log("The DetailCampusH component already exists");
+    }
+    #endregion
+
+    #region -- Set Data --
     private void SetDataCampusName(List<string> campusName)
     {
         _campusNameDropDown.ClearOptions();
 
         _campusNameDropDown.AddOptions(campusName);
-        int indexSelected = campusName.IndexOf(_cardData.CampusName);
+        int indexSelected = campusName.IndexOf(_cardData.Name);
         _campusNameDropDown.value = indexSelected;
     }
 
@@ -69,18 +81,12 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         _campusRoomDropDown.ClearOptions();
 
         _campusRoomDropDown.AddOptions(campusRoom);
-        int indexSelected = campusRoom.IndexOf(_cardData.CampusRoom);
+        int indexSelected = campusRoom.IndexOf(_cardData.Room);
         _campusRoomDropDown.value = indexSelected;
     }
+    #endregion
 
-    private void AddComponentHandler()
-    {
-        if (_updateHandler == null)
-            _updateHandler = gameObject.AddComponent<DetailCampusH>();
-        else
-            Debug.Log("The DetailCampusH component already exists");
-    }
-
+    #region -- Main Event --
     public void OnClickSaveButton()
     {
         SetDataModify();
@@ -93,17 +99,17 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// Handlers the response from the server when update successfully
     /// </summary>
     /// <param name="campus">Campus data updated</param>
-    public void OnSuccess(CampusD campus)
+    public void OnSuccess(string message)
     {
-        Debug.Log($"Updated Campus: {campus.CampusName}, Room: {campus.Room}");
+        Debug.Log(message);
     }
 
     /// <summary>
     /// Handlers the response from the server when update failed
     /// </summary>
-    public void OnFailed(CampusD campus)
+    public void OnFailed(string message)
     {
-        Debug.Log($"Can not update Campus! Try again!");
+        Debug.Log(message);
     }
 
     /// <summary>
@@ -111,16 +117,13 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     private void GetDataModify()
     {
-        _campusData._id = _cardData.CampusID;
-        _campusData.CampusName = _cardData.CampusName;
-        _campusData.Room = _cardData.CampusRoom;
-        _campusData.__v = "0";
+        _campusData.Initialize(_cardData);
     }
 
     private void SetDataModify()
     {
-        _cardData.CampusName = _campusNameDropDown.captionText.text;
-        _cardData.CampusRoom = _campusRoomDropDown.captionText.text;
+        _cardData.Name = _campusNameDropDown.captionText.text;
+        _cardData.Room = _campusRoomDropDown.captionText.text;
     }
 
     private void ClearDataModify()
@@ -128,13 +131,13 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         _campusNameDropDown.ClearOptions();
         _campusRoomDropDown.ClearOptions();
     }
+    #endregion
 
     #endregion
 
     #region -- Fields -- 
 
     private ICampusCardData _cardData;
-    private IDataCampusTransferHandler _detailHandler;
     private IDetailCampusUpdateHandler _updateHandler;
 
     private CampusD _campusData = new CampusD();

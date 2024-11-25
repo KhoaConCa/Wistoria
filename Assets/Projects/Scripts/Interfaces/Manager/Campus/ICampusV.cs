@@ -15,5 +15,5 @@ public interface ICampusViewSpawner
 
 public interface ICampusDataSetter : ICampusComponentAdder
 {
-    void SetCampusData(CampusD campusD);
+    void SetCampusData(ICampusCardData campusD);
 }

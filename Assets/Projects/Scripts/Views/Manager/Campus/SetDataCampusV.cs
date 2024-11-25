@@ -21,10 +21,10 @@ public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
         _campusRoom = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetCampusData(CampusD campusD)
+    public void SetCampusData(ICampusCardData campus)
     {
-        _campusName.text = campusD.CampusName;
-        _campusRoom.text = campusD.Room;
+        _campusName.text = campus.Name;
+        _campusRoom.text = campus.Room;
     }
 
     #endregion

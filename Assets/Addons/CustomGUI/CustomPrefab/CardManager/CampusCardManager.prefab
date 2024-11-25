@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5795944056347703458}
   - component: {fileID: 1985533710224888437}
   - component: {fileID: 5193017327973579526}
-  - component: {fileID: 8154835774641682337}
+  - component: {fileID: 2041456797094865332}
   m_Layer: 5
   m_Name: CampusCardManager
   m_TagString: Untagged
@@ -166,7 +166,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3913999948249292035}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5193017327973579526}
+        m_TargetAssemblyTypeName: ModifyCampusC, Assembly-CSharp
+        m_MethodName: ClickCardToModify
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5193017327973579526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,8 +191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99efbe3906bbb454489418167f1decca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _modifyTagName: EditUI
---- !u!114 &8154835774641682337
+  _targetObject: {fileID: 0}
+--- !u!114 &2041456797094865332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

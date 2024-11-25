@@ -42,7 +42,7 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
 
             if (printerDoc != null)
             {
-                Debug.Log($"Found printer: {studentPrinter.PrinterName}, campus: {studentPrinter.LocateAt.CampusName}, status: {studentPrinter.Status}");
+                Debug.Log($"Found printer: {studentPrinter.PrinterName}, campus: {studentPrinter.LocateAt.Name}, status: {studentPrinter.Status}");
                 _spawnStudentPrinterView.CreateCard(studentPrinter, printerDoc);
             }
             else

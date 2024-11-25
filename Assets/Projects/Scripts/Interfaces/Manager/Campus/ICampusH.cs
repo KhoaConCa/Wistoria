@@ -3,29 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDataCampusTransferHandler
+public interface ICampus
 {
-    void TransferData(string response);
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFailed);
 }
 
-public interface IDetailCampusUpdateHandler
+public interface IDetailCampusUpdateHandler : ICampus
 {
-    IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed);
-
-    IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
-    IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus);
+    IEnumerator UpdateCampusData(CampusD campus, Action<string> onSuccess, Action<string> onFailed);
+    IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus, Action<string> onSuccess, Action<string> onFailed);
 }
 
-public interface IGetCampusHandler : IDataCampusTransferHandler
+public interface IGetCampusHandler : ICampus
 {
-    IEnumerator GetAllCampus(Action<CampusD> onCampusFound);
-    IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound);
-    IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
+    IEnumerator GetAllCampus(Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFaild);
+    IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFaild);
 }
 
-public interface IAddCampusHandler
+public interface IAddCampusHandler : ICampus
 {
-    IEnumerator AddNewCampus(CampusD campus, Action<CampusD> onSuccess);
-
-    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus);
+    IEnumerator AddNewCampus(CampusD campus, Action<string> onSuccess, Action<string> onFailed);
 }

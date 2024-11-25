@@ -8,18 +8,18 @@ public static class AllUrl
     #region -- Campus Manager --
 
     #region - POST -
-    public static readonly string createCampus = "https://server-wistoria-api.vercel.app/campus/create";
+    public static readonly string createCampus = "https://smart-printer-alpha.vercel.app/v1/campus/create";
     #endregion
 
     #region - GET -
-    public static readonly string getAllCampus = "https://server-wistoria-api.vercel.app/campus";
-    public static readonly string getCampusUniqueNames = "https://server-wistoria-api.vercel.app/campus/unique-names";
-    public static readonly string getCampusUniqueRooms = "https://server-wistoria-api.vercel.app/campus/unique-rooms";
-    public static readonly string searchCampusByName = "https://server-wistoria-api.vercel.app/campus/search/name";
+    public static readonly string getAllCampus = "https://smart-printer-alpha.vercel.app/v1/campus/search/";
+    public static readonly string getCampusUniqueNames = "https://smart-printer-alpha.vercel.app/v1/campus/search/unique-name";
+    public static readonly string getCampusUniqueRooms = "https://smart-printer-alpha.vercel.app/v1/campus/search/unique-room";
+    public static readonly string searchCampusByName = "https://smart-printer-alpha.vercel.app/v1/campus/search/name";
     #endregion
 
     #region - PATCH -
-    public static readonly string updateCampus = "https://server-wistoria-api.vercel.app/campus/update";
+    public static readonly string updateCampus = "https://smart-printer-alpha.vercel.app/v1/campus/update";
     #endregion
 
     #endregion
