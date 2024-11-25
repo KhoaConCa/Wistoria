@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.VisualScripting;
 
 
 public class SetDataPrinterV : MonoBehaviour, IPrinterDataSetter
@@ -13,13 +14,14 @@ public class SetDataPrinterV : MonoBehaviour, IPrinterDataSetter
     /// <summary>
     /// Add componet to from prefab selected
     /// </summary>
-    /// <param name="nameLocation">Location of Text Name Field</param>
-    /// <param name="roomLocation">Location of Text Room Field</param>
-    public void AddComponentFromPrefab(Transform nameLocation, Transform printerLocation, Transform locationAt)
+    /// <param name="printerName">Location of Text Name Field</param>
+    /// <param name="printerCampus">Location of Text Campus Field</param>
+    /// <param name="printerRoom">Location of Text Room Field</param>
+    public void AddComponentFromPrefab(Transform printerName, Transform printerCampus, Transform printerRoom)
     {
-        _printerName = nameLocation.GetComponent<TextMeshProUGUI>();
-        _printerCampus = printerLocation.GetComponent<TextMeshProUGUI>();
-        _printerLocateAt = locationAt.GetComponent<TextMeshProUGUI>();
+        _printerName = printerName.gameObject.GetComponent<TextMeshProUGUI>();
+        _printerCampus = printerCampus.gameObject.GetComponent<TextMeshProUGUI>();
+        _printerLocateAt = printerRoom.gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     public void SetDataPrinterCard(PrinterD printer)
@@ -33,9 +35,9 @@ public class SetDataPrinterV : MonoBehaviour, IPrinterDataSetter
 
     #region -- Fields --
 
-    private TextMeshProUGUI _printerName;
-    private TextMeshProUGUI _printerCampus;
-    private TextMeshProUGUI _printerLocateAt;
+    [SerializeField] private TextMeshProUGUI _printerName;
+    [SerializeField] private TextMeshProUGUI _printerCampus;
+    [SerializeField] private TextMeshProUGUI _printerLocateAt;
 
     #endregion
 }
