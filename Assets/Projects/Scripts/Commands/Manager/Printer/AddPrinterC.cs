@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utilities;
 
 public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
 {
@@ -18,7 +19,14 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
         SetNewData();
         ResetAsDefault();
 
-        StartCoroutine(_addHandler.AddNewPrinter(_printerD, OnSuccess));
+        StartCoroutine(_addHandler.AddNewPrinter(_printerD, successfulMessage =>
+        {
+            MainView.OnSuccess(successfulMessage);
+
+            ResetAsDefault();
+            StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFaild));
+
+        }, MainView.OnFaild));
     }
 
     #endregion
@@ -33,7 +41,7 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     private void OnEnable()
     {
         ResetAsDefault();
-        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown));
+        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFaild));
     }
 
     #region - Add Component -
@@ -88,25 +96,6 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     #endregion
 
     #region - Add Event Button -
-
-    /// <summary>
-    /// Handlers the response from the server when update successfully
-    /// </summary>
-    /// <param name="printer">Printer data updated</param>
-    public void OnSuccess(PrinterD printer)
-    {
-        Debug.Log($"Updated Printer: {printer.PrinterName}, Room: {printer.LocateAt}");
-        ResetAsDefault();
-        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown));
-    }
-
-    /// <summary>
-    /// Handlers the response from the server when update failed
-    /// </summary>
-    public void OnFailed(PrinterD printer)
-    {
-        Debug.Log($"Can not update Printer! Try again!");
-    }
 
     /// <summary>
     /// Set new printer data

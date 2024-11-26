@@ -69,7 +69,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     {
         if (_detail == null)
         {
-            Transform childObject = MainView.FindChildObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
+          Transform childObject = MainView.FindObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
             _targetObject = childObject.gameObject;
             _detail = _targetObject.GetComponent<DetailCampusC>();
         }

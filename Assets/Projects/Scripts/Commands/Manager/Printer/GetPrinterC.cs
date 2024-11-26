@@ -27,6 +27,8 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
         if (_printerIDFound.Contains(printer._id))
             return;
 
+
+
         _printerIDFound.Add(printer._id);
         if (!string.IsNullOrEmpty(printer.LocateAtID))
         {
@@ -35,6 +37,7 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
             {
                 if (campus != null)
                 {
+                    
                     printer.UpdateLocateAt(campus);
                     _spawnPrinterView.CreateCard(printer);
                 }
@@ -42,8 +45,6 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
         }    
         else
             _spawnPrinterView.CreateCard(printer);
-
-
     }
 
     #endregion
@@ -144,8 +145,6 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
     private static List<string> _printerIDFound = new List<string>();
 
     [SerializeField] private GameObject _noDataFound; 
-
-    [SerializeField] private Button _getButton;
 
     [SerializeField] private TMP_InputField _namePrinterField;
 

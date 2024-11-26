@@ -68,7 +68,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         try
         {
             if (_campusPrefab == null)
-                _campusPrefab = new AssetLabelReference { labelString = "Campus" };
+                _campusPrefab = new AssetLabelReference { labelString = "CampusManager" };
 
             if (_objectContain == null)
                 _objectContain = GameObject.FindWithTag("ObjectContain");

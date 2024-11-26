@@ -24,11 +24,20 @@ public class SetDataPrinterV : MonoBehaviour, IPrinterDataSetter
         _printerLocateAt = printerRoom.gameObject.GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetDataPrinterCard(PrinterD printer)
+    public void SetDataPrinterCard(IPrinterCardData printer)
     {
         _printerName.text = printer.PrinterName;
-        _printerCampus.text = printer.LocateAt.Name;
-        _printerLocateAt.text = printer.LocateAt.Room;
+
+        if (printer.LocateAt != null)
+        {
+            _printerCampus.text = printer.LocateAt.Name;
+            _printerLocateAt.text = printer.LocateAt.Room;
+        }
+        else
+        {
+            _printerCampus.text = "";
+            _printerLocateAt.text = "";
+        }
     }
 
     #endregion

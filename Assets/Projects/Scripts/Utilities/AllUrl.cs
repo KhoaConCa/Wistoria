@@ -12,7 +12,7 @@ public static class AllUrl
     #endregion
 
     #region - GET -
-    public static readonly string getAllCampus = "https://smart-printer-alpha.vercel.app/v1/campus/search/";
+    public static readonly string getAllCampus = "https://smart-printer-alpha.vercel.app/v1/campus";
     public static readonly string getCampusUniqueNames = "https://smart-printer-alpha.vercel.app/v1/campus/search/unique-name";
     public static readonly string getCampusUniqueRooms = "https://smart-printer-alpha.vercel.app/v1/campus/search/unique-room";
     public static readonly string searchCampusByName = "https://smart-printer-alpha.vercel.app/v1/campus/search/name";
@@ -27,16 +27,16 @@ public static class AllUrl
     #region -- Printer Manager --
 
     #region - POST -
-    public static readonly string createPrinter = "https://server-wistoria-api.vercel.app/printer/create";
+    public static readonly string createPrinter = "https://smart-printer-alpha.vercel.app/v1/printer/create";
     #endregion
 
     #region - GET -
-    public static readonly string searchPrinterByName = "https://server-wistoria-api.vercel.app/printer/search/name";
-    public static readonly string getAllPrinter = "https://server-wistoria-api.vercel.app/printer";
+    public static readonly string searchPrinterByName = "https://smart-printer-alpha.vercel.app/v1/printer/search/name";
+    public static readonly string getAllPrinter = "https://smart-printer-alpha.vercel.app/v1/printer";
     #endregion
 
     #region - PATCH -
-    public static readonly string updatePrinter = "https://server-wistoria-api.vercel.app/printer/update";
+    public static readonly string updatePrinter = "https://smart-printer-alpha.vercel.app/v1/printer/update";
     #endregion
 
     #endregion

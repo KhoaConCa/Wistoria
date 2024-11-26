@@ -15,5 +15,5 @@ public interface IPrinterViewSpawner
 
 public interface IPrinterDataSetter : IPrinterComponentAdder
 {
-    void SetDataPrinterCard(PrinterD printer);
+    void SetDataPrinterCard(IPrinterCardData printer);
 }

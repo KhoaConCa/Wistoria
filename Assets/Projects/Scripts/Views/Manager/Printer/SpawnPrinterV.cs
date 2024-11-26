@@ -22,11 +22,11 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
         {
             if (spawnedPrefab != null)
             {
-                IPrinterCardData _printercardData = spawnedPrefab.GetComponent<PrinterCardData>();
-                _printercardData.Initialize(printer);
+                IPrinterCardData printercardData = spawnedPrefab.GetComponent<PrinterCardData>();
+                printercardData.Initialize(printer);
 
                 FindComponentUI();
-                UpdateData(printer);
+                UpdateData(printercardData);
             }
             else
             {
@@ -100,7 +100,7 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
     /// </summary>
     /// <param name="name">Printer name</param>
     /// <param name="room">Printer room</param>
-    private void UpdateData(PrinterD printer)
+    private void UpdateData(IPrinterCardData printer)
     {
         _setDataPrinterView.SetDataPrinterCard(printer);
     }

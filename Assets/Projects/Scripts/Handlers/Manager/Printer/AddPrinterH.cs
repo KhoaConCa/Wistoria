@@ -11,10 +11,9 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
 {
     #region -- Implements --
 
-    public IEnumerator AddNewPrinter(PrinterD printer, Action<PrinterD> onSuccess)
+    public IEnumerator AddNewPrinter(PrinterD printer, Action<string> onSuccess, Action<string> onFaild)
     {
         string json = TransferDataToJson(printer);
-        Debug.Log(json);
 
         using (UnityWebRequest request = new UnityWebRequest(AllUrl.createPrinter, "POST"))
         {
@@ -26,44 +25,32 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
 
             yield return request.SendWebRequest();
 
+            MainData<PrinterD> response = TransferJsonToPrinterData(request.downloadHandler.text);
+
             if (request.result == UnityWebRequest.Result.Success)
-            {
-                onSuccess?.Invoke(printer);
-            }
+                onSuccess?.Invoke(response.Message);
             else
-            {
-                Debug.LogError($"Error in call API: {request.error}");
-            }
+                onFaild?.Invoke(response.Message);
         }
 
     }
 
-    public IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound)
+    public IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFaild)
     {
         using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
         {
             yield return request.SendWebRequest();
 
-            switch (request.result)
+            MainData<CampusD> response = TransferJsonToCampusData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onCampusFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    onCampusFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    List<CampusD> campusD = TransferJsonToData(jsonResponse);
-                    onCampusFound?.Invoke(campusD);
-                    break;
+                onCampusFound?.Invoke(response.Data);
             }
+            else
+                onFaild?.Invoke(response.Message);
         }
     }
 
@@ -83,9 +70,18 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
         return JsonConvert.SerializeObject(printerD, settings);
     }
 
-    public List<CampusD> TransferJsonToData(string response)
+    public MainData<CampusD> TransferJsonToCampusData(string response)
     {
-        return MainHandler.FromJson<CampusD>(response);
+        MainData<CampusD> campusData = JsonConvert.DeserializeObject<MainData<CampusD>>(response);
+        campusData.Initialize();
+        return campusData;
+    }
+
+    public MainData<PrinterD> TransferJsonToPrinterData(string response)
+    {
+        MainData<PrinterD> campusData = JsonConvert.DeserializeObject<MainData<PrinterD>>(response);
+        campusData.Initialize();
+        return campusData;
     }
 
     #endregion

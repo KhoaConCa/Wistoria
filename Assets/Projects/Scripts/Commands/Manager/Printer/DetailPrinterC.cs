@@ -45,7 +45,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     private void OnEnable()
     {
         ResetInteractableField();
-        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField));
+        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField, MainView.OnSuccess, MainView.OnFaild));
     }
 
     #region - Add Component -
@@ -107,27 +107,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     public void OnClickSaveButton()
     {
         SetDataModify();
-
-        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, OnSuccess, OnFailed));
-    }
-
-    /// <summary>
-    /// Handlers the response from the server when update successfully
-    /// </summary>
-    /// <param name="printer">Printer data updated</param>
-    public void OnSuccess(PrinterD printer)
-    {
-        Debug.Log($"Updated Printer: {printer.PrinterName}, Room: {printer.LocateAt}");
-        ResetInteractableField();
-        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField));
-    }
-
-    /// <summary>
-    /// Handlers the response from the server when update failed
-    /// </summary>
-    public void OnFailed(PrinterD printer)
-    {
-        Debug.Log($"Can not update Printer! Try again!");
+        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, MainView.OnSuccess, MainView.OnFaild));
     }
 
     /// <summary>

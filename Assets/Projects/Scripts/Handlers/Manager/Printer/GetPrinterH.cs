@@ -17,30 +17,30 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <returns></returns>
     public IEnumerator GetAllPrinter(Action<PrinterD> onPrinterFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        _onPrinterFound = onPrinterFound;
-
         using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllPrinter))
         {
             yield return request.SendWebRequest();
 
+            MainData<PrinterD> response = TransferJsonToPrinterData(request.downloadHandler.text);
+
             switch (request.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
-                    onFailed?.Invoke(request.error);
+                    onFailed?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.DataProcessingError:
-                    onFailed?.Invoke(request.error);
+                    onFailed?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
-                    onFailed?.Invoke(request.error);
+                    onFailed?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(request.result.ToString());
-                    string jsonResponse = request.downloadHandler.text;
-                    TransferData(jsonResponse);
+                    onSuccess?.Invoke(response.Message);
+
+                    SendData(onPrinterFound, response);
                     break;
             }
         }
@@ -54,21 +54,22 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <returns></returns>
     public IEnumerator SearchPrinterByName(string printerName, Action<PrinterD> onPrinterFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        _onPrinterFound = onPrinterFound;
         string searchURL = $"{AllUrl.searchPrinterByName}?name={UnityWebRequest.EscapeURL(printerName.Replace(" ", "+"))}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
             yield return request.SendWebRequest();
 
+            MainData<PrinterD> response = TransferJsonToPrinterData(request.downloadHandler.text);
+
             if (request.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(request.result.ToString());
-                string jsonResponse = request.downloadHandler.text;
-                TransferData(jsonResponse);
+                onSuccess?.Invoke(response.Message);
+
+                SendData(onPrinterFound, response);
             }
             else
-                onFailed?.Invoke(request.error);
+                onFailed?.Invoke(response.Message);
         }
     }
 
@@ -80,21 +81,27 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <returns></returns>
     public IEnumerator SearchCampusByID(string campusId, Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        string searchURL = $"{AllUrl.getAllCampus}/{campusId}";
+        string searchURL = $"{AllUrl.getAllCampus}/search/{campusId}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
             yield return request.SendWebRequest();
 
+            MainData<CampusD> response = TransferJsonToCampusData(request.downloadHandler.text);
+
             if (request.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(request.result.ToString());
-                string jsonResponse = request.downloadHandler.text;
-                CampusD campus = JsonConvert.DeserializeObject<CampusD>(jsonResponse);
-                onCampusFound?.Invoke(campus);
+                onSuccess?.Invoke(response.Message);
+
+                Debug.Log(response.Data.Count);
+                if (response.Data.Count == 1)
+                {
+                    CampusD campus = response.Data[0];
+                    onCampusFound?.Invoke(campus);
+                }
             }
             else
-                onFailed?.Invoke(request.error);
+                onFailed?.Invoke(response.Message);
         }
     }
 
@@ -106,34 +113,35 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// Transfer Json data to List data
     /// </summary>
     /// <param name="response">Json string</param>
-    public void TransferData(string response)
+    private MainData<PrinterD> TransferJsonToPrinterData(string response)
     {
-        List<PrinterD> printerList;
-        try
-        {
-            printerList = JsonConvert.DeserializeObject<List<PrinterD>>(response);
-
-            foreach (var printer in printerList)
-            {
-                printer.ProcessLocateAt();
-
-                _onPrinterFound.Invoke(printer);
-            }
-
-            Debug.Log("All printers processed.");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to parse JSON: {e.Message}");
-            return;
-        }
+        Debug.Log(response);
+        MainData<PrinterD> datas = JsonConvert.DeserializeObject<MainData<PrinterD>>(response);
+        datas.Initialize();
+        return datas;
     }
 
-    #endregion
+    private MainData<CampusD> TransferJsonToCampusData(string response)
+    {
+        MainData <CampusD> datas = JsonConvert.DeserializeObject<MainData<CampusD>>(response);
+        datas.Initialize();
+        return datas;
+    }
 
-    #region -- Fields --
+    private void SendData(Action<PrinterD> onPrinterFound, MainData<PrinterD> datas)
+    {
+        if (datas.Data == null)
+        {
+            Debug.Log(datas.Data);
+            return;
+        }
 
-    private Action<PrinterD> _onPrinterFound;
+        foreach (var data in datas.Data)
+        {
+            data.ProcessLocateAt();
+            onPrinterFound?.Invoke(data);
+        }
+    }
 
     #endregion
 }

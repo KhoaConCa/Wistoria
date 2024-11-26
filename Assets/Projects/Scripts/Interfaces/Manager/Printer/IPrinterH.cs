@@ -5,9 +5,9 @@ using UnityEngine;
 
 public interface IDetailPrinterUpdateHandler
 {
-    IEnumerator UpdatePrinterData(PrinterD printer, Action<PrinterD> onSuccess, Action<PrinterD> onFailed);
+    IEnumerator UpdatePrinterData(PrinterD printer, Action<string> onSuccess, Action<string> onFailed);
 
-    IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound);
+    IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFailed);
 }
 
 public interface IGetPrinterHandler
@@ -19,6 +19,6 @@ public interface IGetPrinterHandler
 
 public interface IAddPrinterHandler
 {
-    IEnumerator AddNewPrinter(PrinterD printer, Action<PrinterD> onSuccess);
-    IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound);
+    IEnumerator AddNewPrinter(PrinterD printer, Action<string> onSuccess, Action<string> onFailed);
+    IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFailed);
 }
