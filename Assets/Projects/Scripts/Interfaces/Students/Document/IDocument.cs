@@ -10,11 +10,18 @@ using UnityEngine;
 #endregion
 public interface IUploadDocumentCommand
 {
-    /// <summary>
-    /// Executes the document upload command.
-    /// </summary>
     void Execute();
+
+    void Initialize(IUploadDocumentHandler handler, string documentPath, System.Action<string> onDocumentIdReceived);
+
+    /// <summary>
+    /// Gets the handler used by this command.
+    /// </summary>
+    /// <returns>The handler instance.</returns>
+    IUploadDocumentHandler GetHandler();
 }
+
+
 
 #region -- Interface for Document Handler --
 /// <summary>
