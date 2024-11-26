@@ -21,5 +21,5 @@ public interface IGetPrinterHandler : IDataPrinterTransferHandler
 
 public interface IAddPrinterHandler
 {
-    IEnumerator AddNewPrinter(PrinterD Printer, Action<PrinterD> onSuccess);
+    IEnumerator AddNewPrinter(PrinterD Printer, Action<string> onSuccess, Action<string> onFaild);
 }
