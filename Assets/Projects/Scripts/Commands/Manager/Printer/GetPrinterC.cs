@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
@@ -10,34 +12,38 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
     #region -- Implements --
 
     /// <summary>
-    /// Sends a GET request to the server when the button is clicked.
-    /// Retrieves the printer information based on the selected printer name
-    /// </summary>
-    public void ClickFindButton()
-    {
-        string printerName = GetSelectedPrinterName();
-
-        if (!string.IsNullOrEmpty(printerName))
-        {
-            StartCoroutine(_printerHandler.GetPrinter(printerName, OnPrinterFound));
-        }
-        else
-        {
-            Debug.Log("Printer name cannot be empty.");
-        }
-    }
-
-    /// <summary>
     /// Handles the response from the server when printer information is found.
     /// Logs the details of the printer if it exists
     /// </summary>
     /// <param name="printer">The printer object returned from the server</param>
     public void OnPrinterFound(PrinterD printer)
     {
-        if (printer != null)
-            _spawnPrinterView.CreateCard(printer);
-        else
+        if (printer == null)
+        {
             Debug.Log("Printer not found.");
+            return;
+        }
+
+        if (_printerIDFound.Contains(printer._id))
+            return;
+
+        _printerIDFound.Add(printer._id);
+        if (!string.IsNullOrEmpty(printer.LocateAtID))
+        {
+
+            StartCoroutine(_printerHandler.SearchCampusByID(printer.LocateAtID, campus =>
+            {
+                if (campus != null)
+                {
+                    printer.UpdateLocateAt(campus);
+                    _spawnPrinterView.CreateCard(printer);
+                }
+            }, OnSuccess, OnFailed));
+        }    
+        else
+            _spawnPrinterView.CreateCard(printer);
+
+
     }
 
     #endregion
@@ -48,27 +54,24 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
     {
         AddComponentPrinterHandler();
         AddComponetPrinterView();
-        GetComponentUITransfer();
     }
 
     private void OnEnable()
     {
         try
         {
-            if (MainHandler.PrefabList.Count == 0)
-            {
-                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound));
-            }
+            MainHandler.ClearSpawnedPrefabs();
+            _printerIDFound.Clear();
+
+            if (MainHandler.PrefabList.Count <= 0 || _printerIDFound.Count <= 0)
+                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, OnSuccess, OnFailed));
+            else
+                Debug.Log("Can't spawn printer prefab: ");
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e.Message);
+            Debug.LogError(e.Message); 
         }
-    }
-
-    private void OnDisable()
-    {
-        MainHandler.ClearSpawnedPrefabs();
     }
 
     #region -- Add Components --
@@ -89,49 +92,62 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
         if (_printerHandler == null)
         {
             _printerHandler = gameObject.AddComponent<GetPrinterH>();
+
         }
         else
         {
             Debug.Log("The GetPrinterH component already exists");
         }
     }
-
-    private void GetComponentUITransfer()
-    {
-        if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag("MainUIPrinter").GetComponent<UITransformV>();
-        else
-            Debug.Log("The UITransformV component already exists");
-    }
     #endregion
 
-    /// <summary>
-    /// Retrieves the name of the selected printer from the dropdown list
-    /// </summary>
-    /// <returns>
-    /// The name of the selected printer.
-    /// Returns an empty string if no printer is selected
-    /// </returns>
-    public string GetSelectedPrinterName()
+    public void OnInputChange()
     {
-        int selectedIndex = findNameInput.value;
-        return findNameInput.options[selectedIndex].text;
+        try
+        {
+            MainHandler.ClearSpawnedPrefabs();
+            _printerIDFound.Clear();
+
+            if (MainHandler.PrefabList.Count > 0 || _printerIDFound.Count > 0) return;
+
+            if (_namePrinterField.text != "")
+                StartCoroutine(_printerHandler.SearchPrinterByName(_namePrinterField.text, OnPrinterFound, OnSuccess, OnFailed));
+            else
+                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, OnSuccess, OnFailed));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
+
+    private void OnFailed(string log)
+    {
+        Debug.LogError(log);
+        _noDataFound.SetActive(true);
+    }
+
+    private void OnSuccess(string log)
+    {
+        Debug.Log(log);
+        _noDataFound.SetActive(false);
+    }
+
 
     #endregion
 
     #region -- Fields --
 
     private IGetPrinterHandler _printerHandler;
-    private ITransformUI _transformUI;
     private IPrinterViewSpawner _spawnPrinterView;
 
-    public Button getButton;
-    [SerializeField] private Button _addButton;
+    private static List<string> _printerIDFound = new List<string>();
 
-    public TMP_Dropdown findNameInput;
+    [SerializeField] private GameObject _noDataFound; 
 
-    [SerializeField] private GameObject _targetObject;
+    [SerializeField] private Button _getButton;
+
+    [SerializeField] private TMP_InputField _namePrinterField;
 
     #endregion
 }
