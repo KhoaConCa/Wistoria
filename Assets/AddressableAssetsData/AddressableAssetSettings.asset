@@ -87,11 +87,12 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - Campus
     - StudentPrinter
     - Package
     - HistoryManager
     - PrinterManager
+    - PackageManager
+    - CampusManager
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}
