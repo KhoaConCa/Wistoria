@@ -14,61 +14,13 @@ public class UITransformV : MonoBehaviour, ITransformUI
     /// <param name="targetobject">GameObject need to show</param>
     public void SetActiveObjectUI(GameObject targetObject)
     {
-        var keys = new List<GameObject>(_objectState.Keys);
-
-        foreach (var key in keys)
+        foreach (GameObject item in _objectUIs)
         {
-            _objectState[key] = false;
+            if (item.tag == targetObject.tag)
+                item.SetActive(true);
+            else
+                item.SetActive(false);
         }
-
-        if (_objectState.ContainsKey(targetObject))
-        {
-            _objectState[targetObject] = true;
-        }
-        else
-        {
-            Debug.LogWarning("GameObject is not included in Dictionary");
-        }
-
-        UpdateObjectUI();
-    }
-
-    /// <summary>
-    /// Set Active to selected UI
-    /// </summary>
-    /// <param name="targetTag">Tag's GameObject need to show</param>
-    public void SetActiveObjectUI(string targetTag)
-    {
-        try
-        {
-            if (_objectUIs.Count <= 0) SetupDictionary();
-
-            GameObject targetObject = null;
-
-            foreach (var item in _objectUIs)
-            {
-                if (item.tag == targetTag)
-                {
-                    targetObject = item;
-                    break;
-                }
-            }
-
-            var keys = new List<GameObject>(_objectState.Keys);
-
-            foreach (var key in keys)
-                _objectState[key] = false;
-
-            if (_objectState.ContainsKey(targetObject))
-                _objectState[targetObject] = true;
-
-            UpdateObjectUI();
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning($"Error in: {e.Message}");
-        }
-
     }
 
     #endregion
@@ -78,52 +30,6 @@ public class UITransformV : MonoBehaviour, ITransformUI
     void OnEnable()
     {
         SetActiveObjectUI(_defaultUI);
-    }
-
-    /// <summary>
-    /// Show GameObject
-    /// </summary>
-    private void UpdateObjectUI()
-    {
-        try
-        {
-            foreach (var entry in _objectState)
-            {
-                entry.Key.SetActive(entry.Value);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning(e.Message);
-        }
-    }
-
-    /// <summary>
-    /// Find children object in this object
-    /// </summary>
-    private void SetupDictionary()
-    {
-        try
-        {
-            _objectState.Clear();
-
-            if (this.gameObject.transform == null)
-            {
-                Debug.LogWarning("object transform is not assigned. Please assign it in the Inspector.");
-                return;
-            }
-
-            foreach (Transform child in this.gameObject.transform)
-            {
-                _objectState[child.gameObject] = false;
-                _objectUIs.Add(child.gameObject);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning(e.Message);
-        }
-
     }
 
     /// <summary>
@@ -144,22 +50,11 @@ public class UITransformV : MonoBehaviour, ITransformUI
 
     #endregion
 
-    #region -- Properties --
-
-
-
-    #endregion
-
     #region -- Fields --
 
-    [SerializeField] private Transform _objectTransform;
-
-    [SerializeField] private string _tagName;
-    [SerializeField] private string _defaultUI;
+    [SerializeField] private GameObject _defaultUI;
 
     [SerializeField] private List<GameObject> _objectUIs = new List<GameObject>();
-    
-    private Dictionary<GameObject, bool> _objectState = new Dictionary<GameObject, bool>();
 
     #endregion
 }
