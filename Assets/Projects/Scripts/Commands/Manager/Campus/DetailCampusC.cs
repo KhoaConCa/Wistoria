@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using Utilities;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.VersionControl;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
