@@ -5,20 +5,15 @@ using UnityEngine;
 
 public interface IPrinterComponentAdder
 {
-    void AddComponentFromPrefab(Transform nameLocation, Transform printerLocation, Transform roomLocation);
+    void AddComponentFromPrefab(Transform nameLocation, Transform printerLocation, Transform locationAt);
 }
 
 public interface IPrinterViewSpawner
 {
-    void CreateCard(PrinterD Printer);
+    void CreateCard(PrinterD campus);
 }
 
 public interface IPrinterDataSetter : IPrinterComponentAdder
 {
-    void SetDataPrinterCard(PrinterD Printer);
-}
-
-public interface ITransformUIPrinter
-{
-    void SetActivePrinterUI(GameObject targetPrinter);
+    void SetDataPrinterCard(IPrinterCardData printer);
 }

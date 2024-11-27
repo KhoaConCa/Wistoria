@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,17 +10,47 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 {
     #region -- Implements --
 
-    public string TransferData(CampusD campus)
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFailed)
     {
-        return MainHandler.ToJson<CampusD>(campus);
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<string> response = TransferStringToData(request.downloadHandler.text);
+
+            switch (request.result)
+            {
+                case
+                    UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError("Error: " + request.error);
+                    onFailed?.Invoke(response.Message);
+                    break;
+
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError("Error: " + request.error);
+                    onFailed?.Invoke(response.Message);
+                    break;
+
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError("HTTP Error: " + request.error);
+                    onFailed?.Invoke(response.Message);
+                    break;
+
+                case UnityWebRequest.Result.Success:
+                    onSuccess?.Invoke(response.Message);
+
+                    onNameCampus?.Invoke(response.Data);
+                    break;
+            }
+        }
     }
 
-    public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action<CampusD> onFailed)
+    public IEnumerator UpdateCampusData(CampusD campus, Action<string> onSuccess, Action<string> onFailed)
     {
-        string url = $"{AllUrl.updateCampus}/{campus._id}";
-        Debug.Log(url);
+        string url = $"{AllUrl.updateCampus}/{campus.Id}";
 
-        string json = TransferData(campus);
+        string json = TransferDataToJson(campus);
+        Debug.Log(json);
 
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
@@ -31,52 +62,71 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
             yield return request.SendWebRequest();
 
+            MainData<CampusD> response = TransferObjectToData(request.downloadHandler.text);
+
             if (request.result == UnityWebRequest.Result.Success)
-            {
-                CampusD updatedCampus = JsonUtility.FromJson<CampusD>(request.downloadHandler.text);
-                onSuccess?.Invoke(campus);
-            }
+                onSuccess?.Invoke(response.Message);
             else
-            {
-                Debug.LogError("Error updating campus: " + request.error);
-                onFailed?.Invoke(campus);
-            }
+                onFailed?.Invoke(response.Message);
         }
     }
 
-    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus)
+    public IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus, Action<string> onSuccess, Action<string> onFailed)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueRooms))
         {
             yield return request.SendWebRequest();
+
+            MainData<string> response = TransferStringToData(request.downloadHandler.text);
 
             switch (request.result)
             {
                 case
                     UnityWebRequest.Result.ConnectionError:
                     Debug.LogError("Error: " + request.error);
+                    onFailed?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError("Error: " + request.error);
-                    onNameCampus?.Invoke(null);
+                    onFailed?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError("HTTP Error: " + request.error);
-                    onNameCampus?.Invoke(null);
+                    onFailed?.Invoke(response.Message);
                     break;
 
                 case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
+                    onSuccess?.Invoke(response.Message);
 
-                    List<string> campusNames = MainHandler.FromJson<string>(jsonResponse);
-
-                    onNameCampus.Invoke(campusNames);
+                    onRoomCampus?.Invoke(response.Data);
                     break;
             }
         }
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    public string TransferDataToJson(CampusD campus)
+    {
+        return MainHandler.ToJson<CampusD>(campus);
+    }
+
+    public MainData<CampusD> TransferObjectToData(string response)
+    {
+        MainData<CampusD> mainData = JsonConvert.DeserializeObject<MainData<CampusD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    public MainData<string> TransferStringToData(string response)
+    {
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
     }
 
     #endregion

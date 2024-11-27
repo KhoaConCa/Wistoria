@@ -4,14 +4,12 @@ using UnityEngine;
 
 public interface IGetPrinterCommand
 {
-    void ClickFindButton();
-    void OnPrinterFound(PrinterD Printer);
+    void OnPrinterFound(PrinterD printer);
 }
 
 public interface IModifyPrinterCommand
 {
-    void ClickCard();
-    void SetupButton();
+    void ClickCardToModify();
 }
 
 public interface IPrinterDetailCommand

@@ -18,17 +18,15 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
     /// <param name="printer">Data of printer</param>
     public void CreateCard(PrinterD printer)
     {
-        MainHandler.ClearSpawnedPrefabs();
-
         MainHandler.SpawnPrefabByLabel(_printerPrefab, _objectContain, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
-                IPrinterCardData _printercardData = spawnedPrefab.GetComponent<PrinterCardData>();
-                _printercardData.Initialize(printer);
+                IPrinterCardData printercardData = spawnedPrefab.GetComponent<PrinterCardData>();
+                printercardData.Initialize(printer);
 
                 FindComponentUI();
-                UpdateData(printer);
+                UpdateData(printercardData);
             }
             else
             {
@@ -65,7 +63,7 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
         try
         {
             if (_printerPrefab == null)
-                _printerPrefab = new AssetLabelReference { labelString = "Printer" };
+                _printerPrefab = new AssetLabelReference { labelString = "PrinterManager" };
 
             if (_objectContain == null)
                 _objectContain = GameObject.FindWithTag("ObjectContain");
@@ -84,8 +82,10 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
             Transform positionCampus = MainHandler.FindChildObjectsByTag(MainHandler.LastSpawnedPrefab.transform, _tagCampus);
             Transform positionRoom = MainHandler.FindChildObjectsByTag(MainHandler.LastSpawnedPrefab.transform, _tagRoom);
 
-            if (positionPrinter != null && positionRoom != null)
-                _setDataPrinterView.AddComponentFromPrefab(positionPrinter, positionCampus, positionRoom);
+            if (positionPrinter != null && positionCampus != null && positionRoom != null)
+            {
+               _setDataPrinterView.AddComponentFromPrefab(positionPrinter, positionCampus, positionRoom);
+            }
             else
                 Debug.LogError("UI components not found in prefab!");
         }
@@ -100,7 +100,7 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
     /// </summary>
     /// <param name="name">Printer name</param>
     /// <param name="room">Printer room</param>
-    private void UpdateData(PrinterD printer)
+    private void UpdateData(IPrinterCardData printer)
     {
         _setDataPrinterView.SetDataPrinterCard(printer);
     }
@@ -114,7 +114,8 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
     private GameObject _objectContain;
 
     [SerializeField] private AssetLabelReference _printerPrefab;
-    private readonly string _tagPrinter = "ValueNamePrinter";
+
+    private readonly string _tagPrinter = "ValuePrinter";
     private readonly string _tagCampus = "ValueCampus";
     private readonly string _tagRoom = "ValueRoom";
 

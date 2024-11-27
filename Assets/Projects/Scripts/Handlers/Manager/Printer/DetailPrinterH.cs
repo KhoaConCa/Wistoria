@@ -1,6 +1,8 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Compilation;
 using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
@@ -9,37 +11,47 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 {
     #region -- Implements --
 
-    public string TransferData(PrinterD printer)
+    public IEnumerator UpdatePrinterData(PrinterD printer, Action<string> onSuccess, Action<string> onFailed)
     {
-        return MainHandler.ToJson<PrinterD>(printer);
-    }
+        string url = $"{AllUrl.updatePrinter}/{printer._id}";
 
-    public IEnumerator UpdatePrinterData(PrinterD printer, Action<PrinterD> onSuccess, Action<PrinterD> onFailed)
-    {
-        string url = $"{_updateURL}/{printer._id}";
-        Debug.Log(url);
-
-        string json = TransferData(printer);
+        string json = TransferDataToJson(printer);
 
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
             yield return request.SendWebRequest();
 
+            MainData<PrinterD> response = TransferJsonToPrinterData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Message);
+            else
+                onFailed?.Invoke(response.Message);
+        }
+    }
+
+    public IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFailed)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<CampusD> response = TransferJsonToCampusData(request.downloadHandler.text);
+
             if (request.result == UnityWebRequest.Result.Success)
             {
-                PrinterD updatedPrinter = JsonUtility.FromJson<PrinterD>(request.downloadHandler.text);
-                onSuccess?.Invoke(printer);
+                onSuccess?.Invoke(response.Message);
+
+                onCampusFound?.Invoke(response.Data);
             }
             else
-            {
-                Debug.LogError("Error updating printer: " + request.error);
-                onFailed?.Invoke(printer);
-            }
+                onFailed?.Invoke(response.Message);
         }
     }
 
@@ -47,11 +59,29 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 
     #region -- Methods --
 
-    #endregion
+    public string TransferDataToJson(PrinterD printerD)
+    {
+        var settings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore
+        };
+        return JsonConvert.SerializeObject(printerD, settings);
+    }
 
-    #region -- Fields --
+    public MainData<CampusD> TransferJsonToCampusData(string response)
+    {
+        MainData<CampusD> campusData = JsonConvert.DeserializeObject<MainData<CampusD>>(response);
+        campusData.Initialize();
+        return campusData;
+    }
 
-    private readonly string _updateURL = "https://server-wistoria-api.vercel.app/printer/update";
+    public MainData<PrinterD> TransferJsonToPrinterData(string response)
+    {
+        MainData<PrinterD> campusData = JsonConvert.DeserializeObject<MainData<PrinterD>>(response);
+        campusData.Initialize();
+        return campusData;
+    }
 
     #endregion
 }

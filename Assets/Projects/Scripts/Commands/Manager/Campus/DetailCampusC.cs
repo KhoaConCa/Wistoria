@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using Utilities;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -42,27 +43,20 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     void OnEnable()
     {
-        if (_campusNameDropDown != null && _campusRoomField != null)
-            StartCoroutine(_updateHandler.GetUniqueName(SetData));
+        if (_campusNameDropDown != null && _campusNameDropDown != null)
+        {
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, OnSuccess, OnFailed));
+            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, OnSuccess, OnFailed));
+        }
     }
 
     void OnDisable()
     {
-        if (_campusNameDropDown != null && _campusRoomField != null)
+        if (_campusNameDropDown != null && _campusRoomDropDown != null)
             ClearDataModify();
-}
-
-    private void SetData(List<string> campusName)
-    {
-        _campusNameDropDown.ClearOptions();
-
-        _campusNameDropDown.AddOptions(campusName);
-        int indexSelected = campusName.IndexOf(_cardData.CampusName);
-        _campusNameDropDown.value = indexSelected;
-
-        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = _cardData.CampusRoom;
     }
 
+    #region -- Add Component --
     private void AddComponentHandler()
     {
         if (_updateHandler == null)
@@ -70,7 +64,29 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         else
             Debug.Log("The DetailCampusH component already exists");
     }
+    #endregion
 
+    #region -- Set Data --
+    private void SetDataCampusName(List<string> campusName)
+    {
+        _campusNameDropDown.ClearOptions();
+
+        _campusNameDropDown.AddOptions(campusName);
+        int indexSelected = campusName.IndexOf(_cardData.Name);
+        _campusNameDropDown.value = indexSelected;
+    }
+
+    private void SetDataCampusRoom(List<string> campusRoom)
+    {
+        _campusRoomDropDown.ClearOptions();
+
+        _campusRoomDropDown.AddOptions(campusRoom);
+        int indexSelected = campusRoom.IndexOf(_cardData.Room);
+        _campusRoomDropDown.value = indexSelected;
+    }
+    #endregion
+
+    #region -- Main Event --
     public void OnClickSaveButton()
     {
         SetDataModify();
@@ -83,17 +99,17 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// Handlers the response from the server when update successfully
     /// </summary>
     /// <param name="campus">Campus data updated</param>
-    public void OnSuccess(CampusD campus)
+    public void OnSuccess(string message)
     {
-        Debug.Log($"Updated Campus: {campus.CampusName}, Room: {campus.Room}");
+        Debug.Log(message);
     }
 
     /// <summary>
     /// Handlers the response from the server when update failed
     /// </summary>
-    public void OnFailed(CampusD campus)
+    public void OnFailed(string message)
     {
-        Debug.Log($"Can not update Campus! Try again!");
+        Debug.Log(message);
     }
 
     /// <summary>
@@ -101,34 +117,27 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// </summary>
     private void GetDataModify()
     {
-        _campusData._id = _cardData.CampusID;
-        _campusData.CampusName = _cardData.CampusName;
-        _campusData.Room = _cardData.CampusRoom;
-        _campusData.__v = "0";
+        _campusData.Initialize(_cardData);
     }
 
     private void SetDataModify()
     {
-        _cardData.CampusName = _campusNameDropDown.captionText.text;
-
-        if (_campusRoomField.text != null)
-            _cardData.CampusRoom =  _campusRoomField.text;
+        _cardData.Name = _campusNameDropDown.captionText.text;
+        _cardData.Room = _campusRoomDropDown.captionText.text;
     }
 
     private void ClearDataModify()
     {
         _campusNameDropDown.ClearOptions();
-
-        _campusRoomField.text = "";
-        _campusRoomField.placeholder.GetComponent<TextMeshProUGUI>().text = "";
+        _campusRoomDropDown.ClearOptions();
     }
+    #endregion
 
     #endregion
 
     #region -- Fields -- 
 
     private ICampusCardData _cardData;
-    private IDataCampusTransferHandler _detailHandler;
     private IDetailCampusUpdateHandler _updateHandler;
 
     private CampusD _campusData = new CampusD();
@@ -138,8 +147,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     [SerializeField] private Button _backButton;
 
     [SerializeField] private TMP_Dropdown _campusNameDropDown;
-
-    [SerializeField] private TMP_InputField _campusRoomField;
+    [SerializeField] private TMP_Dropdown _campusRoomDropDown;
 
     #endregion
 }

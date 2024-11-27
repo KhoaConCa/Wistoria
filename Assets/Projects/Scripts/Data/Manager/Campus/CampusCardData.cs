@@ -1,24 +1,31 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Data;
 
 public class CampusCardData : MonoBehaviour, ICampusCardData
 {
-    #region -- Implements --
+    #region -- Methods --
 
-    public void Initialize(string id, string name, string room)
+    public void Initialize(CampusD campus)
     {
-        CampusID = id;
-        CampusName = name;
-        CampusRoom = room;
+        Id = campus.Id;
+        Name = campus.Name;
+        Room = campus.Room;
+        Status = campus.Status;
     }
 
-    #region -- Properties --
-    public string CampusID { get; set; }
-    public string CampusName { get; set; }
-    public string CampusRoom { get; set; }
     #endregion
+
+    #region -- Properties --
+
+    public string Id {  get; set; }
+    public string Name { get; set; }
+    public string Room {  get; set; }
+    public string Status {  get; set; }
 
     #endregion
 }

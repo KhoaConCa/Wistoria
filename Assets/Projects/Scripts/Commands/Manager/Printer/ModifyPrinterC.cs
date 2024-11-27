@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using PrinterDataManager;
+using Utilities;
 
 public class ModifyPrinterC : MonoBehaviour, IModifyPrinterCommand
 {
@@ -13,22 +14,12 @@ public class ModifyPrinterC : MonoBehaviour, IModifyPrinterCommand
     /// <summary>
     /// Switch form, transfer data when the printer card was clicked
     /// </summary>
-    public void ClickCard()
+    public void ClickCardToModify()
     {
-        SetCurrentData(_cardData);
-
+        Debug.Log(_cardData.PrinterName);
         _detail.DisplayPrinterDetails(_cardData);
 
-        //_transformUI.SetActiveObjectUI(_modifyTagName);
-    }
-
-    /// <summary>
-    /// Set event for prefab
-    /// </summary>
-    public void SetupButton()
-    {
-        _clickCard = gameObject.GetComponent<Button>();
-        _cardData = gameObject.GetComponent<PrinterCardData>();
+        _transformUI.SetActiveObjectUI(_targetObject);
     }
 
     #endregion
@@ -38,42 +29,42 @@ public class ModifyPrinterC : MonoBehaviour, IModifyPrinterCommand
     void Start()
     {
         GetTransformUI();
-        GetComponentData();
-        AddComponentDetail();
+        GetComponentDetail();
 
-        SetupButton();
-
-        _clickCard.onClick.AddListener(ClickCard);
+        GetCardDataComponent();
     }
+
+    #region -- Get Component --
+    private void GetCardDataComponent()
+    {
+        try
+        {
+            if (_cardData == null)
+                _cardData = gameObject.GetComponent<PrinterCardData>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+    #endregion
 
     #region -- Add Component --
     private void GetTransformUI()
     {
         if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag("MainUIPrinter").GetComponent<UITransformV>();
+            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
         else
             Debug.Log("The UITransformV component already exiests");
     }
 
-    private void GetComponentData()
-    {
-        if (_cardData == null)
-        {
-            _cardData = gameObject.GetComponent<PrinterCardData>();
-        }
-        else
-        {
-            Debug.Log("The ModifyPrinterH component already exiests");
-        }
-    }
-
-    private void AddComponentDetail()
+    private void GetComponentDetail()
     {
         if (_detail == null)
         {
-            GameObject parentObject = GameObject.FindWithTag("MainUIPrinter");
-            GameObject childParent = parentObject.GetComponent<UITransformV>().FindTargetObjectByTag("DetailPrinter");
-            _detail = childParent.GetComponent<DetailPrinterC>();
+            Transform childObject = MainView.FindObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
+            _targetObject = childObject.gameObject;
+            _detail = _targetObject.GetComponent<DetailPrinterC>();
         }
         else
         {
@@ -82,26 +73,15 @@ public class ModifyPrinterC : MonoBehaviour, IModifyPrinterCommand
     }
     #endregion
 
-    private void SetCurrentData(IPrinterCardData cardData)
-    {
-        PrinterManager.currentPrinterID = cardData.PrinterID;
-        PrinterManager.currentPrinterName = cardData.PrinterName;
-        PrinterManager.currentLocateAt = cardData.LocateAt;
-    }
-
     #endregion
 
     #region -- Fields --
-
-    private Action<string> onClickCallback;
 
     private ITransformUI _transformUI;
     private IPrinterCardData _cardData;
     private IPrinterDetailCommand _detail;
 
-    private Button _clickCard;
-
-    [SerializeField] private string _modifyTagName;
+    [SerializeField] private GameObject _targetObject;
 
     #endregion
 }

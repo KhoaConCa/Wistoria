@@ -15,6 +15,10 @@ TagManager:
   - DefaultMainScene
   - PackageName
   - PackageValue
+  - ValuePaper
+  - ValuePrice
+  - MainGUI
+  - MessageValue
   layers:
   - Default
   - TransparentFX

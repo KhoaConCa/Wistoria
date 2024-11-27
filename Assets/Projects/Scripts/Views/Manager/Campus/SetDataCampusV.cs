@@ -17,27 +17,22 @@ public class SetDataCampusV : MonoBehaviour, ICampusDataSetter
     /// <param name="roomLocation">Location of Text Room Field</param>
     public void AddComponentFromPrefab(Transform nameLocation, Transform roomLocation)
     {
-        campusName = nameLocation.GetComponent<TextMeshProUGUI>();
-        campusRoom = roomLocation.GetComponent<TextMeshProUGUI>();
+        _campusName = nameLocation.GetComponent<TextMeshProUGUI>();
+        _campusRoom = roomLocation.GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetCampusName(string name)
+    public void SetCampusData(ICampusCardData campus)
     {
-        campusName.text = name;
-    }
-
-
-    public void SetCampusRoom(string room)
-    {
-        campusRoom.text = room;
+        _campusName.text = campus.Name;
+        _campusRoom.text = campus.Room;
     }
 
     #endregion
 
     #region -- Fields --
 
-    private TextMeshProUGUI campusName;
-    private TextMeshProUGUI campusRoom;
+    private TextMeshProUGUI _campusName;
+    private TextMeshProUGUI _campusRoom;
 
     #endregion
 }

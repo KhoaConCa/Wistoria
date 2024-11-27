@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: c3f2328a264f9474ca9877fffc40ea8d
   m_currentHash:
     serializedVersion: 2
-    Hash: 230293776ad02500d227a4c3bc1b6f5b
+    Hash: 655809a4646337e072c59a40d7301586
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -88,10 +88,15 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
-    - Campus
     - StudentPrinter
     - Package
     - HistoryManager
+    - PrinterManager
+    - PackageManager
+    - CampusManager
+    - WarningNotification
+    - ErrorNotification
+    - SuccessNotification
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}

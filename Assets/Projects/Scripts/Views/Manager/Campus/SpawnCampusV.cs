@@ -24,11 +24,11 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         {
             if (spawnedPrefab != null)
             {
-                ICampusCardData _campuscardData = spawnedPrefab.GetComponent<CampusCardData>();
-                _campuscardData.Initialize(campus._id, campus.CampusName, campus.Room);
+                ICampusCardData cardData = GetComponentCard(spawnedPrefab);
+                cardData.Initialize(campus);
 
-                FindComponentUI();
-                UpdateData(campus);
+                FindPositionComponentCard();
+                UpdateData(cardData);
             }
             else
             {
@@ -47,8 +47,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         GetComponentDefault();
     }
 
-    
-
+    #region -- Add Component --
     private void AddComponentDefault()
     {
         try
@@ -61,13 +60,15 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
             Debug.Log(e.Message);
         }
     }
+    #endregion
 
+    #region -- Get Component --
     private void GetComponentDefault()
     {
         try
         {
             if (_campusPrefab == null)
-                _campusPrefab = new AssetLabelReference { labelString = "Campus" };
+                _campusPrefab = new AssetLabelReference { labelString = "CampusManager" };
 
             if (_objectContain == null)
                 _objectContain = GameObject.FindWithTag("ObjectContain");
@@ -77,31 +78,15 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
             Debug.Log(e.Message);
         }
     }
+    #endregion
 
-    /// <summary>
-    /// Find root to set component for prefab
-    /// </summary>
-    /// <param name="name">Address campus name</param>
-    /// <param name="room">Address campus room</param>
-    private void FindComponentUI(string name, string room)
+    #region -- Set Up Card Prefab --
+    private ICampusCardData GetComponentCard(GameObject cardPrefab)
     {
-        try
-        {
-            Transform positionCampus = MainHandler.LastSpawnedPrefab?.transform.Find(name);
-            Transform positionRoom = MainHandler.LastSpawnedPrefab?.transform.Find(room);
-
-            if (positionCampus != null && positionRoom != null)
-                _setDataCampusView.AddComponentFromPrefab(positionCampus, positionRoom);
-            else
-                Debug.LogError("UI components not found in prefab!");
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
+        return cardPrefab.GetComponent<ICampusCardData>();
     }
 
-    private void FindComponentUI()
+    private void FindPositionComponentCard()
     {
         try
         {
@@ -124,11 +109,11 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     /// </summary>
     /// <param name="name">Campus name</param>
     /// <param name="room">Campus room</param>
-    private void UpdateData(CampusD campus)
+    private void UpdateData(ICampusCardData campus)
     {
-        _setDataCampusView.SetCampusName(campus.CampusName);
-        _setDataCampusView.SetCampusRoom(campus.Room);
+        _setDataCampusView.SetCampusData(campus);
     }
+    #endregion
 
     #endregion
 

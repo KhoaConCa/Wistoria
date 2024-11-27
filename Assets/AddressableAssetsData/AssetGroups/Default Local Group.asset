@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/CampusCardManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Campus
+    - CampusManager
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 748d66853d761be4da7d57006abd9650
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/PrintTag.prefab
@@ -35,11 +35,23 @@ MonoBehaviour:
     m_SerializedLabels:
     - StudentPrinter
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8cc66934769f517418a7f4a4ea82f579
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/PackageCardManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PackageManager
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 936893d04aa17c747942429382b268fe
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/HistoryCardManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - HistoryManager
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7bff741ae07c1d428ce9bb505f28a54
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/PrinterCardManager.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PrinterManager
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}

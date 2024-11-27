@@ -15,7 +15,7 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
     {
         string json = TransferDataToJson(printer);
 
-        using (UnityWebRequest request = new UnityWebRequest(AllUrl.createCampus, "POST"))
+        using (UnityWebRequest request = new UnityWebRequest(AllUrl.createPrinter, "POST"))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
