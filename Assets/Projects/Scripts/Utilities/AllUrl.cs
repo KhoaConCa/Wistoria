@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static System.Net.WebRequestMethods;
 
-public static class AllUrl
+public static class AllUrlManager
 {
     #region -- Campus Manager --
 
@@ -37,6 +37,22 @@ public static class AllUrl
 
     #region - PATCH -
     public static readonly string updatePrinter = "https://smart-printer-alpha.vercel.app/v1/printer/update";
+    #endregion
+
+    #endregion
+
+    #region -- Store Manager --
+
+    #region - POST -
+    public static readonly string createStore = "https://smart-printer-alpha.vercel.app/v1/package/create";
+    #endregion
+
+    #region - GET -
+    public static readonly string getAllStore = "https://smart-printer-alpha.vercel.app/v1/package";
+    #endregion
+
+    #region - PATCH -
+    public static readonly string updateStore = "https://smart-printer-alpha.vercel.app/v1/package/update";
     #endregion
 
     #endregion

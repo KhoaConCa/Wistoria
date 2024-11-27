@@ -346,8 +346,8 @@ GameObject:
   - component: {fileID: 176925330290300120}
   - component: {fileID: 1562655946254348257}
   - component: {fileID: 6985969448031887585}
-  - component: {fileID: 5274016819270625274}
-  - component: {fileID: 6139759748337059737}
+  - component: {fileID: -8023620634638647671}
+  - component: {fileID: 4882605334167170968}
   m_Layer: 5
   m_Name: PackageCardManager
   m_TagString: Untagged
@@ -499,8 +499,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5274016819270625274}
-        m_TargetAssemblyTypeName: ModifyCampusC, Assembly-CSharp
+      - m_Target: {fileID: -8023620634638647671}
+        m_TargetAssemblyTypeName: ModifyStoreC, Assembly-CSharp
         m_MethodName: ClickCardToModify
         m_Mode: 1
         m_Arguments:
@@ -511,7 +511,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5274016819270625274
+--- !u!114 &-8023620634638647671
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -520,11 +520,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2425121348203468253}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99efbe3906bbb454489418167f1decca, type: 3}
+  m_Script: {fileID: 11500000, guid: 02bac213ef647d24cacde5f74c538d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _targetObject: {fileID: 0}
---- !u!114 &6139759748337059737
+--- !u!114 &4882605334167170968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2425121348203468253}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55cd63931f7e58943afa183eb4b53729, type: 3}
+  m_Script: {fileID: 11500000, guid: e939cf69ba466144e9e9ed974998f0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4167332427870662600

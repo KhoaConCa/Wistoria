@@ -12,42 +12,26 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
     public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFailed)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getCampusUniqueNames))
         {
             yield return request.SendWebRequest();
 
             MainData<string> response = TransferStringToData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case
-                    UnityWebRequest.Result.ConnectionError:
-                    Debug.LogError("Error: " + request.error);
-                    onFailed?.Invoke(response.Message);
-                    break;
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onFailed?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    onFailed?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    onNameCampus?.Invoke(response.Data);
-                    break;
+                onNameCampus?.Invoke(response.Data);
             }
+            else
+                onFailed?.Invoke(response.Message);
         }
     }
 
     public IEnumerator UpdateCampusData(CampusD campus, Action<string> onSuccess, Action<string> onFailed)
     {
-        string url = $"{AllUrl.updateCampus}/{campus.Id}";
+        string url = $"{AllUrlManager.updateCampus}/{campus.Id}";
 
         string json = TransferDataToJson(campus);
         Debug.Log(json);
@@ -73,36 +57,20 @@ public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 
     public IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus, Action<string> onSuccess, Action<string> onFailed)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueRooms))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getCampusUniqueRooms))
         {
             yield return request.SendWebRequest();
 
             MainData<string> response = TransferStringToData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case
-                    UnityWebRequest.Result.ConnectionError:
-                    Debug.LogError("Error: " + request.error);
-                    onFailed?.Invoke(response.Message);
-                    break;
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onFailed?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    onFailed?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    onRoomCampus?.Invoke(response.Data);
-                    break;
+                onRoomCampus?.Invoke(response.Data);
             }
+            else
+                onFailed?.Invoke(response.Message);
         }
     }
 

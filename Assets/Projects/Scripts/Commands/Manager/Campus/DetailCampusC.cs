@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using System;
 using Utilities;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -45,8 +44,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     {
         if (_campusNameDropDown != null && _campusNameDropDown != null)
         {
-            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, OnSuccess, OnFailed));
-            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, OnSuccess, OnFailed));
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, MainView.OnSuccess, MainView.OnFaild));
         }
     }
 
@@ -92,24 +91,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         SetDataModify();
         GetDataModify();
 
-        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, OnSuccess, OnFailed));
-    }
-
-    /// <summary>
-    /// Handlers the response from the server when update successfully
-    /// </summary>
-    /// <param name="campus">Campus data updated</param>
-    public void OnSuccess(string message)
-    {
-        Debug.Log(message);
-    }
-
-    /// <summary>
-    /// Handlers the response from the server when update failed
-    /// </summary>
-    public void OnFailed(string message)
-    {
-        Debug.Log(message);
+        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, MainView.OnSuccess, MainView.OnFaild));
     }
 
     /// <summary>
@@ -143,8 +125,6 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     private CampusD _campusData = new CampusD();
 
     [SerializeField] private Button _saveButton;
-    [SerializeField] private Button _deleteButton;
-    [SerializeField] private Button _backButton;
 
     [SerializeField] private TMP_Dropdown _campusNameDropDown;
     [SerializeField] private TMP_Dropdown _campusRoomDropDown;

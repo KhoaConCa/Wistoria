@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,16 +6,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
 
-public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
+public class ModifyStoreC : MonoBehaviour, IModifyStoreCommand
 {
     #region -- Implements --
 
     /// <summary>
-    /// Switch form, transfer data when the campus card was clicked
+    /// Switch form, transfer data when the store card was clicked
     /// </summary>
     public void ClickCardToModify()
     {
-        _detail.DisplayCampusDetails(_cardData);
+        _detail.DisplayStoreDetails(_cardData);
 
         _transformUI.SetActiveObjectUI(_targetObject);
     }
@@ -34,6 +34,14 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 
     #region -- Get Component --
 
+    private void GetTransformUI()
+    {
+        if (_transformUI == null)
+            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
+        else
+            Debug.Log("The UITransformV component already exiests");
+    }
+
     /// <summary>
     /// Set event for prefab
     /// </summary>
@@ -42,7 +50,7 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
         try
         {
             if (_cardData == null)
-                _cardData = gameObject.GetComponent<CampusCardData>();
+                _cardData = gameObject.GetComponent<StoreCardData>();
         }
         catch (Exception e)
         {
@@ -53,25 +61,19 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     #endregion
 
     #region -- Add Component --
-    private void GetTransformUI()
-    {
-        if (_transformUI == null)
-            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
-        else
-            Debug.Log("The UITransformV component already exiests");
-    }
+
 
     private void GetComponentDetail()
     {
         if (_detail == null)
         {
-          Transform childObject = MainView.FindObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
+            Transform childObject = MainView.FindObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
             _targetObject = childObject.gameObject;
-            _detail = _targetObject.GetComponent<DetailCampusC>();
+            _detail = _targetObject.GetComponent<DetailStoreC>();
         }
         else
         {
-            Debug.Log("The DetailCampusC component already exiests");
+            Debug.Log("The DetailStoreC component already exiests");
         }
     }
     #endregion
@@ -81,8 +83,8 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     #region -- Fields --
 
     private ITransformUI _transformUI;
-    private ICampusCardData _cardData;
-    private ICampusDetailCommand _detail;
+    private IStoreCardData _cardData;
+    private IStoreDetailCommand _detail;
 
     private Button _clickCard;
 

@@ -17,32 +17,20 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <returns></returns>
     public IEnumerator GetAllPrinter(Action<PrinterD> onPrinterFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllPrinter))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getAllPrinter))
         {
             yield return request.SendWebRequest();
 
             MainData<PrinterD> response = TransferJsonToPrinterData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
-                    onFailed?.Invoke(response.Message);
-                    break;
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    onFailed?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    onFailed?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    SendData(onPrinterFound, response);
-                    break;
+                SendData(onPrinterFound, response);
             }
+            else
+                onFailed?.Invoke(response.Message);
         }
     }
 
@@ -54,7 +42,7 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <returns></returns>
     public IEnumerator SearchPrinterByName(string printerName, Action<PrinterD> onPrinterFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        string searchURL = $"{AllUrl.searchPrinterByName}?name={UnityWebRequest.EscapeURL(printerName.Replace(" ", "+"))}";
+        string searchURL = $"{AllUrlManager.searchPrinterByName}?name={UnityWebRequest.EscapeURL(printerName.Replace(" ", "+"))}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
@@ -81,7 +69,7 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
     /// <returns></returns>
     public IEnumerator SearchCampusByID(string campusId, Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        string searchURL = $"{AllUrl.getAllCampus}/search/{campusId}";
+        string searchURL = $"{AllUrlManager.getAllCampus}/search/{campusId}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
@@ -93,7 +81,6 @@ public class GetPrinterH : MonoBehaviour, IGetPrinterHandler
             {
                 onSuccess?.Invoke(response.Message);
 
-                Debug.Log(response.Data.Count);
                 if (response.Data.Count == 1)
                 {
                     CampusD campus = response.Data[0];

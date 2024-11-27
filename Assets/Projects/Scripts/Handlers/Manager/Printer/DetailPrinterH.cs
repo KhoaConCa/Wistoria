@@ -2,10 +2,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Compilation;
 using UnityEngine;
 using UnityEngine.Networking;
-using Utilities;
 
 public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 {
@@ -13,7 +11,7 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 
     public IEnumerator UpdatePrinterData(PrinterD printer, Action<string> onSuccess, Action<string> onFailed)
     {
-        string url = $"{AllUrl.updatePrinter}/{printer._id}";
+        string url = $"{AllUrlManager.updatePrinter}/{printer._id}";
 
         string json = TransferDataToJson(printer);
 
@@ -38,7 +36,7 @@ public class DetailPrinterH : MonoBehaviour, IDetailPrinterUpdateHandler
 
     public IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getAllCampus))
         {
             yield return request.SendWebRequest();
 

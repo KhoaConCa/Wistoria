@@ -13,36 +13,20 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
 
     public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFaild)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getCampusUniqueNames))
         {
             yield return request.SendWebRequest();
 
             MainData<string> response = TransferStringToData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case
-                    UnityWebRequest.Result.ConnectionError:
-                    Debug.LogError("Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    onNameCampus.Invoke(response.Data);
-                    break;
+                onNameCampus.Invoke(response.Data);
             }
+            else
+                onFaild?.Invoke(response.Message);
         }
     }
 
@@ -50,7 +34,7 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
     {
         string json = TransferDataToJson(campus);
 
-        using (UnityWebRequest request = UnityWebRequest.Post(AllUrl.createCampus, json, "application/json"))
+        using (UnityWebRequest request = UnityWebRequest.Post(AllUrlManager.createCampus, json, "application/json"))
         {
             yield return request.SendWebRequest();
 
