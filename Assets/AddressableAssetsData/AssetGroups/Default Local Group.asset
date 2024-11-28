@@ -47,11 +47,29 @@ MonoBehaviour:
     m_SerializedLabels:
     - HistoryManager
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a19a9beef7ee2f048927fb9d2e4e3651
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/SuccessCard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SuccessNotification
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b55c419d3a46a2044bc7ed55cc14649c
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/ErrorCard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ErrorNotification
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7bff741ae07c1d428ce9bb505f28a54
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/PrinterCardManager.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - PrinterManager
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9fd04a912553b448961f75713ee7857
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/WarningCard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WarningNotification
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 39990fd304a0c9e4b8b05c75178fcd9d, type: 2}

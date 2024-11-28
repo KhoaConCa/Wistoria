@@ -15,7 +15,7 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
     {
         string json = TransferDataToJson(printer);
 
-        using (UnityWebRequest request = new UnityWebRequest(AllUrl.createPrinter, "POST"))
+        using (UnityWebRequest request = new UnityWebRequest(AllUrlManager.createPrinter, "POST"))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
@@ -37,7 +37,7 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
 
     public IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFaild)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getAllCampus))
         {
             yield return request.SendWebRequest();
 

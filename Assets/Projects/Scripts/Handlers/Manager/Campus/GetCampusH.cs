@@ -12,37 +12,21 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
     public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFaild)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getCampusUniqueNames))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getCampusUniqueNames))
         {
 
             yield return request.SendWebRequest();
 
             MainData<string> response = TransferStringToData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case
-                    UnityWebRequest.Result.ConnectionError:
-                    Debug.LogError("Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    onNameCampus.Invoke(response.Data);
-                    break;
+                onNameCampus.Invoke(response.Data);
             }
+            else
+                onFaild?.Invoke(response.Message);
         }
     }
 
@@ -53,31 +37,20 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     /// <returns></returns>
     public IEnumerator GetAllCampus(Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFaild)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrl.getAllCampus))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getAllCampus))
         {
             yield return request.SendWebRequest();
 
             MainData<CampusD> response = TransferObjectToData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    SendData(onCampusFound, response);
-                    break;
+                SendData(onCampusFound, response);
             }
+            else
+                onFaild?.Invoke(response.Message);
         }
     }
 
@@ -89,7 +62,7 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
     /// <returns></returns>
     public IEnumerator GetCampus(string campusName, Action<CampusD> onCampusFound, Action<string> onSuccess, Action<string> onFaild)
     {
-        string searchURL = $"{AllUrl.searchCampusByName}?name={UnityWebRequest.EscapeURL(campusName)}";
+        string searchURL = $"{AllUrlManager.searchCampusByName}?name={UnityWebRequest.EscapeURL(campusName)}";
 
         using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
         {
@@ -97,26 +70,14 @@ public class GetCampusH : MonoBehaviour, IGetCampusHandler
 
             MainData<CampusD> response = TransferObjectToData(request.downloadHandler.text);
 
-            switch (request.result)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    onFaild?.Invoke(response.Message);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    onSuccess?.Invoke(response.Message);
-
-                    SendData(onCampusFound, response);
-                    break;
+                SendData(onCampusFound, response);
             }
+            else
+                onFaild?.Invoke(response.Message);
         }
     }
 
