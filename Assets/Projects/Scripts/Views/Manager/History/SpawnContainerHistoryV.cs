@@ -21,7 +21,6 @@ public class SpawnContainerHistoryV : MonoBehaviour, IHistoryViewSpawner
     /// <param name="history">Data of history</param>
     public void CreateContainer(string dateTime, List<HistoryD> histories)
     {
-        Debug.Log(histories.Count);
         GetComponentDefault();
         GenerateContainerPrefab(dateTime, histories);
     }
