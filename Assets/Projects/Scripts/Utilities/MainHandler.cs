@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 
 using UnityEngine;
@@ -129,9 +130,9 @@ namespace Utilities
             };
         }
 
-        public static void SpawnPrefabByLabel(AssetLabelReference prefab, GameObject path, Action<GameObject> onSpawned = null)
+        public static void SpawnPrefabByLabel(AssetLabelReference prefab, GameObject container, Action<GameObject> onSpawned = null)
         {
-            _target = path;
+            _target = container;
 
             var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
             handle.Completed += (AsyncOperationHandle<GameObject> task) =>
@@ -181,7 +182,13 @@ namespace Utilities
         /// <returns>The spawned prefab GameObject</returns>
         private static GameObject InstantiatePrefab(AsyncOperationHandle<GameObject> task)
         {
-            GameObject spawnedPrefab = Instantiate(task.Result, _target?.transform);
+            if (_target == null)
+            {
+                Debug.LogWarning("Target is null or has been destroyed. Cannot instantiate prefab.");
+                return null;
+            }
+
+            GameObject spawnedPrefab = Instantiate(task.Result, _target.transform);
             LastSpawnedPrefab = spawnedPrefab;
 
             spawnedPrefab.transform.localPosition = Vector3.zero;
@@ -197,17 +204,33 @@ namespace Utilities
         /// <summary>
         /// Clears all spawned prefabs.
         /// </summary>
-        public static void ClearSpawnedPrefabs()
+        public static void ClearSpawnedPrefabs(bool isDestroy = false)
         {
+            List<GameObject> newPrefab = new List<GameObject>();
+
             foreach (var prefab in _prefabList)
             {
                 if (prefab != null)
                 {
-                    Destroy(prefab);
+                    if (isDestroy)
+                    {
+                        Destroy(prefab);
+                    }
+                    else if (prefab.layer != LayerMask.NameToLayer("Feature"))
+                    {
+                        Destroy(prefab);
+                    }
+                    else
+                    {
+                        newPrefab.Add(prefab);
+                    }
                 }
             }
+
             _prefabList.Clear();
+            _prefabList = newPrefab;
         }
+
         #endregion
 
         #endregion
@@ -215,7 +238,7 @@ namespace Utilities
         #region -- Fields --
 
         #region -- Prefab --
-        private static GameObject _target;
+        private static GameObject _target = null;
         private static List<GameObject> _prefabList = new List<GameObject>();
         #endregion
 

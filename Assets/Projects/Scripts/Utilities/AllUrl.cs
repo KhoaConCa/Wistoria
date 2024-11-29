@@ -57,4 +57,12 @@ public static class AllUrlManager
 
     #endregion
 
+    #region -- History Manager --
+
+    #region - GET -
+    public static readonly string getAllPayment = "https://smart-printer-alpha.vercel.app/v1/payment";
+    public static readonly string getAllHistory = "https://smart-printer-alpha.vercel.app/v1/printerdoc";
+    #endregion
+
+    #endregion
 }

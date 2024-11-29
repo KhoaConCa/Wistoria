@@ -18,7 +18,7 @@ public class SpawnStoreV : MonoBehaviour, IStoreViewSpawner
     /// <param name="store">Data of store</param>
     public void CreateCard(StoreD store)
     {
-        MainHandler.ClearSpawnedPrefabs();
+        GetObjectContain();
 
         MainHandler.SpawnPrefabByLabel(_storePrefab, _objectContain, (spawnedPrefab) =>
         {
@@ -69,14 +69,17 @@ public class SpawnStoreV : MonoBehaviour, IStoreViewSpawner
         {
             if (_storePrefab == null)
                 _storePrefab = new AssetLabelReference { labelString = "PackageManager" };
-
-            if (_objectContain == null)
-                _objectContain = GameObject.FindWithTag("ObjectContain");
         }
         catch (Exception e)
         {
             Debug.Log(e.Message);
         }
+    }
+
+    private void GetObjectContain()
+    {
+        if (_objectContain == null)
+            _objectContain = GameObject.FindWithTag("ObjectContain");
     }
     #endregion
 

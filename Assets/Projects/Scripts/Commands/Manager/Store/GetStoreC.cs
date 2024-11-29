@@ -44,7 +44,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
         try
         {
             MainHandler.ClearSpawnedPrefabs();
-            if (MainHandler.PrefabList.Count <= 0)
+            if (MainHandler.PrefabList.Count <= 1)
                 StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFaild));
 
             ResetDataDropDown();

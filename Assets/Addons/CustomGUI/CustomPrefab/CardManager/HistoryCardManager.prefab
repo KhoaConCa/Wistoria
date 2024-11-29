@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7285311546267807431}
   m_Layer: 5
   m_Name: Value
-  m_TagString: ValueRoom
+  m_TagString: ValueStudent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 3962915813917534975}
   - component: {fileID: 1319442877635707925}
   - component: {fileID: 2174277123579768818}
+  - component: {fileID: 21278470617289043}
   m_Layer: 5
   m_Name: HistoryCardManager
   m_TagString: Untagged
@@ -440,6 +441,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 1
+--- !u!114 &21278470617289043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5929529283501247339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6f35c5eb9d1de46853c490784a412a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6105230753420481748
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +466,7 @@ GameObject:
   - component: {fileID: 4460423981304874558}
   m_Layer: 5
   m_Name: Value
-  m_TagString: ValueRoom
+  m_TagString: ValueTime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -683,7 +696,7 @@ GameObject:
   - component: {fileID: 2421085521670390805}
   m_Layer: 5
   m_Name: Value
-  m_TagString: Untagged
+  m_TagString: ValueName
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1170,7 +1183,7 @@ GameObject:
   - component: {fileID: 7030910228535527458}
   m_Layer: 5
   m_Name: Value
-  m_TagString: ValueRoom
+  m_TagString: ValuePaper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
