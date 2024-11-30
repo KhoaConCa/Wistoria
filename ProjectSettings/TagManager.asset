@@ -27,6 +27,7 @@ TagManager:
   - Header
   - Footer
   - GUI
+  - ResetButton
   layers:
   - Default
   - TransparentFX

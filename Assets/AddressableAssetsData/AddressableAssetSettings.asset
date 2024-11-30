@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: c3f2328a264f9474ca9877fffc40ea8d
   m_currentHash:
     serializedVersion: 2
-    Hash: 2b5cc1ba940831cb2a1ea23a8f0e6261
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
     - StoreManagerF
     - HistoryManagerF
     - UserManagerF
+    - ResetNotification
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}
