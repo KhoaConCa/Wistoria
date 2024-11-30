@@ -42,10 +42,10 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
             if (MainHandler.PrefabList.Count <= 1)
             {
-                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnSuccess, MainView.OnFailed));
             }
 
-            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName, MainView.OnSuccess, MainView.OnFailed));
         }
         catch (Exception e)
         {
@@ -124,14 +124,14 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
                     MainView.OnSuccess(onSuccess);
 
                     MainHandler.ClearSpawnedPrefabs();
-                }, MainView.OnFaild));
+                }, MainView.OnFailed));
             else
                 StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound, onSuccess =>
                 {
                     MainView.OnSuccess(onSuccess);
 
                     MainHandler.ClearSpawnedPrefabs();
-                }, MainView.OnFaild));
+                }, MainView.OnFailed));
         }
         catch (Exception e) 
         {

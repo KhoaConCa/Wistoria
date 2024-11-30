@@ -45,7 +45,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
         {
             MainHandler.ClearSpawnedPrefabs();
             if (MainHandler.PrefabList.Count <= 1)
-                StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFailed));
 
             ResetDataDropDown();
             SetDataDropDown();
@@ -110,7 +110,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
         if (valueSelected == 0)
         {
             storeDs.Clear();
-            StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFailed));
             return;
         }    
 

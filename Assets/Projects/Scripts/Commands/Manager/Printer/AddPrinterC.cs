@@ -24,9 +24,9 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
             MainView.OnSuccess(successfulMessage);
 
             ResetAsDefault();
-            StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFailed));
 
-        }, MainView.OnFaild));
+        }, MainView.OnFailed));
     }
 
     #endregion
@@ -41,7 +41,7 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     private void OnEnable()
     {
         ResetAsDefault();
-        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFailed));
     }
 
     #region - Add Component -

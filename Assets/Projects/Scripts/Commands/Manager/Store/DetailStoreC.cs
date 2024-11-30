@@ -74,7 +74,7 @@ public class DetailStoreC : MonoBehaviour, IStoreDetailCommand
         SetDataModify();
         GetDataModify();
 
-        StartCoroutine(_updateHandler.UpdateStoreData(_storeData, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_updateHandler.UpdateStoreData(_storeData, MainView.OnSuccess, MainView.OnFailed));
     }
 
     /// <summary>

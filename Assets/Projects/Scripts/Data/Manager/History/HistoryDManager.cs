@@ -19,8 +19,10 @@ public class HistoryDManager
 
     [JsonProperty("_id")]
     public string Id { get; set; }
+
     [JsonProperty("PrintIn")]
     public PrinterD Printer { get; set; }
+
     [JsonProperty("FileDocument")]
     public DocumentDManager Document { get; set; }
 

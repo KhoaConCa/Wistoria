@@ -44,8 +44,8 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     {
         if (_campusNameDropDown != null && _campusNameDropDown != null)
         {
-            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, MainView.OnSuccess, MainView.OnFaild));
-            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, MainView.OnSuccess, MainView.OnFailed));
+            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, MainView.OnSuccess, MainView.OnFailed));
         }
     }
 
@@ -91,7 +91,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         SetDataModify();
         GetDataModify();
 
-        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, MainView.OnSuccess, MainView.OnFailed));
     }
 
     /// <summary>

@@ -45,7 +45,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     private void OnEnable()
     {
         ResetInteractableField();
-        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField, MainView.OnSuccess, MainView.OnFailed));
     }
 
     #region - Add Component -
@@ -107,7 +107,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     public void OnClickSaveButton()
     {
         SetDataModify();
-        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, MainView.OnSuccess, MainView.OnFailed));
     }
 
     /// <summary>

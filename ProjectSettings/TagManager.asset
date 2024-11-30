@@ -24,6 +24,9 @@ TagManager:
   - ValueTime
   - ValueMonth
   - FeatureContainer
+  - Header
+  - Footer
+  - GUI
   layers:
   - Default
   - TransparentFX
