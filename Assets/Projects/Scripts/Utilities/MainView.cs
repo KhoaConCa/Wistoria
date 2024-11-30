@@ -78,15 +78,21 @@ namespace Utilities
 
         public static void OnReset(Action method, string message)
         {
-            AssetLabelReference notificationCard = new AssetLabelReference { labelString = "ErrorNotification" };
+            AssetLabelReference notificationCard = new AssetLabelReference { labelString = "ResetNotification" };
             GameObject container = GameObject.FindWithTag("GUI");
             MainHandler.SpawnPrefabByLabel(notificationCard, container, spawnedPrefab =>
             {
                 Transform messageValue = FindObjectsByTag(spawnedPrefab.transform, "MessageValue");
-                if (method != null) method.Invoke();
+                if (messageValue != null)
+                    messageValue.GetComponent<TextMeshProUGUI>().text = message;
 
-                SetUpNotificationCard(spawnedPrefab.GetComponent<RectTransform>(), -192);
-                DestroyNotificationCard(spawnedPrefab);
+                if (method != null)
+                {
+                    Transform buttonTransform = FindObjectsByTag(spawnedPrefab.transform, "ResetButton");
+                    Button resetButton = buttonTransform.GetComponent<Button>();
+                    if (resetButton != null)
+                        resetButton.onClick.AddListener(method.Invoke);
+                }
             });
         }
 
