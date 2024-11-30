@@ -40,7 +40,7 @@ public class UISpawnFeatureV : MonoBehaviour
 
     #region -- Fields --
 
-    [SerializeField] private readonly string _defaultFeature = "CampusManagerF";
+    [SerializeField] private string _defaultFeature = "CampusManagerF";
     [SerializeField] private AssetLabelReference _currentFeature = null;
 
     #endregion

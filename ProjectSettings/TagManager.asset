@@ -28,6 +28,7 @@ TagManager:
   - Footer
   - GUI
   - ResetButton
+  - CheckingButton
   layers:
   - Default
   - TransparentFX

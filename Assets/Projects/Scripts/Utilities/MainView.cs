@@ -13,6 +13,7 @@ namespace Utilities
     {
         #region -- Methods --
 
+        #region -- Find Object By Tag --
         public static Transform FindObjectsByTag(Transform parentObject, string tagName)
         {
             if (parentObject.tag == tagName)
@@ -28,7 +29,9 @@ namespace Utilities
 
             return null;
         }
+        #endregion
 
+        #region -- On Event Feature --
         public static void OnSuccess(string message)
         {
             Debug.Log(message);
@@ -96,11 +99,33 @@ namespace Utilities
             });
         }
 
+        public static void OnChecking(Action method, string message)
+        {
+            AssetLabelReference notificationCard = new AssetLabelReference { labelString = "CheckingNotification" };
+            GameObject container = GameObject.FindWithTag("GUI");
+            MainHandler.SpawnPrefabByLabel(notificationCard, container, spawnedPrefab =>
+            {
+                Transform messageValue = FindObjectsByTag(spawnedPrefab.transform, "MessageValue");
+                if (messageValue != null)
+                    messageValue.GetComponent<TextMeshProUGUI>().text = message;
+
+                if (method != null)
+                {
+                    Transform buttonTransform = FindObjectsByTag(spawnedPrefab.transform, "CheckingButton");
+                    Button resetButton = buttonTransform.GetComponent<Button>();
+                    if (resetButton != null)
+                        resetButton.onClick.AddListener(method.Invoke);
+                }
+            });
+        }
+
         public static void OnDebugged(string message)
         {
             Debug.Log(message);
         }
+        #endregion
 
+        #region -- Set Up Notification Card --
         private static void SetUpNotificationCard(RectTransform prefabTransform, float distanceBase)
         {
             // Cập nhật vị trí RectTransform
@@ -119,7 +144,9 @@ namespace Utilities
             UnityEngine.Object.Destroy(spawnedPrefab, 2f);
 
         }
+        #endregion
 
+        #region -- Set Up Anchor --
         public static void AnchorTop(RectTransform prefabTransform)
         {
             prefabTransform.anchorMax = new Vector2(0.5f, 1);
@@ -147,6 +174,7 @@ namespace Utilities
             prefabTransform.anchorMin = new Vector2(0.5f, 0);
             prefabTransform.pivot = new Vector2(0.5f, 0);
         }
+        #endregion
 
         #endregion
     }
