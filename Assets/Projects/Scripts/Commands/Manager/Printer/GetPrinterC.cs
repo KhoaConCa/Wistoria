@@ -64,7 +64,7 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
             MainHandler.ClearSpawnedPrefabs();
             _printerIDFound.Clear();
 
-            if (MainHandler.PrefabList.Count <= 0 || _printerIDFound.Count <= 0)
+            if (MainHandler.PrefabList.Count <= 1 || _printerIDFound.Count <= 0)
                 StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, OnSuccess, OnFailed));
             else
                 Debug.Log("Can't spawn printer prefab: ");
@@ -109,7 +109,7 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
             MainHandler.ClearSpawnedPrefabs();
             _printerIDFound.Clear();
 
-            if (MainHandler.PrefabList.Count > 0 || _printerIDFound.Count > 0) return;
+            if (MainHandler.PrefabList.Count > 1 || _printerIDFound.Count > 0) return;
 
             if (_namePrinterField.text != "")
                 StartCoroutine(_printerHandler.SearchPrinterByName(_namePrinterField.text, OnPrinterFound, OnSuccess, OnFailed));

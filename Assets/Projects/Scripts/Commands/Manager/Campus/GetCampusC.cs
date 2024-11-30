@@ -40,7 +40,7 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         {
             MainHandler.ClearSpawnedPrefabs();
 
-            if (MainHandler.PrefabList.Count <= 0)
+            if (MainHandler.PrefabList.Count <= 1)
             {
                 StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnSuccess, MainView.OnFaild));
             }
@@ -119,9 +119,19 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         {
             string name = _nameCampusComboBox.captionText.text;
             if (name == _uniqueName[0])
-                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, onSuccess =>
+                {
+                    MainView.OnSuccess(onSuccess);
+
+                    MainHandler.ClearSpawnedPrefabs();
+                }, MainView.OnFaild));
             else
-                StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound, onSuccess =>
+                {
+                    MainView.OnSuccess(onSuccess);
+
+                    MainHandler.ClearSpawnedPrefabs();
+                }, MainView.OnFaild));
         }
         catch (Exception e) 
         {

@@ -18,6 +18,7 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
     /// <param name="printer">Data of printer</param>
     public void CreateCard(PrinterD printer)
     {
+        GetObjectContain();
         MainHandler.SpawnPrefabByLabel(_printerPrefab, _objectContain, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
@@ -39,7 +40,7 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
 
     #region -- Methods --
 
-    void Start()
+    void Awake()
     {
         AddComponentDefault();
         GetComponentDefault();
@@ -64,14 +65,17 @@ public class SpawnPrinterV : MonoBehaviour, IPrinterViewSpawner
         {
             if (_printerPrefab == null)
                 _printerPrefab = new AssetLabelReference { labelString = "PrinterManager" };
-
-            if (_objectContain == null)
-                _objectContain = GameObject.FindWithTag("ObjectContain");
         }
         catch (Exception e)
         {
             Debug.Log(e.Message);
         }
+    }
+
+    private void GetObjectContain()
+    {
+        if (_objectContain == null)
+            _objectContain = GameObject.FindWithTag("ObjectContain");
     }
 
     private void FindComponentUI()

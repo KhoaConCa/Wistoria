@@ -15030,6 +15030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3119a31d91ef3ae4db98dd7d87712284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  campusDropdown: {fileID: 2056510485}
 --- !u!1 &2000916737
 GameObject:
   m_ObjectHideFlags: 0
@@ -15337,6 +15338,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7223066568784519417, guid: e52c24f37d8c58c4889534c4ed58bf87, type: 3}
   m_PrefabInstance: {fileID: 2056510483}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2056510485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2470299789503559885, guid: e52c24f37d8c58c4889534c4ed58bf87, type: 3}
+  m_PrefabInstance: {fileID: 2056510483}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2059198683
 GameObject:
   m_ObjectHideFlags: 0
