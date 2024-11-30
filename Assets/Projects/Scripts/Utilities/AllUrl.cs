@@ -101,3 +101,13 @@ public static class AllUrlStudent
 
     #endregion
 }
+
+public static class StudentID
+{
+    public static string STUDENT_ID;
+}
+
+public static class ManagerID
+{
+    public static string MANAGER_ID;
+}
