@@ -19,8 +19,6 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
     /// <param name="package">Data of package</param>
     public void CreateCard(PackageD package)
     {
-        MainHandler.ClearSpawnedPrefabs();
-
         MainHandler.SpawnPrefabByLabel(_packagePrefab, _objectContain, (spawnedPrefab) =>
         {
             try
@@ -61,7 +59,7 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 
     #region -- Methods --
 
-    void Start()
+    void Awake()
     {
         GetObject();
 

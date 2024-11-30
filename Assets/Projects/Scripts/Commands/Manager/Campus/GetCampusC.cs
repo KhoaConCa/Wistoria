@@ -36,31 +36,32 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     private void OnEnable()
     {
+        GetDefaultData();
+    }
+
+    private void GetDefaultData()
+    {
         try
         {
             MainHandler.ClearSpawnedPrefabs();
 
             if (MainHandler.PrefabList.Count <= 1)
             {
-                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnDebugged, message =>
+                {
+                    MainView.OnReset(GetDefaultData, message);
+                }));
             }
 
-            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName, MainView.OnDebugged, message =>
+            {
+                MainView.OnReset(GetDefaultData, message);
+            }));
         }
         catch (Exception e)
         {
             Debug.LogWarning(e.Message);
         }
-    }
-
-    public void OnSuccess(string message)
-    {
-        Debug.Log(message);
-    }
-
-    public void OnFaild(string message)
-    {
-        Debug.LogError(message);
     }
 
     #region -- Add Components --
@@ -124,14 +125,14 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
                     MainView.OnSuccess(onSuccess);
 
                     MainHandler.ClearSpawnedPrefabs();
-                }, MainView.OnFaild));
+                }, MainView.OnFailed));
             else
                 StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound, onSuccess =>
                 {
                     MainView.OnSuccess(onSuccess);
 
                     MainHandler.ClearSpawnedPrefabs();
-                }, MainView.OnFaild));
+                }, MainView.OnFailed));
         }
         catch (Exception e) 
         {

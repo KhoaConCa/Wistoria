@@ -44,7 +44,6 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
-  - {fileID: 11400000, guid: 05b0ea43afaa55c40b1a540fd06082a1, type: 2}
   - {fileID: 11400000, guid: 7ab2beae2b327364a8ddcebc667b08c7, type: 2}
   - {fileID: 11400000, guid: 9b467756c4adeaf44aa66cc6f3fcd624, type: 2}
   m_BuildSettings:
@@ -103,6 +102,12 @@ MonoBehaviour:
     - StoreManagerF
     - HistoryManagerF
     - UserManagerF
+    - ResetNotification
+    - StoreStudentF
+    - HistoryStudentF
+    - PrintStudentF
+    - UserStudentF
+    - CheckingNotification
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}

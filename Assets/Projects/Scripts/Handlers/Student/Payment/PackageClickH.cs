@@ -24,7 +24,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         StartCoroutine(_momoHandler.CreateMOMOPayment(momo, onSuccess =>
         {
             Application.OpenURL(onSuccess.PayURL);
-        }, MainView.OnFaild));
+        }, MainView.OnFailed));
 
         Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {int.Parse(_packageData.Price)}");
 
