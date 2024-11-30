@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Utilities;
 
 public class PackageClickH : MonoBehaviour, IPackageClickH
 {
@@ -15,9 +16,19 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
             return;
         }
 
-        Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {_packageData.Price}");
+        _packageData = this.gameObject.GetComponent<PackageCardData>();
 
-        PaymentD payment = new PaymentD
+        MomoD momo = new MomoD();
+        momo.Amount = int.Parse(_packageData.Price);
+
+        StartCoroutine(_momoHandler.CreateMOMOPayment(momo, onSuccess =>
+        {
+            Application.OpenURL(onSuccess.PayURL);
+        }, MainView.OnFaild));
+
+        Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {int.Parse(_packageData.Price)}");
+
+/*        PaymentD payment = new PaymentD
         {
             Paper = _packageData.Paper,
             Person = "671860901e0844975517030e", // Replace with the current student's ID
@@ -30,7 +41,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
             // If payment succeeds, update the student's paper count
             int paperCount = int.Parse(_packageData.Paper);
             StartCoroutine(_studentUpdater.FetchAndIncrementPaper(payment.Person, paperCount));
-        }));
+        }));*/
     }
 
     /// <summary>
@@ -68,6 +79,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     {
         _paymentProcessor = gameObject.AddComponent<PaymentProcessor>();
         _studentUpdater = gameObject.AddComponent<StudentUpdater>();
+        _momoHandler = gameObject.AddComponent<MomoH>();
     }
 
     public PackageD package;
@@ -76,4 +88,5 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     private IPackageData _packageData;
     private IPaymentProcessor _paymentProcessor;
     private IStudentUpdater _studentUpdater;
+    private IMomoHandler _momoHandler;
 }

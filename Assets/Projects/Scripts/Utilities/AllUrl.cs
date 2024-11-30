@@ -58,3 +58,38 @@ public static class AllUrlManager
     #endregion
 
 }
+
+public static class AllUrlStudent
+{
+    #region -- Store Student --
+
+    #region - POST -
+    public static readonly string createStore = "https://smart-printer-alpha.vercel.app/v1/package/create";
+    #endregion
+
+    #region - GET -
+    public static readonly string getAllStore = "https://smart-printer-alpha.vercel.app/v1/package";
+    #endregion
+
+    #region - PATCH -
+    public static readonly string updateStore = "https://smart-printer-alpha.vercel.app/v1/package/update";
+    #endregion
+
+    #endregion
+
+    #region -- MOMO --
+
+    #region - POST -
+    public static readonly string createMOMO = "https://smart-printer-alpha.vercel.app/v1/momo/create";
+    #endregion
+
+    #region - GET -
+    public static readonly string getMOMO = "https://smart-printer-alpha.vercel.app/v1/momo/search";
+    #endregion
+
+    #region - DELETE -
+    public static readonly string deleteCallback = "https://smart-printer-alpha.vercel.app/v1/package/delete";
+    #endregion
+
+    #endregion
+}
