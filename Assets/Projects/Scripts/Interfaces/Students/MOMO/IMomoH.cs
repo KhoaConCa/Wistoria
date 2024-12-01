@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IMomoHandler
 {
-    IEnumerator CreateMOMOPayment(MomoD momo, Action<MomoD> onSuccess, Action<string> onFaild);
-    IEnumerator GetCallback(string orderId, Action<MomoD> onMOMOFound, Action<string> onSuccess, Action<string> onFaild);
-    IEnumerator DeleteCallback(string orderId, Action<string> onSuccess, Action<string> onFaild);
+    IEnumerator CreateMOMOPayment(MomoD momo, Action<MomoD> onSuccess, Action<string> onFailed);
+    IEnumerator GetCallback(string orderId, Action<int> onSuccess, Action<string> onFailed);
+    IEnumerator DeleteCallback(string orderId, Action<string> onSuccess, Action<string> onFailed);
 }

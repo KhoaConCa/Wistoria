@@ -106,14 +106,20 @@ public static class AllUrlStudent
     #endregion
 
     #endregion
-}
 
-public static class StudentID
-{
-    public static string STUDENT_ID;
-}
+    #region -- Student Info --
 
-public static class ManagerID
-{
-    public static string MANAGER_ID;
+    #region -- POST --
+
+    #endregion
+
+    #region -- GET --
+    public static readonly string findStudentById = "https://smart-printer-alpha.vercel.app/v1/student/search";
+    #endregion
+
+    #region -- PATCH --
+    public static readonly string updateStudentById = "https://smart-printer-alpha.vercel.app/v1/student/update";
+    #endregion
+
+    #endregion
 }

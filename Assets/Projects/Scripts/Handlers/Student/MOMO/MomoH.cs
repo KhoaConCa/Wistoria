@@ -10,7 +10,7 @@ public class MomoH : MonoBehaviour, IMomoHandler
 {
     #region -- Implements --
 
-    public IEnumerator CreateMOMOPayment(MomoD momo, Action<MomoD> onSuccess, Action<string> onFaild)
+    public IEnumerator CreateMOMOPayment(MomoD momo, Action<MomoD> onSuccess, Action<string> onFailed)
     {
         string json = TransferDataToJson(momo);
         Debug.Log(json);
@@ -24,13 +24,13 @@ public class MomoH : MonoBehaviour, IMomoHandler
 
             if (request.result != UnityWebRequest.Result.Success)
 
-                onFaild?.Invoke(newMomo.Message);
+                onFailed?.Invoke(newMomo.Message);
             else
                 onSuccess?.Invoke(newMomo.Data[0]);
         }
     }
 
-    public IEnumerator GetCallback(string orderId, Action<MomoD> onMOMOFound, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator GetCallback(string orderId, Action<int> onSuccess, Action<string> onFailed)
     {
         string searchURL = $"{AllUrlStudent.getMOMO}/{orderId}";
 
@@ -42,20 +42,14 @@ public class MomoH : MonoBehaviour, IMomoHandler
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(response.Message);
-
-                if (response.Data.Count == 1)
-                {
-                    MomoD momo = response.Data[0];
-                    onMOMOFound?.Invoke(momo);
-                }
+                onSuccess?.Invoke(response.Data[0].ResultCode);
             }
             else
-                onFaild?.Invoke(response.Message);
+                onFailed?.Invoke(response.Message);
         }
     }
 
-    public IEnumerator DeleteCallback(string orderId, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator DeleteCallback(string orderId, Action<string> onSuccess, Action<string> onFailed)
     {
         string deleteURL = $"{AllUrlStudent.deleteCallback}/{orderId}";
 
@@ -71,7 +65,7 @@ public class MomoH : MonoBehaviour, IMomoHandler
             else
             {
                 string errorMessage = request.downloadHandler?.text ?? "Failed to delete Momo payment";
-                onFaild?.Invoke(errorMessage);
+                onFailed?.Invoke(errorMessage);
             }
         }
     }
@@ -91,5 +85,8 @@ public class MomoH : MonoBehaviour, IMomoHandler
         return mainData;
     }
 
+    #endregion
+
+    #region -- Fields --
     #endregion
 }
