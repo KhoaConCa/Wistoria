@@ -27,27 +27,30 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         StartCoroutine(_momoHandler.CreateMOMOPayment(momo, onSuccess =>
         {
             _orderId = onSuccess.OrderID;
+            Debug.Log(_orderId);
             _isWaitingForCallback = true;
             Application.OpenURL(onSuccess.PayURL);
             
         }, MainView.OnFailed));
 
         Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {_packageData.Price}");
-        Debug.Log(_currentPaper);
-/*        PaymentD payment = new PaymentD
-        {
-            Paper = _packageData.Paper,
-            Person = "671860901e0844975517030e", // Replace with the current student's ID
-            Status = "Finished"
-        };
 
-        // Start the upload coroutine for payment
-        StartCoroutine(_paymentProcessor.UploadPaymentToMongoDB(payment, () =>
-        {
-            // If payment succeeds, update the student's paper count
-            int paperCount = int.Parse(_packageData.Paper);
-            StartCoroutine(_studentUpdater.FetchAndIncrementPaper(payment.Person, paperCount));
-        }));*/
+        _amount = int.Parse(_packageData.Paper);
+
+        /*        PaymentD payment = new PaymentD
+                {
+                    Paper = _packageData.Paper,
+                    Person = "671860901e0844975517030e", // Replace with the current student's ID
+                    Status = "Finished"
+                };
+
+                // Start the upload coroutine for payment
+                StartCoroutine(_paymentProcessor.UploadPaymentToMongoDB(payment, () =>
+                {
+                    // If payment succeeds, update the student's paper count
+                    int paperCount = int.Parse(_packageData.Paper);
+                    StartCoroutine(_studentUpdater.FetchAndIncrementPaper(payment.Person, paperCount));
+                }));*/
     }
 
     /// <summary>
@@ -71,10 +74,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         StartCoroutine(_studentPaper.GetStudentPaper(MainUser.STUDENT_ID, onSuccess =>
         {
             _currentPaper = onSuccess;
-/*            _newPaper = int.Parse(_packageData.Paper) + _currentPaper;*/
         }, MainView.OnFailed));
-
-        //StartCoroutine(_studentPaper.UpdateStudentPaper(MainUser.STUDENT_ID, _newPaper, MainView.OnSuccess, MainView.OnFailed));
     }
 
     private void GetComponentData()
@@ -104,6 +104,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
             StartCoroutine(_momoHandler.GetCallback(_orderId, onSuccess =>
             {
                 _resaultCode = onSuccess;
+                MainView.OnSuccess(_resaultCode.ToString());
                 StartCoroutine(_studentPaper.GetStudentPaper(MainUser.STUDENT_ID, onSuccess =>
                 {
                     _currentPaper = onSuccess;
@@ -111,13 +112,22 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
 
                 if (_resaultCode == 0)
                 {
-                    _newPaper = int.Parse(_packageData.Paper) + _currentPaper;
+                    _newPaper = _amount + _currentPaper;
                     StartCoroutine(_studentPaper.UpdateStudentPaper(MainUser.STUDENT_ID, _newPaper, MainView.OnSuccess, MainView.OnFailed));
+
+                    StartCoroutine(_momoHandler.DeleteCallback(_orderId, MainView.OnSuccess, MainView.OnFailed));
                 }
-            }, MainView.OnFailed));
+                else
+                {
+                    MainView.OnFailed("Thanh toán không thành công");
+                }
+
+            }, onFailed =>
+            {
+                MainView.OnFailed("Bạn chưa thanh toán");
+            }));
             
             _isWaitingForCallback = false;
-            StartCoroutine(_momoHandler.DeleteCallback(_orderId, MainView.OnSuccess, MainView.OnFailed));
         }
     }
 

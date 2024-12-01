@@ -146,7 +146,9 @@ public class StudentUpdater : MonoBehaviour, IStudentUpdater, IStudentPaper
 
         string url = $"{AllUrlStudent.updateStudentById}/{studentId}";
 
-        string json = TransferDataToJson(newPaperCount);
+        string json = $"{{ \"Paper\": {TransferDataToJson(newPaperCount)} }}";
+
+        Debug.Log(json);
 
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
@@ -165,6 +167,8 @@ public class StudentUpdater : MonoBehaviour, IStudentUpdater, IStudentPaper
             else
                 onError?.Invoke(response.Message);
         }
+
+        yield return new WaitForSeconds(2f);
     }
 
     public string TransferDataToJson(int paper)
