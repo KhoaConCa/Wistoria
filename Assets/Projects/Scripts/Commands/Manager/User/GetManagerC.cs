@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utilities;
 
-public class GetStudentC : MonoBehaviour, ILogOutScene
+public class GetManagerC : MonoBehaviour, ILogOutScene
 {
     #region -- Implements --
 
     public void OnLogOut()
     {
-        MainUser.STUDENT_ID = "";
+        MainUser.MANAGER_ID = "";
         SceneManager.LoadScene("GUILogIn");
     }
 
@@ -28,39 +28,36 @@ public class GetStudentC : MonoBehaviour, ILogOutScene
 
     private void OnEnable()
     {
-        GetStudentData();
+        GetManagerData();
     }
 
     #region -- Add Component --
     private void AddComponent()
     {
-        if (_studentHandler == null)
-            _studentHandler = gameObject.AddComponent<GetStudentH>();
+        if (_managerHandler == null)
+            _managerHandler = gameObject.AddComponent<GetManagerH>();
     }
     #endregion
 
-    #region -- Get Student Data --
-    private void GetStudentData()
+    #region -- Get Manager Data --
+    private void GetManagerData()
     {
-        if (!string.IsNullOrEmpty(MainUser.STUDENT_ID))
-            StartCoroutine(_studentHandler.GetStudentByID(MainUser.STUDENT_ID, SetUpData, onFailed =>
+        if (!string.IsNullOrEmpty(MainUser.MANAGER_ID))
+            StartCoroutine(_managerHandler.GetManagerByID(MainUser.MANAGER_ID, SetUpData, onFailed =>
             {
-                MainView.OnReset(GetStudentData, onFailed);
+                MainView.OnReset(GetManagerData, onFailed);
             }));
     }
     #endregion
 
     #region -- Set Up Data --
-    private void SetUpData(StudentD data)
+    private void SetUpData(ManagerD data)
     {
-        Initialization(_paper, _tagName, data.Paper.ToString());
-        Initialization(_studentName, _tagName, data.FullName);
+        Initialization(_managerName, _tagName, data.FullName);
         Initialization(_dayOfBirth, _tagName, data.DateOfBirth.ToString("dd/MM/yyyy"));
         Initialization(_phoneNumber, _tagName, data.PhoneNumber);
         Initialization(_email, _tagName, data.Email);
-        Initialization(_studentId, _tagName, data.StudentID);
-        Initialization(_class, _tagName, data.Class);
-        Initialization(_course, _tagName, $"K{data.Course}");
+        Initialization(_managerId, _tagName, data.ManagerID);
     }
 
     private void Initialization(GameObject objectValue, string tagName, string textValue)
@@ -78,34 +75,19 @@ public class GetStudentC : MonoBehaviour, ILogOutScene
     }
     #endregion
 
-    #region -- On Click Event --
-    public void OnClickStore()
-    {
-        GameObject buttonObject = GameObject.FindWithTag(_tagButton);
-        Button button = buttonObject.GetComponent<Button>();
-        button.onClick.Invoke();
-    }
-    #endregion
-
     #endregion
 
     #region -- Fields --
 
-    private IGetStudentHandler _studentHandler;
+    private IGetManagerH _managerHandler;
 
-    private UISpawnFeatureV _uiTransform;
-
-    [SerializeField] private GameObject _paper;
-    [SerializeField] private GameObject _studentName;
+    [SerializeField] private GameObject _managerName;
     [SerializeField] private GameObject _dayOfBirth;
     [SerializeField] private GameObject _phoneNumber;
     [SerializeField] private GameObject _email;
-    [SerializeField] private GameObject _studentId;
-    [SerializeField] private GameObject _class;
-    [SerializeField] private GameObject _course;
+    [SerializeField] private GameObject _managerId;
 
     private readonly string _tagName = "MessageValue";
-    private readonly string _tagButton = "StoreButton";
 
     #endregion
 }

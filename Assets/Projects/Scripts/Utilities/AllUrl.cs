@@ -74,6 +74,7 @@ public static class AllUrlManager
 
     #region -- Manager --
 
+    public static readonly string findManagerByID = "https://smart-printer-alpha.vercel.app/v1/manager/search/";
     public static readonly string getManagerByID = "https://smart-printer-alpha.vercel.app/v1/manager/getid/";
 
     #endregion
@@ -120,18 +121,13 @@ public static class AllUrlStudent
     #endregion
 
     #region -- GET --
-    public static readonly string findStudentById = "https://smart-printer-alpha.vercel.app/v1/student/search";
+    public static readonly string findStudentById = "https://smart-printer-alpha.vercel.app/v1/student/search/";
+    public static readonly string getStudentByID = "https://smart-printer-alpha.vercel.app/v1/student/getid/";
     #endregion
 
     #region -- PATCH --
     public static readonly string updateStudentById = "https://smart-printer-alpha.vercel.app/v1/student/update";
     #endregion
-
-    #endregion
-
-    #region -- Student --
-
-    public static readonly string getStudentByID = "https://smart-printer-alpha.vercel.app/v1/student/getid/";
 
     #endregion
 }

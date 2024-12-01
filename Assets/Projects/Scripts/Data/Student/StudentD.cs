@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class StudentD
     public string Id { get; set; }
     public string FullName { get; set; }
     public string StudentID { get; set; }
-    public string DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public string PhoneNumber { get; set; }
     public string Email { get; set; }  
     public string Class {  get; set; }

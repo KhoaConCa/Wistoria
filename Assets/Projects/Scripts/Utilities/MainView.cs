@@ -141,7 +141,7 @@ namespace Utilities
         {
             MainHandler.PrefabList.Remove(spawnedPrefab);
 
-            UnityEngine.Object.Destroy(spawnedPrefab, 2f);
+            UnityEngine.Object.Destroy(spawnedPrefab, 5f);
 
         }
         #endregion

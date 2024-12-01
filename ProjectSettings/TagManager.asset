@@ -29,6 +29,7 @@ TagManager:
   - GUI
   - ResetButton
   - CheckingButton
+  - StoreButton
   layers:
   - Default
   - TransparentFX

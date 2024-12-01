@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3119a31d91ef3ae4db98dd7d87712284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  campusDropdown: {fileID: 0}
 --- !u!1 &797832289179856379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,7 +1474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3361051303076469522}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Print
   m_TagString: DefaultMainScene
   m_Icon: {fileID: 0}
