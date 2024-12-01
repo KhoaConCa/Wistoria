@@ -1,0 +1,448 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Project\\SmarPrinter\\Wistoria\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|d:\\project\\smarprinter\\wistoria\\assets\\projects\\scripts\\views\\gui\\general\\uispawnfeaturev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\views\\gui\\general\\uispawnfeaturev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|d:\\project\\smarprinter\\wistoria\\assets\\projects\\scripts\\handlers\\student\\student\\studentupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\student\\student\\studentupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\handlers\\student\\payment\\packageclickh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\student\\payment\\packageclickh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\commands\\student\\payment\\getpackagec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\commands\\student\\payment\\getpackagec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\handlers\\manager\\printer\\detailprinterh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\manager\\printer\\detailprinterh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\utilities\\allurl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\utilities\\allurl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\utilities\\mainuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\utilities\\mainuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\interfaces\\students\\student\\istudenth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\interfaces\\students\\student\\istudenth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\handlers\\student\\momo\\momoh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\student\\momo\\momoh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\commands\\student\\store\\getstorestudentc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\commands\\student\\store\\getstorestudentc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\interfaces\\students\\momo\\imomoh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\interfaces\\students\\momo\\imomoh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\utilities\\maindata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\utilities\\maindata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\data\\student\\momo\\momod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\data\\student\\momo\\momod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\utilities\\mainview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\utilities\\mainview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\views\\student\\payment\\spawnpackagev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\views\\student\\payment\\spawnpackagev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\commands\\manager\\store\\getstorec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\commands\\manager\\store\\getstorec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\interfaces\\students\\momo\\imomocarddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\interfaces\\students\\momo\\imomocarddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\commands\\manager\\store\\modifystorec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\commands\\manager\\store\\modifystorec.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\handlers\\manager\\store\\detailstoreh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\manager\\store\\detailstoreh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\handlers\\manager\\store\\getstoreh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\manager\\store\\getstoreh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\handlers\\manager\\store\\addstoreh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\handlers\\manager\\store\\addstoreh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\data\\manager\\store\\stored.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\data\\manager\\store\\stored.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|D:\\Project\\SmarPrinter\\Wistoria\\assets\\projects\\scripts\\views\\manager\\store\\spawnstorev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A809343A-96E4-05F3-F64B-5190EFC61044}|Assembly-CSharp.csproj|solutionrelative:assets\\projects\\scripts\\views\\manager\\store\\spawnstorev.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 202,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UISpawnFeatureV.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Views\\GUI\\General\\UISpawnFeatureV.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Views\\GUI\\General\\UISpawnFeatureV.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Views\\GUI\\General\\UISpawnFeatureV.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Views\\GUI\\General\\UISpawnFeatureV.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAswC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T03:02:10.916Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DetailPrinterH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Printer\\DetailPrinterH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Printer\\DetailPrinterH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Printer\\DetailPrinterH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Printer\\DetailPrinterH.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAYwBIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T19:52:45.311Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainUser.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\MainUser.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Utilities\\MainUser.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\MainUser.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Utilities\\MainUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T19:08:15.49Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SpawnPackageV.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Views\\Student\\Payment\\SpawnPackageV.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Views\\Student\\Payment\\SpawnPackageV.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Views\\Student\\Payment\\SpawnPackageV.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Views\\Student\\Payment\\SpawnPackageV.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAswHoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T16:56:55.214Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GetStoreStudentC.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Student\\Store\\GetStoreStudentC.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Commands\\Student\\Store\\GetStoreStudentC.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Student\\Store\\GetStoreStudentC.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Commands\\Student\\Store\\GetStoreStudentC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T16:53:42.091Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PackageClickH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Student\\Payment\\PackageClickH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Student\\Payment\\PackageClickH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Student\\Payment\\PackageClickH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Student\\Payment\\PackageClickH.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAwwCMAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T03:57:00.955Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GetPackageC.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Student\\Payment\\GetPackageC.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Commands\\Student\\Payment\\GetPackageC.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Student\\Payment\\GetPackageC.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Commands\\Student\\Payment\\GetPackageC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T20:11:59.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MomoH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Student\\MOMO\\MomoH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Student\\MOMO\\MomoH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Student\\MOMO\\MomoH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Student\\MOMO\\MomoH.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAkwEsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T03:30:37.579Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ModifyStoreC.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\ModifyStoreC.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\ModifyStoreC.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\ModifyStoreC.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\ModifyStoreC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T03:18:51.374Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AllUrl.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\AllUrl.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Utilities\\AllUrl.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\AllUrl.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Utilities\\AllUrl.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAwHIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T03:08:24.875Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IMomoCardData.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoCardData.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoCardData.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoCardData.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoCardData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T02:34:39.313Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MomoD.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Data\\Student\\MOMO\\MomoD.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Data\\Student\\MOMO\\MomoD.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Data\\Student\\MOMO\\MomoD.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Data\\Student\\MOMO\\MomoD.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAgwE0AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T02:05:08.824Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 198,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StudentUpdater.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Student\\Student\\StudentUpdater.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Student\\Student\\StudentUpdater.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Student\\Student\\StudentUpdater.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Student\\Student\\StudentUpdater.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T19:03:21.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IStudentH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Interfaces\\Students\\Student\\IStudentH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Interfaces\\Students\\Student\\IStudentH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Interfaces\\Students\\Student\\IStudentH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Interfaces\\Students\\Student\\IStudentH.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T19:00:10.718Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MainData.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\MainData.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Utilities\\MainData.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\MainData.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Utilities\\MainData.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T18:52:48.839Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MainView.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\MainView.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Utilities\\MainView.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Utilities\\MainView.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Utilities\\MainView.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T05:10:00.321Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DetailStoreH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\DetailStoreH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\DetailStoreH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\DetailStoreH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\DetailStoreH.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T03:39:27.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IMomoH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Interfaces\\Students\\MOMO\\IMomoH.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T03:31:50.724Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "StoreD.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Data\\Manager\\Store\\StoreD.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Data\\Manager\\Store\\StoreD.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Data\\Manager\\Store\\StoreD.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Data\\Manager\\Store\\StoreD.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T02:05:13.706Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AddStoreH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\AddStoreH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\AddStoreH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\AddStoreH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\AddStoreH.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T02:02:20.854Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GetStoreH.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\GetStoreH.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\GetStoreH.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\GetStoreH.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Handlers\\Manager\\Store\\GetStoreH.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T01:45:54.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "SpawnStoreV.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Views\\Manager\\Store\\SpawnStoreV.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Views\\Manager\\Store\\SpawnStoreV.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Views\\Manager\\Store\\SpawnStoreV.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Views\\Manager\\Store\\SpawnStoreV.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T01:44:34.613Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GetStoreC.cs",
+              "DocumentMoniker": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\GetStoreC.cs",
+              "RelativeDocumentMoniker": "Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\GetStoreC.cs",
+              "ToolTip": "D:\\Project\\SmarPrinter\\Wistoria\\Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\GetStoreC.cs",
+              "RelativeToolTip": "Assets\\Projects\\Scripts\\Commands\\Manager\\Store\\GetStoreC.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAJQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-30T01:38:42.797Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
