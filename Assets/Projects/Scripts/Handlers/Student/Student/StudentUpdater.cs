@@ -107,7 +107,7 @@ public class StudentUpdater : MonoBehaviour, IStudentUpdater, IStudentPaper
         yield return FetchStudentData(studentId,
             student =>
             {
-                int currentPaperCount = int.Parse(student.Paper);
+                int currentPaperCount = student.Paper;
                 int updatedPaperCount = currentPaperCount + additionalPaper;
 
                 StartCoroutine(UpdateStudentPaper(studentId, updatedPaperCount,
@@ -129,7 +129,7 @@ public class StudentUpdater : MonoBehaviour, IStudentUpdater, IStudentPaper
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                onSuccess?.Invoke(int.Parse(response.Data[0].Paper));
+                onSuccess?.Invoke(response.Data[0].Paper);
             }
             else
                 onFailed?.Invoke(response.Message);

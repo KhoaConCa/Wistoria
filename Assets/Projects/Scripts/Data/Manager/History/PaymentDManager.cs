@@ -22,7 +22,7 @@ public class PaymentDManager
     public int Paper { get; set; }
 
     [JsonProperty("Person")]
-    public StudentDManager Student { get; set; }
+    public StudentD Student { get; set; }
     public string Status { get; set; }
 
     [JsonProperty("UpdateAt")]

@@ -24,7 +24,7 @@ public class DocumentDManager
     public int Size { get; set; }
 
     [JsonProperty("Owner")]
-    public StudentDManager Student { get; set; }
+    public StudentD Student { get; set; }
     public string Status { get; set; }
 
     [JsonProperty("createdAt")]

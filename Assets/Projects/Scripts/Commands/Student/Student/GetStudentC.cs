@@ -48,7 +48,7 @@ public class GetStudentC : MonoBehaviour
 
     #region -- Methods --
 
-    void Start()
+    void Awake()
     {
         Initialization();
     }

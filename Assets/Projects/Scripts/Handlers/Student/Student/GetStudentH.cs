@@ -49,10 +49,10 @@ public class GetStudentH : MonoBehaviour, IGetStudentHandler
 
         if (studentList != null && studentList.Count > 0)
         {
-            var student = studentList.Find(c => c._id == requested_id);
+            var student = studentList.Find(c => c.Id == requested_id);
             if (student != null)
             {
-                Debug.Log($"Student Name: {student.FirstName} {student.LastName}");
+                Debug.Log($"Student Name: {student.FullName}");
             }
             else
             {
