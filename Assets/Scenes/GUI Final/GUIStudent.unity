@@ -249,7 +249,7 @@ PrefabInstance:
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 853313485}
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -690,7 +690,7 @@ PrefabInstance:
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 853313485}
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -962,7 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58f5f9d4175db24388a93999a426ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultFeature: CampusManagerF
+  _defaultFeature: UserStudentF
   _currentFeature:
     m_LabelString: 
 --- !u!1 &1287904616
@@ -1363,7 +1363,7 @@ PrefabInstance:
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 853313485}
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -1653,7 +1653,7 @@ PrefabInstance:
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 853313485}
     - target: {fileID: 1739530413181201541, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
