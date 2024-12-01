@@ -54,7 +54,6 @@ public class MomoD
     public string PartnerCode { get; set; }
 
     [JsonProperty("orderId")]
-    [JsonIgnore]
     public string OrderID { get; set; }
 
     [JsonProperty("requestId")]
@@ -77,7 +76,6 @@ public class MomoD
     public long TransID { get; set; }
 
     [JsonProperty("resultCode")]
-    [JsonIgnore]
     public int ResultCode { get; set; }
 
     [JsonProperty("message")]
