@@ -41,6 +41,12 @@ public static class AllUrlManager
 
     #endregion
 
+    #region -- Queue Manager --
+
+    public static readonly string createQueue = "https://smart-printer-alpha.vercel.app/v1/queue/create";
+
+    #endregion
+
     #region -- Store Manager --
 
     #region - POST -

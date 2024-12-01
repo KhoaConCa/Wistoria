@@ -17,14 +17,14 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     public void ClickAddButton()
     {
         SetNewData();
-        ResetAsDefault();
 
-        StartCoroutine(_addHandler.AddNewPrinter(_printerD, successfulMessage =>
+        StartCoroutine(_addHandler.AddNewPrinter(_printerD, result =>
         {
-            MainView.OnSuccess(successfulMessage);
+            MainView.OnSuccess(result.Message);
 
-            ResetAsDefault();
-            StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFailed));
+            StartCoroutine(_addHandler.AddNewQueue(result.Data[0], MainView.OnDebugged, MainView.OnFailed));
+
+            SetUpDataDefault();
 
         }, MainView.OnFailed));
     }
@@ -40,8 +40,7 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
 
     private void OnEnable()
     {
-        ResetAsDefault();
-        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFailed));
+        SetUpDataDefault();
     }
 
     #region - Add Component -
@@ -55,6 +54,16 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     #endregion
 
     #region - Set Data -
+
+    private void SetUpDataDefault()
+    {
+        ResetAsDefault();
+        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnDebugged, message =>
+        {
+            MainView.OnReset(SetUpDataDefault, message);
+        }));
+    }
+
     public void ResetAsDefault()
     {
         _printerNameField.text = "";

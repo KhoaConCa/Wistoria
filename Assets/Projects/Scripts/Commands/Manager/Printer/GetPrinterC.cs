@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using Utilities;
+using static SimpleFileBrowser.FileBrowser;
 
 public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
 {
@@ -41,7 +42,10 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
                     printer.UpdateLocateAt(campus);
                     _spawnPrinterView.CreateCard(printer);
                 }
-            }, OnSuccess, OnFailed));
+            }, MainView.OnDebugged, message =>
+            {
+                MainView.OnReset(SetUpDataDefault, message);
+            }));
         }    
         else
             _spawnPrinterView.CreateCard(printer);
@@ -59,21 +63,35 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
 
     private void OnEnable()
     {
+        SetUpDataDefault();
+    }
+
+    #region -- Set Up Data Default --
+    private void SetUpDataDefault()
+    {
         try
         {
             MainHandler.ClearSpawnedPrefabs();
             _printerIDFound.Clear();
 
             if (MainHandler.PrefabList.Count <= 1 || _printerIDFound.Count <= 0)
-                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, OnSuccess, OnFailed));
+                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, onSuccess =>
+                {
+                    _noDataFound.SetActive(false);
+                    MainView.OnDebugged(onSuccess);
+                }, onFailed =>
+                {
+                    MainView.OnReset(SetUpDataDefault, onFailed);
+                }));
             else
                 Debug.Log("Can't spawn printer prefab: ");
         }
         catch (Exception e)
         {
-            Debug.LogError(e.Message); 
+            Debug.LogError(e.Message);
         }
     }
+    #endregion
 
     #region -- Add Components --
     private void AddComponetPrinterView()
@@ -112,26 +130,29 @@ public class GetPrinterC : MonoBehaviour, IGetPrinterCommand
             if (MainHandler.PrefabList.Count > 1 || _printerIDFound.Count > 0) return;
 
             if (_namePrinterField.text != "")
-                StartCoroutine(_printerHandler.SearchPrinterByName(_namePrinterField.text, OnPrinterFound, OnSuccess, OnFailed));
+                StartCoroutine(_printerHandler.SearchPrinterByName(_namePrinterField.text, OnPrinterFound, onSuccess =>
+                {
+                    _noDataFound.SetActive(false);
+                    MainView.OnDebugged(onSuccess);
+                }, onFailed =>
+                {
+                    _noDataFound.SetActive(false);
+                    MainView.OnDebugged(onFailed);
+                }));
             else
-                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, OnSuccess, OnFailed));
+                StartCoroutine(_printerHandler.GetAllPrinter(OnPrinterFound, onSuccess =>
+                {
+                    _noDataFound.SetActive(false);
+                    MainView.OnDebugged(onSuccess);
+                }, onFailed =>
+                {
+                    MainView.OnReset(SetUpDataDefault, onFailed);
+                }));
         }
         catch (Exception e)
         {
             Debug.LogError(e.Message);
         }
-    }
-
-    private void OnFailed(string log)
-    {
-        Debug.LogError(log);
-        _noDataFound.SetActive(true);
-    }
-
-    private void OnSuccess(string log)
-    {
-        Debug.Log(log);
-        _noDataFound.SetActive(false);
     }
 
 

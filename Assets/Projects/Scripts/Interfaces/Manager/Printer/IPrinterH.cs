@@ -19,6 +19,7 @@ public interface IGetPrinterHandler
 
 public interface IAddPrinterHandler
 {
-    IEnumerator AddNewPrinter(PrinterD printer, Action<string> onSuccess, Action<string> onFailed);
+    IEnumerator AddNewPrinter(PrinterD printer, Action<MainData<PrinterD>> onSuccess, Action<string> onFailed);
+    IEnumerator AddNewQueue(PrinterD printer, Action<string> onSuccess, Action<string> onFailed);
     IEnumerator GetAllCampus(Action<List<CampusD>> onCampusFound, Action<string> onSuccess, Action<string> onFailed);
 }

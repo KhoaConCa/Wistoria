@@ -11,7 +11,7 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
 {
     #region -- Implements --
 
-    public IEnumerator AddNewPrinter(PrinterD printer, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator AddNewPrinter(PrinterD printer, Action<MainData<PrinterD>> onSuccess, Action<string> onFaild)
     {
         string json = TransferDataToJson(printer);
 
@@ -26,6 +26,31 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
             yield return request.SendWebRequest();
 
             MainData<PrinterD> response = TransferJsonToPrinterData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response);
+            else
+                onFaild?.Invoke(response.Message);
+        }
+
+    }
+
+    public IEnumerator AddNewQueue(PrinterD printer, Action<string> onSuccess, Action<string> onFaild)
+    {
+        string json = TransferDataToJson(printer);
+        Debug.Log(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(AllUrlManager.createQueue, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            MainData<QueueD> response = TransferJsonToQueueData(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
                 onSuccess?.Invoke(response.Message);
@@ -79,11 +104,19 @@ public class AddPrinterH : MonoBehaviour, IAddPrinterHandler
 
     public MainData<PrinterD> TransferJsonToPrinterData(string response)
     {
-        MainData<PrinterD> campusData = JsonConvert.DeserializeObject<MainData<PrinterD>>(response);
-        campusData.Initialize();
-        return campusData;
+        MainData<PrinterD> printerData = JsonConvert.DeserializeObject<MainData<PrinterD>>(response);
+        printerData.Initialize();
+        return printerData;
+    }
+
+    public MainData<QueueD> TransferJsonToQueueData(string response)
+    {
+        MainData<QueueD> queueData = JsonConvert.DeserializeObject<MainData<QueueD>>(response);
+        queueData.Initialize();
+        return queueData;
     }
 
     #endregion
 
 }
+
