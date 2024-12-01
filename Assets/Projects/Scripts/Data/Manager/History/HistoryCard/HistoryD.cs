@@ -12,7 +12,7 @@ public class HistoryD
         {
             Id = paymentData.Id;
             Name = $"Thanh toán gói giấy qua MoMo";
-            StudentName = paymentData.Student.Name;
+            StudentName = paymentData.Student.FullName;
             TypeData = 0;
             DateProcess = paymentData.CompletionTime;
             Paper = paymentData.Paper;
@@ -22,7 +22,7 @@ public class HistoryD
             Id = historyData.Id;
             historyData.Printer.ProcessLocateAt();
             Name = $"Thực hiện in ấn {historyData.Printer.PrinterName.Truncate(10)} / {historyData.Printer.LocateAt.Name} - {historyData.Printer.LocateAt.Room}";
-            StudentName = historyData.Document.Student.Name;
+            StudentName = historyData.Document.Student.FullName;
             TypeData = 1;
             DateProcess = historyData.CompletionTime;
             Paper = (historyData.PageEnd - historyData.PageBegin + 1) / historyData.Side * historyData.Copies;
