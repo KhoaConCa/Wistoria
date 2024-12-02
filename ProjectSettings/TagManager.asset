@@ -30,6 +30,8 @@ TagManager:
   - ResetButton
   - CheckingButton
   - StoreButton
+  - ValueNamePrinter
+  - ValueStatus
   layers:
   - Default
   - TransparentFX

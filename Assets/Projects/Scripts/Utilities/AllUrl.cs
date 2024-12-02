@@ -109,7 +109,7 @@ public static class AllUrlStudent
     #endregion
 
     #region - DELETE -
-    public static readonly string deleteCallback = "https://smart-printer-alpha.vercel.app/v1/package/delete";
+    public static readonly string deleteCallback = "https://smart-printer-alpha.vercel.app/v1/momo/delete";
     #endregion
 
     #endregion
