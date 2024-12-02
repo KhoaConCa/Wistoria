@@ -84,19 +84,8 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
     #region - Set Data -
     private void SetDataDropDown()
     {
-        _priceDropDown.AddOptions(ConvertEnumToList());
-    }
-
-    private List<string> ConvertEnumToList()
-    {
-        List<string> descriptions = Enum.GetValues(typeof(PriceFilter))
-                               .Cast<PriceFilter>()
-                               .Select(e => EnumProperties.GetEnumDescription(e))
-                               .ToList();
-                               
-        descriptions.Insert(0, "- Chọn bộ lọc -");
-
-        return descriptions;
+        List<string> data = EnumProperties.ConvertEnumToList<PriceFilter>("- Chọn bộ lọc -");
+        _priceDropDown.AddOptions(data);
     }
     #endregion
 

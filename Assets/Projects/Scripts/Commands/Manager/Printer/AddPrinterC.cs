@@ -82,10 +82,9 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
         _locateAtDropDown.ClearOptions();
         _locateAtDropDown.AddOptions(_campusDs.Values.ToList());
 
-        List<string> status = new List<string>(Status.StatusEquipment);
-        status.Insert(0, "- Chọn trạng thái -");
+        List<string> statusData = EnumProperties.ConvertEnumToList<PrinterStatusFilter>("- Chọn trạng thái -");
         _statusDropDown.ClearOptions();
-        _statusDropDown.AddOptions(status);
+        _statusDropDown.AddOptions(statusData);
     }
 
     private Dictionary<string, string> TransferData(List<CampusD> datas)

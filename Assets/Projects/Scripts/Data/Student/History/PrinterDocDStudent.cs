@@ -4,17 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HistoryDManager
+public class PrinterDocDStudent
 {
-    #region -- Methods --
-
-    public void Initialize()
-    {
-
-    }
-
-    #endregion
-
     #region -- Properties --
 
     [JsonProperty("_id")]
@@ -24,7 +15,7 @@ public class HistoryDManager
     public PrinterD Printer { get; set; }
 
     [JsonProperty("FileDocument")]
-    public DocumentDManager Document { get; set; }
+    public DocumentDStudent Document { get; set; }
 
     public string PaperSize { get; set; }
     public string Orientation { get; set; }
@@ -36,7 +27,7 @@ public class HistoryDManager
 
     [JsonProperty("UpdateAt")]
     public DateTime CompletionTime { get; set; }
-    public string Process {  get; set; }
+    public string Process { get; set; }
 
     [JsonProperty("createdAt")]
     public DateTime CreatedAt { get; set; }

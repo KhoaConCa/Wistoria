@@ -108,6 +108,7 @@ MonoBehaviour:
     - PrintStudentF
     - UserStudentF
     - CheckingNotification
+    - HistoryStudent
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}
