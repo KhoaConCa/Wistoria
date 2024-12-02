@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,15 +7,6 @@ using UnityEngine;
 
 public class DocumentDManager
 {
-    #region -- Methods --
-
-    public void Initialize()
-    {
-
-    }
-
-    #endregion
-
     #region -- Properties --
 
     [JsonProperty("_id")]
@@ -24,7 +16,8 @@ public class DocumentDManager
     public int Size { get; set; }
 
     [JsonProperty("Owner")]
-    public StudentD Student { get; set; }
+    public StudentD StudentData { get; set; }
+
     public string Status { get; set; }
 
     [JsonProperty("createdAt")]

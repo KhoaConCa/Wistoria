@@ -21,6 +21,7 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
             _historyDs.Clear();
 
         string url = AllUrlStudent.searchHistoryByID + $"?id={id}&status={status.Replace(" ", "+")}";
+        Debug.Log(url);
 
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {

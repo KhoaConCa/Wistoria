@@ -4,17 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HistoryDManager
+public class PrinterDocDManager
 {
-    #region -- Methods --
-
-    public void Initialize()
-    {
-
-    }
-
-    #endregion
-
     #region -- Properties --
 
     [JsonProperty("_id")]
@@ -25,7 +16,6 @@ public class HistoryDManager
 
     [JsonProperty("FileDocument")]
     public DocumentDManager Document { get; set; }
-
     public string PaperSize { get; set; }
     public string Orientation { get; set; }
     public int Side { get; set; }
