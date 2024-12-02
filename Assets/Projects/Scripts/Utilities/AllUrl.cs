@@ -100,6 +100,24 @@ public static class AllUrlStudent
     #endregion
 
     #endregion
+
+    #region -- Printer Student --
+    #region - GET -
+    public static readonly string getStudentPrinter = "https://smart-printer-alpha.vercel.app/v1/printer";
+    #endregion
+    #endregion
+
+    #region -- PrinterDoc --
+    #region - POST -
+    public static readonly string createPrinterDoc = "https://smart-printer-alpha.vercel.app/v1/printerdoc/create";
+    #endregion
+    #endregion
+
+    #region -- Document --
+    #region - POST -
+    public static readonly string createDocument = "https://smart-printer-alpha.vercel.app/v1/document/create";
+    #endregion
+    #endregion
 }
 
 public static class StudentID

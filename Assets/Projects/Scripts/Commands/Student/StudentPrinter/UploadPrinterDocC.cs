@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UploadPrinterDocC : MonoBehaviour, IUploadPrinterDocCommand
 {
@@ -17,6 +17,20 @@ public class UploadPrinterDocC : MonoBehaviour, IUploadPrinterDocCommand
             return;
         }
 
-        StartCoroutine(_handler.UploadPrinterDoc(printerDoc, onUploadComplete));
+        // Tách callback thành hai hàm riêng để xử lý thành công và thất bại
+        void OnSuccess(string successMessage)
+        {
+            Debug.Log($"Upload successful: {successMessage}");
+            onUploadComplete?.Invoke(true, successMessage);
+        }
+
+        void OnFaild(string errorMessage)
+        {
+            Debug.LogError($"Upload failed: {errorMessage}");
+            onUploadComplete?.Invoke(false, errorMessage);
+        }
+
+        // Gọi UploadPrinterDoc với đủ tham số
+        StartCoroutine(_handler.UploadPrinterDoc(printerDoc, OnSuccess, OnFaild));
     }
 }
