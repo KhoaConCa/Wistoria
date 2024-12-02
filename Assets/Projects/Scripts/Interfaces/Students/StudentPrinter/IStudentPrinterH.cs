@@ -10,7 +10,7 @@ public interface IGetStudentPrinterHandler
     /// </summary>
     /// <param name="onPackageFound">Callback executed for each package found.</param>
     /// <returns>IEnumerator for coroutine.</returns>
-    IEnumerator GetAllStudentPrinter(Action<StudentPrinterD> onStudentPrinterFound);
+    IEnumerator GetAllStudentPrinter(Action<StudentPrinterD> onStudentPrinterFound, Action<string> onSuccess, Action<string> onFaild);
 }
 public interface IStudentPrinterClickH
 {

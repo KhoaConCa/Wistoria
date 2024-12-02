@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,19 +9,24 @@ public class StudentD
 {
     #region -- Properties --
 
-    public string _id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string DateOfBirth { get; set; }
+    [JsonProperty("_id")] 
+    public string Id { get; set; }
+    public string FullName { get; set; }
+    public string StudentID { get; set; }
+    public DateTime DateOfBirth { get; set; }
     public string PhoneNumber { get; set; }
     public string Email { get; set; }  
     public string Class {  get; set; }
-    public string Course { get; set; }
-    public string Paper { get; set; }
+    public int Course { get; set; }
+    public int Paper { get; set; }
     public string Status { get; set; }
-    public string createdAt { get; set; }
-    public string updatedAt { get; set; }
-    public string __v { get; set; }
+    [JsonProperty("createdAt")]
+    public string CreatedAt { get; private set; }
+    [JsonProperty("updatedAt")]
+    public string UpdatedAt { get; private set; }
+
+    [JsonProperty("__v")]
+    public string V { get; private set; } = "0";
 
     #endregion
 }

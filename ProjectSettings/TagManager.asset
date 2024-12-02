@@ -19,6 +19,19 @@ TagManager:
   - ValuePrice
   - MainGUI
   - MessageValue
+  - ValueName
+  - ValueStudent
+  - ValueTime
+  - ValueMonth
+  - FeatureContainer
+  - Header
+  - Footer
+  - GUI
+  - ResetButton
+  - CheckingButton
+  - StoreButton
+  - ValueNamePrinter
+  - ValueStatus
   layers:
   - Default
   - TransparentFX
@@ -26,7 +39,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Feature
   - 
   - 
   - 

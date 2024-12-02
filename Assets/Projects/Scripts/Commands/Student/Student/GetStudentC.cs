@@ -3,118 +3,109 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utilities;
 
-public class GetStudentC : MonoBehaviour
+public class GetStudentC : MonoBehaviour, ILogOutScene
 {
     #region -- Implements --
 
-    /// <summary>
-    /// Send a get request to server when clicked
-    /// Display information of the user
-    /// </summary>
-
-    public void ClickInfoButton()
+    public void OnLogOut()
     {
-        string studentID = GetStudentID();
-        StartCoroutine(_studentHandler.GetStudent(studentID));
-    }
-
-    /// <summary>
-    /// ID user
-    /// </summary>
-    /// <returns> test user</returns>
-
-    public string GetStudentID()
-    {
-        return "671860901e0844975517030e";
-    }
-
-    /// <summary>
-    /// Get component and add listener
-    /// </summary>
-
-    public void Initialization()
-    {
-        if (_studentHandler == null)
-        {
-            _studentHandler = gameObject.AddComponent<GetStudentH>();
-        }
-
-        getButton.onClick.AddListener(ClickInfoButton);
+        MainUser.STUDENT_ID = "";
+        SceneManager.LoadScene("GUILogIn");
     }
 
     #endregion
 
     #region -- Methods --
 
-    void Start()
+    private void Awake()
     {
-        Initialization();
+        AddComponent();
     }
 
-    void SetStudentFirstName(string input)
+    private void OnEnable()
     {
-        studentFirstName.text = input;
+        GetStudentData();
     }
 
-    void SetStudentLastName(string input)
+    #region -- Add Component --
+    private void AddComponent()
     {
-        studentLastName.text = input;
+        if (_studentHandler == null)
+            _studentHandler = gameObject.AddComponent<GetStudentH>();
+    }
+    #endregion
+
+    #region -- Get Student Data --
+    private void GetStudentData()
+    {
+        if (!string.IsNullOrEmpty(MainUser.STUDENT_ID))
+            StartCoroutine(_studentHandler.GetStudentByID(MainUser.STUDENT_ID, SetUpData, onFailed =>
+            {
+                MainView.OnReset(GetStudentData, onFailed);
+            }));
+    }
+    #endregion
+
+    #region -- Set Up Data --
+    private void SetUpData(StudentD data)
+    {
+        Initialization(_paper, _tagName, data.Paper.ToString());
+        Initialization(_studentName, _tagName, data.FullName);
+        Initialization(_dayOfBirth, _tagName, data.DateOfBirth.ToString("dd/MM/yyyy"));
+        Initialization(_phoneNumber, _tagName, data.PhoneNumber);
+        Initialization(_email, _tagName, data.Email);
+        Initialization(_studentId, _tagName, data.StudentID);
+        Initialization(_class, _tagName, data.Class);
+        Initialization(_course, _tagName, $"K{data.Course}");
     }
 
-    void SetStudentDateOfBirth(string input)
+    private void Initialization(GameObject objectValue, string tagName, string textValue)
     {
-        studentDateOfBirth.text = input;
-    }
+        Transform objectText = MainView.FindObjectsByTag(objectValue.transform, tagName);
 
-    void SetStudentPhoneNumber(string input)
-    {
-        studentPhoneNumber.text = input;
-    }
+        if (objectText == null)
+        {
+            MainView.OnDebugged("Failed to find text component!");
+            return;
+        }
 
-    void SetStudentEmail(string input)
-    {
-        studentEmail.text = input;
+        TextMeshProUGUI value = objectText.GetComponent<TextMeshProUGUI>();
+        value.text = textValue;
     }
+    #endregion
 
-    void SetStudentClass(string input)
+    #region -- On Click Event --
+    public void OnClickStore()
     {
-        studentClass.text = input;
+        GameObject buttonObject = GameObject.FindWithTag(_tagButton);
+        Button button = buttonObject.GetComponent<Button>();
+        button.onClick.Invoke();
     }
-
-    void SetStudentCourse(string input)
-    {
-        studentCourse.text = input;
-    }
-
-    void SetStudentPaper(string input)
-    {
-        studentPaper.text = input;
-    }
-
-    void SetStudentStatus(string input)
-    {
-        studentStatus.text = input;
-    }
+    #endregion
 
     #endregion
 
     #region -- Fields --
 
-    public TextMeshProUGUI studentFirstName;
-    public TextMeshProUGUI studentLastName;
-    public TextMeshProUGUI studentDateOfBirth;
-    public TextMeshProUGUI studentPhoneNumber;
-    public TextMeshProUGUI studentEmail;
-    public TextMeshProUGUI studentClass;
-    public TextMeshProUGUI studentCourse;
-    public TextMeshProUGUI studentPaper;
-    public TextMeshProUGUI studentStatus;
+    private IGetStudentHandler _studentHandler;
 
-    public Button getButton;
+    private UISpawnFeatureV _uiTransform;
 
-    public IGetStudentHandler _studentHandler;
+    [SerializeField] private GameObject _paper;
+    [SerializeField] private GameObject _studentName;
+    [SerializeField] private GameObject _dayOfBirth;
+    [SerializeField] private GameObject _phoneNumber;
+    [SerializeField] private GameObject _email;
+    [SerializeField] private GameObject _studentId;
+    [SerializeField] private GameObject _class;
+    [SerializeField] private GameObject _course;
+
+    private readonly string _tagName = "MessageValue";
+    private readonly string _tagButton = "StoreButton";
 
     #endregion
 }

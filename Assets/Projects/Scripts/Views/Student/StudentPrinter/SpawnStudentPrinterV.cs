@@ -17,9 +17,9 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     /// <param name="package">Data of package</param>
     public void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDoc)
     {
-        MainHandler.ClearSpawnedPrefabs();
+        GameObject containt = GameObject.FindWithTag(_path);
 
-        MainHandler.SpawnPrefabByLabel(_studentPrinterPrefab, _path, (spawnedPrefab) =>
+        MainHandler.SpawnPrefabByLabel(_studentPrinterPrefab, containt, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
             {
@@ -36,7 +36,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                     Debug.LogError("PackageCardData component is missing on the prefab. Please ensure the component is attached.");
                 }
 
-                FindComponentUI(_studentPrinterPrinterName, _studentPrinterCampusName, _studentPrinterStatus);
+                FindComponentUI();
                 UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.Name, studentPrinter.Status);
             }
             else
@@ -58,11 +58,12 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
         AddComponentSetData();
     }
 
-    private void FindComponentUI(string printerName, string campusName, string status)
+    private void FindComponentUI()
     {
-        Transform positionPrinterName = MainHandler.LastSpawnedPrefab?.transform.Find(printerName);
-        Transform positionCampusName = MainHandler.LastSpawnedPrefab?.transform.Find(campusName);
-        Transform postionStatus = MainHandler.LastSpawnedPrefab?.transform.Find(status);
+        Transform lastestPrefab = MainHandler.LastSpawnedPrefab.transform;
+        Transform positionPrinterName = MainView.FindObjectsByTag(lastestPrefab, _printerName);
+        Transform positionCampusName = MainView.FindObjectsByTag(lastestPrefab, _campusName);
+        Transform postionStatus = MainView.FindObjectsByTag(lastestPrefab, _printerStatus);
 
         if (positionPrinterName != null && positionCampusName != null && postionStatus != null)
         {
@@ -102,10 +103,10 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
 
     [SerializeField] private AssetLabelReference _studentPrinterPrefab;
 
-    private readonly string _path = "/GUI/Body/Print/Feature/Printer/Printers/Contain";
-    private readonly string _studentPrinterPrinterName = "Content/Text/Name";
-    private readonly string _studentPrinterCampusName = "Content/Text/Campus";
-    private readonly string _studentPrinterStatus = "Status/StatusTag_Active Variant/Label";
+    private readonly string _path = "ObjectContain";
+    private readonly string _printerName = "ValueName";
+    private readonly string _campusName = "ValueCampus";
+    private readonly string _printerStatus = "ValueStatus";
 
     #endregion
 }

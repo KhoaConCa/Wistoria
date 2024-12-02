@@ -44,9 +44,22 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
 
     private void OnEnable()
     {
-        ResetInteractableField();
-        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField, MainView.OnSuccess, MainView.OnFaild));
+        SetData();
     }
+
+    #region -- Set Data --
+    private void SetData()
+    {
+        ResetInteractableField();
+        StartCoroutine(_updateHandler.GetAllCampus(SetDataToEditField, onSuccess =>
+        {
+            MainView.OnDebugged(onSuccess);
+        }, onFailed =>
+        {
+            MainView.OnReset(SetData, onFailed);
+        }));
+    }
+    #endregion
 
     #region - Add Component -
     private void AddComponentHandler()
@@ -72,10 +85,10 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
         _locateAtDropDown.AddOptions(_campusDs.Values.ToList());
         _locateAtDropDown.value = locationSelected;
 
-        int statusSelected = Status.StatusEquipment.IndexOf(_cardData.Status);
-        _statusDropDown.ClearOptions();
-        _statusDropDown.AddOptions(Status.StatusEquipment);
-        _statusDropDown.value = statusSelected;
+        List<string> statusData = EnumProperties.ConvertEnumToList<PrinterStatusFilter>();
+        var statusSelected = EnumProperties.GetEnumIdByName<PrinterStatusFilter>(_cardData.Status);
+        _statusDropDown.AddOptions(statusData);
+        _statusDropDown.value = statusSelected.Value;
     }
 
     private Dictionary<string, string> TransferData(List<CampusD> datas)
@@ -107,7 +120,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
     public void OnClickSaveButton()
     {
         SetDataModify();
-        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_updateHandler.UpdatePrinterData(_printerD, MainView.OnSuccess, MainView.OnFailed));
     }
 
     /// <summary>
@@ -125,7 +138,9 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
         CampusD campus = GetDataDropDown();
         _printerD.LocateAtRaw = campus;
         _printerD.UpdateLocateAt(campus);
-        _printerD.Status = _statusDropDown.captionText.text;
+        _printerD.Status = EnumProperties
+                           .GetEnumByDescription<PrinterStatusFilter>(_statusDropDown.captionText.text)
+                           .ToString();
 
         _printerD.__v = "0";
 

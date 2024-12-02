@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Globalization;
 
 
 public class SetDataPackageV : MonoBehaviour, ISetDataPackageView
