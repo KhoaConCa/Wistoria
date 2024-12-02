@@ -17,16 +17,16 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     public void ClickAddButton()
     {
         SetNewData();
-        ResetAsDefault();
 
-        StartCoroutine(_addHandler.AddNewPrinter(_printerD, successfulMessage =>
+        StartCoroutine(_addHandler.AddNewPrinter(_printerD, result =>
         {
-            MainView.OnSuccess(successfulMessage);
+            MainView.OnSuccess(result.Message);
 
-            ResetAsDefault();
-            StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_addHandler.AddNewQueue(result.Data[0], MainView.OnDebugged, MainView.OnFailed));
 
-        }, MainView.OnFaild));
+            SetUpDataDefault();
+
+        }, MainView.OnFailed));
     }
 
     #endregion
@@ -40,8 +40,7 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
 
     private void OnEnable()
     {
-        ResetAsDefault();
-        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnSuccess, MainView.OnFaild));
+        SetUpDataDefault();
     }
 
     #region - Add Component -
@@ -55,6 +54,16 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
     #endregion
 
     #region - Set Data -
+
+    private void SetUpDataDefault()
+    {
+        ResetAsDefault();
+        StartCoroutine(_addHandler.GetAllCampus(SetDataDropDown, MainView.OnDebugged, message =>
+        {
+            MainView.OnReset(SetUpDataDefault, message);
+        }));
+    }
+
     public void ResetAsDefault()
     {
         _printerNameField.text = "";
@@ -73,10 +82,9 @@ public class AddPrinterC : MonoBehaviour, IAddPrinterCommand
         _locateAtDropDown.ClearOptions();
         _locateAtDropDown.AddOptions(_campusDs.Values.ToList());
 
-        List<string> status = new List<string>(Status.StatusEquipment);
-        status.Insert(0, "- Chọn trạng thái -");
+        List<string> statusData = EnumProperties.ConvertEnumToList<PrinterStatusFilter>("- Chọn trạng thái -");
         _statusDropDown.ClearOptions();
-        _statusDropDown.AddOptions(status);
+        _statusDropDown.AddOptions(statusData);
     }
 
     private Dictionary<string, string> TransferData(List<CampusD> datas)

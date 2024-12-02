@@ -19,8 +19,10 @@ public class HistoryDManager
 
     [JsonProperty("_id")]
     public string Id { get; set; }
+
     [JsonProperty("PrintIn")]
     public PrinterD Printer { get; set; }
+
     [JsonProperty("FileDocument")]
     public DocumentDManager Document { get; set; }
 
@@ -34,6 +36,7 @@ public class HistoryDManager
 
     [JsonProperty("UpdateAt")]
     public DateTime CompletionTime { get; set; }
+    public string Process {  get; set; }
 
     [JsonProperty("createdAt")]
     public DateTime CreatedAt { get; set; }

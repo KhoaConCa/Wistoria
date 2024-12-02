@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IGetStudentHandler 
 {
-    IEnumerator GetStudent(string studentID);
+    IEnumerator GetStudentByID(string id, Action<StudentD> onSuccess, Action<string> onFailed);
 }
 
 public interface IStudentView

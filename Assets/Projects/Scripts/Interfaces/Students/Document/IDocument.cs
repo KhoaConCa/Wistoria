@@ -42,5 +42,5 @@ public interface IUploadDocumentHandler
     /// <param name="filePath">The file path of the document.</param>
     /// <param name="onDocumentIdReceived">Callback for handling the document ID.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    IEnumerator UploadDocumentPropertiesCoroutine(string filePath, Action<string> onSuccess, Action<string> onFaild);
+    IEnumerator UploadDocumentPropertiesCoroutine(DocumentD jsonData, Action<string> onSuccess, Action<string> onFaild);
 }

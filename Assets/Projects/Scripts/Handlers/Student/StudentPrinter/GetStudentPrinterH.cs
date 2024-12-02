@@ -29,6 +29,7 @@ public class GetStudentPrinterH : MonoBehaviour, IGetStudentPrinterHandler
             yield return request.SendWebRequest();
 
             MainData<StudentPrinterD> response = TransferObjectToData(request.downloadHandler.text);
+            Debug.Log(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -64,6 +65,7 @@ public class GetStudentPrinterH : MonoBehaviour, IGetStudentPrinterHandler
 
     public void SendData(Action<StudentPrinterD> onStudentPrinterFound, MainData<StudentPrinterD> studentPrinterDatas)
     {
+        Debug.LogWarning(studentPrinterDatas.Data.Count);
         foreach (var itemData in studentPrinterDatas.Data)
         {
             onStudentPrinterFound?.Invoke(itemData);

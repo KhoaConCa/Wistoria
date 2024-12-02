@@ -3,8 +3,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Utilities;
+using System;
+using static SimpleFileBrowser.FileBrowser;
+using System.Text;
 
-public class StudentUpdater : MonoBehaviour, IStudentUpdater
+public class StudentUpdater : MonoBehaviour, IStudentUpdater, IStudentPaper
 {
     private const string BaseUrl = "https://server-wistoria-api.vercel.app/student/";
 
@@ -104,7 +107,7 @@ public class StudentUpdater : MonoBehaviour, IStudentUpdater
         yield return FetchStudentData(studentId,
             student =>
             {
-                int currentPaperCount = int.Parse(student.Paper);
+                int currentPaperCount = student.Paper;
                 int updatedPaperCount = currentPaperCount + additionalPaper;
 
                 StartCoroutine(UpdateStudentPaper(studentId, updatedPaperCount,
@@ -112,5 +115,67 @@ public class StudentUpdater : MonoBehaviour, IStudentUpdater
                     error => Debug.LogError(error)));
             },
             error => Debug.LogError(error));
+    }
+
+    public IEnumerator GetStudentPaper(string studentId, Action<int> onSuccess, Action<string> onFailed)
+    {
+        string searchURL = $"{AllUrlStudent.findStudentById}/{studentId}";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<StudentD> response = TransferObjectToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(response.Data[0].Paper);
+            }
+            else
+                onFailed?.Invoke(response.Message);
+        }
+    }
+
+    public IEnumerator UpdateStudentPaper(string studentId, int newPaperCount, Action<string> onSuccess, Action<string> onError)
+    {
+        if (string.IsNullOrEmpty(studentId))
+        {
+            onError?.Invoke("Student ID is null or empty. Cannot update paper count.");
+            yield break;
+        }
+
+        string url = $"{AllUrlStudent.updateStudentById}/{studentId}";
+
+        string json = TransferDataToJson(newPaperCount);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
+        {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            MainData<StudentD> response = TransferObjectToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Message);
+            else
+                onError?.Invoke(response.Message);
+        }
+    }
+
+    public string TransferDataToJson(int paper)
+    {
+        return MainHandler.ToJson<int>(paper);
+    }
+
+    public MainData<StudentD> TransferObjectToData(string response)
+    {
+        MainData<StudentD> mainData = JsonConvert.DeserializeObject<MainData<StudentD>>(response);
+        mainData.Initialize();
+        return mainData;
     }
 }

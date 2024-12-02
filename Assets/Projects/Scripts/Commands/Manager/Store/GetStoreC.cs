@@ -45,7 +45,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
         {
             MainHandler.ClearSpawnedPrefabs();
             if (MainHandler.PrefabList.Count <= 1)
-                StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFailed));
 
             ResetDataDropDown();
             SetDataDropDown();
@@ -84,19 +84,8 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
     #region - Set Data -
     private void SetDataDropDown()
     {
-        _priceDropDown.AddOptions(ConvertEnumToList());
-    }
-
-    private List<string> ConvertEnumToList()
-    {
-        List<string> descriptions = Enum.GetValues(typeof(PriceFilter))
-                               .Cast<PriceFilter>()
-                               .Select(e => EnumProperties.GetEnumDescription(e))
-                               .ToList();
-                               
-        descriptions.Insert(0, "- Chọn bộ lọc -");
-
-        return descriptions;
+        List<string> data = EnumProperties.ConvertEnumToList<PriceFilter>("- Chọn bộ lọc -");
+        _priceDropDown.AddOptions(data);
     }
     #endregion
 
@@ -110,7 +99,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
         if (valueSelected == 0)
         {
             storeDs.Clear();
-            StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFailed));
             return;
         }    
 

@@ -11,11 +11,8 @@ public class CampusD
     public void Initialize(ICampusCardData cardCampus)
     {
         Id = cardCampus.Id;
-
         Name = cardCampus.Name;
-
         Room = cardCampus.Room;
-
         Status = cardCampus.Status;
     }
 

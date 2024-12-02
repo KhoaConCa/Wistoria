@@ -17,7 +17,7 @@ public class AddStoreC : MonoBehaviour, IAddStoreCommand
         SetNewStoreData();
         ClearData();
 
-        StartCoroutine(_addHandler.AddNewStore(_newStore, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_addHandler.AddNewStore(_newStore, MainView.OnSuccess, MainView.OnFailed));
     }
 
     #endregion

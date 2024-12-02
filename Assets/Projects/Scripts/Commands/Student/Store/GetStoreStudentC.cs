@@ -43,7 +43,7 @@ public class GetStoreStudentC : MonoBehaviour, IGetStoreCommand
         {
             MainHandler.ClearSpawnedPrefabs();
             if (MainHandler.PrefabList.Count <= 0)
-                StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFaild));
+                StartCoroutine(_storeHandler.GetAllStore(OnStoreFound, MainView.OnSuccess, MainView.OnFailed));
         }
         catch (Exception e)
         {

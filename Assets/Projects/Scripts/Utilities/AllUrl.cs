@@ -41,6 +41,12 @@ public static class AllUrlManager
 
     #endregion
 
+    #region -- Queue Manager --
+
+    public static readonly string createQueue = "https://smart-printer-alpha.vercel.app/v1/queue/create";
+
+    #endregion
+
     #region -- Store Manager --
 
     #region - POST -
@@ -63,6 +69,13 @@ public static class AllUrlManager
     public static readonly string getAllPayment = "https://smart-printer-alpha.vercel.app/v1/payment";
     public static readonly string getAllHistory = "https://smart-printer-alpha.vercel.app/v1/printerdoc";
     #endregion
+
+    #endregion
+
+    #region -- Manager --
+
+    public static readonly string findManagerByID = "https://smart-printer-alpha.vercel.app/v1/manager/search/";
+    public static readonly string getManagerByID = "https://smart-printer-alpha.vercel.app/v1/manager/getid/";
 
     #endregion
 }
@@ -118,14 +131,27 @@ public static class AllUrlStudent
     public static readonly string createDocument = "https://smart-printer-alpha.vercel.app/v1/document/create";
     #endregion
     #endregion
-}
 
-public static class StudentID
-{
-    public static string STUDENT_ID;
-}
+    #region -- Student Info --
+    #region -- POST --
 
-public static class ManagerID
-{
-    public static string MANAGER_ID;
+    #endregion
+
+    #region -- GET --
+    public static readonly string findStudentById = "https://smart-printer-alpha.vercel.app/v1/student/search/";
+    public static readonly string getStudentByID = "https://smart-printer-alpha.vercel.app/v1/student/getid/";
+    #endregion
+
+    #region -- PATCH --
+    public static readonly string updateStudentById = "https://smart-printer-alpha.vercel.app/v1/student/update";
+    #endregion
+
+    #endregion
+
+    #region -- History --
+
+    public static readonly string searchHistoryByID = "http://smart-printer-alpha.vercel.app/v1/printerdoc/search/studentid/status";
+    public static readonly string searchPaymentByID = "https://smart-printer-alpha.vercel.app/v1/payment/search/student?id=";
+
+    #endregion
 }

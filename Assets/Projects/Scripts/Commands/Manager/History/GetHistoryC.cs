@@ -36,7 +36,7 @@ public class GetHistoryC : MonoBehaviour, IGetContainerHistoryCommand
             MainHandler.ClearSpawnedPrefabs();
 
         if (MainHandler.PrefabList.Count <= 1)
-            StartCoroutine(_historyHandler.GetAllHistory(OnHistoryFound, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_historyHandler.GetAllHistory(OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
     }
 
     #region -- Add Component --
@@ -66,11 +66,11 @@ public class GetHistoryC : MonoBehaviour, IGetContainerHistoryCommand
             return;
 
         if (type == 0)
-            StartCoroutine(_historyHandler.GetAllHistory(OnHistoryFound, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_historyHandler.GetAllHistory(OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
         else if (type == 1)
-            StartCoroutine(_historyHandler.GetHistoryByPrinter(OnHistoryFound, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_historyHandler.GetHistoryByPrinter(OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
         else
-            StartCoroutine(_historyHandler.GetHistoryByPayment(OnHistoryFound, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_historyHandler.GetHistoryByPayment(OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
     }
     #endregion
 

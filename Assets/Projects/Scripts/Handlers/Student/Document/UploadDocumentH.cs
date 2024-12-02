@@ -32,7 +32,28 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             gameObject.SetActive(true);
         }
 
-        StartCoroutine(UploadDocumentPropertiesCoroutine(filePath, onSuccess, onFaild));
+        StartCoroutine(GetStudentByID(MainUser.STUDENT_ID, onSucces =>
+        {
+            // Gather file attributes
+            FileInfo fileInfo = new FileInfo(filePath);
+            string fileName = fileInfo.Name;
+            string fileSize = fileInfo.Length.ToString();
+
+            // Prepare the JSON data
+            DocumentD jsonData = new DocumentD
+            {
+                NameFile = fileName,
+                Size = fileSize,
+                Owner = new StudentD()
+            };
+
+            jsonData.Owner = onSucces;
+
+            StartCoroutine(UploadDocumentPropertiesCoroutine(jsonData, onSuccess, onFaild));
+        }, message =>
+        {
+            MainView.OnDebugged(message);
+        }));
     }
 
 
@@ -48,22 +69,8 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
     /// <param name="filePath">The file path of the document.</param>
     /// <param name="onDocumentIdReceived">Callback to handle the newly created document ID.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    public IEnumerator UploadDocumentPropertiesCoroutine(string filePath, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator UploadDocumentPropertiesCoroutine(DocumentD jsonData, Action<string> onSuccess, Action<string> onFaild)
     {
-        // Gather file attributes
-        FileInfo fileInfo = new FileInfo(filePath);
-        string fileName = fileInfo.Name;
-        string fileSize = fileInfo.Length.ToString();
-        string owner = "671860901e0844975517030e"; // Replace with the actual owner ID
-
-        // Prepare the JSON data
-        DocumentD jsonData = new DocumentD
-        {
-            NameFile = fileName,
-            Size = fileSize,
-            Owner = owner
-        };
-
         // Serialize to JSON
         string json = MainHandler.ToJson(jsonData, true);
         Debug.Log($"JSON being sent: {json}");
@@ -96,6 +103,7 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
                         if (document != null && !string.IsNullOrEmpty(document._id))
                         {
                             Debug.Log($"Document successfully uploaded. ID: {document._id}");
+                            Debug.Log($"Document successfully uploaded. ID: {document.Owner}");
                             onSuccess?.Invoke(document._id); // Gửi _id qua callback onSuccess
                         }
                         else
@@ -124,11 +132,35 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
         }
     }
 
-
-
-
     #endregion
+
     #region -- Methods --
+
+    public IEnumerator GetStudentByID(string id, Action<StudentD> onSuccess, Action<string> onFailed)
+    {
+
+        //set URL for system to search the item
+        string json = AllUrlStudent.findStudentById + id;
+
+        using (UnityWebRequest request = UnityWebRequest.Get(json))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<StudentD> response = TransferStringToStudentD(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Data[0]);
+            else
+                onFailed?.Invoke(response.Message);
+        }
+    }
+
+    public MainData<StudentD> TransferStringToStudentD(string response)
+    {
+        MainData<StudentD> mainData = JsonConvert.DeserializeObject<MainData<StudentD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
 
     public string TransferDataToJson(DocumentD printerDoc)
     {
@@ -163,7 +195,7 @@ public class DocumentUploadResponse
 {
     public string NameFile;   // Maps to "NameFile"
     public long Size;         // Maps to "Size"
-    public string Owner;      // Maps to "Owner"
+    public StudentD Owner;      // Maps to "Owner"
     public string _id;        // Maps to "_id"
     public string createdAt;  // Maps to "createdAt"
     public string updatedAt;  // Maps to "updatedAt"

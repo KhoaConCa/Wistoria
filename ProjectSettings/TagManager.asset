@@ -24,6 +24,12 @@ TagManager:
   - ValueTime
   - ValueMonth
   - FeatureContainer
+  - Header
+  - Footer
+  - GUI
+  - ResetButton
+  - CheckingButton
+  - StoreButton
   layers:
   - Default
   - TransparentFX

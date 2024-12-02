@@ -42,16 +42,25 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 
     void OnEnable()
     {
-        if (_campusNameDropDown != null && _campusNameDropDown != null)
+        SetUpDataDefault();
+    }
+
+    private void SetUpDataDefault()
+    {
+        if (_campusNameDropDown != null && _campusRoomInputField != null)
         {
-            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, MainView.OnSuccess, MainView.OnFaild));
-            StartCoroutine(_updateHandler.GetUniqueRoom(SetDataCampusRoom, MainView.OnSuccess, MainView.OnFaild));
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, MainView.OnDebugged, message =>
+            {
+                MainView.OnReset(SetUpDataDefault, message);
+            }));
+
+            _campusRoomInputField.text = _cardData.Room;
         }
     }
 
     void OnDisable()
     {
-        if (_campusNameDropDown != null && _campusRoomDropDown != null)
+        if (_campusNameDropDown != null && _campusRoomInputField != null)
             ClearDataModify();
     }
 
@@ -74,15 +83,6 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         int indexSelected = campusName.IndexOf(_cardData.Name);
         _campusNameDropDown.value = indexSelected;
     }
-
-    private void SetDataCampusRoom(List<string> campusRoom)
-    {
-        _campusRoomDropDown.ClearOptions();
-
-        _campusRoomDropDown.AddOptions(campusRoom);
-        int indexSelected = campusRoom.IndexOf(_cardData.Room);
-        _campusRoomDropDown.value = indexSelected;
-    }
     #endregion
 
     #region -- Main Event --
@@ -91,7 +91,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
         SetDataModify();
         GetDataModify();
 
-        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, MainView.OnSuccess, MainView.OnFaild));
+        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, MainView.OnSuccess, MainView.OnFailed));
     }
 
     /// <summary>
@@ -105,13 +105,13 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     private void SetDataModify()
     {
         _cardData.Name = _campusNameDropDown.captionText.text;
-        _cardData.Room = _campusRoomDropDown.captionText.text;
+        _cardData.Room = _campusRoomInputField.text;
     }
 
     private void ClearDataModify()
     {
         _campusNameDropDown.ClearOptions();
-        _campusRoomDropDown.ClearOptions();
+        _campusRoomInputField.text = "";
     }
     #endregion
 
@@ -127,7 +127,7 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     [SerializeField] private Button _saveButton;
 
     [SerializeField] private TMP_Dropdown _campusNameDropDown;
-    [SerializeField] private TMP_Dropdown _campusRoomDropDown;
+    [SerializeField] private TMP_InputField _campusRoomInputField;
 
     #endregion
 }

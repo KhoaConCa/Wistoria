@@ -132,14 +132,12 @@ namespace Utilities
 
         public static void SpawnPrefabByLabel(AssetLabelReference prefab, GameObject container, Action<GameObject> onSpawned = null)
         {
-            _target = container;
-
             var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
             handle.Completed += (AsyncOperationHandle<GameObject> task) =>
             {
                 if (task.Status == AsyncOperationStatus.Succeeded)
                 {
-                    GameObject spawnedPrefab = InstantiatePrefab(task);
+                    GameObject spawnedPrefab = InstantiatePrefab(task, container);
                     onSpawned?.Invoke(spawnedPrefab);
                 }
                 else
@@ -189,6 +187,27 @@ namespace Utilities
             }
 
             GameObject spawnedPrefab = Instantiate(task.Result, _target.transform);
+            LastSpawnedPrefab = spawnedPrefab;
+
+            spawnedPrefab.transform.localPosition = Vector3.zero;
+            spawnedPrefab.transform.localScale = Vector3.one;
+
+            spawnedPrefab.SetActive(true);
+
+            _prefabList.Add(spawnedPrefab);
+
+            return spawnedPrefab;
+        }
+
+        private static GameObject InstantiatePrefab(AsyncOperationHandle<GameObject> task, GameObject container)
+        {
+            if (container == null)
+            {
+                Debug.LogWarning("Target is null or has been destroyed. Cannot instantiate prefab.");
+                return null;
+            }
+
+            GameObject spawnedPrefab = Instantiate(task.Result, container.transform);
             LastSpawnedPrefab = spawnedPrefab;
 
             spawnedPrefab.transform.localPosition = Vector3.zero;

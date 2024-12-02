@@ -7,3 +7,8 @@ public interface IGetContainerHistoryCommand
 {
     void OnHistoryFound(string dateTime, List<HistoryD> histories);
 }
+
+public interface IGetContainerHistoryStudentCommand
+{
+    void OnHistoryFound(string dateTime, List<HistoryDStudent> histories);
+}
