@@ -18,8 +18,7 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
     /// <param name="campus">Data of campus</param>
     public void CreateCard(CampusD campus)
     {
-        MainHandler.ClearSpawnedPrefabs();
-
+        GetObjectContain();
         MainHandler.SpawnPrefabByLabel(_campusPrefab, _objectContain, (spawnedPrefab) =>
         {
             if (spawnedPrefab != null)
@@ -69,14 +68,17 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
         {
             if (_campusPrefab == null)
                 _campusPrefab = new AssetLabelReference { labelString = "CampusManager" };
-
-            if (_objectContain == null)
-                _objectContain = GameObject.FindWithTag("ObjectContain");
         }
         catch (Exception e)
         {
             Debug.Log(e.Message);
         }
+    }
+
+    private void GetObjectContain()
+    {
+        if (_objectContain == null)
+            _objectContain = GameObject.FindWithTag("ObjectContain");
     }
     #endregion
 
@@ -121,13 +123,12 @@ public class SpawnCampusV : MonoBehaviour, ICampusViewSpawner
 
     private ICampusDataSetter _setDataCampusView;
 
-    private GameObject _objectContain;
+    private GameObject _objectContain = null;
 
-    [SerializeField] private AssetLabelReference _campusPrefab;
+    [SerializeField] private AssetLabelReference _campusPrefab = null;
+
     private readonly string _tagCampus = "ValueCampus";
     private readonly string _tagRoom = "ValueRoom";
-
-    private string _campusID;
 
     #endregion
 }

@@ -17,13 +17,25 @@ public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
     {
         if (_handler != null && !string.IsNullOrEmpty(_documentPath))
         {
-            _handler.UploadDocumentProperties(_documentPath, _onDocumentIdReceived);
+            _handler.UploadDocumentProperties(
+                _documentPath,
+                onSuccess: (documentId) =>
+                {
+                    Debug.Log($"Document uploaded successfully. ID: {documentId}");
+                    _onDocumentIdReceived?.Invoke(documentId); // Callback khi tải thành công
+                },
+                onFaild: (errorMessage) =>
+                {
+                    Debug.LogError($"Failed to upload document. Error: {errorMessage}");
+                }
+            );
         }
         else
         {
             Debug.LogError("Handler or document path not initialized.");
         }
     }
+
 
     public IUploadDocumentHandler GetHandler()
     {

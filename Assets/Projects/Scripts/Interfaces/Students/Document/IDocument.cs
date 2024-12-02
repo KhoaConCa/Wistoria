@@ -32,11 +32,9 @@ public interface IUploadDocumentCommand
 public interface IUploadDocumentHandler
 {
     /// <summary>
-    /// Uploads document properties and handles the response for the document ID.
+    /// Initiates the coroutine to upload document properties.
     /// </summary>
-    /// <param name="filePath">The file path of the document.</param>
-    /// <param name="onDocumentIdReceived">Callback for handling the document ID.</param>
-    void UploadDocumentProperties(string filePath, System.Action<string> onDocumentIdReceived);
+    void UploadDocumentProperties(string filePath, Action<string> onSuccess, Action<string> onFaild);
 
     /// <summary>
     /// Coroutine for uploading document properties asynchronously.
@@ -44,5 +42,5 @@ public interface IUploadDocumentHandler
     /// <param name="filePath">The file path of the document.</param>
     /// <param name="onDocumentIdReceived">Callback for handling the document ID.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    IEnumerator UploadDocumentPropertiesCoroutine(string filePath, System.Action<string> onDocumentIdReceived);
+    IEnumerator UploadDocumentPropertiesCoroutine(string filePath, Action<string> onSuccess, Action<string> onFaild);
 }

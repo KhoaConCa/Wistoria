@@ -29,6 +29,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - CampusManager
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6755843f90d003444b6786efea92223d
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardFeature/Manager/Printer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PrinterManagerF
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 748d66853d761be4da7d57006abd9650
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/Tag/PrintTag.prefab
     m_ReadOnly: 0
@@ -40,6 +46,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - PackageManager
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 922bccc522952af4697538d217030435
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/Container/HistoryContainer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HistoryContainerManager
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 936893d04aa17c747942429382b268fe
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/HistoryCardManager.prefab
@@ -58,6 +70,30 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - ErrorNotification
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0a80577066ad67428954cc7320a588a
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardFeature/Manager/Store.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StoreManagerF
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc158c36c9338ea41a435915fd9b8dce
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardFeature/Manager/User.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UserManagerF
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d49c004ac40fad049a6842b6e8413228
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardFeature/Manager/Campus.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CampusManagerF
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e628696aa38dd914aba57bf16d4a4141
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardFeature/Manager/History.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HistoryManagerF
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7bff741ae07c1d428ce9bb505f28a54
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/PrinterCardManager.prefab

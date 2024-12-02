@@ -1,9 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System;
 using UnityEngine.Networking;
+using UnityEngine;
+using System.Collections;
 using Utilities;
+using Newtonsoft.Json;
 
 #region -- Class Description --
 /// <summary>
@@ -21,33 +22,22 @@ public class GetStudentPrinterH : MonoBehaviour, IGetStudentPrinterHandler
     /// </summary>
     /// <param name="onPackageFound">Callback to execute for each package found.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    public IEnumerator GetAllStudentPrinter(Action<StudentPrinterD> onStudentPrinterFound)
+    public IEnumerator GetAllStudentPrinter(Action<StudentPrinterD> onStudentPrinterFound, Action<string> onSuccess, Action<string> onFaild)
     {
-        _onStudentPrinterFound = onStudentPrinterFound;
-
-        using (UnityWebRequest request = UnityWebRequest.Get(_getAllURL))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlStudent.getStudentPrinter))
         {
             yield return request.SendWebRequest();
 
-            switch (request.result)
+            MainData<StudentPrinterD> response = TransferObjectToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError("Error: " + request.error);
-                    _onStudentPrinterFound?.Invoke(null);
-                    break;
+                onSuccess?.Invoke(response.Message);
 
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError("HTTP Error: " + request.error);
-                    _onStudentPrinterFound?.Invoke(null);
-                    break;
-
-                case UnityWebRequest.Result.Success:
-                    string jsonResponse = request.downloadHandler.text;
-                    Debug.Log(jsonResponse);
-                    TransferData(jsonResponse);
-                    break;
+                SendData(onStudentPrinterFound, response);
             }
+            else
+                onFaild?.Invoke(response.Message);
         }
     }
     #endregion
@@ -55,35 +45,29 @@ public class GetStudentPrinterH : MonoBehaviour, IGetStudentPrinterHandler
     #region -- Methods --
 
     /// <summary>
-    /// Processes the JSON response and invokes the callback for each package found.
+    /// Transfer Json data to List data
     /// </summary>
-    /// <param name="response">The JSON response from the server.</param>
-    public void TransferData(string response)
+    /// <param name="response">Json string</param>
+    public MainData<StudentPrinterD> TransferObjectToData(string response)
     {
-        List<StudentPrinterD> studentPrinterList = MainHandler.FromJson<StudentPrinterD>(response);
-
-        if (studentPrinterList != null && studentPrinterList.Count > 0)
-        {
-            Debug.Log(studentPrinterList.Count);
-            foreach (var studentPrinter in studentPrinterList)
-            {
-                _onStudentPrinterFound?.Invoke(studentPrinter);
-            }
-        }
-        else
-        {
-            Debug.Log("No package found.");
-            _onStudentPrinterFound?.Invoke(null);
-        }
+        MainData<StudentPrinterD> mainData = JsonConvert.DeserializeObject<MainData<StudentPrinterD>>(response);
+        mainData.Initialize();
+        return mainData;
     }
 
-    #endregion
+    public MainData<string> TransferStringToData(string response)
+    {
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
 
-    #region -- Fields --
-
-    private readonly string _getAllURL = "https://server-wistoria-api.vercel.app/printer/";
-
-    private Action<StudentPrinterD> _onStudentPrinterFound;
-
+    public void SendData(Action<StudentPrinterD> onStudentPrinterFound, MainData<StudentPrinterD> studentPrinterDatas)
+    {
+        foreach (var itemData in studentPrinterDatas.Data)
+        {
+            onStudentPrinterFound?.Invoke(itemData);
+        }
+    }
     #endregion
 }

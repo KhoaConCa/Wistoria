@@ -1,8 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
-using System.IO;
+using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using UnityEngine;
+using UnityEngine.Networking;
 using Utilities;
 
 #region -- Class Description --
@@ -20,7 +24,7 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
     /// </summary>
     /// <param name="filePath">The file path of the document to be uploaded.</param>
     /// <param name="onDocumentIdReceived">Callback to handle the newly created document ID.</param>
-    public void UploadDocumentProperties(string filePath, System.Action<string> onDocumentIdReceived)
+    public void UploadDocumentProperties(string filePath, Action<string> onSuccess, Action<string> onFaild)
     {
         if (!gameObject.activeSelf)
         {
@@ -28,8 +32,9 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             gameObject.SetActive(true);
         }
 
-        StartCoroutine(UploadDocumentPropertiesCoroutine(filePath, onDocumentIdReceived));
+        StartCoroutine(UploadDocumentPropertiesCoroutine(filePath, onSuccess, onFaild));
     }
+
 
 
     #endregion
@@ -43,7 +48,7 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
     /// <param name="filePath">The file path of the document.</param>
     /// <param name="onDocumentIdReceived">Callback to handle the newly created document ID.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    public IEnumerator UploadDocumentPropertiesCoroutine(string filePath, System.Action<string> onDocumentIdReceived)
+    public IEnumerator UploadDocumentPropertiesCoroutine(string filePath, Action<string> onSuccess, Action<string> onFaild)
     {
         // Gather file attributes
         FileInfo fileInfo = new FileInfo(filePath);
@@ -61,52 +66,93 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
 
         // Serialize to JSON
         string json = MainHandler.ToJson(jsonData, true);
-        Debug.Log("JSON being sent: " + json);
+        Debug.Log($"JSON being sent: {json}");
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-        using (UnityWebRequest request = new UnityWebRequest("https://server-wistoria-api.vercel.app/document/create", "POST"))
+        using (UnityWebRequest request = new UnityWebRequest(AllUrlStudent.createDocument, "POST"))
         {
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = 30; // Set a timeout for the request
 
+            // Send request
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("Document properties uploaded successfully");
+                Debug.Log($"Response: {request.downloadHandler.text}");
 
-                // Parse the response to extract the new _id
-                string responseText = request.downloadHandler.text;
-                Debug.Log("Server Response: " + responseText);
-
-                // Deserialize the response to get the _id
-                DocumentUploadResponse response = JsonUtility.FromJson<DocumentUploadResponse>(responseText);
-
-                if (response != null && !string.IsNullOrEmpty(response._id))
+                try
                 {
-                    Debug.Log($"New Document ID: {response._id}");
-                    onDocumentIdReceived?.Invoke(response._id); // Pass the _id to the callback
+                    // Deserialize the response
+                    var response = JsonConvert.DeserializeObject<MainData<DocumentUploadResponse>>(request.downloadHandler.text);
+
+                    // Kiểm tra nếu `metadata.data` là một object
+                    if (response != null && response.DataRaw != null && response.DataRaw["data"] is JObject)
+                    {
+                        var document = response.DataRaw["data"].ToObject<DocumentUploadResponse>();
+                        if (document != null && !string.IsNullOrEmpty(document._id))
+                        {
+                            Debug.Log($"Document successfully uploaded. ID: {document._id}");
+                            onSuccess?.Invoke(document._id); // Gửi _id qua callback onSuccess
+                        }
+                        else
+                        {
+                            Debug.LogError("Response does not contain a valid document ID.");
+                            onFaild?.Invoke("Response does not contain a valid document ID.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Unexpected response format.");
+                        onFaild?.Invoke("Unexpected response format.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Debug.LogError("Failed to parse the document ID from the response.");
-                    onDocumentIdReceived?.Invoke(null);
+                    Debug.LogError($"Error parsing response: {ex.Message}");
+                    onFaild?.Invoke("Failed to parse response.");
                 }
             }
             else
             {
-                Debug.LogError("Failed to upload document properties: " + request.error);
-                onDocumentIdReceived?.Invoke(null); // Pass null to indicate failure
+                Debug.LogError($"Request failed: {request.error}");
+                onFaild?.Invoke($"Request failed: {request.error}");
             }
         }
     }
 
 
+
+
+    #endregion
+    #region -- Methods --
+
+    public string TransferDataToJson(DocumentD printerDoc)
+    {
+        return MainHandler.ToJson<DocumentD>(printerDoc);
+    }
+
+    public MainData<DocumentD> TransferObjectToData(string response)
+    {
+        MainData<DocumentD> mainData = JsonConvert.DeserializeObject<MainData<DocumentD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    public MainData<string> TransferStringToData(string response)
+    {
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
     #endregion
 }
+
+
 
 #region -- Response Class --
 /// <summary>
