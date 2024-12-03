@@ -17,32 +17,29 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     /// <param name="package">Data of package</param>
     public void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDoc)
     {
-        GameObject containt = GameObject.FindWithTag(_path);
+        GameObject container = GameObject.FindWithTag(_path);
 
-        MainHandler.SpawnPrefabByLabel(_studentPrinterPrefab, containt, (spawnedPrefab) =>
+        MainHandler.SpawnPrefabByLabel(_studentPrinterPrefab, container, (spawnedPrefab) =>
         {
-            if (spawnedPrefab != null)
+            if (spawnedPrefab == null)
             {
-                Debug.Log("Prefab spawned successfully.");
-
-                var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
-                if (printerDocCardData != null)
-                {
-                    Debug.Log("PackageCardData component found. Initializing...");
-                    printerDocCardData.Initialize(studentPrinter._id, printerDoc);
-                }
-                else
-                {
-                    Debug.LogError("PackageCardData component is missing on the prefab. Please ensure the component is attached.");
-                }
-
-                FindComponentUI();
-                UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.Name, studentPrinter.Status);
+                Debug.LogError("Failed to spawn printer prefab!");
+                return;
             }
-            else
+
+            Debug.Log($"Prefab for {studentPrinter.PrinterName} spawned successfully.");
+
+            var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
+            if (printerDocCardData == null)
             {
-                Debug.LogError("Failed to spawn prefab!");
+                Debug.LogError("PrinterDocCardData component is missing on the prefab.");
+                return;
             }
+
+            printerDocCardData.Initialize(studentPrinter._id, printerDoc);
+
+            FindComponentUI();
+            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt?.Name ?? "Unknown", studentPrinter.Status);
         });
     }
 
