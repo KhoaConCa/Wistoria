@@ -84,7 +84,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
     #region - Set Data -
     private void SetDataDropDown()
     {
-        List<string> data = EnumProperties.ConvertEnumToList<PriceFilter>("- Chọn bộ lọc -");
+        List<string> data = EnumProperties.ConvertEnumToList<Price>("- Chọn bộ lọc -");
         _priceDropDown.AddOptions(data);
     }
     #endregion
@@ -103,7 +103,7 @@ public class GetStoreC : MonoBehaviour, IGetStoreCommand
             return;
         }    
 
-        if (valueSelected == (int)PriceFilter.Descending)
+        if (valueSelected == (int)Price.Descending)
             storeDs = storeDs.OrderByDescending(value => value.Value.Price)
                              .ToDictionary(value => value.Value.Id, value => value.Value);
         else

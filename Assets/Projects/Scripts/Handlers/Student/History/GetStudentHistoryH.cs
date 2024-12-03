@@ -7,20 +7,67 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using static SimpleFileBrowser.FileBrowser;
 
 public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 {
     #region -- Implements --
 
-    public IEnumerator GetHistoryByPrinter(string id, string status, 
-        Action<string, List<HistoryDStudent>> onHistoryFound, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator GetAllHistoryByPrinter(string id, Action<string, List<HistoryDStudent>> onHistoryFound, Action<string> onSuccess, Action<string> onFailed)
     {
         _onHistoryFound = onHistoryFound;
 
         if (_historyDs.Count > 0)
             _historyDs.Clear();
 
-        string url = AllUrlStudent.searchHistoryByID + $"?id={id}&status={status.Replace(" ", "+")}";
+        string urlInProgress = AllUrlStudent.searchHistoryByID + $"?id={id}&status=In+Progress";
+        string urlDone = AllUrlStudent.searchHistoryByID + $"?id={id}&status=Done";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(urlInProgress))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<PrinterDocDStudent> response = TransferHPrinterToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(response.Message);
+
+                MergeData(response.Data);
+            }
+            else
+                onFailed?.Invoke(response.Message);
+        }
+
+        using (UnityWebRequest request = UnityWebRequest.Get(urlDone))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<PrinterDocDStudent> response = TransferHPrinterToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(response.Message);
+
+                MergeData(response.Data);
+            }
+            else
+                onFailed?.Invoke(response.Message);
+        }
+
+        SortDateTime();
+        SendData();
+    }
+
+    public IEnumerator GetHistoryByPrinter(string id, string status, 
+        Action<string, List<HistoryDStudent>> onHistoryFound, Action<string> onSuccess, Action<string> onFailed)
+    {
+        _onHistoryFound = onHistoryFound;
+
+        if (_historyDs.Count > 0)
+            _historyDs.Clear();
+
+        string url = AllUrlStudent.searchHistoryByID + $"?id={id}&status={status}";
         Debug.Log(url);
 
         using (UnityWebRequest request = UnityWebRequest.Get(url))
@@ -39,9 +86,11 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
                 SendData();
             }
             else
-                onFaild?.Invoke(response.Message);
+                onFailed?. Invoke(response.Message);
         }
+        
     }
+
     public IEnumerator GetHistoryByPayment(string id, Action<string, List<HistoryDStudent>> onHistoryFound, Action<string> onSuccess, Action<string> onFaild)
     {
         _onHistoryFound = onHistoryFound;
@@ -54,7 +103,9 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 
             yield return request.SendWebRequest();
 
+            Debug.Log(request.downloadHandler.text);
             MainData<PaymentDStudent> response = TransferHPaymentToData(request.downloadHandler.text);
+            Debug.Log(response.Data.Count);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -74,6 +125,22 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 
     #region -- Methods --
 
+    public IEnumerator GetPackageById(string id, Action<PackageJsonD> onPackageFound)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlStudent.searchPackageById + id))
+        {
+
+            yield return request.SendWebRequest();
+
+            MainData<PackageJsonD> response = TransferPackageToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onPackageFound?.Invoke(response.Data[0]);
+            }
+        }
+    }
+
     private MainData<PaymentDStudent> TransferHPaymentToData(string response)
     {
         MainData<PaymentDStudent> mainData = JsonConvert.DeserializeObject<MainData<PaymentDStudent>>(response);
@@ -83,6 +150,13 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
     private MainData<PrinterDocDStudent> TransferHPrinterToData(string response)
     {
         MainData<PrinterDocDStudent> mainData = JsonConvert.DeserializeObject<MainData<PrinterDocDStudent>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    private MainData<PackageJsonD> TransferPackageToData(string response)
+    {
+        MainData<PackageJsonD> mainData = JsonConvert.DeserializeObject<MainData<PackageJsonD>>(response);
         mainData.Initialize();
         return mainData;
     }
@@ -117,7 +191,7 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 
         foreach (HistoryDStudent historyD in _historyDs)
         {
-            string date = historyD.DateProcess.ToString("MM/yyyy");
+            string date = historyD.DateProcess?.ToString("MM/yyyy");
             if (!_containers.Contains(date))
             {
                 _containers.Add(date);
@@ -132,7 +206,7 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 
         foreach (HistoryDStudent history in _historyDs)
         {
-            string date = history.DateProcess.ToString("MM/yyyy");
+            string date = history.DateProcess?.ToString("MM/yyyy");
 
             if (date != _containers[count])
             {

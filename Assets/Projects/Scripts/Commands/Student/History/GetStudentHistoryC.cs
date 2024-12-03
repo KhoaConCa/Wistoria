@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using Utilities;
@@ -37,7 +38,9 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
             MainHandler.ClearSpawnedPrefabs();
 
         if (MainHandler.PrefabList.Count <= 1)
-            StartCoroutine(_historyHandler.GetHistoryByPrinter(MainUser.STUDENT_ID, "In Progress", OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
+            StartCoroutine(_historyHandler.GetAllHistoryByPrinter(MainUser.STUDENT_ID, OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
+
+        SetUpDefaultData();
     }
 
     #region -- Add Component --
@@ -58,6 +61,15 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
     }
     #endregion
 
+    #region -- Set Up Default Data --
+    private void SetUpDefaultData()
+    {
+        List<string> status = EnumProperties.ConvertEnumToList<PrinterDocStatus>("Tất cả");
+        _status.ClearOptions();
+        _status.AddOptions(status);
+    }
+    #endregion
+
     #region -- On Show History --
     public void OnShowHistory(int type)
     {
@@ -66,10 +78,36 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
         if (MainHandler.PrefabList.Count > 1)
             return;
 
+        int status = _status.value;
         if (type == 0)
-            StartCoroutine(_historyHandler.GetHistoryByPrinter(MainUser.STUDENT_ID, "In Progress", OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
+        {
+            if (status == 1)
+            {
+                StartCoroutine(_historyHandler.GetHistoryByPrinter(MainUser.STUDENT_ID, "In+Progress", OnHistoryFound, OnSuccess, OnFailed));
+                return;
+            }
+            else if (status == 2)
+            {
+                StartCoroutine(_historyHandler.GetHistoryByPrinter(MainUser.STUDENT_ID, "Done", OnHistoryFound, OnSuccess, OnFailed));
+                return;
+            }
+
+            StartCoroutine(_historyHandler.GetAllHistoryByPrinter(MainUser.STUDENT_ID, OnHistoryFound, OnSuccess, OnFailed));
+        }
         else
-            StartCoroutine(_historyHandler.GetHistoryByPayment(MainUser.STUDENT_ID, OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
+            StartCoroutine(_historyHandler.GetHistoryByPayment(MainUser.STUDENT_ID, OnHistoryFound, OnSuccess, OnFailed));
+    }
+
+    private void OnSuccess(string message)
+    {
+        MainView.OnDebugged(message);
+        _noneData.SetActive(false);
+    }
+
+    private void OnFailed(string message)
+    {
+        MainView.OnDebugged(message);
+        _noneData.SetActive(true);
     }
     #endregion
 
@@ -79,6 +117,10 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
 
     private IHistoryStudentViewSpawner _spawnCard;
     private IHistoryStudentHandler _historyHandler;
+
+    [SerializeField] private GameObject _noneData;
+
+    [SerializeField] private TMP_Dropdown _status;
 
     #endregion
 }

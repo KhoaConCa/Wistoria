@@ -32,6 +32,8 @@ TagManager:
   - StoreButton
   - ValueNamePrinter
   - ValueStatus
+  - LabelCampus
+  - LabelPaper
   layers:
   - Default
   - TransparentFX
