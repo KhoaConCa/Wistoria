@@ -4,10 +4,11 @@ using System.Collections;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using Utilities;
 
 public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
 {
-    #region -- Methods --
+    #region -- Implements --
 
     /// <summary>
     /// Uploads a payment request to the server
@@ -15,61 +16,46 @@ public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
     /// <param name="payment">Payment data to upload</param>
     /// <param name="onSuccess">Callback when request is successful</param>
     /// <param name="onError">Callback when request fails</param>
-    public IEnumerator Upload(PaymentD payment, Action<PaymentD> onSuccess, Action<PaymentD> onError)
+    public IEnumerator Upload(PaymentD payment, Action<string> onSuccess, Action<string> onFaild)
     {
-        string jsonPayload = JsonConvert.SerializeObject(payment);
-        UnityWebRequest request = CreatePostRequest(_createURL, jsonPayload);
+        string json = TransferDataToJson(payment);
 
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        using (UnityWebRequest request = UnityWebRequest.Post(AllUrlStudent.createPayment, json, "application/json"))
         {
-            HandleSuccess(request, onSuccess);
+            yield return request.SendWebRequest();
+
+            MainData<PaymentD> newCampus = TransferObjectToData(request.downloadHandler.text);
+
+            if (request.result != UnityWebRequest.Result.Success)
+                onFaild?.Invoke(newCampus.Message);
+            else
+                onSuccess?.Invoke(newCampus.Message);
         }
-        else
-        {
-            HandleError(request, onError);
-        }
+    }
+    #endregion
+
+    #region -- Methods --
+
+    public string TransferDataToJson(PaymentD campus)
+    {
+        return MainHandler.ToJson<PaymentD>(campus);
     }
 
-    /// <summary>
-    /// Creates a POST request with JSON payload
-    /// </summary>
-    private UnityWebRequest CreatePostRequest(string url, string jsonPayload)
+    public MainData<PaymentD> TransferObjectToData(string response)
     {
-        byte[] jsonBytes = Encoding.UTF8.GetBytes(jsonPayload);
-        UnityWebRequest request = new UnityWebRequest(url, "POST")
-        {
-            uploadHandler = new UploadHandlerRaw(jsonBytes),
-            downloadHandler = new DownloadHandlerBuffer()
-        };
-        request.SetRequestHeader("Content-Type", "application/json");
-        return request;
+        MainData<PaymentD> mainData = JsonConvert.DeserializeObject<MainData<PaymentD>>(response);
+        mainData.Initialize();
+        return mainData;
     }
 
-    /// <summary>
-    /// Handles a successful server response.
-    /// </summary>
-    private void HandleSuccess(UnityWebRequest request, Action<PaymentD> onSuccess)
+    public MainData<string> TransferStringToData(string response)
     {
-        PaymentD responsePayment = JsonConvert.DeserializeObject<PaymentD>(request.downloadHandler.text);
-        onSuccess?.Invoke(responsePayment);
-    }
-
-    /// <summary>
-    /// Handles an error response from the server.
-    /// </summary>
-    private void HandleError(UnityWebRequest request, Action<PaymentD> onError)
-    {
-        Debug.LogError($"Request Failed: {request.error}");
-        onError?.Invoke(null);
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
     }
 
     #endregion
 
-    #region -- Fields --
 
-    private readonly string _createURL = "https://server-wistoria-api.vercel.app/payment/create";
-
-    #endregion
 }

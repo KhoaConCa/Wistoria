@@ -3,10 +3,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
 using Utilities;
+using Newtonsoft.Json;
+using System;
 
 public class PaymentProcessor : MonoBehaviour, IPaymentProcessor
 {
-    public IEnumerator UploadPaymentToMongoDB(PaymentD payment, System.Action onSuccess = null)
+    public IEnumerator UploadPaymentToMongoDB(PaymentD payment, Action<string> onSuccess, Action<string> onFaild)
     {
         if (payment == null)
         {
@@ -14,31 +16,41 @@ public class PaymentProcessor : MonoBehaviour, IPaymentProcessor
             yield break;
         }
 
-        string json = MainHandler.ToJson(payment, true);
-        Debug.Log("JSON being sent: " + json);
+        string json = TransferDataToJson(payment);
 
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-
-        using (UnityWebRequest request = new UnityWebRequest("https://server-wistoria-api.vercel.app/payment/create", "POST"))
+        using (UnityWebRequest request = UnityWebRequest.Post(AllUrlStudent.createPayment, json, "application/json"))
         {
-            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.timeout = 30;
-
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Payment data uploaded successfully.");
+            MainData<PaymentD> newCampus = TransferObjectToData(request.downloadHandler.text);
 
-                // Invoke the success callback
-                onSuccess?.Invoke();
-            }
+            if (request.result != UnityWebRequest.Result.Success)
+                onFaild?.Invoke(newCampus.Message);
             else
-            {
-                Debug.LogError($"Failed to upload payment data: {request.error}");
-            }
+                onSuccess?.Invoke(newCampus.Message);
         }
     }
+
+    #region -- Methods --
+
+    public string TransferDataToJson(PaymentD campus)
+    {
+        return MainHandler.ToJson<PaymentD>(campus);
+    }
+
+    public MainData<PaymentD> TransferObjectToData(string response)
+    {
+        MainData<PaymentD> mainData = JsonConvert.DeserializeObject<MainData<PaymentD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    public MainData<string> TransferStringToData(string response)
+    {
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
+    #endregion
 }
