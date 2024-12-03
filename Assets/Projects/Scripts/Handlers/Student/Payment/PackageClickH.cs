@@ -37,7 +37,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
 
         _amount = int.Parse(_packageData.Paper);
 
-        /*        PaymentD payment = new PaymentD
+/*        PaymentD payment = new PaymentD
                 {
                     Paper = _packageData.Paper,
                     Person = "671860901e0844975517030e", // Replace with the current student's ID
