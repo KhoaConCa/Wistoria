@@ -13,11 +13,11 @@ public interface ICreatePaymentHandler
     /// <param name="onSuccess">Callback executed when upload is successful.</param>
     /// <param name="onError">Callback executed when upload fails.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    IEnumerator Upload(PaymentD payment, Action<PaymentD> onSuccess, Action<PaymentD> onError);
+    IEnumerator Upload(PaymentD payment, Action<string> onSuccess, Action<string> onFaild);
 }
 
 public interface IPaymentProcessor
 {
-    IEnumerator UploadPaymentToMongoDB(PaymentD payment, System.Action onSuccess);
+    IEnumerator UploadPaymentToMongoDB(PaymentD payment, Action<string> onSuccess, Action<string> onFaild);
 }
 

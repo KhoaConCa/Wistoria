@@ -26,7 +26,9 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
 
     private void OnEnable()
     {
-        StartCoroutine(_packageHandler.GetAllPackage(OnPackageFound));
+        StartCoroutine(_packageHandler.GetAllPackage(OnPackageFound,
+            OnFetchSuccess,
+            OnFetchFailed));
     }
 
     private void OnDisable()
@@ -57,7 +59,23 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
             Debug.Log("Package not found.");
         }
     }
+    /// <summary>
+    /// Callback executed when fetching printers succeeds.
+    /// </summary>
+    /// <param name="message">Success message.</param>
+    private void OnFetchSuccess(string message)
+    {
+        Debug.Log($"Fetch successful: {message}");
+    }
 
+    /// <summary>
+    /// Callback executed when fetching printers fails.
+    /// </summary>
+    /// <param name="error">Error message.</param>
+    private void OnFetchFailed(string error)
+    {
+        Debug.LogError($"Fetch failed: {error}");
+    }
     #endregion
 
     #region -- Add Components --
