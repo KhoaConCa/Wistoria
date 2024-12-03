@@ -11,22 +11,18 @@ public class HistoryDStudent
         if (data is PaymentDStudent paymentData)
         {
             Id = paymentData.Id;
-            Name = $"Thanh toán gói giấy qua MoMo";
             PrinterDoc = null;
             Payment = paymentData;
-            TypeData = 0;
+            TypeData = 1;
             DateProcess = paymentData.CompletionTime;
-            Paper = paymentData.Paper;
         }
         else if (data is PrinterDocDStudent printerDocData)
         {
             Id = printerDocData.Id;
-            Name = printerDocData.Document.Name.Truncate(15);
             PrinterDoc = printerDocData;
             Payment = null;
-            TypeData = 1;
+            TypeData = 0;
             DateProcess = printerDocData.CompletionTime;
-            Paper = ((printerDocData.PageEnd - printerDocData.PageBegin + 1) / printerDocData.Side) * printerDocData.Copies;
         }
         else
         {
@@ -35,10 +31,8 @@ public class HistoryDStudent
     }
 
     public string Id { get; set; }
-    public string Name { get; set; }
     public PrinterDocDStudent PrinterDoc { get; set; }
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; private set; }
-    public DateTime DateProcess { get; set; }
-    public int Paper { get; set; }
+    public DateTime? DateProcess { get; set; }
 }

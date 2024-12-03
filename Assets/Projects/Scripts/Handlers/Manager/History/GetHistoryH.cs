@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
+using Utilities;
 
 public class GetHistoryH : MonoBehaviour, IHistoryHandler
 {
@@ -24,7 +25,7 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
 
             yield return request.SendWebRequest();
 
-            MainData<HistoryDManager> response = TransferHPrinterToData(request.downloadHandler.text);
+            MainData<PrinterDocDManager> response = TransferHPrinterToData(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -68,7 +69,7 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
 
             yield return request.SendWebRequest();
 
-            MainData<HistoryDManager> response = TransferHPrinterToData(request.downloadHandler.text);
+            MainData<PrinterDocDManager> response = TransferHPrinterToData(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -121,9 +122,10 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
         mainData.Initialize();
         return mainData;
     }
-    private MainData<HistoryDManager> TransferHPrinterToData(string response)
+
+    private MainData<PrinterDocDManager> TransferHPrinterToData(string response)
     {
-        MainData<HistoryDManager> mainData = JsonConvert.DeserializeObject<MainData<HistoryDManager>>(response);
+        MainData<PrinterDocDManager> mainData = JsonConvert.DeserializeObject<MainData<PrinterDocDManager>>(response);
         mainData.Initialize();
         return mainData;
     }

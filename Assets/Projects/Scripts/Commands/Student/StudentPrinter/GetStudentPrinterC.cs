@@ -59,7 +59,7 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
         {
             _allStudentPrinters.Add(studentPrinter);
 
-            // Display only printers with status "Available"
+            // Chỉ xử lý các máy in có trạng thái Available
             if (studentPrinter.Status == "Available")
             {
                 PrinterDocD printerDoc = FetchPrinterDocData(studentPrinter._id);
@@ -67,12 +67,43 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
                 {
                     _spawnStudentPrinterView.CreateCard(studentPrinter, printerDoc);
                 }
+                else
+                {
+                    Debug.LogWarning($"No document data found for printer: {studentPrinter.PrinterName}");
+                }
+            }
+            else
+            {
+                Debug.Log($"Printer {studentPrinter.PrinterName} is not available. Skipping...");
             }
         }
 
-        // Update dropdown with unique campuses
+        // Cập nhật danh sách campus sau khi thêm máy in mới
         UpdateCampusDropdown();
     }
+
+    private void DisplayAvailablePrinters(List<StudentPrinterD> filteredPrinters)
+    {
+        MainHandler.ClearSpawnedPrefabs();
+
+        foreach (var printer in filteredPrinters)
+        {
+            // Chỉ hiển thị các máy in có trạng thái Available
+            if (printer.Status == "Available")
+            {
+                PrinterDocD printerDoc = FetchPrinterDocData(printer._id);
+                if (printerDoc != null)
+                {
+                    _spawnStudentPrinterView.CreateCard(printer, printerDoc);
+                }
+            }
+            else
+            {
+                Debug.Log($"Skipping printer {printer.PrinterName} (Status: {printer.Status})");
+            }
+        }
+    }
+
 
     /// <summary>
     /// Callback executed when fetching printers succeeds.
@@ -97,15 +128,18 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
     /// </summary>
     private void UpdateCampusDropdown()
     {
-        // Get distinct campus names
+        // Lọc các campus không bị null
         List<string> campuses = _allStudentPrinters
+            .Where(printer => printer.LocateAt != null) // Đảm bảo LocateAt không null
             .Select(printer => printer.LocateAt.Name)
             .Distinct()
             .ToList();
 
-        // Update dropdown options
+        // Cập nhật dropdown options
         campusDropdown.ClearOptions();
         campusDropdown.AddOptions(campuses);
+
+        Debug.Log("Updated campus dropdown with campuses: " + string.Join(", ", campuses));
     }
 
     /// <summary>

@@ -17,12 +17,12 @@ public class HistoryD
             DateProcess = paymentData.CompletionTime;
             Paper = paymentData.Paper;
         }
-        else if (data is HistoryDManager historyData)
+        else if (data is PrinterDocDManager historyData)
         {
             Id = historyData.Id;
             historyData.Printer.ProcessLocateAt();
             Name = $"Thực hiện in ấn {historyData.Printer.PrinterName.Truncate(10)} / {historyData.Printer.LocateAt.Name} - {historyData.Printer.LocateAt.Room}";
-            StudentName = historyData.Document.Student.FullName;
+            StudentName = historyData.Document.StudentData.FullName;
             TypeData = 1;
             DateProcess = historyData.CompletionTime;
             Paper = (historyData.PageEnd - historyData.PageBegin + 1) / historyData.Side * historyData.Copies;
