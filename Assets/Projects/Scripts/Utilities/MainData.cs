@@ -15,11 +15,27 @@ public class MainData<T>
         if (DataRaw != null)
         {
             if (DataRaw["data"] is JArray)
+            {
                 Data = DataRaw["data"]?.ToObject<List<T>>();
+                return;
+            }
             else if (DataRaw["data"] is JObject)
             {
                 var singleData = DataRaw["data"].ToObject<T>();
                 Data = new List<T> { singleData };
+                return;
+            }
+
+            if (DataRaw is JArray)
+            {
+                Data = DataRaw?.ToObject<List<T>>();
+                return;
+            }
+            else if (DataRaw is JObject)
+            {
+                var singleData = DataRaw.ToObject<T>();
+                Data = new List<T> { singleData };
+                return;
             }
 
             // Parse "nextCursor" as a string

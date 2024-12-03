@@ -47,6 +47,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - HistoryStudent
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5824ee2cf63604147854051b4696465f
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/Container/HistoryStudentContainer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - HistoryContainerStudent
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 655f7f9ebd2869745aef89e0613f8334
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/ResetCard.prefab
     m_ReadOnly: 0

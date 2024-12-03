@@ -125,7 +125,7 @@ public class SpawnStudentContainerHistoryV : MonoBehaviour, IHistoryStudentViewS
 
     [SerializeField] private AssetLabelReference _historyContainerPrefab;
 
-    private readonly string _labelContainerPrefab = "HistoryContainerManager";
+    private readonly string _labelContainerPrefab = "HistoryContainerStudent";
 
     private readonly string _tagObjectContainer = "ObjectContain";
     private readonly string _tagMonth = "ValueMonth";

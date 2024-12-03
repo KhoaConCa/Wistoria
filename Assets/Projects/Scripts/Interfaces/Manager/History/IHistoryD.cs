@@ -20,12 +20,10 @@ public interface IHistoryCardDStudent
     public void Initialize(HistoryDStudent history);
 
     public string Id { get; set; }
-    public string Name { get; set; }
     public PrinterDocDStudent PrinterDoc { get; set; }
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; set; }
-    public DateTime DateProcess { get; set; }
-    public int Paper { get; set; }
+    public DateTime? DateProcess { get; set; }
 }
 
 public interface IHistoryContainerData

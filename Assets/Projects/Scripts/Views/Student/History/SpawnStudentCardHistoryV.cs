@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utilities;
@@ -37,23 +38,47 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
                 _cardData = spawnedPrefab.GetComponent<HistoryCardDStudent>();
                 _cardData.Initialize(history);
 
-                spawnedPrefab.transform.SetParent(this.gameObject.transform, false);
+                if (_cardData.Payment != null)
+                {
+                    _handler = gameObject.GetComponentInParent<GetStudentHistoryH>();
+                    StartCoroutine(_handler.GetPackageById(_cardData.Payment.PaperID, onSuccess =>
+                    {
+                        _cardData.Payment.UpdatePaper(onSuccess);
 
-                SetCardData(_tagName, _cardData.Name);
-                SetCardData(_tagCampus, _cardData.PrinterDoc.Printer.LocateAt.Name);
-                if (_cardData.DateProcess != null)
-                    SetCardData(_tagTime, _cardData.DateProcess.ToString("HH:mm - dd/MM/yyyy"));
+                        SetCardData(_tagName, $"Thanh toán gói {_cardData.Payment.PaperData.Paper} giấy");
 
-                if (_cardData.TypeData == 0)
-                    SetCardData(_tagPaper, "-" + _cardData.Paper.ToString());
+                        SetCardData(_labelCampus, "Phương thức:");
+                        SetCardData(_tagCampus, "MoMo");
+
+                        SetCardData(_labelPaper, "Đơn giá:");
+
+                        CultureInfo vietnamCulture = new CultureInfo("vi-VN");
+                        SetCardData(_tagPaper, "- " + _cardData.Payment.PaperData.Price.ToString("N0", vietnamCulture) + "đ");
+                    }));
+                }
                 else
-                    SetCardData(_tagPaper, "+" + _cardData.Paper.ToString());
+                {
+                    SetCardData(_tagName, _cardData.PrinterDoc.Document.Name);
+                    SetCardData(_tagCampus, _cardData.PrinterDoc.Printer.LocateAt.Name);
+                    SetCardData(_tagPaper, CalculatePaper(_cardData).ToString() + " trang");
+                }
+
+                if (_cardData.DateProcess != null)
+                    SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
+                else
+                    SetCardData(_tagTime, "Chưa hoàn thành in ấn!");     
             }
             else
             {
                 Debug.LogError("Failed to spawn prefab!");
             }
         });
+    }
+
+    private int CalculatePaper(IHistoryCardDStudent cardData)
+    {
+        return ((cardData.PrinterDoc.PageEnd - cardData.PrinterDoc.PageBegin + 1) 
+            / cardData.PrinterDoc.Side) * cardData.PrinterDoc.Copies;
     }
 
     #endregion
@@ -114,6 +139,7 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
 
     #region -- Fields --
 
+    private IHistoryStudentHandler _handler;
     private IHistoryDataSetter _setDataHistoryView;
     private IHistoryCardDStudent _cardData;
 
@@ -122,6 +148,9 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
     [SerializeField] private AssetLabelReference _historyPrefab;
 
     private readonly string _labelPrefab = "HistoryStudent";
+
+    private readonly string _labelCampus = "LabelCampus";
+    private readonly string _labelPaper = "LabelPaper";
 
     private readonly string _tagName = "ValueName";
     private readonly string _tagCampus = "ValueCampus";

@@ -5,7 +5,25 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
-public enum PrinterStatusFilter
+public enum GeneralStatus
+{
+    [Description("Kích hoạt")]
+    Active = 1,
+
+    [Description("Vô hiệu hóa")]
+    Inactive = 2
+}
+
+public enum PrinterDocStatus
+{
+    [Description("Đang in")]
+    In_Progress = 1,
+
+    [Description("Đã in")]
+    Done = 2
+}
+
+public enum PrinterStatus
 {
     [Description("Đang hoạt động")]
     Available = 1,
@@ -14,7 +32,7 @@ public enum PrinterStatusFilter
     Unavailable = 2
 }
 
-public enum PriceFilter
+public enum Price
 {
     [Description("Tăng dần")]
     Ascending = 1,
@@ -59,13 +77,13 @@ public static class EnumProperties
         return null;
     }
 
-    public static int? GetEnumIdByName<T>(string name) where T : struct, Enum
+    public static int GetEnumIdByName<T>(string name) where T : struct, Enum
     {
         if (Enum.TryParse(typeof(T), name, true, out var result) && result != null)
         {
             return Convert.ToInt32(result) - 1;
         }
 
-        return null;
+        return -1;
     }
 }

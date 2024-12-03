@@ -90,6 +90,7 @@ public static class AllUrlStudent
 
     #region - GET -
     public static readonly string getAllStore = "https://smart-printer-alpha.vercel.app/v1/package";
+    public static readonly string searchPackageById = "https://smart-printer-alpha.vercel.app/v1/package/search/";
     #endregion
 
     #region - PATCH -
@@ -150,7 +151,7 @@ public static class AllUrlStudent
 
     #region -- History --
 
-    public static readonly string searchHistoryByID = "http://smart-printer-alpha.vercel.app/v1/printerdoc/search/studentid/status";
+    public static readonly string searchHistoryByID = "https://smart-printer-alpha.vercel.app/v1/printerdoc/search/studentid/status";
     public static readonly string searchPaymentByID = "https://smart-printer-alpha.vercel.app/v1/payment/search/student?id=";
 
     #endregion

@@ -85,10 +85,10 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
         _locateAtDropDown.AddOptions(_campusDs.Values.ToList());
         _locateAtDropDown.value = locationSelected;
 
-        List<string> statusData = EnumProperties.ConvertEnumToList<PrinterStatusFilter>();
-        var statusSelected = EnumProperties.GetEnumIdByName<PrinterStatusFilter>(_cardData.Status);
+        List<string> statusData = EnumProperties.ConvertEnumToList<PrinterStatus>();
+        var statusSelected = EnumProperties.GetEnumIdByName<PrinterStatus>(_cardData.Status);
         _statusDropDown.AddOptions(statusData);
-        _statusDropDown.value = statusSelected.Value;
+        _statusDropDown.value = statusSelected;
     }
 
     private Dictionary<string, string> TransferData(List<CampusD> datas)
@@ -139,7 +139,7 @@ public class DetailPrinterC : MonoBehaviour, IPrinterDetailCommand
         _printerD.LocateAtRaw = campus;
         _printerD.UpdateLocateAt(campus);
         _printerD.Status = EnumProperties
-                           .GetEnumByDescription<PrinterStatusFilter>(_statusDropDown.captionText.text)
+                           .GetEnumByDescription<PrinterStatus>(_statusDropDown.captionText.text)
                            .ToString();
 
         _printerD.__v = "0";
