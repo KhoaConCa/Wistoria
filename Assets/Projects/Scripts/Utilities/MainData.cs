@@ -8,7 +8,7 @@ using System.Data;
 
 public class MainData<T>
 {
-    #region -- Implements --
+    #region -- Methods --
 
     public void Initialize()
     {
@@ -43,7 +43,10 @@ public class MainData<T>
         }
     }
 
+    #endregion
+
     #region -- Properties --
+
     [JsonProperty("message")]
     public string Message { get; set; }
 
@@ -58,7 +61,6 @@ public class MainData<T>
 
     [JsonIgnore]
     public string DataID { get; set; }
-    #endregion
 
     #endregion
 }

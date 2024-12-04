@@ -43,18 +43,20 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     /// </summary>
     public void SetUpButton()
     {
-        clickPackage = gameObject.GetComponent<Button>();
+        _clickPackage = gameObject.GetComponent<Button>();
         _packageData = gameObject.GetComponent<PackageCardData>();
     }
 
     #endregion
+
+    #region -- Methods --
 
     private void Start()
     {
         GetComponentData();
         InitializeDependencies();
 
-        clickPackage.onClick.AddListener(ClickPackage);
+        _clickPackage.onClick.AddListener(ClickPackage);
 
         SetUpButton();
 
@@ -76,31 +78,33 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         }
     }
 
+    #region -- Initialize --
     private void InitializeDependencies()
     {
         _paymentProcessor = gameObject.AddComponent<PaymentProcessor>();
-        _studentUpdater = gameObject.AddComponent<StudentUpdater>();
         _momoHandler = gameObject.AddComponent<MomoH>();
         _studentPaper = gameObject.AddComponent<StudentUpdater>();
     }
+    #endregion
 
+    #region -- Focus On Application --
     private void OnApplicationFocus(bool hasFocus)
     {
         if (hasFocus && _isWaitingForCallback)
         {
             StartCoroutine(_momoHandler.GetCallback(_orderId, onSuccess =>
             {
-                _resaultCode = onSuccess;
-                MainView.OnSuccess(_resaultCode.ToString());
+                int resaultCode = onSuccess;
+                MainView.OnSuccess(resaultCode.ToString());
                 StartCoroutine(_studentPaper.GetStudentPaper(MainUser.STUDENT_ID, onSuccess =>
                 {
                     _currentPaper = onSuccess;
                 }, MainView.OnFailed));
 
-                if (_resaultCode == 0)
+                if (resaultCode == 0)
                 {
-                    _newPaper = _amount + _currentPaper;
-                    StartCoroutine(_studentPaper.UpdateStudentPaper(MainUser.STUDENT_ID, _newPaper, MainView.OnSuccess, MainView.OnFailed));
+                    int newPaper = _amount + _currentPaper;
+                    StartCoroutine(_studentPaper.UpdateStudentPaper(MainUser.STUDENT_ID, newPaper, MainView.OnSuccess, MainView.OnFailed));
 
                     StartCoroutine(_momoHandler.DeleteCallback(_orderId, MainView.OnSuccess, MainView.OnFailed));
                 }
@@ -117,20 +121,24 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
             _isWaitingForCallback = false;
         }
     }
+    #endregion
 
-    public PackageD package;
-    public Button clickPackage;
+    #endregion
+
+    #region -- Fields --
+
+    [SerializeField] private Button _clickPackage;
 
     private IPackageData _packageData;
     private IPaymentProcessor _paymentProcessor;
-    private IStudentUpdater _studentUpdater;
+
     private IMomoHandler _momoHandler;
     private IStudentPaper _studentPaper;
 
     private bool _isWaitingForCallback = false;
     private string _orderId;
-    private int _resaultCode;
     private int _currentPaper;
-    private int _newPaper;
     private int _amount;
+
+    #endregion
 }
