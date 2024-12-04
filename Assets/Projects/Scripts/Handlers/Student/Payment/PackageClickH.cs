@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Utilities;
-using System.Collections;
 
 public class PackageClickH : MonoBehaviour, IPackageClickH
 {
+    #region -- Implements --
+
     /// <summary>
     /// Handles the package click event.
     /// </summary>
@@ -36,21 +36,6 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {_packageData.Price}");
 
         _amount = int.Parse(_packageData.Paper);
-
-/*        PaymentD payment = new PaymentD
-                {
-                    Paper = _packageData.Paper,
-                    Person = "671860901e0844975517030e", // Replace with the current student's ID
-                    Status = "Finished"
-                };
-
-                // Start the upload coroutine for payment
-                StartCoroutine(_paymentProcessor.UploadPaymentToMongoDB(payment, () =>
-                {
-                    // If payment succeeds, update the student's paper count
-                    int paperCount = int.Parse(_packageData.Paper);
-                    StartCoroutine(_studentUpdater.FetchAndIncrementPaper(payment.Person, paperCount));
-                }));*/
     }
 
     /// <summary>
@@ -61,6 +46,8 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         clickPackage = gameObject.GetComponent<Button>();
         _packageData = gameObject.GetComponent<PackageCardData>();
     }
+
+    #endregion
 
     private void Start()
     {

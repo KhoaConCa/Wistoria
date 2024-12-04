@@ -1,18 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+﻿using UnityEngine;
 using Utilities;
 
-#region -- Class Description --
-/// <summary>
-/// Command class responsible for fetching and displaying package data.
-/// Initializes required components, starts package retrieval, and handles found packages.
-/// </summary>
-#endregion
 public class GetPackageC : MonoBehaviour, IGetPackageCommand
 {
-    #region -- Unity Methods --
+    #region -- Implements --
+
+    /// <summary>
+    /// Adds the SpawnPackageV component if it has not already been added.
+    /// </summary>
+    public void AddComponentPackageView()
+    {
+        if (_spawnPackageView == null)
+        {
+            _spawnPackageView = gameObject.AddComponent<SpawnPackageV>();
+        }
+        else
+        {
+            Debug.Log("SpawnPackageV component already exists.");
+        }
+    }
+
+    /// <summary>
+    /// Adds the GetPackageH component if it has not already been added.
+    /// </summary>
+    public void AddComponentPackageHandler()
+    {
+        if (_packageHandler == null)
+        {
+            _packageHandler = gameObject.AddComponent<GetPackageH>();
+        }
+        else
+        {
+            Debug.Log("GetPackageH component already exists.");
+        }
+    }
+
+    #endregion
+
+    #region -- Methods --
 
     /// <summary>
     /// Unity's Start method.
@@ -36,10 +61,6 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
         MainHandler.ClearSpawnedPrefabs();
     }
 
-    #endregion
-
-    #region -- Package Handling Methods --
-
     /// <summary>
     /// Callback executed when a package is found.
     /// Displays package information in the console and creates a package card in the view.
@@ -51,8 +72,6 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
         {
             Debug.Log($"Found paper: {package.Paper}, price: {package.Price}");
             _spawnPackageView.CreateCard(package);
-
-
         }
         else
         {
@@ -76,40 +95,6 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
     {
         Debug.LogError($"Fetch failed: {error}");
     }
-    #endregion
-
-    #region -- Add Components --
-
-    /// <summary>
-    /// Adds the SpawnPackageV component if it has not already been added.
-    /// </summary>
-    void AddComponentPackageView()
-    {
-        if (_spawnPackageView == null)
-        {
-            _spawnPackageView = gameObject.AddComponent<SpawnPackageV>();
-        }
-        else
-        {
-            Debug.Log("SpawnPackageV component already exists.");
-        }
-    }
-
-    /// <summary>
-    /// Adds the GetPackageH component if it has not already been added.
-    /// </summary>
-    void AddComponentPackageHandler()
-    {
-        if (_packageHandler == null)
-        {
-            _packageHandler = gameObject.AddComponent<GetPackageH>();
-        }
-        else
-        {
-            Debug.Log("GetPackageH component already exists.");
-        }
-    }
-
 
     #endregion
 

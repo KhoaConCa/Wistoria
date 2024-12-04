@@ -2,11 +2,10 @@
 
 public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
 {
-    private IUploadDocumentHandler _handler;
-    private string _documentPath;
-    private System.Action<string> _onDocumentIdReceived;
+    #region -- Implements --
 
-    public void Initialize(IUploadDocumentHandler handler, string documentPath, System.Action<string> onDocumentIdReceived)
+    public void Initialize(IUploadDocumentHandler handler, string documentPath,
+                                    System.Action<string> onDocumentIdReceived)
     {
         _handler = handler;
         _documentPath = documentPath;
@@ -22,7 +21,7 @@ public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
                 onSuccess: (documentId) =>
                 {
                     Debug.Log($"Document uploaded successfully. ID: {documentId}");
-                    _onDocumentIdReceived?.Invoke(documentId); // Callback khi tải thành công
+                    _onDocumentIdReceived?.Invoke(documentId);
                 },
                 onFaild: (errorMessage) =>
                 {
@@ -36,11 +35,20 @@ public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
         }
     }
 
-
     public IUploadDocumentHandler GetHandler()
     {
         return _handler;
     }
+
+    #endregion
+
+    #region -- Fields --
+
+    private IUploadDocumentHandler _handler;
+    private string _documentPath;
+    private System.Action<string> _onDocumentIdReceived;
+
+    #endregion
 }
 
 
