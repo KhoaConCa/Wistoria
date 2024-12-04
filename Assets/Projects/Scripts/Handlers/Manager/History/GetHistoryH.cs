@@ -48,7 +48,7 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
             {
                 onSuccess?.Invoke(response.Message);
 
-                MergeData(response.Data);
+                GetPackage(response);
             }
             else
                 onFaild?.Invoke(response.Message);
@@ -102,10 +102,7 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
             {
                 onSuccess?.Invoke(response.Message);
 
-                MergeData(response.Data);
-                SortDateTime();
-
-                SendData();
+                GetPackage(response);
             }
             else
                 onFaild?.Invoke(response.Message);
@@ -115,6 +112,22 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
     #endregion
 
     #region -- Methods --
+
+    public IEnumerator GetPackageById(string id, Action<PackageJsonD> onPackageFound)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlStudent.searchPackageById + id))
+        {
+
+            yield return request.SendWebRequest();
+
+            MainData<PackageJsonD> response = TransferPackageToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onPackageFound?.Invoke(response.Data[0]);
+            }
+        }
+    }
 
     private MainData<PaymentDManager> TransferHPaymentToData(string response)
     {
@@ -130,13 +143,19 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
         return mainData;
     }
 
+    private MainData<PackageJsonD> TransferPackageToData(string response)
+    {
+        MainData<PackageJsonD> mainData = JsonConvert.DeserializeObject<MainData<PackageJsonD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
     private void MergeData<T>(List<T> datas)
     {
         foreach (T data in datas)
         {
             HistoryD historyD = new HistoryD();
             historyD.Intialize(data);
-
             _historyDs.Add(historyD);
         }
     }
@@ -144,6 +163,26 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
     private void SortDateTime()
     {
         _historyDs = _historyDs.OrderByDescending(date => date.DateProcess).ToList();
+    }
+
+    private void GetPackage(MainData<PaymentDManager> datas)
+    {
+        foreach (var data in datas.Data) 
+        {
+            data.ProcessPaper();
+
+            if (data.PaperID != null)
+                StartCoroutine(GetPackageById(data.PaperID, onSuccess =>
+                {
+                    data.UpdatePaper(onSuccess);
+
+                    MergeData(datas.Data);
+
+                    SortDateTime();
+
+                    SendData();
+                }));
+        }
     }
 
     private void SendData()
@@ -160,7 +199,7 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
 
         foreach (HistoryD historyD in _historyDs)
         {
-            string date = historyD.DateProcess.ToString("MM/yyyy");
+            string date = historyD.DateProcess?.ToString("MM/yyyy");
             if (!_containers.Contains(date))
             {
                 _containers.Add(date);
@@ -175,7 +214,7 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
 
         foreach (HistoryD history in _historyDs)
         {
-            string date = history.DateProcess.ToString("MM/yyyy");
+            string date = history.DateProcess?.ToString("MM/yyyy");
 
             if ( date != _containers[count])
             {

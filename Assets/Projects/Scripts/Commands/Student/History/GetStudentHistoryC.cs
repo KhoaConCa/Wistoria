@@ -17,7 +17,6 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
         if (string.IsNullOrEmpty(dateTime))
         {
             Debug.LogError($"None data history found!");
-            return;
         }
 
         _spawnCard.CreateContainer(dateTime, histories);
