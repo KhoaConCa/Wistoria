@@ -1,4 +1,9 @@
-public interface IGetStudentPrinterCommand
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IStudentPrinterClickC
 {
-    void InitializeComponents();
+    void ClickStudentPrinter();
+    void SetUpButton();
 }

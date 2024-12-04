@@ -85,19 +85,15 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
                         var document = response.DataRaw["data"].ToObject<DocumentUploadResponse>();
                         if (document != null && !string.IsNullOrEmpty(document._id))
                         {
-                            Debug.Log($"Document successfully uploaded. ID: {document._id}");
-                            Debug.Log($"Document successfully uploaded. ID: {document.Owner}");
                             onSuccess?.Invoke(document._id);
                         }
                         else
                         {
-                            Debug.LogError("Response does not contain a valid document ID.");
                             onFaild?.Invoke("Response does not contain a valid document ID.");
                         }
                     }
                     else
                     {
-                        Debug.LogError("Unexpected response format.");
                         onFaild?.Invoke("Unexpected response format.");
                     }
                 }

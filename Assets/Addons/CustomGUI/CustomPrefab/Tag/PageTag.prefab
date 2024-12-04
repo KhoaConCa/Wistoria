@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907105928ada1d94ebcbe6f0d62f8268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickPackage: {fileID: 8173335630305595775}
+  _clickPackage: {fileID: 8173335630305595775}
 --- !u!114 &6825811820519254389
 MonoBehaviour:
   m_ObjectHideFlags: 0

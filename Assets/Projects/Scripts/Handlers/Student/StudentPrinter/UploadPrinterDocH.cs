@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,6 +8,8 @@ using Utilities;
 
 public class UploadPrinterDocH : MonoBehaviour
 {
+    #region -- Methods --
+
     public IEnumerator UploadPrinterDoc(PrinterDocD printerDoc, Action<string> onSuccess, Action<string> onFaild)
     {
         string json = JsonConvert.SerializeObject(printerDoc);
@@ -36,8 +37,6 @@ public class UploadPrinterDocH : MonoBehaviour
             }
         }
     }
-
-    #region -- Methods --
 
     public string TransferDataToJson(PrinterDocD printerDoc)
     {

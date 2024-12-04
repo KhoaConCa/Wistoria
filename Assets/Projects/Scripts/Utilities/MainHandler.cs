@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -105,31 +101,6 @@ namespace Utilities
             return null;
         }
 
-        /// <summary>
-        /// Loads and spawns a prefab using Addressables Label.
-        /// </summary>
-        /// <param name="prefab">Label of the prefab in Addressables</param>
-        /// <param name="path">Path to parent the prefab</param>
-        /// <param name="onSpawned">Callback after prefab has been spawned</param>
-        public static void SpawnPrefabByLabel(AssetLabelReference prefab, string path, Action<GameObject> onSpawned = null)
-        {
-            GetParent(path);
-
-            var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
-            handle.Completed += (AsyncOperationHandle<GameObject> task) =>
-            {
-                if (task.Status == AsyncOperationStatus.Succeeded)
-                {
-                    GameObject spawnedPrefab = InstantiatePrefab(task);
-                    onSpawned?.Invoke(spawnedPrefab);
-                }
-                else
-                {
-                    Debug.LogError("Failed to load prefab from addressable");
-                }
-            };
-        }
-
         public static void SpawnPrefabByLabel(AssetLabelReference prefab, GameObject container, Action<GameObject> onSpawned = null)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
@@ -145,58 +116,6 @@ namespace Utilities
                     Debug.LogError("Failed to load prefab from addressable");
                 }
             };
-        }
-
-        /// <summary>
-        /// Loads and spawns a prefab using Addressables Reference.
-        /// </summary>
-        /// <param name="prefab">Reference of the prefab in Addressables</param>
-        /// <param name="path">Path to parent the prefab</param>
-        /// <param name="onSpawned">Callback after prefab has been spawned</param>
-        public static void SpawnPrefabByReference(AssetReference prefab, string path,
-            Action<GameObject> onSpawned = null)
-        {
-            GetParent(path);
-
-            var handle = Addressables.LoadAssetAsync<GameObject>(prefab);
-            handle.Completed += (AsyncOperationHandle<GameObject> task) =>
-            {
-                if (task.Status == AsyncOperationStatus.Succeeded)
-                {
-                    GameObject spawnedPrefab = InstantiatePrefab(task);
-                    onSpawned?.Invoke(spawnedPrefab);
-                }
-                else
-                {
-                    Debug.LogError("Failed to load prefab from addressable");
-                }
-            };
-        }
-
-        /// <summary>
-        /// Instantiates the prefab and sets LastSpawnedPrefab.
-        /// </summary>
-        /// <param name="task">AsyncOperationHandle containing the prefab</param>
-        /// <returns>The spawned prefab GameObject</returns>
-        private static GameObject InstantiatePrefab(AsyncOperationHandle<GameObject> task)
-        {
-            if (_target == null)
-            {
-                Debug.LogWarning("Target is null or has been destroyed. Cannot instantiate prefab.");
-                return null;
-            }
-
-            GameObject spawnedPrefab = Instantiate(task.Result, _target.transform);
-            LastSpawnedPrefab = spawnedPrefab;
-
-            spawnedPrefab.transform.localPosition = Vector3.zero;
-            spawnedPrefab.transform.localScale = Vector3.one;
-
-            spawnedPrefab.SetActive(true);
-
-            _prefabList.Add(spawnedPrefab);
-
-            return spawnedPrefab;
         }
 
         private static GameObject InstantiatePrefab(AsyncOperationHandle<GameObject> task, GameObject container)
@@ -254,21 +173,21 @@ namespace Utilities
 
         #endregion
 
-        #region -- Fields --
-
-        #region -- Prefab --
-        private static GameObject _target = null;
-        private static List<GameObject> _prefabList = new List<GameObject>();
-        #endregion
-
-        #endregion
-
         #region -- Properties --
 
         #region -- Prefab --
         public static GameObject LastSpawnedPrefab { get; set; }
 
         public static List<GameObject> PrefabList { get { return _prefabList; } }
+        #endregion
+
+        #endregion
+
+        #region -- Fields --
+
+        #region -- Prefab --
+        private static GameObject _target = null;
+        private static List<GameObject> _prefabList = new List<GameObject>();
         #endregion
 
         #endregion
