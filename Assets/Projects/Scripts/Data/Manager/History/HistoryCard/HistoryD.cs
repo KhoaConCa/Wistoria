@@ -15,7 +15,7 @@ public class HistoryD
             StudentName = paymentData.Student.FullName;
             TypeData = 0;
             DateProcess = paymentData.CompletionTime;
-            Paper = paymentData.Paper;
+            Paper = paymentData.PaperData.Paper;
         }
         else if (data is PrinterDocDManager historyData)
         {
@@ -25,7 +25,7 @@ public class HistoryD
             StudentName = historyData.Document.StudentData.FullName;
             TypeData = 1;
             DateProcess = historyData.CompletionTime;
-            Paper = (historyData.PageEnd - historyData.PageBegin + 1) / historyData.Side * historyData.Copies;
+            Paper = ((historyData.PageEnd - historyData.PageBegin + 1) / historyData.Side) * historyData.Copies;
         }
         else
         {
@@ -37,6 +37,6 @@ public class HistoryD
     public string Name { get; set; }
     public string StudentName { get; set; }
     public int TypeData { get; private set; }
-    public DateTime DateProcess { get; set; }
+    public DateTime? DateProcess { get; set; }
     public int Paper { get; set; }
 }

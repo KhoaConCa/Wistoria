@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using SimpleFileBrowser; // Thêm dòng này để sử dụng SimpleFileBrowser
+using SimpleFileBrowser;
 
 public class UploadDocumentController : MonoBehaviour
 {
-    #region -- Unity Methods --
+    #region -- Methods --
 
     private void Start()
     {
@@ -23,13 +23,8 @@ public class UploadDocumentController : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region -- Private Methods --
-
     private void OnUploadButtonClicked()
     {
-        // Mở hộp thoại chọn file
         FileBrowser.ShowLoadDialog(
             (paths) =>
             {
@@ -42,7 +37,7 @@ public class UploadDocumentController : MonoBehaviour
             FileBrowser.PickMode.Files,
             false,
             null,
-            "*.pdf,*.doc,*.docx" // Định dạng đúng yêu cầu của tham số thứ 6
+            "*.pdf,*.doc,*.docx"
         );
     }
 
@@ -64,7 +59,9 @@ public class UploadDocumentController : MonoBehaviour
     #region -- Fields --
 
     public Button uploadButton;
+
     private IUploadDocumentCommand _uploadCommand;
+
     private string _selectedFilePath;
 
     #endregion

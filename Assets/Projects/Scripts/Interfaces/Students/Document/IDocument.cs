@@ -1,13 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using System;
-using UnityEngine;
 
-#region -- Interfaces Description --
-/// <summary>
-/// Interface for executing document upload commands.
-/// </summary>
-#endregion
 public interface IUploadDocumentCommand
 {
     void Execute();
@@ -21,14 +14,6 @@ public interface IUploadDocumentCommand
     IUploadDocumentHandler GetHandler();
 }
 
-
-
-#region -- Interface for Document Handler --
-/// <summary>
-/// Interface for handling document upload operations.
-/// Manages document property upload and supports coroutine for asynchronous uploads.
-/// </summary>
-#endregion
 public interface IUploadDocumentHandler
 {
     /// <summary>

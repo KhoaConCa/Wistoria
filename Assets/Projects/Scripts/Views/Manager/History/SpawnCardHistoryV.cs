@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,12 +41,15 @@ public class SpawnCardHistoryV : MonoBehaviour, ICardHistoryViewSpawner
 
                 SetCardData(_tagName, _cardData.Name);
                 SetCardData(_tagStudent, _cardData.StudentName);
-                SetCardData(_tagTime, _cardData.DateProcess.ToString("HH:mm - dd/MM/yyyy"));
+                if (_cardData.DateProcess != null)
+                    SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
+                else
+                    SetCardData(_tagTime, "Chưa hoàn thành in ấn!");
 
                 if (_cardData.TypeData == 0)
-                    SetCardData(_tagPaper, "+" + _cardData.Paper.ToString());
+                    SetCardData(_tagPaper, "+" + _cardData.Paper.ToString() + " giấy");
                 else
-                    SetCardData(_tagPaper, "-" + _cardData.Paper.ToString());
+                    SetCardData(_tagPaper, "-" + _cardData.Paper.ToString() + " giấy");
             }
             else
             {

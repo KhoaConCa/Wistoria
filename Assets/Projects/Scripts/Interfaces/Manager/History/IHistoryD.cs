@@ -11,7 +11,7 @@ public interface IHistoryCardData
     public string Name { get; set; }
     public string StudentName { get; set; }
     public int TypeData { get; set; }
-    public DateTime DateProcess { get; set; }
+    public DateTime? DateProcess { get; set; }
     public int Paper { get; set; }
 }
 

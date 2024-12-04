@@ -1,32 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
-using TMPro;
-using System;
-using System.Globalization;
 
 public class CreatePaymentC : MonoBehaviour
 {
     #region -- Implements --
-    
-    public void ClickPackage()
-    {
-        ClickPPaymentMethod();
-        gameObject.SetActive(false); // Hide PPurchasePaper button
-    }
-
-    public void ClickPPaymentMethod()
-    {
-        UploadPaymentInformation();
-
-    }
-
-    void Start()
-    {
-
-    }
 
     public void UploadPaymentInformation()
     {
@@ -35,11 +12,11 @@ public class CreatePaymentC : MonoBehaviour
         PaymentD payment = new PaymentD
         {
             Paper = "50",
-            Person = "671860901e0844975517030e",
+            Person = MainUser.STUDENT_ID,
             Status = "Finished"
         };
 
-        StartCoroutine(_createPayment.Upload(payment, onSuccess: response => Debug.Log($"Success: {response}"), 
+        StartCoroutine(_createPayment.Upload(payment, onSuccess: response => Debug.Log($"Success: {response}"),
             onFaild: error => Debug.LogError($"Failed: {error}")));
 
     }

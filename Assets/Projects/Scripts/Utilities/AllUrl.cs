@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static System.Net.WebRequestMethods;
-
 public static class AllUrlManager
 {
     #region -- Campus Manager --

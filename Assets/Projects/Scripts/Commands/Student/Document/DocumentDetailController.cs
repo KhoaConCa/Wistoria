@@ -3,34 +3,7 @@ using UnityEngine.UI;
 
 public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, IDocumentUpdater
 {
-    private IDocumentDataEditor _view;
-    private IDocumentRetriever _retriever;
-    private DocumentDetailD _documentData;
-
-    [Header("Retrieve Data Button")]
-    public Button retrieveDataButton;
-
-    private void Start()
-    {
-        InitializeDocument();
-
-        // Dependency Injection: Get the retriever implementation
-        _retriever = GetComponent<DocumentDataRetrieverH>();
-        if (_retriever == null)
-        {
-            Debug.LogError("IDocumentRetriever is not attached to this GameObject!");
-        }
-
-        // Setup button click listener
-        if (retrieveDataButton != null)
-        {
-            retrieveDataButton.onClick.AddListener(OnRetrieveButtonClicked);
-        }
-        else
-        {
-            Debug.LogError("Retrieve Data Button is not assigned in the Inspector.");
-        }
-    }
+    #region -- Implements --
 
     public void InitializeDocument()
     {
@@ -52,6 +25,31 @@ public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, 
         _view.DisplayDocumentProperties(_documentData);
     }
 
+    #endregion
+
+    #region -- Methods --
+
+    private void Start()
+    {
+        InitializeDocument();
+
+        _retriever = GetComponent<DocumentDataRetrieverH>();
+        if (_retriever == null)
+        {
+            Debug.LogError("IDocumentRetriever is not attached to this GameObject!");
+        }
+
+        // Setup button click listener
+        if (retrieveDataButton != null)
+        {
+            retrieveDataButton.onClick.AddListener(OnRetrieveButtonClicked);
+        }
+        else
+        {
+            Debug.LogError("Retrieve Data Button is not assigned in the Inspector.");
+        }
+    }
+
     private void OnRetrieveButtonClicked()
     {
         if (_retriever != null)
@@ -63,4 +61,18 @@ public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, 
             Debug.LogError("IDocumentRetriever is not initialized.");
         }
     }
+
+    #endregion
+
+    #region -- Fields --
+
+    [Header("Retrieve Data Button")]
+    public Button retrieveDataButton;
+
+    private IDocumentDataEditor _view;
+    private IDocumentRetriever _retriever;
+
+    private DocumentDetailD _documentData;
+
+    #endregion
 }

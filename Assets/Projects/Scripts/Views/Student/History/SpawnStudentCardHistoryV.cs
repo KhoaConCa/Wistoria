@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 using Utilities;
 
 public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSpawner
@@ -39,46 +40,15 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
                 _cardData.Initialize(history);
 
                 if (_cardData.Payment != null)
-                {
-                    _handler = gameObject.GetComponentInParent<GetStudentHistoryH>();
-                    StartCoroutine(_handler.GetPackageById(_cardData.Payment.PaperID, onSuccess =>
-                    {
-                        _cardData.Payment.UpdatePaper(onSuccess);
-
-                        SetCardData(_tagName, $"Thanh toán gói {_cardData.Payment.PaperData.Paper} giấy");
-
-                        SetCardData(_labelCampus, "Phương thức:");
-                        SetCardData(_tagCampus, "MoMo");
-
-                        SetCardData(_labelPaper, "Đơn giá:");
-
-                        CultureInfo vietnamCulture = new CultureInfo("vi-VN");
-                        SetCardData(_tagPaper, "- " + _cardData.Payment.PaperData.Price.ToString("N0", vietnamCulture) + "đ");
-                    }));
-                }
+                    PaymentPrefab(spawnedPrefab);
                 else
-                {
-                    SetCardData(_tagName, _cardData.PrinterDoc.Document.Name);
-                    SetCardData(_tagCampus, _cardData.PrinterDoc.Printer.LocateAt.Name);
-                    SetCardData(_tagPaper, CalculatePaper(_cardData).ToString() + " trang");
-                }
-
-                if (_cardData.DateProcess != null)
-                    SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
-                else
-                    SetCardData(_tagTime, "Chưa hoàn thành in ấn!");     
+                    SetUpPrinterDocPrefab(spawnedPrefab);
             }
             else
             {
                 Debug.LogError("Failed to spawn prefab!");
             }
         });
-    }
-
-    private int CalculatePaper(IHistoryCardDStudent cardData)
-    {
-        return ((cardData.PrinterDoc.PageEnd - cardData.PrinterDoc.PageBegin + 1) 
-            / cardData.PrinterDoc.Side) * cardData.PrinterDoc.Copies;
     }
 
     #endregion
@@ -118,6 +88,55 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
     }
     #endregion
 
+    #region -- Set Up Payment Prefab --
+
+    private void PaymentPrefab(GameObject prefab)
+    {
+        _handler = gameObject.GetComponentInParent<GetStudentHistoryH>();
+        StartCoroutine(_handler.GetPackageById(_cardData.Payment.PaperID, onSuccess =>
+        {
+            _cardData.Payment.UpdatePaper(onSuccess);
+
+            SetCardData(_tagName, $"Thanh toán gói {_cardData.Payment.PaperData.Paper} giấy");
+
+            SetCardData(_labelCampus, "Phương thức:");
+            SetCardData(_tagCampus, "MoMo");
+
+            SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
+
+            SetCardData(_labelPaper, "Đơn giá:");
+            CultureInfo vietnamCulture = new CultureInfo("vi-VN");
+            SetCardData(_tagPaper, "- " + _cardData.Payment.PaperData.Price.ToString("N0", vietnamCulture) + "đ");
+
+            if (_cardData.Payment.Status == PaymentStatus.Success.ToString())
+                SetUpIcon(prefab.transform, "SuccessMarker");
+            else
+                SetUpIcon(prefab.transform, "FailedMarker");
+        }));
+    }
+
+    #endregion
+
+    #region -- Set Up PrinterDoc Prefab --
+    private void SetUpPrinterDocPrefab(GameObject prefab)
+    {
+        SetCardData(_tagName, _cardData.PrinterDoc.Document.Name);
+        SetCardData(_tagCampus, _cardData.PrinterDoc.Printer.LocateAt.Name);
+        SetCardData(_tagPaper, CalculatePaper(_cardData).ToString() + " trang");
+
+        if (_cardData.DateProcess != null)
+        {
+            SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
+            SetUpIcon(prefab.transform, "SuccessMarker");
+        }
+        else
+        {
+            SetCardData(_tagTime, "Chưa hoàn thành in ấn!");
+            SetUpIcon(prefab.transform, "WarningMarker");
+        }
+    }
+    #endregion
+
     #region -- Set Up Data Prefab --
 
     private void SetCardData(string tagName, string value)
@@ -133,6 +152,38 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
         return MainHandler.FindChildObjectsByTag(MainHandler.LastSpawnedPrefab.transform, tagName);
     }
 
+    #endregion
+
+    #region -- Set Up Icon --
+    private async void SetUpIcon(Transform prefabTrans, string tagIcon)
+    {
+        Transform imageTrans = MainView.FindObjectsByTag(prefabTrans, "Icon");
+        Image image = imageTrans.GetComponent<Image>();
+
+        AssetLabelReference icon = new AssetLabelReference { labelString = tagIcon};
+        var handle = Addressables.LoadAssetAsync<Sprite>(icon);
+        Sprite sprite = await handle.Task;
+
+        if (sprite == null)
+        {
+            Debug.LogError($"Sprite not found at address: {icon}");
+        }
+        else
+        {
+            image.sprite = sprite;
+        }
+
+        // Dọn dẹp tài nguyên sau khi dùng
+        Addressables.Release(handle);
+    }
+    #endregion
+
+    #region -- Calculate Paper --
+    private int CalculatePaper(IHistoryCardDStudent cardData)
+    {
+        return ((cardData.PrinterDoc.PageEnd - cardData.PrinterDoc.PageBegin + 1)
+            / cardData.PrinterDoc.Side) * cardData.PrinterDoc.Copies;
+    }
     #endregion
 
     #endregion

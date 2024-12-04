@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using Utilities;
 
@@ -17,7 +13,6 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
         if (string.IsNullOrEmpty(dateTime))
         {
             Debug.LogError($"None data history found!");
-            return;
         }
 
         _spawnCard.CreateContainer(dateTime, histories);
