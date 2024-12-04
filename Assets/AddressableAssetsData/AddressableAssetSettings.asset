@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: c3f2328a264f9474ca9877fffc40ea8d
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 3ed1e3096729a7c75ae2c4cdc4f98df0
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: 345af69407cd6a8488c94682c722fc62, type: 2}
   - {fileID: 11400000, guid: 7ab2beae2b327364a8ddcebc667b08c7, type: 2}
   - {fileID: 11400000, guid: 9b467756c4adeaf44aa66cc6f3fcd624, type: 2}
   m_BuildSettings:
@@ -110,6 +111,9 @@ MonoBehaviour:
     - CheckingNotification
     - HistoryStudent
     - HistoryContainerStudent
+    - SuccessMarker
+    - WarningMarker
+    - FailedMarker
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}

@@ -63,10 +63,10 @@ public class PaymentDStudent
         PaperID = null;
     }
 
-    public void UpdatePaperID(string campus)
+    public void UpdatePaperID(string package)
     {
         PaperData = null;
-        PaperID = campus;
+        PaperID = package;
     }
 
     #endregion

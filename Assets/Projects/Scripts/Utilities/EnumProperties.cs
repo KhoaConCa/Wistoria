@@ -5,6 +5,18 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
+#region -- Sprite Asset --
+
+public enum Icons
+{
+    SuccessMarker,
+    WarningMarker,
+    FailedMarker
+}
+
+#endregion
+
+#region -- Status --
 public enum GeneralStatus
 {
     [Description("Kích hoạt")]
@@ -12,6 +24,15 @@ public enum GeneralStatus
 
     [Description("Vô hiệu hóa")]
     Inactive = 2
+}
+
+public enum PaymentStatus
+{
+    [Description("Thành công")]
+    Success = 1,
+
+    [Description("Thất bại")]
+    Failed = 2
 }
 
 public enum PrinterDocStatus
@@ -40,9 +61,12 @@ public enum Price
     [Description("Giảm dần")]
     Descending = 2
 }
+#endregion
 
 public static class EnumProperties
 {
+    #region -- Methods --
+
     public static string GetEnumDescription(Enum value)
     {
         var field = value.GetType().GetField(value.ToString());
@@ -86,4 +110,29 @@ public static class EnumProperties
 
         return -1;
     }
+
+    #endregion
 }
+public static class IconsAsset
+{
+    #region -- Properties --
+
+    private static readonly Dictionary<Icons, string> IconsPath = new Dictionary<Icons, string>
+    {
+        { Icons.SuccessMarker, "Resources/MySprite/Icons/SuccessfulMarker_02.png" },
+        { Icons.WarningMarker, "Resources/MySprite/Icons/WarningMarker_01.png" },
+        { Icons.FailedMarker, "Resources/MySprite/Icons/FaildMarkerpng.png" }
+    };
+
+    #endregion
+
+    #region -- Methods --
+
+    public static string GetPath(Icons icon)
+    {
+        return IconsPath[icon];
+    }
+
+    #endregion
+}
+

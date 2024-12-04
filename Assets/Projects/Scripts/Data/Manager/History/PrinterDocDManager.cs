@@ -25,7 +25,7 @@ public class PrinterDocDManager
     public string Color { get; set; }
 
     [JsonProperty("UpdateAt")]
-    public DateTime CompletionTime { get; set; }
+    public DateTime? CompletionTime { get; set; }
     public string Process {  get; set; }
 
     [JsonProperty("createdAt")]
