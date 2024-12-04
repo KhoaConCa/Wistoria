@@ -27,8 +27,6 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                 return;
             }
 
-            Debug.Log($"Prefab for {studentPrinter.PrinterName} spawned successfully.");
-
             var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
             if (printerDocCardData == null)
             {

@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using TMPro;
 using Utilities;
 
-public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
+public class StudentPrinterClickC : MonoBehaviour, IStudentPrinterClickC
 {
+    #region -- Implements --
+
     /// <summary>
     /// Handles the package click event.
     /// </summary>
@@ -16,18 +18,6 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
             return;
         }
 
-        // Log the PrinterDocCardData details
-        Debug.Log($"--- Printer Clicked ---");
-        Debug.Log($"Printer ID: {_printerDocData.PrinterId}");
-        Debug.Log($"Document ID: {_printerDocData.PrinterDocDetails.FileDocument}");
-        Debug.Log($"Paper Size: {_printerDocData.PrinterDocDetails.PaperSize}");
-        Debug.Log($"Orientation:{_printerDocData.PrinterDocDetails.Orientation}");
-        Debug.Log($"Side: {_printerDocData.PrinterDocDetails.Side}");
-        Debug.Log($"Page Begin: {_printerDocData.PrinterDocDetails.PageBegin}");
-        Debug.Log($"Page End: {_printerDocData.PrinterDocDetails.PageEnd}");
-        Debug.Log($"Copies: {_printerDocData.PrinterDocDetails.Copies}");
-        Debug.Log($"Color: {_printerDocData.PrinterDocDetails.Color}");
-
         // Create PrinterDoc object for upload
         PrinterDocD printerDoc = _printerDocData.PrinterDocDetails;
         // Serialize the PrinterDoc to JSON
@@ -36,17 +26,6 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
 
         // Execute upload command
         _uploadCommand.Execute(printerDoc, OnUploadComplete);
-    }
-    private void OnUploadComplete(bool success, string response)
-    {
-        if (success)
-        {
-            Debug.Log($"Upload successful: {response}");
-        }
-        else
-        {
-            Debug.LogError($"Upload failed: {response}");
-        }
     }
 
     /// <summary>
@@ -57,6 +36,9 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         clickStudentPrinter = gameObject.GetComponent<Button>();
         _printerDocData = gameObject.GetComponent<PrinterDocCardData>();
     }
+    #endregion
+
+    #region -- Methods --
 
     private void Start()
     {
@@ -84,8 +66,26 @@ public class StudentPrinterClickH : MonoBehaviour, IStudentPrinterClickH
         }
     }
 
+    private void OnUploadComplete(bool success, string response)
+    {
+        if (success)
+        {
+            Debug.Log($"Upload successful: {response}");
+        }
+        else
+        {
+            Debug.LogError($"Upload failed: {response}");
+        }
+    }
+
+    #endregion
+
+    #region -- Fields --
+
     private IPrinterDocData _printerDocData;
     private IUploadPrinterDocCommand _uploadCommand;
 
-    public Button clickStudentPrinter;
+    [SerializeField] private Button clickStudentPrinter;
+
+    #endregion
 }

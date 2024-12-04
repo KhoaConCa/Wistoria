@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PackageCardData : MonoBehaviour, IPackageData
 {
@@ -16,19 +13,9 @@ public class PackageCardData : MonoBehaviour, IPackageData
     }
 
     #region -- Properties --
-
-    public string Paper { get; set; } // Implement the Paper property
-    public string Price { get; set; } // Implement the Price property
-
+    public string Paper { get; set; }
+    public string Price { get; set; }
     #endregion
-
-    #endregion
-
-    #region -- Methods --
-
-    #endregion
-
-    #region -- Fields --
 
     #endregion
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Collections;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -56,6 +55,4 @@ public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
     }
 
     #endregion
-
-
 }

@@ -23,6 +23,22 @@ public class CreatePaymentC : MonoBehaviour
 
     #endregion
 
+    #region -- Methods --
+
+    public void ClickPackage()
+    {
+        ClickPPaymentMethod();
+        gameObject.SetActive(false);
+    }
+
+    public void ClickPPaymentMethod()
+    {
+        UploadPaymentInformation();
+
+    }
+
+    #endregion
+
     #region -- Fields --
 
     public Button getButton;

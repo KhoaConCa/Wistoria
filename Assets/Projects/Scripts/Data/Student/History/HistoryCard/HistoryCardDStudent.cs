@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class HistoryCardDStudent : MonoBehaviour, IHistoryCardDStudent
 {
+    #region -- Implements
+
     public void Initialize(HistoryDStudent history)
     {
         Id = history.Id;
@@ -29,4 +31,6 @@ public class HistoryCardDStudent : MonoBehaviour, IHistoryCardDStudent
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; set; }
     public DateTime? DateProcess { get; set; }
+
+    #endregion
 }

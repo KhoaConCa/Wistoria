@@ -9,18 +9,8 @@ using Utilities;
 /// <summary>
 /// Command class responsible for managing and displaying student printers.
 /// </summary>
-public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
+public class GetStudentPrinterC : MonoBehaviour
 {
-    #region -- Fields --
-
-    private IGetStudentPrinterHandler _studentPrinterHandler;
-    private ISpawnStudentPrinterView _spawnStudentPrinterView;
-
-    [SerializeField] private TMP_Dropdown campusDropdown;
-    private List<StudentPrinterD> _allStudentPrinters;
-
-    #endregion
-
     #region -- Unity Methods --
 
     /// <summary>
@@ -216,6 +206,16 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
             _studentPrinterHandler = gameObject.AddComponent<GetStudentPrinterH>();
         }
     }
+
+    #endregion
+
+    #region -- Fields --
+
+    private IGetStudentPrinterHandler _studentPrinterHandler;
+    private ISpawnStudentPrinterView _spawnStudentPrinterView;
+
+    [SerializeField] private TMP_Dropdown campusDropdown;
+    private List<StudentPrinterD> _allStudentPrinters;
 
     #endregion
 }

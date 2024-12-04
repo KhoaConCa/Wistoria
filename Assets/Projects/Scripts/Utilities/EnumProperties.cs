@@ -5,17 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
-#region -- Sprite Asset --
-
-public enum Icons
-{
-    SuccessMarker,
-    WarningMarker,
-    FailedMarker
-}
-
-#endregion
-
 #region -- Status --
 public enum GeneralStatus
 {
@@ -109,28 +98,6 @@ public static class EnumProperties
         }
 
         return -1;
-    }
-
-    #endregion
-}
-public static class IconsAsset
-{
-    #region -- Properties --
-
-    private static readonly Dictionary<Icons, string> IconsPath = new Dictionary<Icons, string>
-    {
-        { Icons.SuccessMarker, "Resources/MySprite/Icons/SuccessfulMarker_02.png" },
-        { Icons.WarningMarker, "Resources/MySprite/Icons/WarningMarker_01.png" },
-        { Icons.FailedMarker, "Resources/MySprite/Icons/FaildMarkerpng.png" }
-    };
-
-    #endregion
-
-    #region -- Methods --
-
-    public static string GetPath(Icons icon)
-    {
-        return IconsPath[icon];
     }
 
     #endregion

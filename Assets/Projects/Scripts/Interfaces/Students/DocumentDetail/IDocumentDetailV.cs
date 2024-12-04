@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 
-public interface IDocumentDisplay
-{
-}
-
 public interface IDocumentDataEditor
 {
     DocumentDetailD GetEditedDocumentData();

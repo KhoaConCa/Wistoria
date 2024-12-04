@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Text;
 using Utilities;
 using Newtonsoft.Json;
 using System;

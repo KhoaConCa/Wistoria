@@ -4,9 +4,7 @@ using UnityEngine;
 
 public interface IPrinterDocData
 {
-    string PrinterId { get; set; } // Printer ID
-    PrinterDocD PrinterDocDetails { get; set; } // Holds the data in Property
-
-
+    string PrinterId { get; set; }
+    PrinterDocD PrinterDocDetails { get; set; }
     void Initialize(string printerId, PrinterDocD PrinterDocDetails);
 }

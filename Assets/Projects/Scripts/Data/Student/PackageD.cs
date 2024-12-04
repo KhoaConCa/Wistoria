@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
-using System.Globalization;
 using Newtonsoft.Json;
 
 public class PackageD
@@ -17,6 +13,8 @@ public class PackageD
 
 public class PackageJsonD
 {
+    #region -- Properties --
+
     [JsonProperty("_id")]
     public string Id { get; set; }
     public int Paper {  get; set; }
@@ -31,4 +29,6 @@ public class PackageJsonD
 
     [JsonProperty("__v")]
     public string V { get; private set; } = "0";
+
+    #endregion
 }

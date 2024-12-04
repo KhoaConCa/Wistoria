@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HistoryDStudent
 {
+    #region -- Methods --
+
     public void Intialize<T>(T data)
     {
         if (data is PaymentDStudent paymentData)
@@ -30,9 +29,15 @@ public class HistoryDStudent
         }
     }
 
+    #endregion
+
+    #region -- Properties --
+
     public string Id { get; set; }
     public PrinterDocDStudent PrinterDoc { get; set; }
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; private set; }
     public DateTime? DateProcess { get; set; }
+
+    #endregion
 }

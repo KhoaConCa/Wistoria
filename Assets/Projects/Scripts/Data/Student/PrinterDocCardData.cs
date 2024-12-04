@@ -2,16 +2,9 @@ using UnityEngine;
 
 public class PrinterDocCardData : MonoBehaviour , IPrinterDocData
 {
-    #region -- Properties --
-
-    public string PrinterId { get; set; } // Printer ID
-    public PrinterDocD PrinterDocDetails { get; set; } // Holds the data in Property
-
-
-    #endregion
+    #region -- Implements --
 
     #region -- Methods --
-
     /// <summary>
     /// Initializes the PrinterDoc card data with the provided details.
     /// </summary>
@@ -28,6 +21,12 @@ public class PrinterDocCardData : MonoBehaviour , IPrinterDocData
         PrinterId = printerId;
         PrinterDocDetails = printerDocDetails;
     }
+    #endregion
+
+    #region -- Properties --
+    public string PrinterId { get; set; }
+    public PrinterDocD PrinterDocDetails { get; set; }
+    #endregion
 
     #endregion
 }

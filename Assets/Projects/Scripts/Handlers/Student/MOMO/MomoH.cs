@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
@@ -85,8 +84,5 @@ public class MomoH : MonoBehaviour, IMomoHandler
         return mainData;
     }
 
-    #endregion
-
-    #region -- Fields --
     #endregion
 }
