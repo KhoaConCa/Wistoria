@@ -2,16 +2,7 @@ using UnityEngine;
 
 public class DocumentDataRetrieverH : MonoBehaviour, IDocumentRetriever
 {
-    private IDocumentDataEditor _documentDetailView;
-
-    private void Start()
-    {
-        _documentDetailView = GetComponent<IDocumentDataEditor>();
-        if (_documentDetailView == null)
-        {
-            Debug.LogError("IDocumentDataEditor is not attached to this GameObject!");
-        }
-    }
+    #region -- Implements --
 
     public void RetrieveDocumentData()
     {
@@ -19,16 +10,14 @@ public class DocumentDataRetrieverH : MonoBehaviour, IDocumentRetriever
         {
             DocumentDetailD documentData = _documentDetailView.GetEditedDocumentData();
 
-            // Populate DocumentService with retrieved data
             DocumentService.PaperSize = documentData.PaperSize;
             DocumentService.Orientation = documentData.PageOrientation;
             DocumentService.Side = documentData.PaperType;
             DocumentService.PageBegin = int.TryParse(documentData.CustomPages.Split('-')[0], out int begin) ? begin : 1;
             DocumentService.PageEnd = int.TryParse(documentData.CustomPages.Split('-')[1], out int end) ? end : 1;
             DocumentService.Copies = documentData.CustomCopies;
-            DocumentService.Color = !documentData.NoCopies; // Assuming color is selected when NoCopies is false
+            DocumentService.Color = !documentData.NoCopies;
 
-            // Log the retrieved data
             Debug.Log($"Paper Size: {documentData.PaperSize}");
             Debug.Log($"Orientation: {documentData.PageOrientation}");
             Debug.Log($"Side: {DocumentService.Side}");
@@ -43,4 +32,24 @@ public class DocumentDataRetrieverH : MonoBehaviour, IDocumentRetriever
         }
     }
 
+    #endregion
+
+    #region -- Methods --
+
+    private void Start()
+    {
+        _documentDetailView = GetComponent<IDocumentDataEditor>();
+        if (_documentDetailView == null)
+        {
+            Debug.LogError("IDocumentDataEditor is not attached to this GameObject!");
+        }
+    }
+
+    #endregion
+
+    #region -- Fields --
+
+    private IDocumentDataEditor _documentDetailView;
+
+    #endregion
 }

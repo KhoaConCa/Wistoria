@@ -2,12 +2,7 @@
 
 public class UploadPrinterDocC : MonoBehaviour, IUploadPrinterDocCommand
 {
-    private UploadPrinterDocH _handler;
-
-    public void Initialize(UploadPrinterDocH handler)
-    {
-        _handler = handler;
-    }
+    #region -- Implements --
 
     public void Execute(PrinterDocD printerDoc, System.Action<bool, string> onUploadComplete)
     {
@@ -17,7 +12,6 @@ public class UploadPrinterDocC : MonoBehaviour, IUploadPrinterDocCommand
             return;
         }
 
-        // Tách callback thành hai hàm riêng để xử lý thành công và thất bại
         void OnSuccess(string successMessage)
         {
             Debug.Log($"Upload successful: {successMessage}");
@@ -30,7 +24,23 @@ public class UploadPrinterDocC : MonoBehaviour, IUploadPrinterDocCommand
             onUploadComplete?.Invoke(false, errorMessage);
         }
 
-        // Gọi UploadPrinterDoc với đủ tham số
         StartCoroutine(_handler.UploadPrinterDoc(printerDoc, OnSuccess, OnFaild));
     }
+
+    #endregion
+
+    #region -- Methods --
+
+    public void Initialize(UploadPrinterDocH handler)
+    {
+        _handler = handler;
+    }
+
+    #endregion
+
+    #region -- Fields --
+
+    private UploadPrinterDocH _handler;
+
+    #endregion
 }

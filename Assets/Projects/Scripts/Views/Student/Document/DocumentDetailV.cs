@@ -3,27 +3,77 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisplay, IDropdownInitializer, IDocumentDetailRetriever
+public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDropdownInitializer, IDocumentDetailRetriever
 {
-    [Header("Dropdown UI Elements")]
-    public TMP_Dropdown paperSizeDropdown;
-    public TMP_Dropdown paperSideDropdown;
-    public TMP_Dropdown pageOrientationDropdown;
+    #region -- Implements --
 
-    [Header("Toggle and Input UI Elements")]
-    public Toggle toggleDefaultPages;
-    public Toggle toggleCustomPages;
-    public TMP_InputField inputCustomPages;
+    public DocumentDetailD GetEditedDocumentData()
+    {
+        return new DocumentDetailD
+        {
+            PaperSize = paperSizes[paperSizeDropdown.value],
+            PaperType = paperTypes[paperSideDropdown.value],
+            PageOrientation = pageOrientations[pageOrientationDropdown.value],
 
-    public Toggle toggleNoCopies;
-    public Toggle toggleCustomCopies;
-    public TMP_InputField inputCustomCopies;
+            UseDefaultPages = toggleDefaultPages.isOn,
+            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
 
-    private DocumentDetailD _documentData;
+            NoCopies = toggleNoCopies.isOn,
+            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
+        };
+    }
 
-    private List<string> paperSizes = new List<string> { "A4", "A3"};
-    private List<string> paperTypes = new List<string> { "1", "2" };
-    private List<string> pageOrientations = new List<string> { "Portrait", "Landscape" };
+    public void DisplayDocumentProperties(DocumentDetailD documentData)
+    {
+        paperSizeDropdown.value = paperSizes.IndexOf(documentData.PaperSize);
+        paperSideDropdown.value = paperTypes.IndexOf(documentData.PaperType);
+        pageOrientationDropdown.value = pageOrientations.IndexOf(documentData.PageOrientation);
+
+        toggleDefaultPages.isOn = documentData.UseDefaultPages;
+        toggleCustomPages.isOn = !documentData.UseDefaultPages;
+        inputCustomPages.text = documentData.CustomPages;
+
+        toggleNoCopies.isOn = documentData.NoCopies;
+        toggleCustomCopies.isOn = !documentData.NoCopies;
+        inputCustomCopies.text = documentData.CustomCopies.ToString();
+    }
+
+    public void InitializeDropdown(TMP_Dropdown dropdown, List<string> options)
+    {
+        if (dropdown != null)
+        {
+            dropdown.ClearOptions();
+            dropdown.AddOptions(options);
+        }
+        else
+        {
+            Debug.LogError("Dropdown is not assigned in the Inspector.");
+        }
+    }
+
+    public DocumentDetailD GetDocumentData()
+    {
+        return new DocumentDetailD
+        {
+            PaperSize = paperSizes[paperSizeDropdown.value],
+            PaperType = paperTypes[paperSideDropdown.value],
+            PageOrientation = pageOrientations[pageOrientationDropdown.value],
+            UseDefaultPages = toggleDefaultPages.isOn,
+            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
+            NoCopies = toggleNoCopies.isOn,
+            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
+        };
+    }
+
+    public void UpdateDocumentData(DocumentDetailD data)
+    {
+        _documentData = data;
+        DisplayDocumentProperties(data);
+    }
+
+    #endregion
+
+    #region -- Methods --
 
     private void Start()
     {
@@ -43,7 +93,6 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisp
 
     private void InitializeToggles()
     {
-        // Initialize toggles and their behavior
         toggleDefaultPages.isOn = true;
         toggleCustomPages.isOn = false;
         inputCustomPages.interactable = false;
@@ -52,7 +101,6 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisp
         toggleCustomCopies.isOn = false;
         inputCustomCopies.interactable = false;
 
-        // Add listeners to toggle changes
         toggleDefaultPages.onValueChanged.AddListener(isOn =>
         {
             if (isOn) inputCustomPages.interactable = true;
@@ -74,66 +122,29 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDocumentDisp
         });
     }
 
-    public void DisplayDocumentProperties(DocumentDetailD documentData)
-    {
-        paperSizeDropdown.value = paperSizes.IndexOf(documentData.PaperSize);
-        paperSideDropdown.value = paperTypes.IndexOf(documentData.PaperType);
-        pageOrientationDropdown.value = pageOrientations.IndexOf(documentData.PageOrientation);
+    #endregion
 
-        toggleDefaultPages.isOn = documentData.UseDefaultPages;
-        toggleCustomPages.isOn = !documentData.UseDefaultPages;
-        inputCustomPages.text = documentData.CustomPages;
+    #region -- Fields --
 
-        toggleNoCopies.isOn = documentData.NoCopies;
-        toggleCustomCopies.isOn = !documentData.NoCopies;
-        inputCustomCopies.text = documentData.CustomCopies.ToString();
-    }
+    [Header("Dropdown UI Elements")]
+    public TMP_Dropdown paperSizeDropdown;
+    public TMP_Dropdown paperSideDropdown;
+    public TMP_Dropdown pageOrientationDropdown;
 
-    public DocumentDetailD GetEditedDocumentData()
-    {
-        return new DocumentDetailD
-        {
-            PaperSize = paperSizes[paperSizeDropdown.value],
-            PaperType = paperTypes[paperSideDropdown.value],
-            PageOrientation = pageOrientations[pageOrientationDropdown.value],
+    [Header("Toggle and Input UI Elements")]
+    public Toggle toggleDefaultPages;
+    public Toggle toggleCustomPages;
+    public TMP_InputField inputCustomPages;
 
-            UseDefaultPages = toggleDefaultPages.isOn,
-            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
+    public Toggle toggleNoCopies;
+    public Toggle toggleCustomCopies;
+    public TMP_InputField inputCustomCopies;
 
-            NoCopies = toggleNoCopies.isOn,
-            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
-        };
-    }
+    private DocumentDetailD _documentData;
 
-    void IDropdownInitializer.InitializeDropdown(TMP_Dropdown dropdown, List<string> options)
-    {
-        if (dropdown != null)
-        {
-            dropdown.ClearOptions();
-            dropdown.AddOptions(options);
-        }
-        else
-        {
-            Debug.LogError("Dropdown is not assigned in the Inspector.");
-        }
-    }
-    public DocumentDetailD GetDocumentData()
-    {
-        return new DocumentDetailD
-        {
-            PaperSize = paperSizes[paperSizeDropdown.value],
-            PaperType = paperTypes[paperSideDropdown.value],
-            PageOrientation = pageOrientations[pageOrientationDropdown.value],
-            UseDefaultPages = toggleDefaultPages.isOn,
-            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
-            NoCopies = toggleNoCopies.isOn,
-            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
-        };
-    }
+    private List<string> paperSizes = new List<string> { "A4", "A3" };
+    private List<string> paperTypes = new List<string> { "1", "2" };
+    private List<string> pageOrientations = new List<string> { "Portrait", "Landscape" };
 
-    public void UpdateDocumentData(DocumentDetailD data)
-    {
-        _documentData = data;
-        DisplayDocumentProperties(data);
-    }
+    #endregion
 }

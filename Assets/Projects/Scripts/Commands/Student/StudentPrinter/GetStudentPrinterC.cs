@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq; // Sử dụng LINQ
+﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using Utilities;
 
-/// <summary>
-/// Command class responsible for managing and displaying student printers.
-/// </summary>
 public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
 {
-    #region -- Fields --
+    #region -- Implements --
 
-    private IGetStudentPrinterHandler _studentPrinterHandler;
-    private ISpawnStudentPrinterView _spawnStudentPrinterView;
+    /// <summary>
+    /// Initializes required components.
+    /// </summary>
+    public void InitializeComponents()
+    {
+        if (_spawnStudentPrinterView == null)
+        {
+            _spawnStudentPrinterView = gameObject.AddComponent<SpawnStudentPrinterV>();
+        }
 
-    [SerializeField] private TMP_Dropdown campusDropdown;
-    private List<StudentPrinterD> _allStudentPrinters;
+        if (_studentPrinterHandler == null)
+        {
+            _studentPrinterHandler = gameObject.AddComponent<GetStudentPrinterH>();
+        }
+    }
 
     #endregion
 
-    #region -- Unity Methods --
+    #region -- Methods --
 
     /// <summary>
     /// Unity Start method to initialize components and fetch data.
@@ -30,23 +35,16 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
     {
         InitializeComponents();
 
-        // Initialize the list to store all printers
         _allStudentPrinters = new List<StudentPrinterD>();
 
-        // Set up the dropdown listener for campus filtering
         campusDropdown.onValueChanged.AddListener(OnCampusSelected);
 
-        // Fetch all student printers with success and failure handling
         StartCoroutine(_studentPrinterHandler.GetAllStudentPrinter(
             OnStudentPrinterFound,
             OnFetchSuccess,
             OnFetchFailed
         ));
     }
-
-    #endregion
-
-    #region -- Private Methods --
 
     /// <summary>
     /// Callback executed when a student printer is found.
@@ -78,7 +76,6 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
             }
         }
 
-        // Cập nhật danh sách campus sau khi thêm máy in mới
         UpdateCampusDropdown();
     }
 
@@ -128,14 +125,12 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
     /// </summary>
     private void UpdateCampusDropdown()
     {
-        // Lọc các campus không bị null
         List<string> campuses = _allStudentPrinters
-            .Where(printer => printer.LocateAt != null) // Đảm bảo LocateAt không null
+            .Where(printer => printer.LocateAt != null)
             .Select(printer => printer.LocateAt.Name)
             .Distinct()
             .ToList();
 
-        // Cập nhật dropdown options
         campusDropdown.ClearOptions();
         campusDropdown.AddOptions(campuses);
 
@@ -151,12 +146,10 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
     {
         string selectedCampus = campusDropdown.options[index].text;
 
-        // Filter printers by selected campus and status "Available"
         List<StudentPrinterD> filteredPrinters = _allStudentPrinters
             .Where(printer => printer.LocateAt.Name == selectedCampus && printer.Status == "Available")
             .ToList();
 
-        // Display the filtered printers
         DisplayFilteredPrinters(filteredPrinters);
     }
 
@@ -201,21 +194,15 @@ public class GetStudentPrinterC : MonoBehaviour, IGetStudentPrinterCommand
         };
     }
 
-    /// <summary>
-    /// Initializes required components.
-    /// </summary>
-    private void InitializeComponents()
-    {
-        if (_spawnStudentPrinterView == null)
-        {
-            _spawnStudentPrinterView = gameObject.AddComponent<SpawnStudentPrinterV>();
-        }
+    #endregion
 
-        if (_studentPrinterHandler == null)
-        {
-            _studentPrinterHandler = gameObject.AddComponent<GetStudentPrinterH>();
-        }
-    }
+    #region -- Fields --
+
+    private IGetStudentPrinterHandler _studentPrinterHandler;
+    private ISpawnStudentPrinterView _spawnStudentPrinterView;
+
+    [SerializeField] private TMP_Dropdown campusDropdown;
+    private List<StudentPrinterD> _allStudentPrinters;
 
     #endregion
 }

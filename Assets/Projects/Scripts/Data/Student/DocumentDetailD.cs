@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class DocumentDetailD : IDocumentDetailData
 {
-    #region -- Fields --
+    #region -- Implements --
+
     public string PaperSize { get; set; } = "A4";
     public string PaperType { get; set; } = "1";
     public string PageOrientation { get; set; } = "Portrait";
-    public bool UseDefaultPages { get; set; } = true;  // Default: "Mặc định"
-    public string CustomPages { get; set; } = "";     // Custom pages if "Tùy chỉnh số trang" is selected
-    public bool NoCopies { get; set; } = true;        // Default: "Không tạo bản sao"
-    public int CustomCopies { get; set; } = 0;        // Custom copies if "Tùy chỉnh số bản sao" is selected
+    public bool UseDefaultPages { get; set; } = true;
+    public string CustomPages { get; set; } = "";
+    public bool NoCopies { get; set; } = true;
+    public int CustomCopies { get; set; } = 0;
 
     #endregion
 

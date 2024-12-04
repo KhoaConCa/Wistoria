@@ -49,6 +49,8 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
 
     #endregion
 
+    #region -- Methods --
+
     private void Start()
     {
         GetComponentData();
@@ -118,6 +120,10 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         }
     }
 
+    #endregion
+
+    #region -- Fields --
+
     public PackageD package;
     public Button clickPackage;
 
@@ -133,4 +139,6 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     private int _currentPaper;
     private int _newPaper;
     private int _amount;
+
+    #endregion
 }

@@ -1,10 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Globalization;
-using System;
-using Newtonsoft.Json;
-
 public class DocumentD 
 {
     #region -- Properties --

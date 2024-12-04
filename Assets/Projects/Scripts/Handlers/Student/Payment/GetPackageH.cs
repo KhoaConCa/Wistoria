@@ -1,18 +1,9 @@
-using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
-using Utilities;
 using Newtonsoft.Json;
-using static SimpleFileBrowser.FileBrowser;
 
-#region -- Class Description --
-/// <summary>
-/// Handler class responsible for retrieving package data from a server.
-/// Provides methods to fetch all packages or specific packages by paper type.
-/// </summary>
-#endregion
 public class GetPackageH : MonoBehaviour, IGetPackageHandler
 {
     #region -- Implements --
@@ -42,9 +33,6 @@ public class GetPackageH : MonoBehaviour, IGetPackageHandler
         }
     }
  
-
-
-
     #endregion
 
     #region -- Methods --

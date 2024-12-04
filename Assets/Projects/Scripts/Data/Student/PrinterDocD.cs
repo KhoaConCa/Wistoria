@@ -1,16 +1,14 @@
-using System;
-
 [System.Serializable]
 public class PrinterDocD
 {
-    public string PrintIn { get; set; } // Maps to FK_PrinterID
-    public string FileDocument { get; set; } // Maps to FK_DocID
-    public string PaperSize { get; set; } // E.g., "A4", "A3"
+    public string PrintIn { get; set; }
+    public string FileDocument { get; set; }
+    public string PaperSize { get; set; }
     public string Orientation { get; set; }
-    public int Side { get; set; } // Single-sided or double-sided (1 or 2)
-    public int PageBegin { get; set; } // Start page for printing
-    public int PageEnd { get; set; } // End page for printing
-    public int Copies { get; set; } // Number of copies
+    public int Side { get; set; }
+    public int PageBegin { get; set; }
+    public int PageEnd { get; set; }
+    public int Copies { get; set; }
     public string Color { get; set; }
 
 }

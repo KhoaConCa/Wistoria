@@ -2,22 +2,15 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
 
-#region -- Class Description --
-/// <summary>
-/// Handler class responsible for managing document property upload operations.
-/// Prepares document data, serializes it to JSON, and sends it to the server.
-/// </summary>
-#endregion
 public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
 {
-    #region -- Public Methods --
+    #region -- Implements --
 
     /// <summary>
     /// Initiates the coroutine to upload document properties.
@@ -56,12 +49,6 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
         }));
     }
 
-
-
-    #endregion
-
-    #region -- Coroutines --
-
     /// <summary>
     /// Coroutine for uploading document properties to the server.
     /// Gathers file attributes, converts them to JSON, and sends a POST request.
@@ -71,7 +58,6 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
     /// <returns>IEnumerator for coroutine functionality.</returns>
     public IEnumerator UploadDocumentPropertiesCoroutine(DocumentD jsonData, Action<string> onSuccess, Action<string> onFaild)
     {
-        // Serialize to JSON
         string json = MainHandler.ToJson(jsonData, true);
         Debug.Log($"JSON being sent: {json}");
 
@@ -82,9 +68,8 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            request.timeout = 30; // Set a timeout for the request
+            request.timeout = 30;
 
-            // Send request
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.Success)
@@ -93,10 +78,8 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
 
                 try
                 {
-                    // Deserialize the response
                     var response = JsonConvert.DeserializeObject<MainData<DocumentUploadResponse>>(request.downloadHandler.text);
 
-                    // Kiểm tra nếu `metadata.data` là một object
                     if (response != null && response.DataRaw != null && response.DataRaw["data"] is JObject)
                     {
                         var document = response.DataRaw["data"].ToObject<DocumentUploadResponse>();
@@ -104,7 +87,7 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
                         {
                             Debug.Log($"Document successfully uploaded. ID: {document._id}");
                             Debug.Log($"Document successfully uploaded. ID: {document.Owner}");
-                            onSuccess?.Invoke(document._id); // Gửi _id qua callback onSuccess
+                            onSuccess?.Invoke(document._id);
                         }
                         else
                         {
@@ -184,22 +167,17 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
     #endregion
 }
 
-
-
-#region -- Response Class --
 /// <summary>
 /// Class representing the server's response for document upload.
 /// </summary>
 [System.Serializable]
 public class DocumentUploadResponse
 {
-    public string NameFile;   // Maps to "NameFile"
-    public long Size;         // Maps to "Size"
-    public StudentD Owner;      // Maps to "Owner"
-    public string _id;        // Maps to "_id"
-    public string createdAt;  // Maps to "createdAt"
-    public string updatedAt;  // Maps to "updatedAt"
-    public int __v;           // Maps to "__v"
+    public string NameFile;
+    public long Size;
+    public StudentD Owner;
+    public string _id;
+    public string createdAt;
+    public string updatedAt;
+    public int __v;
 }
-
-#endregion

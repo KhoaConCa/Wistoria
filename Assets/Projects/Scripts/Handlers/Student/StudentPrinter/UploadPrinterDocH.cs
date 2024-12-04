@@ -11,7 +11,7 @@ public class UploadPrinterDocH : MonoBehaviour
 {
     public IEnumerator UploadPrinterDoc(PrinterDocD printerDoc, Action<string> onSuccess, Action<string> onFaild)
     {
-        string json = JsonConvert.SerializeObject(printerDoc); // Serialize JSON
+        string json = JsonConvert.SerializeObject(printerDoc);
         Debug.Log($"JSON prepared for upload: {json}");
 
         using (UnityWebRequest request = new UnityWebRequest(AllUrlStudent.createPrinterDoc, "POST"))
