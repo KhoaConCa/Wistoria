@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
 
@@ -22,20 +23,12 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         MomoD momo = new MomoD();
         momo.Amount = int.Parse(_packageData.Price);
 
-        _amount = int.Parse(_packageData.Paper);
-
-        StartCoroutine(_momoHandler.CreateMOMOPayment(momo, onSuccess =>
-        {
-            _orderId = onSuccess.OrderID;
-            Debug.Log(_orderId);
-            _isWaitingForCallback = true;
-            Application.OpenURL(onSuccess.PayURL);
-            
-        }, MainView.OnFailed));
-
-        Debug.Log($"Package clicked! Paper: {_packageData.Paper}, Price: {_packageData.Price}");
+        CreateMOMOPayment(momo);
 
         _amount = int.Parse(_packageData.Paper);
+        _paperPaid = _packageData.Paper;
+
+        GetPaperPackage(_paperPaid);
     }
 
     /// <summary>
@@ -54,16 +47,13 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     private void Start()
     {
         GetComponentData();
+        GetPackageH();
         InitializeDependencies();
 
         _clickPackage.onClick.AddListener(ClickPackage);
 
         SetUpButton();
-
-        StartCoroutine(_studentPaper.GetStudentPaper(MainUser.STUDENT_ID, onSuccess =>
-        {
-            _currentPaper = onSuccess;
-        }, MainView.OnFailed));
+        GetPaperStudent();
     }
 
     private void GetComponentData()
@@ -78,12 +68,26 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         }
     }
 
+    private void GetPackageH()
+    {
+        if (_packagePrice == null)
+        {
+            GameObject store = GameObject.FindWithTag("StudentStore");
+            _packagePrice = store.gameObject.GetComponent<GetPackageH>();
+        }
+        else
+        {
+            Debug.Log("The GetPackageH component already exists.");
+        }
+    }
+
     #region -- Initialize --
     private void InitializeDependencies()
     {
         _paymentProcessor = gameObject.AddComponent<PaymentProcessor>();
         _momoHandler = gameObject.AddComponent<MomoH>();
         _studentPaper = gameObject.AddComponent<StudentUpdater>();
+        _paymentHandler = gameObject.AddComponent<CreatePaymentH>();
     }
     #endregion
 
@@ -96,17 +100,11 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
             {
                 int resaultCode = onSuccess;
                 MainView.OnSuccess(resaultCode.ToString());
-                StartCoroutine(_studentPaper.GetStudentPaper(MainUser.STUDENT_ID, onSuccess =>
-                {
-                    _currentPaper = onSuccess;
-                }, MainView.OnFailed));
 
                 if (resaultCode == 0)
                 {
                     int newPaper = _amount + _currentPaper;
-                    StartCoroutine(_studentPaper.UpdateStudentPaper(MainUser.STUDENT_ID, newPaper, MainView.OnSuccess, MainView.OnFailed));
-
-                    StartCoroutine(_momoHandler.DeleteCallback(_orderId, MainView.OnSuccess, MainView.OnFailed));
+                    ProcessDone(newPaper, _orderId);
                 }
                 else
                 {
@@ -123,6 +121,49 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     }
     #endregion
 
+    private void OnPackageFound(PackageJsonD package)
+    {
+        PaymentJsonD payment = new PaymentJsonD();
+        payment.PersonRaw = MainUser.STUDENT_ID;
+        payment.Paper = package;
+        payment.Status = "Success";
+        payment.updateDate = DateTime.Now;
+
+        StartCoroutine(_paymentHandler.UploadJson(payment, MainView.OnSuccess, MainView.OnFailed));
+    }
+
+    private void CreateMOMOPayment(MomoD momo)
+    {
+        StartCoroutine(_momoHandler.CreateMOMOPayment(momo, onSuccess =>
+        {
+            _orderId = onSuccess.OrderID;
+            Debug.Log(_orderId);
+            _isWaitingForCallback = true;
+            Application.OpenURL(onSuccess.PayURL);
+
+        }, MainView.OnFailed));
+    }
+
+    private void GetPaperPackage(string paperPaid)
+    {
+        StartCoroutine(_packagePrice.GetPackageByPaper(paperPaid, OnPackageFound, MainView.OnSuccess, MainView.OnFailed));
+    }
+
+    private void GetPaperStudent()
+    {
+        StartCoroutine(_studentPaper.GetStudentPaper(MainUser.STUDENT_ID, onSuccess =>
+        {
+            _currentPaper = onSuccess;
+        }, MainView.OnFailed));
+    }
+
+    private void ProcessDone(int paper, string id)
+    {
+        StartCoroutine(_studentPaper.UpdateStudentPaper(MainUser.STUDENT_ID, paper, MainView.OnSuccess, MainView.OnFailed));
+
+        StartCoroutine(_momoHandler.DeleteCallback(id, MainView.OnSuccess, MainView.OnFailed));
+    }
+
     #endregion
 
     #region -- Fields --
@@ -131,14 +172,17 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
 
     private IPackageData _packageData;
     private IPaymentProcessor _paymentProcessor;
-
     private IMomoHandler _momoHandler;
     private IStudentPaper _studentPaper;
+    private IGetPackageByPaper _packagePrice;
+    private ICreatePaymentHandler _paymentHandler;
 
     private bool _isWaitingForCallback = false;
     private string _orderId;
     private int _currentPaper;
     private int _amount;
+    private string _paperPaid;
+    private string _packageId;
 
     #endregion
 }

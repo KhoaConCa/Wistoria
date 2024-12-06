@@ -30,7 +30,7 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
         }
     }
 
-    public IEnumerator AddNewCampus(CampusD campus, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator AddNewCampus(CampusD campus, Action<string> onSuccess, Action<string> onFailed)
     {
         string json = TransferDataToJson(campus);
 
@@ -41,7 +41,7 @@ public class AddCampusH : MonoBehaviour, IAddCampusHandler
             MainData<CampusD> newCampus = TransferObjectToData(request.downloadHandler.text);
 
             if (request.result != UnityWebRequest.Result.Success)
-                onFaild?.Invoke(newCampus.Message);
+                onFailed?.Invoke(newCampus.Message);
             else
                 onSuccess?.Invoke(newCampus.Message);
         }

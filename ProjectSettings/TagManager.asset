@@ -35,6 +35,7 @@ TagManager:
   - LabelCampus
   - LabelPaper
   - Icon
+  - StudentStore
   layers:
   - Default
   - TransparentFX

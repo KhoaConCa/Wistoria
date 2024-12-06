@@ -161,5 +161,9 @@ public static class AllUrlStudent
     #region - POST -
     public static readonly string createPayment = "https://smart-printer-alpha.vercel.app/v1/payment/create";
     #endregion
+
+    #region - GET -
+    public static readonly string getPaymentByPaper = "https://smart-printer-alpha.vercel.app/v1/package/search/paper";
+    #endregion
     #endregion
 }
