@@ -37,7 +37,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
             printerDocCardData.Initialize(studentPrinter._id, printerDoc);
 
             FindComponentUI();
-            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt?.Name ?? "Unknown", studentPrinter.Status);
+            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt?.Name ?? "Unknown", studentPrinter.Status, );
         });
     }
 
@@ -59,10 +59,11 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
         Transform positionPrinterName = MainView.FindObjectsByTag(lastestPrefab, _printerName);
         Transform positionCampusName = MainView.FindObjectsByTag(lastestPrefab, _campusName);
         Transform postionStatus = MainView.FindObjectsByTag(lastestPrefab, _printerStatus);
+        Transform positionSlot = MainView.FindObjectsByTag(lastestPrefab, _printerSlot);
 
         if (positionPrinterName != null && positionCampusName != null && postionStatus != null)
         {
-            _setDataStudentPrinterView.AddComponentFromPrefab(positionPrinterName, positionCampusName, postionStatus);
+            _setDataStudentPrinterView.AddComponentFromPrefab(positionPrinterName, positionCampusName, postionStatus, positionSlot);
         }
         else
         {
@@ -83,11 +84,12 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     }
 
 
-    private void UpdateData(string printerName, string campusName, string status)
+    private void UpdateData(string printerName, string campusName, string status, string slot)
     {
         _setDataStudentPrinterView.SetStudentPrinterPrinterName(printerName);
         _setDataStudentPrinterView.SetStudentPrinterCampusName(campusName);
         _setDataStudentPrinterView.SetStudentPrinterStatus(status);
+        _setDataStudentPrinterView.SetStudentPrinterSlot(slot);
     }
 
     #endregion
@@ -102,6 +104,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     private readonly string _printerName = "ValueName";
     private readonly string _campusName = "ValueCampus";
     private readonly string _printerStatus = "ValueStatus";
+    private readonly string _printerSlot = "ValueSlot";
 
     #endregion
 }
