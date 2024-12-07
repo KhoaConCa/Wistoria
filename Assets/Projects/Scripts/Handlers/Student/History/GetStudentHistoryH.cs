@@ -10,7 +10,8 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 {
     #region -- Implements --
 
-    public IEnumerator GetAllHistoryByPrinter(string id, Action<string, List<HistoryDStudent>> onHistoryFound, Action<string> onSuccess, Action<string> onFailed)
+    public IEnumerator GetAllHistoryByPrinter(string id, Action<string, List<HistoryDStudent>> onHistoryFound, 
+        Action<string> onSuccess, Action<string> onFailed)
     {
         _onHistoryFound = onHistoryFound;
 
@@ -88,7 +89,8 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
         
     }
 
-    public IEnumerator GetHistoryByPayment(string id, Action<string, List<HistoryDStudent>> onHistoryFound, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator GetHistoryByPayment(string id, Action<string, List<HistoryDStudent>> onHistoryFound, 
+        Action<string> onSuccess, Action<string> onFaild)
     {
         _onHistoryFound = onHistoryFound;
 
@@ -100,9 +102,7 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 
             yield return request.SendWebRequest();
 
-            Debug.Log(request.downloadHandler.text);
             MainData<PaymentDStudent> response = TransferHPaymentToData(request.downloadHandler.text);
-            Debug.Log(response.Data.Count);
 
             if (request.result == UnityWebRequest.Result.Success)
             {

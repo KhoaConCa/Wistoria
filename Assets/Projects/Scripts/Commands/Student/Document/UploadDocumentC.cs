@@ -35,11 +35,6 @@ public class UploadDocumentC : MonoBehaviour, IUploadDocumentCommand
         }
     }
 
-    public IUploadDocumentHandler GetHandler()
-    {
-        return _handler;
-    }
-
     #endregion
 
     #region -- Fields --

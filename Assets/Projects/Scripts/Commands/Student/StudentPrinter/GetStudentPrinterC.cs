@@ -47,11 +47,10 @@ public class GetStudentPrinterC : MonoBehaviour
     {
         if (studentPrinter != null)
         {
-            _allStudentPrinters.Add(studentPrinter);
-
             // Chỉ xử lý các máy in có trạng thái Available
             if (studentPrinter.Status == "Available")
             {
+                _allStudentPrinters.Add(studentPrinter);
                 PrinterDocD printerDoc = FetchPrinterDocData(studentPrinter._id);
                 if (printerDoc != null)
                 {
@@ -79,7 +78,7 @@ public class GetStudentPrinterC : MonoBehaviour
         foreach (var printer in filteredPrinters)
         {
             // Chỉ hiển thị các máy in có trạng thái Available
-            if (printer.Status == "Available")
+            if (printer.Status == PrinterStatus.Available.ToString())
             {
                 PrinterDocD printerDoc = FetchPrinterDocData(printer._id);
                 if (printerDoc != null)

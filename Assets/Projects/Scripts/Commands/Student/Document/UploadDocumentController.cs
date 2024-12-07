@@ -1,79 +1,113 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using SimpleFileBrowser;
+using System.IO;
+using Utilities;
 
 public class UploadDocumentController : MonoBehaviour
 {
     #region -- Methods --
 
-    private void Start()
+    private void Awake()
     {
         GetComponent();
-
-        var handler = gameObject.AddComponent<UploadDocumentH>();
-        var uploadCommandComponent = gameObject.AddComponent<UploadDocumentC>();
-
-        uploadCommandComponent.Initialize(handler, null, OnDocumentUploaded);
-        _uploadCommand = uploadCommandComponent;
-
-        if (uploadButton != null)
-        {
-            uploadButton.onClick.AddListener(OnUploadButtonClicked);
-        }
-        else
-        {
-            Debug.LogError("Upload button not assigned in the Inspector.");
-        }
+        AddComponent();
     }
+
+    #region -- Add Component --
+
+    private void AddComponent()
+    {
+        if (_upLoadH == null)
+            _upLoadH = gameObject.AddComponent<UploadDocumentH>();
+    }
+
+    #endregion
+
+    #region -- Get Component --
 
     private void GetComponent()
     {
-        GameObject mainUI = GameObject.FindWithTag("MainUI");
-        _transform = mainUI.GetComponent<UITransformV>();
+        if (_cardData == null)
+        {
+            GameObject defaultUI = GameObject.FindWithTag("DefaultMainScene");
+            _cardData = defaultUI.GetComponent<PrinterDocCard>();
+        }
+
+        _documentV = _targetObject.GetComponent<DocumentDetailV>();
     }
 
-    private void OnUploadButtonClicked()
+    #endregion
+
+    #region -- Update Document Event --
+
+    public void OnUploadButtonClicked()
     {
-        string selectedFilePath = "";
         FileBrowser.ShowLoadDialog(
             (paths) =>
             {
-                selectedFilePath = paths[0];
-
-                Debug.Log($"File selected: {selectedFilePath}");
-
-                _uploadCommand.Initialize(_uploadCommand.GetHandler(), selectedFilePath, OnDocumentUploaded);
-                _uploadCommand.Execute();
+                _path = paths[0];
+                UploadDocument();
             },
             () => Debug.Log("File selection canceled."),
-            FileBrowser.PickMode.Files,
-            false,
-            null,
-            "*.pdf,*.doc,*.docx"
+            FileBrowser.PickMode.Files, false, null, "*.pdf,*.doc,*.docx", "Chọn tệp cần in", "Chọn"
         );
     }
 
-    private void OnDocumentUploaded(string documentId)
+    #endregion
+
+    #region -- Get Info Data --
+
+    private void UploadDocument()
     {
-        if (!string.IsNullOrEmpty(documentId))
+        FileInfo fileInfo = new FileInfo(_path);
+
+        StartCoroutine(_upLoadH.GetStudentByID(MainUser.STUDENT_ID, onSuccess =>
         {
-            Debug.Log($"Document uploaded successfully. Document ID: {documentId}");
-            DocumentService.DocumentId = documentId;
-        }
-        else
+            if (onSuccess != null)
+            {
+                DocumentDStudent document = new DocumentDStudent() 
+                { 
+                    Student = onSuccess,
+                    Name = fileInfo.Name,
+                    Size = Random.Range(20, 50)
+                };
+
+                _cardData.Document = document;
+            }
+
+            UploadDocumentToServer();
+        }, onFailed =>
         {
-            Debug.LogError("Failed to upload document or retrieve document ID.");
-        }
+            MainView.OnReset(UploadDocument, onFailed);
+        }));
     }
+
+    private void UploadDocumentToServer()
+    {
+        StartCoroutine(_upLoadH.UploadDocument(_cardData.Document, onSuccess =>
+        {
+            MainView.OnDebugged(onSuccess);
+
+            _documentV.DefaultDocument();
+
+        }, onFailed =>
+        {
+            MainView.OnReset(UploadDocumentToServer, onFailed);
+        }));
+    }
+    #endregion
 
     #endregion
 
     #region -- Fields --
 
     private ITransformUI _transform;
-    private IUploadDocumentCommand _uploadCommand;
+    private IDocumentDefailV _documentV;
+    private IUploadDocumentCommand _uploadC;
+    private IUploadDocumentHandler _upLoadH;
 
-    [SerializeField] private Button uploadButton;
+    [SerializeField] private PrinterDocCard _cardData;
+    private string _path;
 
     [SerializeField] private GameObject _targetObject;
 

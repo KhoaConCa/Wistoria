@@ -3,6 +3,26 @@ using System;
 
 public class PrinterDocDStudent
 {
+    #region -- Methods --
+
+    public void Initialize(PrinterDocCard cardData)
+    {
+        Id = cardData.Id;
+        Printer = cardData.Printer;
+        Document = cardData.Document;
+        PaperSize = cardData.PaperSize;
+        Orientation = cardData.Orientation;
+        Side = cardData.Side;
+        PageBegin = cardData.PageBegin;
+        PageEnd = cardData.PageEnd;
+        Copies = cardData.Copies;
+        Color = cardData.Color;
+        CompletionTime = cardData.CompletionTime;
+        Process = cardData.Process;
+    }
+
+    #endregion
+
     #region -- Properties --
 
     [JsonProperty("_id")]

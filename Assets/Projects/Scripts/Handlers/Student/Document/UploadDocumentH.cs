@@ -29,18 +29,14 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
         {
             // Gather file attributes
             FileInfo fileInfo = new FileInfo(filePath);
-            string fileName = fileInfo.Name;
-            string fileSize = fileInfo.Length.ToString();
 
             // Prepare the JSON data
             DocumentD jsonData = new DocumentD
             {
-                NameFile = fileName,
-                Size = fileSize,
-                Owner = new StudentD()
+                NameFile = fileInfo.Name,
+                Size = UnityEngine.Random.Range(20, 50),
+                Owner = onSucces
             };
-
-            jsonData.Owner = onSucces;
 
             StartCoroutine(UploadDocumentPropertiesCoroutine(jsonData, onSuccess, onFaild));
         }, message =>
@@ -110,15 +106,32 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             }
         }
     }
+    public IEnumerator UploadDocument(DocumentDStudent document, Action<string> onSuccess, Action<string> onFaild)
+    {
+        string json = MainHandler.ToJson(document);
+        Debug.Log($"JSON being sent: {json}");
 
-    #endregion
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 
-    #region -- Methods --
+        using (UnityWebRequest request = new UnityWebRequest(AllUrlStudent.createDocument, "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            MainData<DocumentDStudent> response = TransferStringToDocumentD(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Message);
+            else
+                onFaild?.Invoke(response.Message);
+        }
+    }
 
     public IEnumerator GetStudentByID(string id, Action<StudentD> onSuccess, Action<string> onFailed)
     {
-
-        //set URL for system to search the item
         string json = AllUrlStudent.findStudentById + id;
 
         using (UnityWebRequest request = UnityWebRequest.Get(json))
@@ -132,6 +145,17 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             else
                 onFailed?.Invoke(response.Message);
         }
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    public MainData<DocumentDStudent> TransferStringToDocumentD(string response)
+    {
+        MainData<DocumentDStudent> mainData = JsonConvert.DeserializeObject<MainData<DocumentDStudent>>(response);
+        mainData.Initialize();
+        return mainData;
     }
 
     public MainData<StudentD> TransferStringToStudentD(string response)

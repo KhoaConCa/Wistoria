@@ -2,42 +2,71 @@
 using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
+using UnityEditor;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
-public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDropdownInitializer, IDocumentDetailRetriever
+public class DocumentDetailV : MonoBehaviour, IDocumentDefailV
 {
     #region -- Implements --
 
-    public DocumentDetailD GetEditedDocumentData()
+    public void DefaultDocument()
     {
-        return new DocumentDetailD
+        GameObject mainUI = GameObject.FindWithTag("MainUI");
+        _transform = mainUI.GetComponent<UITransformV>();
+        _transform.SetActiveObjectUI(gameObject);
+
+        SetUpDropdowns();
+        InitializeToggles();
+        InitializeInputField();
+    }
+
+    public void GetDocument()
+    {
+        if (CheckComboBox() && CheckTextBox())
         {
-            PaperSize = paperSizes[paperSizeDropdown.value],
-            PaperType = paperTypes[paperSideDropdown.value],
-            PageOrientation = pageOrientations[pageOrientationDropdown.value],
+            _cardData.PaperSize = GetValueDropDown<PaperSize>(_size);
 
-            UseDefaultPages = toggleDefaultPages.isOn,
-            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
+            var value = GetValueDropDown<PaperSide>(_side);
+            _cardData.Side = EnumProperties.GetEnumIdByName<PaperSide>(value.ToString()) + 1;
 
-            NoCopies = toggleNoCopies.isOn,
-            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
-        };
+            _cardData.Orientation = GetValueDropDown<Orientation>(_orientation);
+
+            GetPageValue();
+            GetCopyValue();
+            GetColorValue();
+
+            _transform.SetActiveObjectUI(_targetObject);
+        }
     }
 
-    public void DisplayDocumentProperties(DocumentDetailD documentData)
+    #endregion
+
+    #region -- Methods --
+
+    private void Awake()
     {
-        paperSizeDropdown.value = paperSizes.IndexOf(documentData.PaperSize);
-        paperSideDropdown.value = paperTypes.IndexOf(documentData.PaperType);
-        pageOrientationDropdown.value = pageOrientations.IndexOf(documentData.PageOrientation);
-
-        toggleDefaultPages.isOn = documentData.UseDefaultPages;
-        toggleCustomPages.isOn = !documentData.UseDefaultPages;
-        inputCustomPages.text = documentData.CustomPages;
-
-        toggleNoCopies.isOn = documentData.NoCopies;
-        toggleCustomCopies.isOn = !documentData.NoCopies;
-        inputCustomCopies.text = documentData.CustomCopies.ToString();
+        GameObject mainUI = GameObject.FindWithTag("MainUI");
+        _transform = mainUI.GetComponent<UITransformV>();
     }
 
+    private void OnEnable()
+    {
+        _nameFile.SetActive(true);
+        _nameFile.GetComponent<TextMeshProUGUI>().text = _cardData.Document.Name;
+
+        GameObject container = GameObject.FindWithTag("ObjectContain");
+        RectTransform transform = container.GetComponent<RectTransform>();
+        transform.localPosition = new Vector2(transform.localPosition.x, 0);
+    }
+
+    private void OnDisable()
+    {
+        _nameFile.SetActive(false);
+    }
+
+    #region -- Initialize Component --
     public void InitializeDropdown(TMP_Dropdown dropdown, List<string> options)
     {
         if (dropdown != null)
@@ -51,100 +80,227 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDataEditor, IDropdownInit
         }
     }
 
-    public DocumentDetailD GetDocumentData()
+    private void InitializeToggles()
     {
-        return new DocumentDetailD
-        {
-            PaperSize = paperSizes[paperSizeDropdown.value],
-            PaperType = paperTypes[paperSideDropdown.value],
-            PageOrientation = pageOrientations[pageOrientationDropdown.value],
-            UseDefaultPages = toggleDefaultPages.isOn,
-            CustomPages = toggleCustomPages.isOn ? inputCustomPages.text : "",
-            NoCopies = toggleNoCopies.isOn,
-            CustomCopies = toggleCustomCopies.isOn ? int.Parse(inputCustomCopies.text) : 0
-        };
+        _defaultPage.isOn = true;
+        _defaultCopy.isOn = true;
+        _noneColor.isOn = true;
     }
 
-    public void UpdateDocumentData(DocumentDetailD data)
+    private void InitializeInputField()
     {
-        _documentData = data;
-        DisplayDocumentProperties(data);
+        _pageInput.text = "";
+        _pageInput.interactable = false;
+
+        _copyInput.text = "";
+        _copyInput.interactable = false;
+    }
+    #endregion
+
+    #region -- Set Up Data --
+    private void SetUpDropdowns()
+    {
+        InitializeDropdown(_size, EnumProperties.ConvertEnumToList<PaperSize>("- Chọn loại giấy -"));
+        InitializeDropdown(_side, EnumProperties.ConvertEnumToList<PaperSide>("- Chọn mặt giấy -"));
+        InitializeDropdown(_orientation, EnumProperties.ConvertEnumToList<Orientation>("- Chọn chiều giấy -"));
+    }
+    #endregion
+
+    #region -- Checking Condition --
+    private bool CheckComboBox()
+    {
+        bool isChecking = true;
+
+        if (_size.value == 0)
+        {
+            Debug.LogError("Khổ giấy chưa được chọn!");
+            isChecking = false;
+        }
+
+        if (_side.value == 0)
+        {
+            Debug.LogError("Mặt giấy chưa được chọn!");
+            isChecking = false;
+        }
+
+        if (_orientation.value == 0)
+        {
+            Debug.LogError("Chiều giấy chưa được chọn!");
+            isChecking = false;
+        }
+
+        return isChecking;
+    }
+
+    private bool CheckTextBox()
+    {
+        bool isChecking = true;
+
+        ITextBoxHandler textBoxHandler = null;
+        if (_pageInput.IsInteractable())
+        {
+            string page = _pageInput.text.Replace("-", "").Replace(" ", "");
+
+            if (ContainsSpecialCharacters(page) || ContainsLetters(page) || string.IsNullOrEmpty(page))
+            {
+                isChecking = false;
+
+                textBoxHandler = _pageInput.GetComponent<UITextBoxV>();
+                textBoxHandler.OnError("Định dạng chuẩn: 1-8");
+            }
+        }
+
+        if (_copyInput.IsInteractable())
+        {
+            string copy = _copyInput.text;
+
+            if (ContainsSpecialCharacters(copy) || ContainsLetters(copy) || string.IsNullOrEmpty(copy))
+            {
+                isChecking = false;
+
+                textBoxHandler = _pageInput.GetComponent<UITextBoxV>();
+                textBoxHandler.OnError("Định dạng chuẩn chỉ chứa số!");
+            }
+        }
+
+        if (_colorInput.IsInteractable())
+        {
+            string color = _colorInput.text.Replace(",", "").Replace("-", "").Replace(" ", "");
+
+            if (ContainsSpecialCharacters(color) || ContainsLetters(color) || string.IsNullOrEmpty(color))
+            {
+                isChecking = false;
+
+                textBoxHandler = _pageInput.GetComponent<UITextBoxV>();
+                textBoxHandler.OnError("Định dạng chuẩn: 1, 2, 4-8");
+            }
+        }
+
+        return isChecking;
+    }
+
+    public bool ContainsSpecialCharacters(string input)
+    {
+        Regex regex = new Regex(@"[^a-zA-Z0-9]");
+        return regex.IsMatch(input);
+    }
+
+    public bool ContainsLetters(string input)
+    {
+        Regex regex = new Regex(@"[a-zA-Z]");
+        return regex.IsMatch(input);
     }
 
     #endregion
 
-    #region -- Methods --
-
-    private void Start()
+    #region -- Get Value --
+    private string GetValueDropDown<T>(TMP_Dropdown dropDown) where T : struct, Enum
     {
-        InitializeDropdowns();
-        InitializeToggles();
-        _documentData = new DocumentDetailD();
-        DisplayDocumentProperties(_documentData);
+        if (dropDown == null)
+        {
+            Debug.LogError("Dropdown không được gán.");
+            return null;
+        }
+
+        if (dropDown.value == 0)
+        {
+            Debug.LogError("Vui lòng chọn giá trị khác!");
+            return null;
+        }
+
+        string selected = dropDown.captionText.text;
+        var enumValue = EnumProperties.GetEnumByDescription<T>(selected);
+
+        if (enumValue.HasValue)
+        {
+            return enumValue.Value.ToString();
+        }
+        else
+        {
+            Debug.LogError($"Không tìm thấy giá trị Enum tương ứng với mô tả: {selected}");
+        }
+
+        return null;
     }
 
-    private void InitializeDropdowns()
+    private void GetPageValue()
     {
-        var initializer = (IDropdownInitializer)this;
-        initializer.InitializeDropdown(paperSizeDropdown, paperSizes);
-        initializer.InitializeDropdown(paperSideDropdown, paperTypes);
-        initializer.InitializeDropdown(pageOrientationDropdown, pageOrientations);
+        if (!_defaultPage.isOn)
+        {
+            string value = _pageInput.text;
+
+            string[] values = value.Split("-");
+
+            _cardData.PageBegin = int.Parse(values[0]);
+            _cardData.PageEnd = int.Parse(values[1]);
+
+            return;
+        }
+
+        _cardData.PageBegin = 1;
+        _cardData.PageEnd = _cardData.Document.Size;
     }
 
-    private void InitializeToggles()
+    private void GetCopyValue()
     {
-        toggleDefaultPages.isOn = true;
-        toggleCustomPages.isOn = false;
-        inputCustomPages.interactable = false;
-
-        toggleNoCopies.isOn = true;
-        toggleCustomCopies.isOn = false;
-        inputCustomCopies.interactable = false;
-
-        toggleDefaultPages.onValueChanged.AddListener(isOn =>
+        if (!_defaultCopy.isOn)
         {
-            if (isOn) inputCustomPages.interactable = true;
-        });
+            string value = _copyInput.text;
+            _cardData.Copies = Convert.ToInt32(value);
 
-        toggleCustomPages.onValueChanged.AddListener(isOn =>
-        {
-            if (isOn) inputCustomPages.interactable = false;
-        });
+            return;
+        }
 
-        toggleNoCopies.onValueChanged.AddListener(isOn =>
-        {
-            if (isOn) inputCustomCopies.interactable = true;
-        });
-
-        toggleCustomCopies.onValueChanged.AddListener(isOn =>
-        {
-            if (isOn) inputCustomCopies.interactable = false;
-        });
+        _cardData.Copies = 1;
     }
+
+    private void GetColorValue()
+    {
+        if (_noneColor.isOn)
+        {
+            _cardData.Color = "0";
+            return;
+        }
+        else if (_fullColor.isOn)
+        {
+            _cardData.Color = $"{_cardData.PageBegin}-{_cardData.PageEnd}";
+            return;
+        }
+
+        string value = _colorInput.text;
+        string result = Regex.Replace(value, @"\s+", " ");
+
+        _cardData.Color = result;
+    }
+    #endregion
 
     #endregion
 
     #region -- Fields --
 
+    private ITransformUI _transform;
+
     [Header("Dropdown UI Elements")]
-    public TMP_Dropdown paperSizeDropdown;
-    public TMP_Dropdown paperSideDropdown;
-    public TMP_Dropdown pageOrientationDropdown;
+    [SerializeField] private TMP_Dropdown _size;
+    [SerializeField] private TMP_Dropdown _side;
+    [SerializeField] private TMP_Dropdown _orientation;
 
-    [Header("Toggle and Input UI Elements")]
-    public Toggle toggleDefaultPages;
-    public Toggle toggleCustomPages;
-    public TMP_InputField inputCustomPages;
+    [Header("Toggle UI Elements")]
+    [SerializeField] private Toggle _defaultPage;
+    [SerializeField] private Toggle _defaultCopy;
+    [SerializeField] private Toggle _noneColor;
+    [SerializeField] private Toggle _fullColor;
 
-    public Toggle toggleNoCopies;
-    public Toggle toggleCustomCopies;
-    public TMP_InputField inputCustomCopies;
 
-    private DocumentDetailD _documentData;
+    [Header("Input field UI Elements")]
+    [SerializeField] private TMP_InputField _pageInput;
+    [SerializeField] private TMP_InputField _copyInput;
+    [SerializeField] private TMP_InputField _colorInput;
 
-    private List<string> paperSizes = new List<string> { "A4", "A3" };
-    private List<string> paperTypes = new List<string> { "1", "2" };
-    private List<string> pageOrientations = new List<string> { "Portrait", "Landscape" };
+    [Header("Fields Element")]
+    [SerializeField] private GameObject _targetObject;
+    [SerializeField] private GameObject _nameFile;
+    [SerializeField] private PrinterDocCard _cardData;
 
     #endregion
 }

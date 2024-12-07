@@ -8,18 +8,11 @@ public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, 
     public void InitializeDocument()
     {
         _view = GetComponent<IDocumentDataEditor>();
-        _documentData = new DocumentDetailD
-        {
-            UseDefaultPages = true,
-            CustomPages = "",
-            NoCopies = true,
-            CustomCopies = 0
-        };
-
+        
         _view.DisplayDocumentProperties(_documentData);
     }
 
-    public void UpdateDocumentData(DocumentDetailD newData)
+    public void UpdateDocumentData(PrinterDocCard newData)
     {
         _documentData = newData;
         _view.DisplayDocumentProperties(_documentData);
@@ -72,7 +65,7 @@ public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, 
     private IDocumentDataEditor _view;
     private IDocumentRetriever _retriever;
 
-    private DocumentDetailD _documentData;
+    private PrinterDocCard _documentData;
 
     #endregion
 }
