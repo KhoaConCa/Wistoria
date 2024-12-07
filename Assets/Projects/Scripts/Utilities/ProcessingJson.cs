@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,7 +10,10 @@ public static class ProcessingJson
 {
     public static T InitializaProperty<T>(object dataRaw)
     {
-        return dataRaw.ConvertTo<T>();
+        if (dataRaw is JObject jData)
+            return jData.ToObject<T>();
+
+        return default(T);
     }
 
     public static string RemoveNullJson<T>(T data)

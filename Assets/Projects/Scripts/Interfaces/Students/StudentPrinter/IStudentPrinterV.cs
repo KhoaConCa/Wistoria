@@ -22,6 +22,8 @@ public interface ISetDataStudentPrinterView
     void SetStudentPrinterPrinterName(string printerName);
 
     void SetStudentPrinterCampusName(string campusName);
-    void SetStudentPrinterStatus(string status);
-    void AddComponentFromPrefab(Transform studentPrinterPrinterName, Transform studentPrinterCampusName, Transform studentPrinterStatus);
+
+    void SetStudentPrinterSlot(string slot);
+
+    void AddComponentFromPrefab(Transform studentPrinterPrinterName, Transform studentPrinterCampusName, Transform studentPrinterSlot);
 }

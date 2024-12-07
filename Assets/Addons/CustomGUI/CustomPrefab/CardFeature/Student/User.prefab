@@ -2191,6 +2191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Course
       objectReference: {fileID: 0}
+    - target: {fileID: 5230621782102641681, guid: 9fd01ff10c5c524489045db048c553ed, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6546317744683000008, guid: 9fd01ff10c5c524489045db048c553ed, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

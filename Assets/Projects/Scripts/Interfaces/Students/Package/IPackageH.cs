@@ -16,3 +16,8 @@ public interface IPackageClickH
     void ClickPackage();
     void SetUpButton();
 }
+
+public interface IGetPackageByPaper
+{
+    IEnumerator GetPackageByPaper(string paper, Action<PackageJsonD> onPackageFound, Action<string> onSuccess, Action<string> onFailed);
+}

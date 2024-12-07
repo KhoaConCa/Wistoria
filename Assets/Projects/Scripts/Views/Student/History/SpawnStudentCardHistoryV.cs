@@ -38,11 +38,16 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
             {
                 _cardData = spawnedPrefab.GetComponent<HistoryCardDStudent>();
                 _cardData.Initialize(history);
+                
 
                 if (_cardData.Payment != null)
                     PaymentPrefab(spawnedPrefab);
                 else
+                {
+                    _cardData.PrinterDoc.Printer = ProcessingJson.InitializaProperty<StudentPrinterD>(_cardData.PrinterDoc.PrinterRaw);
+                    _cardData.PrinterDoc.Document = ProcessingJson.InitializaProperty<DocumentDStudent>(_cardData.PrinterDoc.DocumentRaw);
                     SetUpPrinterDocPrefab(spawnedPrefab);
+                }
             }
             else
             {

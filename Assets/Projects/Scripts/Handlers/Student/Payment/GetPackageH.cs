@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using Newtonsoft.Json;
 
-public class GetPackageH : MonoBehaviour, IGetPackageHandler
+public class GetPackageH : MonoBehaviour, IGetPackageHandler, IGetPackageByPaper
 {
     #region -- Implements --
 
@@ -32,7 +32,28 @@ public class GetPackageH : MonoBehaviour, IGetPackageHandler
                 onFaild?.Invoke(response.Message);
         }
     }
- 
+
+    public IEnumerator GetPackageByPaper(string paper, Action<PackageJsonD> onPackageFound, Action<string> onSuccess, Action<string> onFailed)
+    {
+        string searchURL = $"{AllUrlStudent.getPaymentByPaper}?paper={UnityWebRequest.EscapeURL(paper)}";
+
+        using (UnityWebRequest request = UnityWebRequest.Get(searchURL))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<PackageJsonD> response = TransferData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(response.Message);
+
+                SendPackageData(onPackageFound, response);
+            }
+            else
+                onFailed?.Invoke(response.Message);
+        }
+    }
+
     #endregion
 
     #region -- Methods --
@@ -48,6 +69,13 @@ public class GetPackageH : MonoBehaviour, IGetPackageHandler
         return mainData;
     }
 
+    public MainData<PackageJsonD> TransferData(string response)
+    {
+        MainData<PackageJsonD> mainData = JsonConvert.DeserializeObject<MainData<PackageJsonD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
+
     public MainData<string> TransferStringToData(string response)
     {
         MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
@@ -55,11 +83,19 @@ public class GetPackageH : MonoBehaviour, IGetPackageHandler
         return mainData;
     }
 
-    public void SendData(Action<PackageD> onCampusFound, MainData<PackageD> campusDatas)
+    public void SendData(Action<PackageD> onPackageFound, MainData<PackageD> packageDatas)
     {
-        foreach (var itemData in campusDatas.Data)
+        foreach (var itemData in packageDatas.Data)
         {
-            onCampusFound?.Invoke(itemData);
+            onPackageFound?.Invoke(itemData);
+        }
+    }
+
+    public void SendPackageData(Action<PackageJsonD> onPackageFound, MainData<PackageJsonD> packageDatas)
+    {
+        foreach (var itemData in packageDatas.Data)
+        {
+            onPackageFound?.Invoke(itemData);
         }
     }
 
