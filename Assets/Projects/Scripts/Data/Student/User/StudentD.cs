@@ -16,7 +16,7 @@ public class StudentD
     public string Class {  get; set; }
     public int Course { get; set; }
     public int Paper { get; set; }
-    public string Status { get; set; }
+    public bool Status { get; set; }
     [JsonProperty("createdAt")]
     public string CreatedAt { get; private set; }
     [JsonProperty("updatedAt")]

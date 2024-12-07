@@ -163,19 +163,6 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDefailV
             }
         }
 
-        if (_colorInput.IsInteractable())
-        {
-            string color = _colorInput.text.Replace(",", "").Replace("-", "").Replace(" ", "");
-
-            if (ContainsSpecialCharacters(color) || ContainsLetters(color) || string.IsNullOrEmpty(color))
-            {
-                isChecking = false;
-
-                textBoxHandler = _pageInput.GetComponent<UITextBoxV>();
-                textBoxHandler.OnError("Định dạng chuẩn: 1, 2, 4-8");
-            }
-        }
-
         return isChecking;
     }
 
@@ -258,19 +245,11 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDefailV
     {
         if (_noneColor.isOn)
         {
-            _cardData.Color = "0";
-            return;
-        }
-        else if (_fullColor.isOn)
-        {
-            _cardData.Color = $"{_cardData.PageBegin}-{_cardData.PageEnd}";
+            _cardData.Color = "Black and white";
             return;
         }
 
-        string value = _colorInput.text;
-        string result = Regex.Replace(value, @"\s+", " ");
-
-        _cardData.Color = result;
+        _cardData.Color = "Color";
     }
     #endregion
 
@@ -289,13 +268,11 @@ public class DocumentDetailV : MonoBehaviour, IDocumentDefailV
     [SerializeField] private Toggle _defaultPage;
     [SerializeField] private Toggle _defaultCopy;
     [SerializeField] private Toggle _noneColor;
-    [SerializeField] private Toggle _fullColor;
 
 
     [Header("Input field UI Elements")]
     [SerializeField] private TMP_InputField _pageInput;
     [SerializeField] private TMP_InputField _copyInput;
-    [SerializeField] private TMP_InputField _colorInput;
 
     [Header("Fields Element")]
     [SerializeField] private GameObject _targetObject;

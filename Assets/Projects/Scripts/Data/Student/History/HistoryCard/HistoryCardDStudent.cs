@@ -13,7 +13,6 @@ public class HistoryCardDStudent : MonoBehaviour, IHistoryCardDStudent
         if (history.PrinterDoc != null)
         {
             PrinterDoc = history.PrinterDoc;
-            PrinterDoc.Printer.ProcessLocateAt();
         }
         
         if (history.Payment != null)

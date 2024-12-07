@@ -29,9 +29,21 @@ public class PrinterDocDStudent
     public string Id { get; set; }
 
     [JsonProperty("PrintIn")]
-    public PrinterD Printer { get; set; }
+    public object PrinterRaw { get; set; }
+
+    [JsonIgnore]
+    public string PrinterID { get; set; }
+
+    [JsonIgnore]
+    public StudentPrinterD Printer { get; set; }
 
     [JsonProperty("FileDocument")]
+    public object DocumentRaw { get; set; }
+
+    [JsonIgnore]
+    public string DocumentID { get; set; }
+
+    [JsonIgnore]
     public DocumentDStudent Document { get; set; }
 
     public string PaperSize { get; set; }

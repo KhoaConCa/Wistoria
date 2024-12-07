@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7826826664144991269}
   - component: {fileID: 5828562037820248742}
-  - component: {fileID: 2986616786660007667}
   - component: {fileID: 6997716151637576232}
   m_Layer: 5
   m_Name: Status
@@ -48,36 +47,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128320044320424875}
   m_CullTransparentMesh: 1
---- !u!114 &2986616786660007667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128320044320424875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.98039216, g: 0.98039216, b: 0.98039216, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: -5177388603050735206, guid: c73e003b525dbb548944231ad5301ceb, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 12
 --- !u!114 &6997716151637576232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,10 +425,11 @@ GameObject:
   - component: {fileID: 8395030792130641211}
   - component: {fileID: 3804242586690450195}
   - component: {fileID: 7981579631345708260}
-  - component: {fileID: 8751436482400121365}
-  - component: {fileID: 6151729346800007649}
-  - component: {fileID: 4312853204029758766}
   - component: {fileID: 2793913214595447186}
+  - component: {fileID: 6151729346800007649}
+  - component: {fileID: 8751436482400121365}
+  - component: {fileID: 4312853204029758766}
+  - component: {fileID: 5050643884701095940}
   m_Layer: 5
   m_Name: PrintTag
   m_TagString: Untagged
@@ -525,7 +495,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 8
+  m_PixelsPerUnitMultiplier: 0.8
 --- !u!114 &7981579631345708260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,7 +511,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   m_EffectDistance: {x: 4, y: 4}
   m_UseGraphicAlpha: 1
---- !u!114 &8751436482400121365
+--- !u!114 &2793913214595447186
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -550,9 +520,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5327686679476858997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2735f8d200cb57d4fba555592c338e09, type: 3}
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &6151729346800007649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,7 +580,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3804242586690450195}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4312853204029758766}
+        m_TargetAssemblyTypeName: StudentPrinterClickC, Assembly-CSharp
+        m_MethodName: ClickStudentPrinter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8751436482400121365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5327686679476858997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2735f8d200cb57d4fba555592c338e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4312853204029758766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,8 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ab694f74557d14e9ae57795c8f84b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickStudentPrinter: {fileID: 6151729346800007649}
---- !u!114 &2793913214595447186
+--- !u!114 &5050643884701095940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -619,23 +626,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5327686679476858997}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 82e98a19320da884786a20c54796e540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &6041547563262895383
 GameObject:
   m_ObjectHideFlags: 0

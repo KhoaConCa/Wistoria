@@ -86,8 +86,8 @@ public class UploadDocumentController : MonoBehaviour
     {
         StartCoroutine(_upLoadH.UploadDocument(_cardData.Document, onSuccess =>
         {
-            MainView.OnDebugged(onSuccess);
-
+            MainView.OnDebugged(onSuccess.Id);
+            _cardData.Document = onSuccess;
             _documentV.DefaultDocument();
 
         }, onFailed =>

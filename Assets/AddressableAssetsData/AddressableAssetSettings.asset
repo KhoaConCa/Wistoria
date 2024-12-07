@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: c3f2328a264f9474ca9877fffc40ea8d
   m_currentHash:
     serializedVersion: 2
-    Hash: 3ed1e3096729a7c75ae2c4cdc4f98df0
+    Hash: 3b47ae09476a37fca00986aa0c58f58b
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
     - SuccessMarker
     - WarningMarker
     - FailedMarker
+    - Notification
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 0bd8356925d4a4c45a0f65d2552565c3, type: 2}

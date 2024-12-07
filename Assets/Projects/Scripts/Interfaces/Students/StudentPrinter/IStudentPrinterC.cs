@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IStudentPrinterClickC
+public interface IStudentPrinterClickV
 {
     void ClickStudentPrinter();
-    void SetUpButton();
 }

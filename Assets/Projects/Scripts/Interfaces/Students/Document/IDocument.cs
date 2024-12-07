@@ -22,7 +22,7 @@ public interface IUploadDocumentHandler
     /// <param name="onDocumentIdReceived">Callback for handling the document ID.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
     IEnumerator UploadDocumentPropertiesCoroutine(DocumentD jsonData, Action<string> onSuccess, Action<string> onFaild);
-    IEnumerator UploadDocument(DocumentDStudent jsonData, Action<string> onSuccess, Action<string> onFaild);
+    IEnumerator UploadDocument(DocumentDStudent documentD, Action<DocumentDStudent> onSuccess, Action<string> onFaild);
 
     public IEnumerator GetStudentByID(string id, Action<StudentD> onSuccess, Action<string> onFailed);
 }

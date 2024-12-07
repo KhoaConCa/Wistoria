@@ -11,11 +11,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
 {
     #region -- Implements --
 
-    /// <summary>
-    /// Using addressable to create prefab
-    /// </summary>
-    /// <param name="package">Data of package</param>
-    public void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDoc)
+    public void CreateCard(StudentPrinterD studentPrinter)
     {
         GameObject container = GameObject.FindWithTag(_path);
 
@@ -34,10 +30,9 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                 return;
             }
 
-            printerDocCardData.Initialize(studentPrinter._id, printerDoc);
-
+            printerDocCardData.Initialize(studentPrinter);
             FindComponentUI();
-            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt?.Name ?? "Unknown", studentPrinter.Status);
+            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.Name + " - " + studentPrinter.LocateAt.Room);
         });
     }
 
@@ -83,11 +78,10 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     }
 
 
-    private void UpdateData(string printerName, string campusName, string status)
+    private void UpdateData(string printerName, string campusName)
     {
         _setDataStudentPrinterView.SetStudentPrinterPrinterName(printerName);
         _setDataStudentPrinterView.SetStudentPrinterCampusName(campusName);
-        _setDataStudentPrinterView.SetStudentPrinterStatus(status);
     }
 
     #endregion

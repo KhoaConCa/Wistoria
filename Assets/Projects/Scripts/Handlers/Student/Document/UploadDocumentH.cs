@@ -106,9 +106,9 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             }
         }
     }
-    public IEnumerator UploadDocument(DocumentDStudent document, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator UploadDocument(DocumentDStudent documentD, Action<DocumentDStudent> onSuccess, Action<string> onFaild)
     {
-        string json = MainHandler.ToJson(document);
+        string json = MainHandler.ToJson(documentD);
         Debug.Log($"JSON being sent: {json}");
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
@@ -124,7 +124,7 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
             MainData<DocumentDStudent> response = TransferStringToDocumentD(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
-                onSuccess?.Invoke(response.Message);
+                onSuccess?.Invoke(response.Data[0]);
             else
                 onFaild?.Invoke(response.Message);
         }

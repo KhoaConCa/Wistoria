@@ -85,6 +85,8 @@ namespace Utilities
             GameObject container = GameObject.FindWithTag("GUI");
             MainHandler.SpawnPrefabByLabel(notificationCard, container, spawnedPrefab =>
             {
+                MainHandler.PrefabList.Remove(spawnedPrefab);
+
                 Transform messageValue = FindObjectsByTag(spawnedPrefab.transform, "MessageValue");
                 if (messageValue != null)
                     messageValue.GetComponent<TextMeshProUGUI>().text = message;
@@ -96,6 +98,37 @@ namespace Utilities
                     if (resetButton != null)
                         resetButton.onClick.AddListener(method.Invoke);
                 }
+            });
+        }
+
+        public static void OnNotice(string message, Action cancelEvent = null, Action continueEvent = null)
+        {
+            AssetLabelReference notificationCard = new AssetLabelReference { labelString = "Notification" };
+
+            GameObject container = GameObject.FindWithTag("GUI");
+
+            MainHandler.SpawnPrefabByLabel(notificationCard, container, spawnedPrefab =>
+            {
+                MainHandler.PrefabList.Remove(spawnedPrefab);
+
+                Transform messageValue = FindObjectsByTag(spawnedPrefab.transform, "MessageValue");
+                if (messageValue != null)
+                    messageValue.GetComponent<TextMeshProUGUI>().text = message;
+
+                Button cancelButton = FindButtonByTag(spawnedPrefab.transform, "CancelButton");
+                Button continueButton = FindButtonByTag(spawnedPrefab.transform, "ContinueButton");
+
+                if (cancelButton != null && continueButton != null)
+                {
+                    if (cancelEvent != null)
+                        cancelButton.onClick.AddListener(cancelEvent.Invoke);
+
+                    if (continueEvent != null)
+                        continueButton.onClick.AddListener(continueEvent.Invoke);
+                }
+
+                cancelButton.onClick.AddListener(() => { UnityEngine.Object.Destroy(spawnedPrefab); });
+                continueButton.onClick.AddListener(() => { UnityEngine.Object.Destroy(spawnedPrefab); });
             });
         }
 
@@ -125,6 +158,12 @@ namespace Utilities
         }
         #endregion
 
+        private static Button FindButtonByTag(Transform transform, string tag)
+        {
+            Transform buttonTransform = FindObjectsByTag(transform, tag);
+            return buttonTransform.GetComponent<Button>();
+        }
+
         #region -- Set Up Notification Card --
         private static void SetUpNotificationCard(RectTransform prefabTransform, float distanceBase)
         {
@@ -143,6 +182,11 @@ namespace Utilities
 
             UnityEngine.Object.Destroy(spawnedPrefab, 5f);
 
+        }
+
+        public static void SelfDestroy(GameObject spawnedPrefab)
+        {
+            UnityEngine.Object.Destroy(spawnedPrefab);
         }
         #endregion
 

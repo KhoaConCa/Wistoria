@@ -9,7 +9,7 @@ public class PrinterDocCard : MonoBehaviour
     #region -- Properties --
 
     public string Id { get; set; }
-    public PrinterD Printer { get; set; }
+    public StudentPrinterD Printer { get; set; }
     public DocumentDStudent Document { get; set; }
     public string PaperSize { get; set; }
     public string Orientation { get; set; }
