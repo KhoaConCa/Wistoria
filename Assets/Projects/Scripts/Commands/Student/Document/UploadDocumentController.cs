@@ -1,70 +1,115 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using SimpleFileBrowser;
+using System.IO;
+using Utilities;
 
-#region -- Class Description --
-/// <summary>
-/// Controller class for managing document upload functionality.
-/// Initializes upload command and assigns the upload button's click event.
-/// </summary>
-#endregion
 public class UploadDocumentController : MonoBehaviour
 {
-    #region -- Unity Methods --
+    #region -- Methods --
 
-    /// <summary>
-    /// Unity's Start method.
-    /// Initializes the upload command and sets up the upload button click event.
-    /// </summary>
-    private void Start()
+    private void Awake()
     {
-        var handler = gameObject.AddComponent<UploadDocumentH>(); // Add handler as a component
-        _selectedFilePath = Application.dataPath + "/Sample.txt"; // Example file path
+        GetComponent();
+        AddComponent();
+    }
 
-        // Create and initialize the upload command with handler and file path
-        var uploadCommandComponent = gameObject.AddComponent<UploadDocumentC>();
-        uploadCommandComponent.Initialize(handler, _selectedFilePath);
-        _uploadCommand = uploadCommandComponent;
+    #region -- Add Component --
 
-        // Check if uploadButton is assigned in the Inspector
-        if (uploadButton != null)
-        {
-            uploadButton.onClick.AddListener(OnUploadButtonClicked);
-        }
-        else
-        {
-            Debug.LogError("Upload button not assigned in the Inspector.");
-        }
+    private void AddComponent()
+    {
+        if (_upLoadH == null)
+            _upLoadH = gameObject.AddComponent<UploadDocumentH>();
     }
 
     #endregion
 
-    #region -- Private Methods --
+    #region -- Get Component --
 
-    /// <summary>
-    /// Called when the upload button is clicked.
-    /// Executes the upload command if a file path is selected.
-    /// </summary>
-    private void OnUploadButtonClicked()
+    private void GetComponent()
     {
-        if (!string.IsNullOrEmpty(_selectedFilePath))
+        if (_cardData == null)
         {
-            gameObject.SetActive(true); // Ensure GameObject is active
-            _uploadCommand.Execute();
+            GameObject defaultUI = GameObject.FindWithTag("DefaultMainScene");
+            _cardData = defaultUI.GetComponent<PrinterDocCard>();
         }
+
+        _documentV = _targetObject.GetComponent<DocumentDetailV>();
     }
+
+    #endregion
+
+    #region -- Update Document Event --
+
+    public void OnUploadButtonClicked()
+    {
+        FileBrowser.ShowLoadDialog(
+            (paths) =>
+            {
+                _path = paths[0];
+                UploadDocument();
+            },
+            () => Debug.Log("File selection canceled."),
+            FileBrowser.PickMode.Files, false, null, "*.pdf,*.doc,*.docx", "Chọn tệp cần in", "Chọn"
+        );
+    }
+
+    #endregion
+
+    #region -- Get Info Data --
+
+    private void UploadDocument()
+    {
+        FileInfo fileInfo = new FileInfo(_path);
+
+        StartCoroutine(_upLoadH.GetStudentByID(MainUser.STUDENT_ID, onSuccess =>
+        {
+            if (onSuccess != null)
+            {
+                DocumentDStudent document = new DocumentDStudent() 
+                { 
+                    Student = onSuccess,
+                    Name = fileInfo.Name,
+                    Size = Random.Range(20, 50)
+                };
+
+                _cardData.Document = document;
+            }
+
+            UploadDocumentToServer();
+        }, onFailed =>
+        {
+            MainView.OnReset(UploadDocument, onFailed);
+        }));
+    }
+
+    private void UploadDocumentToServer()
+    {
+        StartCoroutine(_upLoadH.UploadDocument(_cardData.Document, onSuccess =>
+        {
+            MainView.OnDebugged(onSuccess.Id);
+            _cardData.Document = onSuccess;
+            _documentV.DefaultDocument();
+
+        }, onFailed =>
+        {
+            MainView.OnReset(UploadDocumentToServer, onFailed);
+        }));
+    }
+    #endregion
 
     #endregion
 
     #region -- Fields --
 
-    [Header("Upload Button")]
-    /// <summary>
-    /// Reference to the upload button (should be assigned in the Inspector).
-    /// </summary>
-    public Button uploadButton;
+    private ITransformUI _transform;
+    private IDocumentDefailV _documentV;
+    private IUploadDocumentCommand _uploadC;
+    private IUploadDocumentHandler _upLoadH;
 
-    private IUploadDocumentCommand _uploadCommand;
-    private string _selectedFilePath;
+    [SerializeField] private PrinterDocCard _cardData;
+    private string _path;
+
+    [SerializeField] private GameObject _targetObject;
 
     #endregion
 }

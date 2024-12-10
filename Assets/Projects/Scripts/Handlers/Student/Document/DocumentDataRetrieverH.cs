@@ -1,0 +1,55 @@
+using UnityEngine;
+
+public class DocumentDataRetrieverH : MonoBehaviour, IDocumentRetriever
+{
+    #region -- Implements --
+
+    public void RetrieveDocumentData()
+    {
+        if (_documentDetailView != null)
+        {
+            DocumentDetailD documentData = _documentDetailView.GetEditedDocumentData();
+
+            DocumentService.PaperSize = documentData.PaperSize;
+            DocumentService.Orientation = documentData.PageOrientation;
+            DocumentService.Side = documentData.PaperType;
+            DocumentService.PageBegin = int.TryParse(documentData.CustomPages.Split('-')[0], out int begin) ? begin : 1;
+            DocumentService.PageEnd = int.TryParse(documentData.CustomPages.Split('-')[1], out int end) ? end : 1;
+            DocumentService.Copies = documentData.CustomCopies;
+            DocumentService.Color = !documentData.NoCopies;
+
+            Debug.Log($"Paper Size: {documentData.PaperSize}");
+            Debug.Log($"Orientation: {documentData.PageOrientation}");
+            Debug.Log($"Side: {DocumentService.Side}");
+            Debug.Log($"Page Begin: {DocumentService.PageBegin}");
+            Debug.Log($"Page End: {DocumentService.PageEnd}");
+            Debug.Log($"Copies: {documentData.CustomCopies}");
+            Debug.Log($"Color: {DocumentService.Color}");
+        }
+        else
+        {
+            Debug.LogError("IDocumentDataEditor instance is missing!");
+        }
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    private void Start()
+    {
+        _documentDetailView = GetComponent<IDocumentDataEditor>();
+        if (_documentDetailView == null)
+        {
+            Debug.LogError("IDocumentDataEditor is not attached to this GameObject!");
+        }
+    }
+
+    #endregion
+
+    #region -- Fields --
+
+    private IDocumentDataEditor _documentDetailView;
+
+    #endregion
+}

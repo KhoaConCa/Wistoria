@@ -1,38 +1,71 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-#region -- Class Description --
-/// <summary>
-/// Controller class for managing document details.
-/// It initializes the document with default data, displays it on the view, and handles updates to document properties.
-/// </summary>
-#endregion
-public class DocumentDetailController : MonoBehaviour
+public class DocumentDetailController : MonoBehaviour, IDocumentInitialization, IDocumentUpdater
 {
+    #region -- Implements --
 
-    #region -- Unity Methods --
+    public void InitializeDocument()
+    {
+        _view = GetComponent<IDocumentDataEditor>();
+        
+        _view.DisplayDocumentProperties(_documentData);
+    }
 
-    /// <summary>
-    /// Unity's Start method.
-    /// Initializes the view and document data with default values and displays them.
-    /// </summary>
+    public void UpdateDocumentData(PrinterDocCard newData)
+    {
+        _documentData = newData;
+        _view.DisplayDocumentProperties(_documentData);
+    }
+
+    #endregion
+
+    #region -- Methods --
+
     private void Start()
     {
-        _view = GetComponent<DocumentDetailV>();
+        InitializeDocument();
 
-        // Initialize document data with default values
-        _documentData = new DocumentDetailD();
+        _retriever = GetComponent<DocumentDataRetrieverH>();
+        if (_retriever == null)
+        {
+            Debug.LogError("IDocumentRetriever is not attached to this GameObject!");
+        }
 
-        // Display default document properties on the view
-        _view.DisplayDocumentProperties(_documentData);
+        // Setup button click listener
+        if (retrieveDataButton != null)
+        {
+            retrieveDataButton.onClick.AddListener(OnRetrieveButtonClicked);
+        }
+        else
+        {
+            Debug.LogError("Retrieve Data Button is not assigned in the Inspector.");
+        }
+    }
+
+    private void OnRetrieveButtonClicked()
+    {
+        if (_retriever != null)
+        {
+            _retriever.RetrieveDocumentData();
+        }
+        else
+        {
+            Debug.LogError("IDocumentRetriever is not initialized.");
+        }
     }
 
     #endregion
 
     #region -- Fields --
 
-    private DocumentDetailV _view;
-    private DocumentDetailD _documentData;
+    [Header("Retrieve Data Button")]
+    public Button retrieveDataButton;
+
+    private IDocumentDataEditor _view;
+    private IDocumentRetriever _retriever;
+
+    private PrinterDocCard _documentData;
 
     #endregion
 }

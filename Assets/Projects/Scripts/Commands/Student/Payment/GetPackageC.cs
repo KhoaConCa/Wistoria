@@ -1,59 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
+﻿using UnityEngine;
+using Utilities;
 
-#region -- Class Description --
-/// <summary>
-/// Command class responsible for fetching and displaying package data.
-/// Initializes required components, starts package retrieval, and handles found packages.
-/// </summary>
-#endregion
 public class GetPackageC : MonoBehaviour, IGetPackageCommand
 {
-    #region -- Unity Methods --
-
-    /// <summary>
-    /// Unity's Start method.
-    /// Adds required components and initiates the coroutine to get all packages.
-    /// </summary>
-    void Start()
-    {
-        AddComponentPackageHandler();
-        AddComponentPackageView();
-        StartCoroutine(_packageHandler.GetAllPackage(OnPackageFound));
-    }
-
-    #endregion
-
-    #region -- Package Handling Methods --
-
-    /// <summary>
-    /// Callback executed when a package is found.
-    /// Displays package information in the console and creates a package card in the view.
-    /// </summary>
-    /// <param name="package">The package data found by the handler.</param>
-    public void OnPackageFound(PackageD package)
-    {
-        if (package != null)
-        {
-            Debug.Log($"Found paper: {package.Paper}, price: {package.Price}");
-            _spawnPackageView.CreateCard(package);
-        }
-        else
-        {
-            Debug.Log("Package not found.");
-        }
-    }
-
-    #endregion
-
-    #region -- Add Components --
+    #region -- Implements --
 
     /// <summary>
     /// Adds the SpawnPackageV component if it has not already been added.
     /// </summary>
-    void AddComponentPackageView()
+    public void AddComponentPackageView()
     {
         if (_spawnPackageView == null)
         {
@@ -68,7 +23,7 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
     /// <summary>
     /// Adds the GetPackageH component if it has not already been added.
     /// </summary>
-    void AddComponentPackageHandler()
+    public void AddComponentPackageHandler()
     {
         if (_packageHandler == null)
         {
@@ -78,6 +33,62 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
         {
             Debug.Log("GetPackageH component already exists.");
         }
+    }
+
+    #endregion
+
+    #region -- Methods --
+
+    /// <summary>
+    /// Unity's Start method.
+    /// Adds required components and initiates the coroutine to get all packages.
+    /// </summary>
+    private void Awake()
+    {
+        AddComponentPackageHandler();
+        AddComponentPackageView();
+    }
+
+    private void OnEnable()
+    {
+        MainHandler.ClearSpawnedPrefabs();
+        StartCoroutine(_packageHandler.GetAllPackage(OnPackageFound,
+            OnFetchSuccess,
+            OnFetchFailed));
+    }
+
+    /// <summary>
+    /// Callback executed when a package is found.
+    /// Displays package information in the console and creates a package card in the view.
+    /// </summary>
+    /// <param name="package">The package data found by the handler.</param>
+    public void OnPackageFound(PackageD package)
+    {
+        if (package != null)
+        {
+            _spawnPackageView.CreateCard(package);
+        }
+        else
+        {
+            Debug.Log("Package not found.");
+        }
+    }
+    /// <summary>
+    /// Callback executed when fetching printers succeeds.
+    /// </summary>
+    /// <param name="message">Success message.</param>
+    private void OnFetchSuccess(string message)
+    {
+        Debug.Log($"Fetch successful: {message}");
+    }
+
+    /// <summary>
+    /// Callback executed when fetching printers fails.
+    /// </summary>
+    /// <param name="error">Error message.</param>
+    private void OnFetchFailed(string error)
+    {
+        Debug.LogError($"Fetch failed: {error}");
     }
 
     #endregion

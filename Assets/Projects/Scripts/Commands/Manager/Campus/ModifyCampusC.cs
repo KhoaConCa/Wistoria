@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utilities;
 
 public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
 {
@@ -12,47 +13,11 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     /// <summary>
     /// Switch form, transfer data when the campus card was clicked
     /// </summary>
-    public void ClickCard()
+    public void ClickCardToModify()
     {
-        if (campus == null)
-        {
-            Debug.LogWarning("Campus data is null. Cannot proceed with ClickCard.");
-            return;
-        }
-
         _detail.DisplayCampusDetails(_cardData);
 
-        _transformUI.SetActiveCampusUI(modifyObject);
-    }
-
-    /// <summary>
-    /// Set event for prefab
-    /// </summary>
-    public void SetupButton()
-    {
-        clickCard = gameObject.GetComponent<Button>();
-        _cardData = gameObject.GetComponent<CampusCardData>();
-
-        if (clickCard != null)
-        {
-            clickCard.onClick.AddListener(() =>
-            {
-                if (_cardData != null)
-                {
-                    currentCampusID = _cardData.CampusID;
-
-                    ClickCard();
-                }
-                else
-                {
-                    Debug.LogWarning("CampusCardData is missing on the clicked prefab.");
-                }
-            });
-        }
-        else
-        {
-            Debug.LogError("Button component not found on the prefab!");
-        }
+        _transformUI.SetActiveObjectUI(_targetObject);
     }
 
     #endregion
@@ -62,43 +27,47 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     void Start()
     {
         GetTransformUI();
-        GetComponentData();
-        AddComponentDetail();
+        GetComponentDetail();
 
-        GetParentGameObject();
-        SetupButton();
+        GetCardComponent();
     }
+
+    #region -- Get Component --
+
+    /// <summary>
+    /// Set event for prefab
+    /// </summary>
+    public void GetCardComponent()
+    {
+        try
+        {
+            if (_cardData == null)
+                _cardData = gameObject.GetComponent<CampusCardData>();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
+    #endregion
 
     #region -- Add Component --
     private void GetTransformUI()
     {
         if (_transformUI == null)
-        {
-            _transformUI = gameObject.GetComponent<UITransformV>();
-        }
+            _transformUI = GameObject.FindWithTag("MainUI").GetComponent<UITransformV>();
         else
-        {
             Debug.Log("The UITransformV component already exiests");
-        }
     }
 
-    private void GetComponentData()
-    {
-        if (_cardData == null)
-        {
-            _cardData = gameObject.GetComponent<CampusCardData>();
-        }
-        else
-        {
-            Debug.Log("The ModifyCampusH component already exiests");
-        }
-    }
-
-    private void AddComponentDetail()
+    private void GetComponentDetail()
     {
         if (_detail == null)
         {
-            _detail = gameObject.AddComponent<DetailCampusC>();
+          Transform childObject = MainView.FindObjectsByTag(GameObject.FindWithTag("MainUI").transform, "EditUI");
+            _targetObject = childObject.gameObject;
+            _detail = _targetObject.GetComponent<DetailCampusC>();
         }
         else
         {
@@ -107,57 +76,17 @@ public class ModifyCampusC : MonoBehaviour, IModifyCampusCommand
     }
     #endregion
 
-    /// <summary>
-    /// Get transform of DetailCampus GameObject even if it is inactive
-    /// </summary>
-    public void GetParentGameObject()
-    {
-        Transform campusTransform = transform.parent.parent.parent.parent.parent;
-
-        if (campusTransform != null)
-        {
-            Transform detailCampusTransform = campusTransform.Find("DetailCampus");
-
-            if (detailCampusTransform != null)
-            {
-                modifyObject = detailCampusTransform.gameObject;
-
-                if (modifyObject == null)
-                {
-                    Debug.LogWarning("DetailCampus GameObject not found.");
-                }
-                else
-                {
-                    Debug.Log("Found DetailCampus GameObject, even if it is inactive.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("DetailCampus transform not found in Campus hierarchy.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Campus transform not found.");
-        }
-    }
-
     #endregion
 
     #region -- Fields --
-
-    public Button clickCard;
-    public CampusD campus;
-
-    public GameObject modifyObject;
 
     private ITransformUI _transformUI;
     private ICampusCardData _cardData;
     private ICampusDetailCommand _detail;
 
-    public static string currentCampusID;
+    private Button _clickCard;
 
-    private Action<string> onClickCallback;
+    [SerializeField] private GameObject _targetObject;
 
     #endregion
 }

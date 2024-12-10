@@ -1,49 +1,76 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
 
-public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
+public class DetailCampusH : MonoBehaviour, IDetailCampusUpdateHandler
 {
     #region -- Implements --
 
-    public string TransferData(CampusD campus)
+    public IEnumerator GetUniqueName(Action<List<string>> onNameCampus, Action<string> onSuccess, Action<string> onFailed)
     {
-        return MainHandler.ToJson<CampusD>(campus); ;
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getCampusUniqueNames))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<string> response = TransferStringToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(response.Message);
+
+                onNameCampus?.Invoke(response.Data);
+            }
+            else
+                onFailed?.Invoke(response.Message);
+        }
     }
 
-    public IEnumerator UpdateCampusData(CampusD campus, Action<CampusD> onSuccess, Action onFailed)
+    public IEnumerator UpdateCampusData(CampusD campus, Action<string> onSuccess, Action<string> onFailed)
     {
-        _onSuccess = onSuccess;
-        _onFailed = onFailed;
-        string url = $"{_updateURL}/{campus._id}";
+        string url = $"{AllUrlManager.updateCampus}/{campus.Id}";
 
-        string json = TransferData(campus);
+        string json = TransferDataToJson(campus);
+        Debug.Log(json);
 
         using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
         {
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            // Gửi yêu cầu và chờ phản hồi
             yield return request.SendWebRequest();
+
+            MainData<CampusD> response = TransferObjectToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Message);
+            else
+                onFailed?.Invoke(response.Message);
+        }
+    }
+
+    public IEnumerator GetUniqueRoom(Action<List<string>> onRoomCampus, Action<string> onSuccess, Action<string> onFailed)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlManager.getCampusUniqueRooms))
+        {
+            yield return request.SendWebRequest();
+
+            MainData<string> response = TransferStringToData(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                // Phân tích JSON phản hồi và chuyển thành đối tượng CampusD
-                CampusD updatedCampus = JsonUtility.FromJson<CampusD>(request.downloadHandler.text);
-                _onSuccess?.Invoke(updatedCampus);
+                onSuccess?.Invoke(response.Message);
+
+                onRoomCampus?.Invoke(response.Data);
             }
             else
-            {
-                Debug.LogError("Error updating campus: " + request.error);
-                _onFailed?.Invoke();
-            }
+                onFailed?.Invoke(response.Message);
         }
     }
 
@@ -51,14 +78,24 @@ public class DetailCampusH : MonoBehaviour, IDetailUpdateHandler
 
     #region -- Methods --
 
-    #endregion
+    public string TransferDataToJson(CampusD campus)
+    {
+        return MainHandler.ToJson<CampusD>(campus);
+    }
 
-    #region -- Fields --
+    public MainData<CampusD> TransferObjectToData(string response)
+    {
+        MainData<CampusD> mainData = JsonConvert.DeserializeObject<MainData<CampusD>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
 
-    private Action<CampusD> _onSuccess;
-    private Action _onFailed;
-
-    private readonly string _updateURL = "";
+    public MainData<string> TransferStringToData(string response)
+    {
+        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        mainData.Initialize();
+        return mainData;
+    }
 
     #endregion
 }

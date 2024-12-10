@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 7520276527351775238}
   m_Layer: 5
   m_Name: Value
-  m_TagString: Untagged
+  m_TagString: PackageValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,10 +262,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 32
+    m_Right: 32
+    m_Top: 32
+    m_Bottom: 32
   m_ChildAlignment: 0
   m_Spacing: 4
   m_ChildForceExpandWidth: 1
@@ -287,6 +287,9 @@ GameObject:
   - component: {fileID: 2092639618986712631}
   - component: {fileID: 420735569527840405}
   - component: {fileID: 4553943338723022753}
+  - component: {fileID: 8173335630305595775}
+  - component: {fileID: 1442449863057409082}
+  - component: {fileID: 6825811820519254389}
   m_Layer: 5
   m_Name: PageTag
   m_TagString: Untagged
@@ -368,6 +371,75 @@ MonoBehaviour:
   m_EffectColor: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1
+--- !u!114 &8173335630305595775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5213368858786782917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 420735569527840405}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1442449863057409082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5213368858786782917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907105928ada1d94ebcbe6f0d62f8268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clickPackage: {fileID: 8173335630305595775}
+--- !u!114 &6825811820519254389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5213368858786782917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f7fb10406d4f0040b789f273c73af15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8024276030047033787
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +453,7 @@ GameObject:
   - component: {fileID: 6775605868515847670}
   m_Layer: 5
   m_Name: Name
-  m_TagString: Untagged
+  m_TagString: PackageName
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -435,8 +507,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1f8059fdfa6a72d4b86ac53487ab2d09, type: 2}
-  m_sharedMaterial: {fileID: -8146239150044617680, guid: 1f8059fdfa6a72d4b86ac53487ab2d09, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1f65b071e7ab3f4dac9fc29457772f8, type: 2}
+  m_sharedMaterial: {fileID: 613215239181886269, guid: a1f65b071e7ab3f4dac9fc29457772f8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

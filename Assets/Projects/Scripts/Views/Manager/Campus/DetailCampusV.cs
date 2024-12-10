@@ -6,92 +6,57 @@ using UnityEngine.UI;
 
 public class DetailCampusV : MonoBehaviour
 {
-    #region -- Implements --
-
-    #endregion
-
     #region -- Methods --
 
-    void Start()
+    private void OnEnable()
     {
-        GetComponentTransform();
-
-        _backButton.onClick.AddListener(SwitchUIBack);
-        _backButton.onClick.AddListener(DisableInputField);
-        _backButton.onClick.AddListener(EnableModifyButton);
-        _backButton.onClick.AddListener(DisableSaveButton);
-
-        _modifyButton.onClick.AddListener(EnableInputField);
-        _modifyButton.onClick.AddListener(DisableModifyButton);
-        _modifyButton.onClick.AddListener(EnableSaveButton);
+        DisableInteractableField();
     }
 
-    private void GetComponentTransform()
+    private void OnDisable()
     {
-        if (_transformUI == null)
-        {
-            _transformUI = gameObject.GetComponent<UITransformV>();
-        }
-        else
-        {
-            Debug.Log("The UITransformV component already exists");
-        }
+        ResetInteractableField();
     }
 
-    private void EnableInputField()
+    #region - Interactable Fields -
+    public void EnableInteractableField()
     {
-        campusNameInput.interactable = true;
-        campusRoomInput.interactable = true;
+        _campusRoomInputField.GetComponent<TMP_InputField>().interactable = true;
+        _campusNameDropDown.GetComponent<TMP_Dropdown>().interactable = true;
     }
 
-    private void DisableInputField()
+    public void DisableInteractableField()
     {
-        campusNameInput.interactable = false;
-        campusRoomInput.interactable = false;
+        _campusRoomInputField.GetComponent<TMP_InputField>().interactable = false;
+        _campusNameDropDown.GetComponent<TMP_Dropdown>().interactable = false;
     }
 
-    private void SwitchUIBack()
+    public void ResetInteractableField()
     {
-        _transformUI.SetActiveCampusUI(_target);
+        _campusNameDropDown.GetComponent<TMP_Dropdown>().ClearOptions();
+        _campusRoomInputField.GetComponent<TMP_InputField>().text = "";
+
+    }
+    #endregion
+
+    #region - Modify Button Event -
+    public void EnableModifyButton(GameObject buttonObject)
+    {
+        buttonObject.SetActive(true);
     }
 
-    private void EnableModifyButton()
+    public void DisableModifyButton(GameObject buttonObject)
     {
-        _edit.SetActive(true);
+        buttonObject.SetActive(false);
     }
-
-    private void DisableModifyButton()
-    {
-        _edit.SetActive(false);
-    }
-
-    private void EnableSaveButton()
-    {
-        _save.SetActive(true);
-    }
-
-    private void DisableSaveButton()
-    {
-        _save.SetActive(false);
-    }
+    #endregion
 
     #endregion
 
     #region -- Fields --
 
-    [SerializeField] private GameObject _target;
-    [SerializeField] private GameObject _edit;
-    [SerializeField] private GameObject _save;
+    [SerializeField] private GameObject _campusRoomInputField;
+    [SerializeField] private GameObject _campusNameDropDown;
 
-    [SerializeField] private Button _backButton;
-    [SerializeField] private Button _modifyButton;
-    [SerializeField] private Button _saveButton;
-    [SerializeField] private Button _deleteButton;
-
-    public TMP_InputField campusNameInput;
-    public TMP_InputField campusRoomInput;
-
-    private ITransformUI _transformUI;
-
-        #endregion
+    #endregion
 }

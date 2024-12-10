@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using UnityEngine.UI;   
+using System;
+using Utilities;
+using System.Collections.Generic;
 
 public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
 {
@@ -12,99 +15,119 @@ public class DetailCampusC : MonoBehaviour, ICampusDetailCommand
     /// <param name="campus">Data of campus was clicked</param>
     public void DisplayCampusDetails(ICampusCardData campus)
     {
-        if (campus == null)
+        try
         {
-            Debug.LogWarning("Campus data is null. Cannot display details.");
-            return;
-        }
+            if (campus == null)
+            {
+                Debug.LogWarning("Campus data is null. Cannot display details.");
+                return;
+            }
 
-        campusNameInput.text = campus.CampusName;
-        campusRoomInput.text = campus.CampusRoom;
-        campusID = campus.CampusID;
+            _cardData = campus;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 
     #endregion
 
     #region -- Methods -- 
 
-    void Start()
+    void Awake()
     {
-        SetComponentBasedOn(_baseTransform, _campusNameText, _campusRoomText);
+        AddComponentHandler();
+    }
+
+    void OnEnable()
+    {
+        SetUpDataDefault();
+    }
+
+    private void SetUpDataDefault()
+    {
+        if (_campusNameDropDown != null && _campusRoomInputField != null)
+        {
+            StartCoroutine(_updateHandler.GetUniqueName(SetDataCampusName, MainView.OnDebugged, message =>
+            {
+                MainView.OnReset(SetUpDataDefault, message);
+            }));
+
+            _campusRoomInputField.text = _cardData.Room;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (_campusNameDropDown != null && _campusRoomInputField != null)
+            ClearDataModify();
+    }
+
+    #region -- Add Component --
+    private void AddComponentHandler()
+    {
+        if (_updateHandler == null)
+            _updateHandler = gameObject.AddComponent<DetailCampusH>();
+        else
+            Debug.Log("The DetailCampusH component already exists");
+    }
+    #endregion
+
+    #region -- Set Data --
+    private void SetDataCampusName(List<string> campusName)
+    {
+        _campusNameDropDown.ClearOptions();
+
+        _campusNameDropDown.AddOptions(campusName);
+        int indexSelected = campusName.IndexOf(_cardData.Name);
+        _campusNameDropDown.value = indexSelected;
+    }
+    #endregion
+
+    #region -- Main Event --
+    public void OnClickSaveButton()
+    {
+        SetDataModify();
+        GetDataModify();
+
+        StartCoroutine(_updateHandler.UpdateCampusData(_campusData, MainView.OnSuccess, MainView.OnFailed));
     }
 
     /// <summary>
-    /// Add component for GameObject
+    /// Set new campus data
     /// </summary>
-    /// <param name="nameLocation">Transform name campus field</param>
-    /// <param name="roomLocation">Transform name room field</param>
-    private void AddComponentGameObject(Transform nameLocation, Transform roomLocation)
+    private void GetDataModify()
     {
-        campusNameInput = nameLocation.GetComponent<TextMeshProUGUI>();
-        campusRoomInput = roomLocation.GetComponent<TextMeshProUGUI>();
+        _campusData.Initialize(_cardData);
     }
 
-    private void AddComponentData()
+    private void SetDataModify()
     {
-        if (_cardData == null)
-        {
-            _cardData = gameObject.AddComponent<CampusCardData>();
-        }
-        else
-        {
-            Debug.Log("The CampusCardData component already exists");
-        }
+        _cardData.Name = _campusNameDropDown.captionText.text;
+        _cardData.Room = _campusRoomInputField.text;
     }
 
-    /// <summary>
-    /// Get transform of father component
-    /// </summary>
-    /// <param name="root">Father root</param>
-    /// <param name="name">Child field name</param>
-    /// <param name="room">Child field room</param>
-    private void SetComponentBasedOn(string root, string name, string room)
+    private void ClearDataModify()
     {
-        Transform based = transform.root.Find(root);
-
-        if (based != null)
-        {
-            Transform _name = based.Find(name);
-            Transform _room = based.Find(room);
-
-            if (_name != null && _room != null)
-            {
-                AddComponentGameObject(_name, _room);
-            }
-            else
-            {
-                Debug.LogWarning("CampusText or RoomText not found with specified path in DetailCampus.");
-            }
-        }
-        else
-        {
-            Debug.LogError("DetailCampus not found in hierarchy.");
-        }
+        _campusNameDropDown.ClearOptions();
+        _campusRoomInputField.text = "";
     }
+    #endregion
 
     #endregion
 
     #region -- Fields -- 
 
     private ICampusCardData _cardData;
-    private IDataTransferHandler _detailHandler;
+    private IDetailCampusUpdateHandler _updateHandler;
+
+    private CampusD _campusData = new CampusD();
 
     [SerializeField] private Button _saveButton;
-    [SerializeField] private Button _deleteButton;
 
-    public TextMeshProUGUI campusNameInput;
-    public TextMeshProUGUI campusRoomInput;
-
-    private readonly string _baseTransform = "/GUI/Monitor/Campus/DetailCampus";
-    private readonly string _campusNameText = "Body/SearchCard/ItemField/Campus" +
-        "/InputField (TMP)/Text Area/PlaceHolderCampus";
-    private readonly string _campusRoomText = "Body/SearchCard/ItemField/Room" +
-        "/InputField (TMP)/Text Area/PlaceHolderRoom";
-
-    private string campusID;
+    [SerializeField] private TMP_Dropdown _campusNameDropDown;
+    [SerializeField] private TMP_InputField _campusRoomInputField;
 
     #endregion
 }

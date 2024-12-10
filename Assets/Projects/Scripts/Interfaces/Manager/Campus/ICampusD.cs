@@ -4,8 +4,18 @@ using UnityEngine;
 
 public interface ICampusCardData
 {
-    string CampusID { get; set; }
-    string CampusName { get; set; }
-    string CampusRoom { get; set; }
-    void Initialize(string id, string name, string room);
+    #region -- Methods --
+
+    void Initialize(CampusD campus);
+
+    #endregion
+    
+    #region -- Properties --
+
+    string Id { get; set; }
+    string Name { get; set; }
+    string Room { get; set; }
+    string Status { get; set; }
+
+    #endregion
 }

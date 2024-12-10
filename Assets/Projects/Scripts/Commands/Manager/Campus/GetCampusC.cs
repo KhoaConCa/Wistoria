@@ -1,50 +1,75 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
+using Utilities;
 
 public class GetCampusC : MonoBehaviour, IGetCampusCommand
 {
     #region -- Implements --
 
     /// <summary>
-    /// Sends a GET request to the server when the button is clicked.
-    /// Retrieves the campus information based on the selected campus name
+    /// Handles the response from the server when campus information is found.
+    /// Logs the details of the campus if it exists
     /// </summary>
-    public void ClickFindButton()
+    /// <param name="campus">The campus object returned from the server</param>
+    public void OnCampusFound(CampusD campus)
     {
-        string campusName = GetSelectedCampusName();
-
-        if (!string.IsNullOrEmpty(campusName))
-        {
-            StartCoroutine(_campusHandler.GetCampus(campusName, OnCampusFound));
-        }
+        if (campus != null)
+            _spawnCampusView.CreateCard(campus);
         else
-        {
-            Debug.Log("Campus name cannot be empty.");
-        }
+            Debug.Log("Campus not found.");
     }
 
     #endregion
 
     #region -- Methods --
 
-    void Start()
+    private void Awake()
     {
         AddComponentCampusHandler();
         AddComponetCampusView();
+    }
 
-        StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound));
+    private void OnEnable()
+    {
+        GetDefaultData();
+    }
 
-        getButton.onClick.AddListener(ClickFindButton);
+    private void GetDefaultData()
+    {
+        try
+        {
+            MainHandler.ClearSpawnedPrefabs();
+
+            if (MainHandler.PrefabList.Count <= 1)
+            {
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, MainView.OnDebugged, message =>
+                {
+                    MainView.OnReset(GetDefaultData, message);
+                }));
+            }
+
+            StartCoroutine(_campusHandler.GetUniqueName(GetCampusUniqueName, MainView.OnDebugged, message =>
+            {
+                MainView.OnReset(GetDefaultData, message);
+            }));
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e.Message);
+        }
     }
 
     #region -- Add Components --
-    void AddComponetCampusView()
+    private void AddComponetCampusView()
     {
-        if (_SpawnCampusView == null)
+        if (_spawnCampusView == null)
         {
-            _SpawnCampusView = gameObject.AddComponent<SpawnCampusV>();
+            _spawnCampusView = gameObject.AddComponent<SpawnCampusV>();
         }
         else
         {
@@ -52,11 +77,12 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
     }
 
-    void AddComponentCampusHandler()
+    private void AddComponentCampusHandler()
     {
         if (_campusHandler == null)
         {
             _campusHandler = gameObject.AddComponent<GetCampusH>();
+            
         }
         else
         {
@@ -64,6 +90,16 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
         }
     }
     #endregion
+
+    public void GetCampusUniqueName(List<string> campusName)
+    {
+        _uniqueName = campusName;
+        campusName.Insert(0, "Tất cả");
+
+        _nameCampusComboBox.ClearOptions();
+
+        _nameCampusComboBox.AddOptions(campusName);
+    }
 
     /// <summary>
     /// Retrieves the name of the selected campus from the dropdown list
@@ -74,25 +110,33 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
     /// </returns>
     public string GetSelectedCampusName()
     {
-        int selectedIndex = findNameInput.value;
-        return findNameInput.options[selectedIndex].text;
+        int selectedIndex = _nameCampusComboBox.value;
+        return _nameCampusComboBox.options[selectedIndex].text;
     }
 
-    /// <summary>
-    /// Handles the response from the server when campus information is found.
-    /// Logs the details of the campus if it exists
-    /// </summary>
-    /// <param name="campus">The campus object returned from the server</param>
-    public void OnCampusFound(CampusD campus)
+    public void SearchCampusByName()
     {
-        if (campus != null)
+        try
         {
-            Debug.Log($"Found Campus: {campus.CampusName}, Room: {campus.Room}");
-            _SpawnCampusView.CreateCard(campus);
+            string name = _nameCampusComboBox.captionText.text;
+            if (name == _uniqueName[0])
+                StartCoroutine(_campusHandler.GetAllCampus(OnCampusFound, onSuccess =>
+                {
+                    MainView.OnSuccess(onSuccess);
+
+                    MainHandler.ClearSpawnedPrefabs();
+                }, MainView.OnFailed));
+            else
+                StartCoroutine(_campusHandler.GetCampus(name, OnCampusFound, onSuccess =>
+                {
+                    MainView.OnSuccess(onSuccess);
+
+                    MainHandler.ClearSpawnedPrefabs();
+                }, MainView.OnFailed));
         }
-        else
+        catch (Exception e) 
         {
-            Debug.Log("Campus not found.");
+            Debug.LogError(e.Message); 
         }
     }
 
@@ -100,12 +144,14 @@ public class GetCampusC : MonoBehaviour, IGetCampusCommand
 
     #region -- Fields --
 
-    public TMP_Dropdown findNameInput;
-
-    public Button getButton;
-
     private IGetCampusHandler _campusHandler;
-    private ICampusViewSpawner _SpawnCampusView;
+    private ICampusViewSpawner _spawnCampusView;
+
+    private List<string> _uniqueName;
+
+    [SerializeField] private Button _getButton;
+
+    [SerializeField] private TMP_Dropdown _nameCampusComboBox;
 
     #endregion
 }

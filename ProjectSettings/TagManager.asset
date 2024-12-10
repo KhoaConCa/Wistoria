@@ -4,7 +4,41 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Campus
+  - ObjectContain
+  - ValuePrinter
+  - ValueRoom
+  - ValueCampus
+  - SearchUI
+  - EditUI
+  - CreateUI
+  - MainUI
+  - DefaultMainScene
+  - PackageName
+  - PackageValue
+  - ValuePaper
+  - ValuePrice
+  - MainGUI
+  - MessageValue
+  - ValueName
+  - ValueStudent
+  - ValueTime
+  - ValueMonth
+  - FeatureContainer
+  - Header
+  - Footer
+  - GUI
+  - ResetButton
+  - CheckingButton
+  - StoreButton
+  - ValueNamePrinter
+  - ValueStatus
+  - LabelCampus
+  - LabelPaper
+  - Icon
+  - HisNavi
+  - ContinueButton
+  - CancelButton
+  - PrintButton
   layers:
   - Default
   - TransparentFX
@@ -12,7 +46,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Feature
   - 
   - 
   - 

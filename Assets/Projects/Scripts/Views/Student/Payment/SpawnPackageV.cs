@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -17,40 +19,54 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
     /// <param name="package">Data of package</param>
     public void CreateCard(PackageD package)
     {
-        MainHandler.ClearSpawnedPrefabs();
-
-        MainHandler.SpawnPrefabByLabel(_packagePrefab, _path, (spawnedPrefab) =>
+        _objectContain = GameObject.FindWithTag("ObjectContain");
+        MainHandler.SpawnPrefabByLabel(_packagePrefab, _objectContain, (spawnedPrefab) =>
         {
-            if (spawnedPrefab != null)
+            try
             {
-                Debug.Log("Prefab spawned successfully.");
+                if (spawnedPrefab != null)
+                {
+                    var packageCardData = spawnedPrefab.GetComponent<PackageCardData>();
+                    if (packageCardData != null)
+                    {
+                        packageCardData.Initialize(package.Paper, package.Price);
+                    }
+                    else
+                    {
+                        Debug.LogError("PackageCardData component is missing on the prefab. Please ensure the component is attached.");
+                    }
 
-
-                FindComponentUI(_packagePaper, _packagePrice);
-                UpdateData(package.Paper, package.Price);
+                    FindComponentUI();
+                    UpdateData(package.Paper, package.Price);
+                }
+                else
+                {
+                    Debug.LogError("Failed to spawn prefab!");
+                }
             }
-            else
+            catch (Exception e)
             {
-                Debug.LogError("Failed to spawn prefab!");
+                Debug.LogError(e.Message);
             }
         });
     }
+
 
     #endregion
 
     #region -- Methods --
 
-    void Start()
+    void Awake()
     {
-        _packagePrefab = new AssetLabelReference { labelString = "Package" };
+        GetObject();
 
         AddComponentSetData();
     }
 
-    private void FindComponentUI(string paper, string price)
+    private void FindComponentUI()
     {
-        Transform positionPaper = MainHandler.LastSpawnedPrefab?.transform.Find(paper);
-        Transform positionPrice = MainHandler.LastSpawnedPrefab?.transform.Find(price);
+        Transform positionPaper = MainHandler.FindChildObjectsByTag(MainHandler.LastSpawnedPrefab.transform, _packagePaper);
+        Transform positionPrice = MainHandler.FindChildObjectsByTag(MainHandler.LastSpawnedPrefab.transform, _packagePrice);
 
         if (positionPaper != null && positionPrice != null)
         {
@@ -59,6 +75,19 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
         else
         {
             Debug.LogError("UI components not found in prefab!");
+        }
+    }
+
+    private void GetObject()
+    {
+        try
+        {
+            if (_packagePrefab == null)
+                _packagePrefab = new AssetLabelReference { labelString = "Package" };
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
         }
     }
 
@@ -89,9 +118,10 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 
     [SerializeField] private AssetLabelReference _packagePrefab;
 
-    private readonly string _path = "/GUI/PGUI/PMiddle/PPayment/PPurchasePaper/PLayout/PItemList";
-    private readonly string _packagePaper = "PInfo/PAddress/PValue/VPages";
-    private readonly string _packagePrice = "PInfo/PLabel/LName"; 
+    private GameObject _objectContain;
+
+    private readonly string _packagePaper = "PackageName";
+    private readonly string _packagePrice = "PackageValue"; 
 
     #endregion
 }
