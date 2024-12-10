@@ -173,6 +173,10 @@ public static class AllUrlStudent
     #region - GET -
     public static readonly string getPaymentByPaper = "https://smart-printer-alpha.vercel.app/v1/package/search/paper";
     #endregion
+
+    #region - PATCH -
+    public static readonly string updatePayment = "https://smart-printer-alpha.vercel.app/v1/payment/update";
+    #endregion
     #endregion
 
     #region -- Queue --

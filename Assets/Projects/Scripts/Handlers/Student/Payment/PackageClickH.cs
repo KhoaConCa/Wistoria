@@ -104,16 +104,19 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
                 if (resaultCode == 0)
                 {
                     int newPaper = _amount + _currentPaper;
+
                     ProcessDone(newPaper, _orderId);
                 }
                 else
                 {
+                    OnFailedPayment();
                     MainView.OnFailed("Thanh toán không thành công");
                 }
 
             }, onFailed =>
             {
-                MainView.OnFailed("Bạn chưa thanh toán");
+                OnFailedPayment();
+                MainView.OnFailed("Thanh toán không thành công");
             }));
             
             _isWaitingForCallback = false;
@@ -129,7 +132,20 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
         payment.Status = "Success";
         payment.updateDate = DateTime.Now;
 
-        StartCoroutine(_paymentHandler.UploadJson(payment, MainView.OnSuccess, MainView.OnFailed));
+        StartCoroutine(_paymentHandler.UploadJson(payment, onSuccess =>
+        {
+            _paymentId = onSuccess;
+        }, MainView.OnFailed));
+    }
+
+    private void OnFailedPayment()
+    {
+        PaymentJsonD payment = new PaymentJsonD();
+        payment.Id = _paymentId;
+        payment.Status = PaymentStatus.Fail.ToString();
+        payment.updateDate = DateTime.Now;
+
+        StartCoroutine(_paymentHandler.UpdateAfterPayment(payment, MainView.OnSuccess, MainView.OnFailed));
     }
 
     private void CreateMOMOPayment(MomoD momo)
@@ -182,7 +198,7 @@ public class PackageClickH : MonoBehaviour, IPackageClickH
     private int _currentPaper;
     private int _amount;
     private string _paperPaid;
-    private string _packageId;
+    private string _paymentId;
 
     #endregion
 }

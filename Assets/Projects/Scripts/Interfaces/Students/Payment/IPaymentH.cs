@@ -13,6 +13,7 @@ public interface ICreatePaymentHandler
     /// <returns>IEnumerator for coroutine functionality.</returns>
     IEnumerator Upload(PaymentD payment, Action<string> onSuccess, Action<string> onFaild);
     IEnumerator UploadJson(PaymentJsonD payment, Action<string> onSuccess, Action<string> onFailed);
+    IEnumerator UpdateAfterPayment(PaymentJsonD payment, Action<string> onSuccess, Action<string> onFailed);
 }
 
 public interface IPaymentProcessor

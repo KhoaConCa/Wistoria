@@ -47,7 +47,36 @@ public class CreatePaymentH : MonoBehaviour, ICreatePaymentHandler
             if (request.result != UnityWebRequest.Result.Success)
                 onFailed?.Invoke(newPayment.Message);
             else
-                onSuccess?.Invoke(newPayment.Message);
+                onSuccess?.Invoke(newPayment.Data[0].Id);
+        }
+    }
+
+    public IEnumerator UpdateAfterPayment(PaymentJsonD payment, Action<string> onSuccess, Action<string> onFailed)
+    {
+        string url = $"{AllUrlStudent.updatePayment}/{payment.Id}";
+
+/*        string json = TransferToJson(payment);
+        Debug.Log(json);*/
+
+        string json = ProcessingJson.RemoveNullJson(payment);
+        Debug.Log(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
+        {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            MainData<PaymentJsonD> response = TransferToData(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Message);
+            else
+                onFailed?.Invoke(response.Message);
         }
     }
     #endregion

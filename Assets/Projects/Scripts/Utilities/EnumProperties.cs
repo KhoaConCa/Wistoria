@@ -61,7 +61,7 @@ public enum PaymentStatus
     Success = 1,
 
     [Description("Thất bại")]
-    Failed = 2
+    Fail = 2
 }
 
 public enum PrinterDocStatus
