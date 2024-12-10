@@ -27,7 +27,7 @@ public class MainData<T>
                 return;
             }
 
-            if (DataRaw is JArray)
+/*            if (DataRaw is JArray)
             {
                 Data = DataRaw?.ToObject<List<T>>();
                 return;
@@ -37,7 +37,7 @@ public class MainData<T>
                 var singleData = DataRaw.ToObject<T>();
                 Data = new List<T> { singleData };
                 return;
-            }
+            }*/
 
             // Parse "nextCursor" as a string
             DataID = DataRaw["nextCursor"]?.ToString();
@@ -54,7 +54,7 @@ public class MainData<T>
     [JsonProperty("status")]
     public int Status { get; set; }
 
-    [JsonProperty("metaData")]
+    [JsonProperty("metadata")]
     public JObject DataRaw { get; set; }
 
     [JsonIgnore]

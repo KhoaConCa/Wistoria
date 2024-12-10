@@ -159,9 +159,9 @@ public class CallQueueV : MonoBehaviour, IQueueV
     private PrinterDocCard _printerDocCard;
     private QueueD _newQueue = new QueueD();
 
-    private const float _timeProcess = 4f;
-    private const float _timeCallBack = 8f;
-    private const float _timeoOut = 16f;
+    private const float _timeProcess = 40f;
+    private const float _timeCallBack = 3f;
+    private const float _timeoOut = 10f;
 
     private float _callTime = 0f;
     private float _time = 0f;

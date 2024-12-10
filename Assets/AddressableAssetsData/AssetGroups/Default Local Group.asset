@@ -35,6 +35,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - PrintStudentF
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1186906795e6f47478c8f1c50dfbee14
+    m_Address: MySprite/Icons/WarningMarker_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WarningMarker
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14cb5c3b9a491c043a8dbadf5c747682
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardManager/CampusCardManager.prefab
     m_ReadOnly: 0
@@ -137,6 +143,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - CampusManagerF
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df1ddc63b3d8685408b920594908a09f
+    m_Address: MySprite/Icons/SuccessfulMarker_02
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SuccessMarker
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e628696aa38dd914aba57bf16d4a4141
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/CardFeature/Manager/History.prefab
     m_ReadOnly: 0
@@ -148,6 +160,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - PrinterManager
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e81c9bb125e32ae4fa459c72f1c4a41e
+    m_Address: MySprite/Icons/FaildMarkerpng
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FailedMarker
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f9fd04a912553b448961f75713ee7857
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/WarningCard.prefab

@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3425542101679233452}
   - component: {fileID: 7106006943101101197}
   - component: {fileID: 4551659081858609825}
+  - component: {fileID: 8466093350452954139}
   m_Layer: 5
   m_Name: StepPoint_InProcess
   m_TagString: Untagged
@@ -163,6 +164,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 1
+--- !u!114 &8466093350452954139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3687048254582737890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412a9819f1781d84bb4b10d9594e21fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _background: {fileID: 7297500595562419429}
+  _icon: {fileID: 553170800876896924}
+  _text: {fileID: 1568228141622666593}
 --- !u!1 &3731687280507843752
 GameObject:
   m_ObjectHideFlags: 0

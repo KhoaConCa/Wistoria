@@ -18,10 +18,9 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
         if (_historyDs.Count > 0)
             _historyDs.Clear();
 
-        string urlInProgress = AllUrlStudent.searchHistoryByID + $"?id={id}&status=In+Progress";
-        string urlDone = AllUrlStudent.searchHistoryByID + $"?id={id}&status=Done";
+        string url = AllUrlStudent.getAllHistoryByID + id;
 
-        using (UnityWebRequest request = UnityWebRequest.Get(urlInProgress))
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             yield return request.SendWebRequest();
 
@@ -32,29 +31,13 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
                 onSuccess?.Invoke(response.Message);
 
                 MergeData(response.Data);
+
+                SortDateTime();
+                SendData();
             }
             else
                 onFailed?.Invoke(response.Message);
         }
-
-        using (UnityWebRequest request = UnityWebRequest.Get(urlDone))
-        {
-            yield return request.SendWebRequest();
-
-            MainData<PrinterDocDStudent> response = TransferHPrinterToData(request.downloadHandler.text);
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                onSuccess?.Invoke(response.Message);
-
-                MergeData(response.Data);
-            }
-            else
-                onFailed?.Invoke(response.Message);
-        }
-
-        SortDateTime();
-        SendData();
     }
 
     public IEnumerator GetHistoryByPrinter(string id, string status, 

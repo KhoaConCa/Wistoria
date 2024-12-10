@@ -152,8 +152,8 @@ public static class AllUrlStudent
 
     #region -- History --
 
+    public static readonly string getAllHistoryByID = "https://smart-printer-alpha.vercel.app/v1/printerdoc/search/student?id=";
     public static readonly string searchHistoryByID = "https://smart-printer-alpha.vercel.app/v1/printerdoc/search/studentid/status";
-
 
     public static readonly string searchPaymentByID = "https://smart-printer-alpha.vercel.app/v1/payment/search/student?id=";
 

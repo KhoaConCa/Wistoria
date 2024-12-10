@@ -2,6 +2,7 @@
 using SimpleFileBrowser;
 using System.IO;
 using Utilities;
+using System;
 
 public class UploadDocumentController : MonoBehaviour
 {
@@ -59,7 +60,9 @@ public class UploadDocumentController : MonoBehaviour
 
     private void UploadDocument()
     {
-        FileInfo fileInfo = new FileInfo(_path);
+        string decodedPath = Uri.UnescapeDataString(_path);
+        FileInfo fileInfo = new FileInfo(decodedPath);
+        string fileName = Path.GetFileName(decodedPath);
 
         StartCoroutine(_upLoadH.GetStudentByID(MainUser.STUDENT_ID, onSuccess =>
         {
@@ -68,8 +71,8 @@ public class UploadDocumentController : MonoBehaviour
                 DocumentDStudent document = new DocumentDStudent() 
                 { 
                     Student = onSuccess,
-                    Name = fileInfo.Name,
-                    Size = Random.Range(20, 50)
+                    Name = fileName,
+                    Size = UnityEngine.Random.Range(20, 50)
                 };
 
                 _cardData.Document = document;
