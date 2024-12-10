@@ -38,6 +38,7 @@ TagManager:
   - HisNavi
   - ContinueButton
   - CancelButton
+  - PrintButton
   layers:
   - Default
   - TransparentFX

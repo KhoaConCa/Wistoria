@@ -4,16 +4,14 @@ public class PrinterDocCardData : MonoBehaviour, IPrinterDocData
 {
     #region -- Implements --
 
-    public void Initialize(StudentPrinterD printerD)
+    public void Initialize(QueueD queue)
     {
-        PrinterD = printerD;
+        Queue = queue;
     }
 
     #region -- Properties --
-    public StudentPrinterD PrinterD { get; set; }
+    public QueueD Queue { get; set; }
     #endregion
 
     #endregion
-
-
 }

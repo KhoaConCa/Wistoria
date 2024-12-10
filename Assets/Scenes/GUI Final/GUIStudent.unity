@@ -158,6 +158,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PrintNavigation
       objectReference: {fileID: 0}
+    - target: {fileID: 1505006187907822880, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
+      propertyPath: m_TagString
+      value: PrintButton
+      objectReference: {fileID: 0}
     - target: {fileID: 1520987500965674291, guid: 044e9e3b5c425864d98234075d2a3c6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

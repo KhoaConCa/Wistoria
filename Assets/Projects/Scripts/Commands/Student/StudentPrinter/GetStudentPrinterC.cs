@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq; // Sử dụng LINQ
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using Utilities;
@@ -20,8 +19,8 @@ public class GetStudentPrinterC : MonoBehaviour
     {
         InitializeComponents();
 
-        _allStudentPrinters = new List<StudentPrinterD>();
-        _campusName = new List<string>() { "Tất cả" };
+        _allQueue = new List<QueueD>();
+        _campusName = new List<string>();
 
         campusDropdown.onValueChanged.AddListener(OnCampusSelected);
 
@@ -49,7 +48,7 @@ public class GetStudentPrinterC : MonoBehaviour
     #region -- Get Printer --
     private void GetStudentPrinter()
     {
-        StartCoroutine(_studentPrinterHandler.GetAllStudentPrinter(OnStudentPrinterFound, onSuccess =>
+        StartCoroutine(_studentPrinterHandler.GetAllQueue(OnStudentPrinterFound, onSuccess =>
         {
             MainView.OnDebugged(onSuccess);
         }, onFailed =>
@@ -63,25 +62,19 @@ public class GetStudentPrinterC : MonoBehaviour
     /// Adds printer to the list and updates the UI.
     /// </summary>
     /// <param name="studentPrinter">The printer data retrieved.</param>
-    public void OnStudentPrinterFound(StudentPrinterD printer)
+    public void OnStudentPrinterFound(QueueD queue)
     {
-        if (printer != null && printer.Status == PrinterStatus.Available.ToString())
+        queue.Printer = ProcessingJson.InitializaProperty<PrinterD>(queue.PrinterRaw); 
+        queue.Printer.ProcessLocateAt();
+
+        if (queue.Printer != null && queue.Printer.Status == PrinterStatus.Available.ToString())
         {
-            _allStudentPrinters.Add(printer);
-            UpdateCampusDropdown(printer.LocateAt.Name);
-            _spawnStudentPrinterView.CreateCard(printer);
+            _allQueue.Add(queue);
+            UpdateCampusDropdown(queue.Printer.LocateAt.Name);
+            _spawnStudentPrinterView.CreateCard(queue);
         }
     }
 
-    private void DisplayAvailablePrinters(List<StudentPrinterD> filteredPrinters)
-    {
-        MainHandler.ClearSpawnedPrefabs();
-
-        foreach (var printer in filteredPrinters)
-        {
-            _spawnStudentPrinterView.CreateCard(printer);
-        }
-    }
     #endregion
 
     #region -- Update Data Drop Down --
@@ -92,7 +85,15 @@ public class GetStudentPrinterC : MonoBehaviour
     {
         if (!_campusName.Contains(name))
         {
+            if (_campusName.Contains(_fixedItem))
+                _campusName.Remove(_fixedItem);
+
             _campusName.Add(name);
+
+            if (_campusName.Count >= 2)
+                _campusName.Sort((x, y) => string.Compare(x, y, true, new CultureInfo("vi-VN")));
+
+            _campusName.Insert(0, _fixedItem);
 
             campusDropdown.ClearOptions();
             campusDropdown.AddOptions(_campusName);
@@ -110,15 +111,15 @@ public class GetStudentPrinterC : MonoBehaviour
     {
         if (index == 0)
         {
-            DisplayFilteredPrinters(_allStudentPrinters);
+            DisplayFilteredPrinters(_allQueue);
             return;
         }
 
         string selectedCampus = campusDropdown.options[index].text;
 
         // Filter printers by selected campus and status "Available"
-        List<StudentPrinterD> filteredPrinters = _allStudentPrinters
-            .Where(printer => printer.LocateAt.Name == selectedCampus)
+        List<QueueD> filteredPrinters = _allQueue
+            .Where(queue => queue.Printer.LocateAt.Name == selectedCampus)
             .ToList();
         
         DisplayFilteredPrinters(filteredPrinters);
@@ -128,7 +129,7 @@ public class GetStudentPrinterC : MonoBehaviour
     /// Displays the filtered printers by spawning their prefabs.
     /// </summary>
     /// <param name="filteredPrinters">List of filtered printers.</param>
-    private void DisplayFilteredPrinters(List<StudentPrinterD> filteredPrinters)
+    private void DisplayFilteredPrinters(List<QueueD> filteredPrinters)
     {
         MainHandler.ClearSpawnedPrefabs();
 
@@ -148,7 +149,9 @@ public class GetStudentPrinterC : MonoBehaviour
 
     [SerializeField] private TMP_Dropdown campusDropdown;
 
-    private List<StudentPrinterD> _allStudentPrinters;
+    private readonly string _fixedItem = "Tất cả";
+
+    private List<QueueD> _allQueue;
     private List<string> _campusName;
 
     #endregion

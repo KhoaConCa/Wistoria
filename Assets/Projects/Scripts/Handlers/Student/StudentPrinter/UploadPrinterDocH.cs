@@ -10,7 +10,7 @@ public class UploadPrinterDocH : MonoBehaviour, ICreatePrinterDocHandler
 {
     #region -- Methods --
 
-    public IEnumerator CreatePrinterDoc(PrinterDocDStudent printerDoc, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator CreatePrinterDoc(PrinterDocDStudent printerDoc, Action<PrinterDocDStudent> onSuccess, Action<string> onFaild)
     {
         string json = ProcessingJson.RemoveNullJson(printerDoc);
         Debug.Log($"JSON prepared for upload: {json}");
@@ -27,7 +27,7 @@ public class UploadPrinterDocH : MonoBehaviour, ICreatePrinterDocHandler
             MainData<PrinterDocDStudent> response = TransferObjectToData<PrinterDocDStudent>(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
-                onSuccess?.Invoke($"New Id printer doc: {response.Data[0].Id}");
+                onSuccess?.Invoke(response.Data[0]);
             else
                 onFaild?.Invoke($"Error: {response.Message}");
         }

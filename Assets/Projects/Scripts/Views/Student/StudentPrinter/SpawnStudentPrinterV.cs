@@ -11,7 +11,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
 {
     #region -- Implements --
 
-    public void CreateCard(StudentPrinterD studentPrinter)
+    public void CreateCard(QueueD queue)
     {
         GameObject container = GameObject.FindWithTag(_path);
 
@@ -23,16 +23,19 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                 return;
             }
 
-            var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
-            if (printerDocCardData == null)
-            {
-                Debug.LogError("PrinterDocCardData component is missing on the prefab.");
-                return;
-            }
+            spawnedPrefab.name = $"printer #{_count++}";
 
-            printerDocCardData.Initialize(studentPrinter);
+            var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
+            printerDocCardData.Initialize(queue);
+
+            IPrinterTagV printerTag = spawnedPrefab.GetComponent<UITagV>();
+            printerTag.SetUpQueue(queue.SlotRemaining);
+
             FindComponentUI();
-            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt.Name + " - " + studentPrinter.LocateAt.Room);
+
+            string name = queue.Printer.PrinterName;
+            string locateAt = $"{queue.Printer.LocateAt.Name} - {queue.Printer.LocateAt.Room}";
+            UpdateData(name, locateAt);
         });
     }
 
@@ -96,6 +99,8 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     private readonly string _printerName = "ValueName";
     private readonly string _campusName = "ValueCampus";
     private readonly string _printerStatus = "ValueStatus";
+
+    private int _count = 0;
 
     #endregion
 }

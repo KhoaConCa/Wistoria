@@ -6,10 +6,28 @@ using UnityEngine;
 
 public class PrinterDocCard : MonoBehaviour
 {
+    #region -- Methods --
+    public void Initialize(PrinterDocDStudent data)
+    {
+        Id = data.Id;
+        PaperSize = data.PaperSize;
+        Side = data.Side;
+        Orientation = data.Orientation;
+        PageBegin = data.PageBegin;
+        PageEnd = data.PageEnd;
+        Copies = data.Copies;
+        Color = data.Color;
+        CompletionTime = data.CompletionTime;
+        Process = data.Process;
+        CreatedAt = data.CreatedAt;
+        UpdatedAt = data.UpdatedAt;
+    }
+    #endregion
+
     #region -- Properties --
 
     public string Id { get; set; }
-    public StudentPrinterD Printer { get; set; }
+    public QueueD Queue { get; set; }
     public DocumentDStudent Document { get; set; }
     public string PaperSize { get; set; }
     public string Orientation { get; set; }

@@ -109,7 +109,6 @@ public class UploadDocumentH : MonoBehaviour, IUploadDocumentHandler
     public IEnumerator UploadDocument(DocumentDStudent documentD, Action<DocumentDStudent> onSuccess, Action<string> onFaild)
     {
         string json = MainHandler.ToJson(documentD);
-        Debug.Log($"JSON being sent: {json}");
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
 

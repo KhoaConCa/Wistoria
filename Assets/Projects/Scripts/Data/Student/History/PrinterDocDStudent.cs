@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 
 public class PrinterDocDStudent
 {
@@ -8,7 +9,7 @@ public class PrinterDocDStudent
     public void Initialize(PrinterDocCard cardData)
     {
         Id = cardData.Id;
-        Printer = cardData.Printer;
+        Printer = cardData.Queue.Printer;
         Document = cardData.Document;
         PaperSize = cardData.PaperSize;
         Orientation = cardData.Orientation;
@@ -35,7 +36,7 @@ public class PrinterDocDStudent
     public string PrinterID { get; set; }
 
     [JsonIgnore]
-    public StudentPrinterD Printer { get; set; }
+    public PrinterD Printer { get; set; }
 
     [JsonProperty("FileDocument")]
     public object DocumentRaw { get; set; }

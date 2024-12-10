@@ -162,7 +162,10 @@ public class GetHistoryH : MonoBehaviour, IHistoryHandler
 
     private void SortDateTime()
     {
-        _historyDs = _historyDs.OrderByDescending(date => date.DateProcess).ToList();
+        _historyDs = _historyDs
+        .OrderBy(d => d == null)
+        .ThenByDescending(d => d?.DateProcess)
+        .ToList();
     }
 
     private void GetPackage(MainData<PaymentDManager> datas)

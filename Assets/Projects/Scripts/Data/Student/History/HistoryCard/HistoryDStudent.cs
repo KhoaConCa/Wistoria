@@ -14,6 +14,7 @@ public class HistoryDStudent
             Payment = paymentData;
             TypeData = 1;
             DateProcess = paymentData.CompletionTime;
+            Status = paymentData.Status;
         }
         else if (data is PrinterDocDStudent printerDocData)
         {
@@ -22,6 +23,7 @@ public class HistoryDStudent
             Payment = null;
             TypeData = 0;
             DateProcess = printerDocData.CompletionTime;
+            Status = printerDocData.Process;
         }
         else
         {
@@ -38,6 +40,7 @@ public class HistoryDStudent
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; private set; }
     public DateTime? DateProcess { get; set; }
+    public string Status { get; set; }
 
     #endregion
 }

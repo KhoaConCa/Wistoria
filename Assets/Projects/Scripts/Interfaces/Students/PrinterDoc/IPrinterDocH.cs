@@ -8,7 +8,7 @@ public interface IUploadPrinterDocHandler
 
 public interface ICreatePrinterDocHandler
 {
-    IEnumerator CreatePrinterDoc(PrinterDocDStudent printerDoc, Action<string> onSuccess, Action<string> onFailed);
+    IEnumerator CreatePrinterDoc(PrinterDocDStudent printerDoc, Action<PrinterDocDStudent> onSuccess, Action<string> onFailed);
 
     IEnumerator UpdatePaper(StudentD studentD, Action<string> onSuccess, Action<string> onFailed);
 }

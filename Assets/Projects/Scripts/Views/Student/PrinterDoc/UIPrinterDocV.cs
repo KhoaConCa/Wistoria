@@ -10,6 +10,14 @@ public class UIPrinterDocV : MonoBehaviour, IPrinterDocView
 {
     #region -- Implements --
 
+    public QueueD GetQueue() => _printerDocCard.Queue;
+    public DocumentDStudent GetDocument() => _printerDocCard.Document;
+
+    public void SetPrinterDocCard(PrinterDocDStudent data)
+    {
+        _printerDocCard.Initialize(data);
+    }
+
     public void TopUpPaper(int paperNeed)
     {
         string message = $"Số của bạn hiện tại không đủ! " +
@@ -71,6 +79,13 @@ public class UIPrinterDocV : MonoBehaviour, IPrinterDocView
     public void OnCreatePrinterDoc()
     {
         PrinterDocDStudent printerDocD = GetPrinterDocData();
+
+        if (string.IsNullOrEmpty(printerDocD.Printer._id))
+        {
+            MainView.OnFailed("Vui lòng chọn máy in!");
+            return;
+        }
+
         _printerDocC.CreatePrinterDoc(printerDocD);
     }
     #endregion
@@ -80,6 +95,9 @@ public class UIPrinterDocV : MonoBehaviour, IPrinterDocView
     {
         PrinterDocDStudent newData = new PrinterDocDStudent();
         newData.Initialize(_printerDocCard);
+
+        if (newData.PrinterRaw == null)
+            newData.PrinterRaw = newData.Printer;
 
         return newData;
     }

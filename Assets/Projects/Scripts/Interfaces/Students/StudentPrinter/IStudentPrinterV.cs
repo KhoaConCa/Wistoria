@@ -9,7 +9,7 @@ public interface IStudentPrinterView
 
 public interface ISpawnStudentPrinterView
 {
-    void CreateCard(StudentPrinterD studentPrinter);
+    void CreateCard(QueueD queue);
 }
 
 #region -- Interface for Setting Package Data in View --

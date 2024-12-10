@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IPrinterDocData
 {
-    StudentPrinterD PrinterD { get; set; }
-    void Initialize(StudentPrinterD printer);
+    QueueD Queue { get; set; }
+    void Initialize(QueueD queue);
 }

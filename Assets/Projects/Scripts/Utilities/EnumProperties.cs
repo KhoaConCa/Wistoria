@@ -5,6 +5,15 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
+#region -- Queue Slot --
+public enum QueueSlot
+{
+    FirstSlot = 3,
+    SecondSlot = 2,
+    ThirdSlot = 1,
+}
+#endregion
+
 #region -- Document Type --
 
 public enum Orientation
@@ -61,7 +70,10 @@ public enum PrinterDocStatus
     In_Progress = 1,
 
     [Description("Đã in")]
-    Done = 2
+    Done = 2,
+
+    [Description("In thất bại")]
+    Failed = 3,
 }
 
 public enum PrinterStatus

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using Utilities;
 
@@ -59,10 +60,16 @@ public class PrinterDocC : MonoBehaviour, IPrinterDocCommand
     {
         StartCoroutine(_createPrinterDocH.CreatePrinterDoc(_printerDoc, onSuccess =>
         {
-            MainView.OnDebugged(onSuccess);
+            MainView.OnDebugged(onSuccess.Id);
+
+            _printerDocV.SetPrinterDocCard(onSuccess);
+
+            _document = _printerDocV.GetDocument();
+            _queue = _printerDocV.GetQueue();
+
+            _printerDoc = onSuccess;
 
             UpdatePaperStudent();
-
         }, onFailed =>
         {
             MainView.OnReset(CreatePrinterDoc, onFailed);
@@ -71,12 +78,16 @@ public class PrinterDocC : MonoBehaviour, IPrinterDocCommand
 
     private void UpdatePaperStudent()
     {
-        StudentD updateStudent = _printerDoc.Document.Student;
+        StudentD updateStudent = _document.Student;
         updateStudent.Paper -= _paperNeed;
+
+        _document.Student = updateStudent;
 
         StartCoroutine(_createPrinterDocH.UpdatePaper(updateStudent, onSuccess =>
         {
             MainView.OnDebugged(onSuccess);
+
+            CreateQueue();
 
             _printerDocV.SwitchHistory();
 
@@ -84,6 +95,18 @@ public class PrinterDocC : MonoBehaviour, IPrinterDocCommand
         {
             MainView.OnReset(UpdatePaperStudent, onFailed);
         }));
+    }
+
+    private void CreateQueue()
+    {
+        GameObject queue = new GameObject();
+
+        PrinterDocCard newCard = queue.AddComponent<PrinterDocCard>();
+        newCard.Initialize(_printerDoc);
+        newCard.Document = _document;
+        newCard.Queue = _queue;
+
+        IQueueV queueV = queue.AddComponent<CallQueueV>();
     }
 
     #endregion
@@ -94,6 +117,9 @@ public class PrinterDocC : MonoBehaviour, IPrinterDocCommand
     private IPrinterDocView _printerDocV;
 
     private PrinterDocDStudent _printerDoc;
+    private QueueD _queue;
+    private DocumentDStudent _document;
+
     private int _paperNeed;
 
     #endregion

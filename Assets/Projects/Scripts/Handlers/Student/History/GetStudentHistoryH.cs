@@ -160,6 +160,9 @@ public class GetStudentHistoryH : MonoBehaviour, IHistoryStudentHandler
 
     private void MergeData<T>(List<T> datas)
     {
+        if (datas == null) return;
+        if (datas.Count <= 0) return;
+
         foreach (T data in datas)
         {
             HistoryDStudent historyD = new HistoryDStudent();

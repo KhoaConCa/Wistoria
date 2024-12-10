@@ -51,14 +51,10 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
 
     private void OnEnable()
     {
+        MainHandler.ClearSpawnedPrefabs();
         StartCoroutine(_packageHandler.GetAllPackage(OnPackageFound,
             OnFetchSuccess,
             OnFetchFailed));
-    }
-
-    private void OnDisable()
-    {
-        MainHandler.ClearSpawnedPrefabs();
     }
 
     /// <summary>
@@ -70,7 +66,6 @@ public class GetPackageC : MonoBehaviour, IGetPackageCommand
     {
         if (package != null)
         {
-            Debug.Log($"Found paper: {package.Paper}, price: {package.Price}");
             _spawnPackageView.CreateCard(package);
         }
         else

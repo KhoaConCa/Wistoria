@@ -8,8 +8,6 @@ public class PackageCardData : MonoBehaviour, IPackageData
     {
         Paper = paper;
         Price = price;
-
-        Debug.Log($"PackageCardData initialized: Paper = {Paper}, Price = {Price}");
     }
 
     #region -- Properties --

@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using Utilities;
 
 public class StudentPrinterClickV : MonoBehaviour, IStudentPrinterClickV
 {
@@ -15,10 +16,28 @@ public class StudentPrinterClickV : MonoBehaviour, IStudentPrinterClickV
             return;
         }
 
-        StudentPrinterD printer = _printerDocData.PrinterD;
-        _printerDocCard.Printer = printer;
+        if (_printerDocCard.Queue != null && _printerDocCard.Queue.Id == _printerDocData.Queue.Id)
+        {
+            _printerDocCard.Queue = new QueueD();
+            _printerDocCard.Queue.Printer = new PrinterD();
+            return;
+        }
 
-        Debug.Log($"printer name: {_printerDocCard.Printer.PrinterName}");
+        if (_printerDocData.Queue.SlotRemaining == 0)
+        {
+            MainView.OnFailed("Hàng chờ của máy in này đã đầy. Vui lòng chọn máy in khác!");
+            _printerDocCard.Queue = new QueueD();
+            _printerDocCard.Queue.Printer = new PrinterD();
+            return;
+        } 
+            
+        _printerDocCard.Queue = _printerDocData.Queue;
+
+        _printerDocCard.Queue.FirstSlot = ProcessingJson.InitializaProperty<PrinterDocDStudent>(_printerDocCard.Queue.FirstSlotRaw);
+        _printerDocCard.Queue.SecondSlot = ProcessingJson.InitializaProperty<PrinterDocDStudent>(_printerDocCard.Queue.SecondSlotRaw);
+        _printerDocCard.Queue.ThirdSlot = ProcessingJson.InitializaProperty<PrinterDocDStudent>(_printerDocCard.Queue.ThirdSlotRaw);
+
+        Debug.Log($"printer name: {_printerDocCard.Queue.Printer._id}");
     }
 
     #endregion

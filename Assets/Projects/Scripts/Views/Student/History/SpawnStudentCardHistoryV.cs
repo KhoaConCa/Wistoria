@@ -44,7 +44,7 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
                     PaymentPrefab(spawnedPrefab);
                 else
                 {
-                    _cardData.PrinterDoc.Printer = ProcessingJson.InitializaProperty<StudentPrinterD>(_cardData.PrinterDoc.PrinterRaw);
+                    _cardData.PrinterDoc.Printer = ProcessingJson.InitializaProperty<PrinterD>(_cardData.PrinterDoc.PrinterRaw);
                     _cardData.PrinterDoc.Document = ProcessingJson.InitializaProperty<DocumentDStudent>(_cardData.PrinterDoc.DocumentRaw);
                     SetUpPrinterDocPrefab(spawnedPrefab);
                 }
@@ -125,14 +125,21 @@ public class SpawnStudentCardHistoryV : MonoBehaviour, ICardHistoryStudentViewSp
     #region -- Set Up PrinterDoc Prefab --
     private void SetUpPrinterDocPrefab(GameObject prefab)
     {
+        _cardData.PrinterDoc.Printer.ProcessLocateAt();
+
         SetCardData(_tagName, _cardData.PrinterDoc.Document.Name);
         SetCardData(_tagCampus, _cardData.PrinterDoc.Printer.LocateAt.Name);
         SetCardData(_tagPaper, CalculatePaper(_cardData).ToString() + " trang");
 
-        if (_cardData.DateProcess != null)
+        if (_cardData.DateProcess != null && _cardData.Status == PrinterDocStatus.Done.ToString())
         {
             SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
             SetUpIcon(prefab.transform, "SuccessMarker");
+        }
+        else if (_cardData.DateProcess != null && _cardData.Status == PrinterDocStatus.Failed.ToString())
+        {
+            SetCardData(_tagTime, _cardData.DateProcess?.ToString("HH:mm - dd/MM/yyyy"));
+            SetUpIcon(prefab.transform, "FailedMarker");
         }
         else
         {

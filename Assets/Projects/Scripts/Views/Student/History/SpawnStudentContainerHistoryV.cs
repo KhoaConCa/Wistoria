@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -85,7 +85,10 @@ public class SpawnStudentContainerHistoryV : MonoBehaviour, IHistoryStudentViewS
             _containerData = spawnedPrefab.GetComponent<HistoryContainerDStudent>();
             _containerData.Initialize(objectDateTime, histories);
 
-            SetCardData(_tagMonth, $"Th�ng {_containerData.Date}");
+            if (!string.IsNullOrEmpty(_containerData.Date))
+                SetCardData(_tagMonth, $"Tháng {_containerData.Date}");
+            else
+                SetCardData(_tagMonth, $"Chưa in");
 
             ICardHistoryStudentViewSpawner detailCard = spawnedPrefab.GetComponent<SpawnStudentCardHistoryV>();
             detailCard.GetData(_containerData.Histories);
