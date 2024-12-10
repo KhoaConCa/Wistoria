@@ -1,3 +1,5 @@
+using static System.Net.WebRequestMethods;
+
 public static class AllUrlManager
 {
     #region -- Campus Manager --
@@ -120,6 +122,10 @@ public static class AllUrlStudent
     #region - POST -
     public static readonly string createPrinterDoc = "https://smart-printer-alpha.vercel.app/v1/printerdoc/create";
     #endregion
+
+    #region -- PATCH --
+    public static readonly string updatePrinterDoc = "https://smart-printer-alpha.vercel.app/v1/printerdoc/update/";
+    #endregion
     #endregion
 
     #region -- Document --
@@ -147,6 +153,8 @@ public static class AllUrlStudent
     #region -- History --
 
     public static readonly string searchHistoryByID = "https://smart-printer-alpha.vercel.app/v1/printerdoc/search/studentid/status";
+
+
     public static readonly string searchPaymentByID = "https://smart-printer-alpha.vercel.app/v1/payment/search/student?id=";
 
     #endregion
@@ -161,5 +169,26 @@ public static class AllUrlStudent
     #region - POST -
     public static readonly string createPayment = "https://smart-printer-alpha.vercel.app/v1/payment/create";
     #endregion
+
+    #region - GET -
+    public static readonly string getPaymentByPaper = "https://smart-printer-alpha.vercel.app/v1/package/search/paper";
+    #endregion
+    #endregion
+
+    #region -- Queue --
+
+    #region -- GET --
+    public static readonly string getAllQueue = "https://smart-printer-alpha.vercel.app/v1/queue/";
+    public static readonly string searchQueueById = "https://smart-printer-alpha.vercel.app/v1/queue/search/";
+    #endregion
+
+    #region -- PATCH --
+    public static readonly string updateNullSlot = "https://smart-printer-alpha.vercel.app/v1/queue/return?";
+
+    public static readonly string updateFirstSlot = "https://smart-printer-alpha.vercel.app/v1/queue/update/first/";
+    public static readonly string updateSecondSlot = "https://smart-printer-alpha.vercel.app/v1/queue/update/second/";
+    public static readonly string updateThirdSlot = "https://smart-printer-alpha.vercel.app/v1/queue/update/third/";
+    #endregion
+
     #endregion
 }

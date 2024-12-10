@@ -10,11 +10,6 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
 
     public void OnHistoryFound(string dateTime, List<HistoryDStudent> histories)
     {
-        if (string.IsNullOrEmpty(dateTime))
-        {
-            Debug.LogError($"None data history found!");
-        }
-
         _spawnCard.CreateContainer(dateTime, histories);
     }
 
@@ -33,7 +28,7 @@ public class GetStudentHistoryC : MonoBehaviour, IGetContainerHistoryStudentComm
             MainHandler.ClearSpawnedPrefabs();
 
         if (MainHandler.PrefabList.Count <= 1)
-            StartCoroutine(_historyHandler.GetAllHistoryByPrinter(MainUser.STUDENT_ID, OnHistoryFound, MainView.OnSuccess, MainView.OnFailed));
+            StartCoroutine(_historyHandler.GetAllHistoryByPrinter(MainUser.STUDENT_ID, OnHistoryFound, OnSuccess, OnFailed));
 
         SetUpDefaultData();
     }

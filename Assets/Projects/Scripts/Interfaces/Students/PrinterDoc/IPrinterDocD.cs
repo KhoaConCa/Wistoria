@@ -4,7 +4,6 @@ using UnityEngine;
 
 public interface IPrinterDocData
 {
-    string PrinterId { get; set; }
-    PrinterDocD PrinterDocDetails { get; set; }
-    void Initialize(string printerId, PrinterDocD PrinterDocDetails);
+    QueueD Queue { get; set; }
+    void Initialize(QueueD queue);
 }

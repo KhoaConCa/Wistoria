@@ -19,19 +19,16 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
     /// <param name="package">Data of package</param>
     public void CreateCard(PackageD package)
     {
+        _objectContain = GameObject.FindWithTag("ObjectContain");
         MainHandler.SpawnPrefabByLabel(_packagePrefab, _objectContain, (spawnedPrefab) =>
         {
             try
             {
                 if (spawnedPrefab != null)
                 {
-                    Debug.Log("Prefab spawned successfully.");
-
-                    // Try to get the PackageCardData component
                     var packageCardData = spawnedPrefab.GetComponent<PackageCardData>();
                     if (packageCardData != null)
                     {
-                        Debug.Log("PackageCardData component found. Initializing...");
                         packageCardData.Initialize(package.Paper, package.Price);
                     }
                     else
@@ -87,9 +84,6 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
         {
             if (_packagePrefab == null)
                 _packagePrefab = new AssetLabelReference { labelString = "Package" };
-
-            if (_objectContain == null)
-                _objectContain = GameObject.FindWithTag("ObjectContain");
         }
         catch (Exception e)
         {
@@ -126,8 +120,8 @@ public class SpawnPackageV : MonoBehaviour , ISpawnPackageView
 
     private GameObject _objectContain;
 
-    private readonly string _packagePaper = "PackageValue";
-    private readonly string _packagePrice = "PackageName"; 
+    private readonly string _packagePaper = "PackageName";
+    private readonly string _packagePrice = "PackageValue"; 
 
     #endregion
 }

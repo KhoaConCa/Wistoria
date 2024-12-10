@@ -107,6 +107,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UserStudentF
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b30a14714601d854984c3b07e4802bfe
+    m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/NotificationCard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Notification
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b55c419d3a46a2044bc7ed55cc14649c
     m_Address: Assets/Addons/CustomGUI/CustomPrefab/NotificationCard/ErrorCard.prefab
     m_ReadOnly: 0

@@ -20,11 +20,10 @@ public class SetStudentPrinterV : MonoBehaviour, ISetDataStudentPrinterView
         studentPrinterCampusName.text = campusName;
     }
 
-    public void SetStudentPrinterStatus(string status)
+    public void SetStudentPrinterSlot(string slot)
     {
-        studentPrinterStatus.text = status;
-    } 
-        
+        studentPrinterSlot.text = slot;
+    }
 
     #endregion
 
@@ -35,11 +34,11 @@ public class SetStudentPrinterV : MonoBehaviour, ISetDataStudentPrinterView
     /// </summary>
     /// <param name="priceLocation"></param>
     /// <param name="paperLocation"></param>
-    public void AddComponentFromPrefab(Transform printerNameLocation, Transform campusNameLocation, Transform statusLocation)
+    public void AddComponentFromPrefab(Transform printerNameLocation, Transform campusNameLocation, Transform printerSlot)
     {
         studentPrinterPrinterName = printerNameLocation.GetComponent<TextMeshProUGUI>();
         studentPrinterCampusName = campusNameLocation.GetComponent<TextMeshProUGUI>();
-        studentPrinterStatus = statusLocation.GetComponent<TextMeshProUGUI>();
+        studentPrinterSlot = printerSlot.GetComponent<TextMeshProUGUI>();
     }
 
     #endregion
@@ -48,7 +47,7 @@ public class SetStudentPrinterV : MonoBehaviour, ISetDataStudentPrinterView
 
     public TextMeshProUGUI studentPrinterPrinterName;
     public TextMeshProUGUI studentPrinterCampusName;
-    public TextMeshProUGUI studentPrinterStatus;
+    public TextMeshProUGUI studentPrinterSlot;
 
     #endregion
 }

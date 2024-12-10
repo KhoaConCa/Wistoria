@@ -11,11 +11,7 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
 {
     #region -- Implements --
 
-    /// <summary>
-    /// Using addressable to create prefab
-    /// </summary>
-    /// <param name="package">Data of package</param>
-    public void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDoc)
+    public void CreateCard(QueueD queue)
     {
         GameObject container = GameObject.FindWithTag(_path);
 
@@ -27,17 +23,19 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
                 return;
             }
 
-            var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
-            if (printerDocCardData == null)
-            {
-                Debug.LogError("PrinterDocCardData component is missing on the prefab.");
-                return;
-            }
+            spawnedPrefab.name = $"printer #{_count++}";
 
-            printerDocCardData.Initialize(studentPrinter._id, printerDoc);
+            var printerDocCardData = spawnedPrefab.GetComponent<PrinterDocCardData>();
+            printerDocCardData.Initialize(queue);
+
+            IPrinterTagV printerTag = spawnedPrefab.GetComponent<UITagV>();
+            printerTag.SetUpQueue(queue.SlotRemaining);
 
             FindComponentUI();
-            UpdateData(studentPrinter.PrinterName, studentPrinter.LocateAt?.Name ?? "Unknown", studentPrinter.Status);
+
+            string name = queue.Printer.PrinterName;
+            string locateAt = $"{queue.Printer.LocateAt.Name} - {queue.Printer.LocateAt.Room}";
+            UpdateData(name, locateAt);
         });
     }
 
@@ -83,11 +81,10 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     }
 
 
-    private void UpdateData(string printerName, string campusName, string status)
+    private void UpdateData(string printerName, string campusName)
     {
         _setDataStudentPrinterView.SetStudentPrinterPrinterName(printerName);
         _setDataStudentPrinterView.SetStudentPrinterCampusName(campusName);
-        _setDataStudentPrinterView.SetStudentPrinterStatus(status);
     }
 
     #endregion
@@ -102,6 +99,8 @@ public class SpawnStudentPrinterV : MonoBehaviour, ISpawnStudentPrinterView
     private readonly string _printerName = "ValueName";
     private readonly string _campusName = "ValueCampus";
     private readonly string _printerStatus = "ValueStatus";
+
+    private int _count = 0;
 
     #endregion
 }

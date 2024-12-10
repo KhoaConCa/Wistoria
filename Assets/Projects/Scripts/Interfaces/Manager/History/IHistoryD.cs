@@ -22,6 +22,7 @@ public interface IHistoryCardDStudent
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; set; }
     public DateTime? DateProcess { get; set; }
+    public string Status { get; set; }
 }
 
 public interface IHistoryContainerData

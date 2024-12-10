@@ -15,12 +15,14 @@ public class LogInC : MonoBehaviour, ILogInScene
     {
         if (!CheckInCondition())
         {
-            Debug.LogError("Checking user name failed!");
+            _textBoxHandler.OnError("Vui lòng nhập mã sinh viên!");
             return;
         }
 
         string id = GetUserName();
-        await GetStudent(id); // Chờ GetStudent hoàn thành
+
+        await GetStudent(id);
+
         CheckLoadScene();
     }
 
@@ -32,6 +34,7 @@ public class LogInC : MonoBehaviour, ILogInScene
     private void Awake()
     {
         AddComponent();
+        GetComponent();
     }
 
     #region -- Add Component --
@@ -39,6 +42,14 @@ public class LogInC : MonoBehaviour, ILogInScene
     {
         if (_logInH == null)
             _logInH = gameObject.AddComponent<LogInH>();
+    }
+    #endregion
+
+    #region -- Get Component --
+    private void GetComponent()
+    {
+        if (_textBoxHandler == null && _userName != null)
+            _textBoxHandler = _userName.gameObject.GetComponent<UITextBoxV>();
     }
     #endregion
 
@@ -120,7 +131,7 @@ public class LogInC : MonoBehaviour, ILogInScene
             return;
         }
 
-        MainView.OnDebugged("Failed to log in!");
+        _textBoxHandler.OnError("Mã số sinh viên không trùng khớp!");
     }
 
     #region -- Load Scene
@@ -137,6 +148,7 @@ public class LogInC : MonoBehaviour, ILogInScene
     #region -- Fields --
 
     private ILogInHandler _logInH;
+    private ITextBoxHandler _textBoxHandler;
 
     [SerializeField] private TMP_InputField _userName;
 

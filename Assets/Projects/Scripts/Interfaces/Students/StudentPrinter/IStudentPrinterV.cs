@@ -6,9 +6,10 @@ public interface IStudentPrinterView
 {
     void SetStudentPrinterData(StudentPrinterD studentPrinter);
 }
+
 public interface ISpawnStudentPrinterView
 {
-    void CreateCard(StudentPrinterD studentPrinter, PrinterDocD printerDocDetails);
+    void CreateCard(QueueD queue);
 }
 
 #region -- Interface for Setting Package Data in View --
@@ -21,6 +22,8 @@ public interface ISetDataStudentPrinterView
     void SetStudentPrinterPrinterName(string printerName);
 
     void SetStudentPrinterCampusName(string campusName);
-    void SetStudentPrinterStatus(string status);
-    void AddComponentFromPrefab(Transform studentPrinterPrinterName, Transform studentPrinterCampusName, Transform studentPrinterStatus);
+
+    void SetStudentPrinterSlot(string slot);
+
+    void AddComponentFromPrefab(Transform studentPrinterPrinterName, Transform studentPrinterCampusName, Transform studentPrinterSlot);
 }

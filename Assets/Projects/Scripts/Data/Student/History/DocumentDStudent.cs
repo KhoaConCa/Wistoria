@@ -16,7 +16,6 @@ public class DocumentDStudent
 
     [JsonProperty("Owner")]
     public StudentD Student { get; set; }
-    public string Status { get; set; }
 
     [JsonProperty("createdAt")]
     public DateTime CreatedAt { get; set; }

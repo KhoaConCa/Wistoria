@@ -12,6 +12,7 @@ public interface ICreatePaymentHandler
     /// <param name="onError">Callback executed when upload fails.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
     IEnumerator Upload(PaymentD payment, Action<string> onSuccess, Action<string> onFaild);
+    IEnumerator UploadJson(PaymentJsonD payment, Action<string> onSuccess, Action<string> onFailed);
 }
 
 public interface IPaymentProcessor

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -13,12 +13,15 @@ public class SetDataPackageV : MonoBehaviour, ISetDataPackageView
 
     public void SetPackagePrice(string price)
     {
-        packagePrice.text = price;
+        int priceInt = int.Parse(price);
+
+        CultureInfo vietnamCulture = new CultureInfo("vi-VN");
+        packagePrice.text = priceInt.ToString("N0", vietnamCulture) + " đ";
     }
 
     public void SetPackagePaper(string paper)
     {
-        packagePaper.text = paper;
+        packagePaper.text = $"Gói {paper} giấy";
     }
 
     #endregion

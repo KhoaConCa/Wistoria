@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Utilities;
 
-public class UploadPrinterDocH : MonoBehaviour
+public class UploadPrinterDocH : MonoBehaviour, ICreatePrinterDocHandler
 {
     #region -- Methods --
 
-    public IEnumerator UploadPrinterDoc(PrinterDocD printerDoc, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator CreatePrinterDoc(PrinterDocDStudent printerDoc, Action<PrinterDocDStudent> onSuccess, Action<string> onFaild)
     {
-        string json = JsonConvert.SerializeObject(printerDoc);
+        string json = ProcessingJson.RemoveNullJson(printerDoc);
         Debug.Log($"JSON prepared for upload: {json}");
 
         using (UnityWebRequest request = new UnityWebRequest(AllUrlStudent.createPrinterDoc, "POST"))
@@ -24,35 +24,47 @@ public class UploadPrinterDocH : MonoBehaviour
 
             yield return request.SendWebRequest();
 
+            MainData<PrinterDocDStudent> response = TransferObjectToData<PrinterDocDStudent>(request.downloadHandler.text);
+
             if (request.result == UnityWebRequest.Result.Success)
-            {
-                Debug.Log($"Upload successful: {request.downloadHandler.text}");
-                onSuccess?.Invoke(request.downloadHandler.text);
-            }
+                onSuccess?.Invoke(response.Data[0]);
             else
-            {
-                Debug.LogError($"Upload failed: {request.error}");
-                Debug.LogError($"Response: {request.downloadHandler.text}");
-                onFaild?.Invoke($"Error: {request.error}");
-            }
+                onFaild?.Invoke($"Error: {response.Message}");
         }
     }
 
-    public string TransferDataToJson(PrinterDocD printerDoc)
+    public IEnumerator UpdatePaper(StudentD studentD, Action<string> onSuccess, Action<string> onFailed)
     {
-        return MainHandler.ToJson<PrinterDocD>(printerDoc);
+        string url = $"{AllUrlStudent.updateStudentById}/{studentD.Id}";
+        string json = TransferDataToJson(studentD);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
+        {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            MainData<StudentD> response = TransferObjectToData<StudentD>(request.downloadHandler.text);
+
+            if (request.result == UnityWebRequest.Result.Success)
+                onSuccess?.Invoke(response.Message);
+            else
+                onFailed?.Invoke(response.Message);
+        }
     }
 
-    public MainData<PrinterDocD> TransferObjectToData(string response)
+    public string TransferDataToJson<T>(T data)
     {
-        MainData<PrinterDocD> mainData = JsonConvert.DeserializeObject<MainData<PrinterDocD>>(response);
-        mainData.Initialize();
-        return mainData;
+        return MainHandler.ToJson<T>(data);
     }
 
-    public MainData<string> TransferStringToData(string response)
+    public MainData<T> TransferObjectToData<T>(string response)
     {
-        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
+        MainData<T> mainData = JsonConvert.DeserializeObject<MainData<T>>(response);
         mainData.Initialize();
         return mainData;
     }

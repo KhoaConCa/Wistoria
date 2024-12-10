@@ -13,7 +13,6 @@ public class HistoryCardDStudent : MonoBehaviour, IHistoryCardDStudent
         if (history.PrinterDoc != null)
         {
             PrinterDoc = history.PrinterDoc;
-            PrinterDoc.Printer.ProcessLocateAt();
         }
         
         if (history.Payment != null)
@@ -24,6 +23,7 @@ public class HistoryCardDStudent : MonoBehaviour, IHistoryCardDStudent
 
         TypeData = history.TypeData;
         DateProcess = history.DateProcess;
+        Status = history.Status;
     }
 
     public string Id { get; set; }
@@ -31,6 +31,7 @@ public class HistoryCardDStudent : MonoBehaviour, IHistoryCardDStudent
     public PaymentDStudent Payment { get; set; }
     public int TypeData { get; set; }
     public DateTime? DateProcess { get; set; }
+    public string Status { get; set; }
 
     #endregion
 }

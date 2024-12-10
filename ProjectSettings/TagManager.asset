@@ -35,6 +35,10 @@ TagManager:
   - LabelCampus
   - LabelPaper
   - Icon
+  - HisNavi
+  - ContinueButton
+  - CancelButton
+  - PrintButton
   layers:
   - Default
   - TransparentFX

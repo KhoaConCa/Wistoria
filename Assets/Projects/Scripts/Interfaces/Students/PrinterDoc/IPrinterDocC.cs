@@ -1,4 +1,4 @@
-public interface IUploadPrinterDocCommand
+public interface IPrinterDocCommand
 {
-    void Execute(PrinterDocD printerDoc, System.Action<bool, string> onUploadComplete);
+    public void CreatePrinterDoc(PrinterDocDStudent printerDoc);
 }

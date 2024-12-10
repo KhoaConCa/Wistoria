@@ -3,7 +3,6 @@ using System;
 using UnityEngine.Networking;
 using UnityEngine;
 using System.Collections;
-using Utilities;
 using Newtonsoft.Json;
 
 #region -- Class Description --
@@ -22,25 +21,26 @@ public class GetStudentPrinterH : MonoBehaviour, IGetStudentPrinterHandler
     /// </summary>
     /// <param name="onPackageFound">Callback to execute for each package found.</param>
     /// <returns>IEnumerator for coroutine functionality.</returns>
-    public IEnumerator GetAllStudentPrinter(Action<StudentPrinterD> onStudentPrinterFound, Action<string> onSuccess, Action<string> onFaild)
+    public IEnumerator GetAllQueue(Action<QueueD> onQueueFound, Action<string> onSuccess, Action<string> onFailed)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlStudent.getStudentPrinter))
+        using (UnityWebRequest request = UnityWebRequest.Get(AllUrlStudent.getAllQueue))
         {
             yield return request.SendWebRequest();
 
-            MainData<StudentPrinterD> response = TransferObjectToData(request.downloadHandler.text);
+            MainData<QueueD> response = TransferObjectToData<QueueD>(request.downloadHandler.text);
             Debug.Log(request.downloadHandler.text);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
                 onSuccess?.Invoke(response.Message);
 
-                SendData(onStudentPrinterFound, response);
+                SendData(onQueueFound, response.Data);
             }
             else
-                onFaild?.Invoke(response.Message);
+                onFailed?.Invoke(response.Message);
         }
     }
+
     #endregion
 
     #region -- Methods --
@@ -49,26 +49,19 @@ public class GetStudentPrinterH : MonoBehaviour, IGetStudentPrinterHandler
     /// Transfer Json data to List data
     /// </summary>
     /// <param name="response">Json string</param>
-    public MainData<StudentPrinterD> TransferObjectToData(string response)
+    public MainData<T> TransferObjectToData<T>(string response)
     {
-        MainData<StudentPrinterD> mainData = JsonConvert.DeserializeObject<MainData<StudentPrinterD>>(response);
+        MainData<T> mainData = JsonConvert.DeserializeObject<MainData<T>>(response);
         mainData.Initialize();
         return mainData;
     }
 
-    public MainData<string> TransferStringToData(string response)
+    public void SendData(Action<QueueD> onQueueFound, List<QueueD> queueData)
     {
-        MainData<string> mainData = JsonConvert.DeserializeObject<MainData<string>>(response);
-        mainData.Initialize();
-        return mainData;
-    }
-
-    public void SendData(Action<StudentPrinterD> onStudentPrinterFound, MainData<StudentPrinterD> studentPrinterDatas)
-    {
-        Debug.LogWarning(studentPrinterDatas.Data.Count);
-        foreach (var itemData in studentPrinterDatas.Data)
+        queueData.Sort((x, y) => y.SlotRemaining.CompareTo(x.SlotRemaining));
+        foreach (var itemData in queueData)
         {
-            onStudentPrinterFound?.Invoke(itemData);
+            onQueueFound?.Invoke(itemData);
         }
     }
     #endregion

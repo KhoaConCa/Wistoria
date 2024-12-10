@@ -4,14 +4,10 @@ using TMPro;
 public interface IDocumentDataEditor
 {
     DocumentDetailD GetEditedDocumentData();
-    void DisplayDocumentProperties(DocumentDetailD documentData);
+    void DisplayDocumentProperties(PrinterDocCard documentData);
 
 }
 
-public interface IDropdownInitializer
-{
-    void InitializeDropdown(TMP_Dropdown dropdown, List<string> options);
-}
 public interface IDocumentDetailRetriever
 {
     /// <summary>
@@ -29,6 +25,12 @@ public interface IDocumentDetailRetriever
 public interface IDocumentRetriever
 {
     void RetrieveDocumentData();
+}
+
+public interface IDocumentDefailV
+{
+    void DefaultDocument();
+    void GetDocument();
 }
 
 
